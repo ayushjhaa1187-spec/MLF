@@ -14,6 +14,25 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        .canvas-interactive {
+            width: 100%;
+            height: 380px;
+            background: #090d16;
+            border-radius: 8px;
+            display: block;
+        }
+        .step-pill {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-weight: 700;
+            border-radius: 999px;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
+    </style>
 </head>
 <body>
 
@@ -25,10 +44,13 @@
             </a>
             <div class="d-flex gap-2">
                 <a href="../practice/solved_problems.html?week=6" class="btn btn-sm btn-outline-success">
-                    <i class="fas fa-tasks me-1"></i> Practice Problems
+                    <i class="fas fa-tasks me-1"></i> Practice Problems (Week 6)
+                </a>
+                <a href="../exam_centre.html" class="btn btn-sm btn-outline-warning text-dark">
+                    <i class="fas fa-stopwatch me-1"></i> Week 6 Mastery Exam
                 </a>
                 <a href="summary.html" class="btn btn-sm btn-outline-info">
-                    <i class="fas fa-file-alt me-1"></i> Week 6 Summary Sheet
+                    <i class="fas fa-file-alt me-1"></i> Summary Sheet
                 </a>
             </div>
         </div>
@@ -36,289 +58,458 @@
 
     <div class="page-wrapper">
         <main class="content-area">
-            <div class="chapter-meta">
-                <span class="badge bg-primary">Module 6</span>
-                <span><i class="fas fa-video me-1"></i> 7 Video Lectures</span>
-                <span><i class="fas fa-code me-1"></i> Runnable Python Code</span>
-                <span><i class="fas fa-square-root-alt me-1"></i> Full Mathematical Derivations</span>
+            <div class="chapter-meta d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <span class="badge bg-primary">Module 6</span>
+                    <span><i class="fas fa-video me-1"></i> 7 Video Lectures</span>
+                    <span><i class="fas fa-code me-1"></i> Runnable Python Code</span>
+                    <span><i class="fas fa-square-root-alt me-1"></i> Full Mathematical Derivations</span>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary" id="markReadBtn">
+                        <i class="far fa-check-circle me-1"></i> Mark Chapter as Read
+                    </button>
+                </div>
             </div>
 
             <h1 class="chapter-title">Week 6: Singular Value Decomposition (SVD) & Positive Definiteness</h1>
             <p class="lead text-muted mb-4">
-                Detailed notes, algorithmic foundations, mathematical formulations, and Python implementations aligned with the IIT Madras lecture series.
+                The pinnacle of numerical linear algebra: factorizing arbitrary rectangular transformations into orthonormal rotations and coordinate stretchings, low-rank matrix approximations, pseudoinverses, and quadratic energy forms.
             </p>
 
-            <!-- Main Content Sections -->
-            
-        <h2 class="section-heading" id="svd-theorem">1. Singular Value Decomposition (SVD)</h2>
-        
-                <p>While eigendecomposition applies only to square diagonalizable matrices, the <strong>Singular Value Decomposition (SVD)</strong> applies to <em>any</em> matrix $A \in \mathbb{R}^{m \times n}$:</p>
-                $$A = U \Sigma V^T$$
-                <ul>
-                    <li>$U \in \mathbb{R}^{m \times m}$: Orthonormal matrix of <strong>left singular vectors</strong> (eigenvectors of $A A^T$).</li>
-                    <li>$\Sigma \in \mathbb{R}^{m \times n}$: Diagonal matrix of non-negative <strong>singular values</strong> $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_r > 0$.</li>
-                    <li>$V \in \mathbb{R}^{n \times n}$: Orthonormal matrix of <strong>right singular vectors</strong> (eigenvectors of $A^T A$).</li>
-                </ul>
-                <p>The singular values $\sigma_i$ are related to the eigenvalues of $A^T A$ by $\sigma_i = \sqrt{\lambda_i(A^T A)}$.</p>
-                
-        <hr class="my-5">
-        
-        <h2 class="section-heading" id="svd-geometry">2. Geometric Interpretation & Action of SVD</h2>
-        
-                <p>Geometrically, any linear transformation $x \mapsto Ax$ factorizes into three simple sequential actions:</p>
-                <ol>
-                    <li>$V^T$: An orthonormal rotation/reflection in the input space $\mathbb{R}^n$.</li>
-                    <li>$\Sigma$: A coordinate axis stretch by factors $\sigma_1, \sigma_2, \dots$.</li>
-                    <li>$U$: An orthonormal rotation/reflection in the output space $\mathbb{R}^m$.</li>
-                </ol>
-                <div class="callout callout-intuition">
-                    <div class="callout-title"><i class="fas fa-circle-notch text-primary"></i> Sphere to Ellipsoid</div>
-                    <p class="mb-0">The SVD maps the unit sphere in $\mathbb{R}^n$ ($\{x : \|x\| = 1\}$) into a hyperellipsoid in $\mathbb{R}^m$, whose principal semi-axes have lengths $\sigma_i$ along directional vectors $u_i$.</p>
-                </div>
-                
-        <hr class="my-5">
-        
-        <h2 class="section-heading" id="positive-definiteness">3. Positive Definite Matrices & Quadratic Forms</h2>
-        
-                <p>A symmetric matrix $A \in \mathbb{R}^{n \times n}$ is <strong>Positive Definite</strong> ($A \succ 0$) if the quadratic form is strictly positive for all non-zero $x$:</p>
-                $$x^T A x > 0, \quad \forall x \neq 0$$
-                <p>Equivalent Characterizations:</p>
-                <ul>
-                    <li>All eigenvalues are strictly positive: $\lambda_i > 0$.</li>
-                    <li>All leading principal minors are positive (Sylvester's criterion).</li>
-                    <li>Has a unique Cholesky factorization: $A = L L^T$ with lower-triangular $L$.</li>
-                </ul>
-                
-        <hr class="my-5">
-        
-        <h2 class="section-heading" id="low-rank-approx">4. Low-Rank Approximation (Eckart-Young-Mirsky)</h2>
-        
-                <p>By expressing $A$ as a sum of rank-1 outer products:</p>
-                $$A = \sum_{i=1}^r \sigma_i u_i v_i^T$$
-                <p>The best rank-$k$ approximation ($k < r$) in Frobenius norm is obtained by keeping only the top $k$ components:</p>
-                $$A_k = \sum_{i=1}^k \sigma_i u_i v_i^T, \quad \min_{\text{rank}(B)=k} \|A - B\|_F = \sqrt{\sum_{i=k+1}^r \sigma_i^2}$$
-                
-        <hr class="my-5">
-        
-        <h2 class="section-heading" id="python-svd">5. Python Implementation: SVD & Low-Rank Compression</h2>
-        
-                <pre><code class="language-python">import numpy as np
-
-# Create a sample synthetic 2D image matrix
-np.random.seed(0)
-A = np.random.randn(50, 40)
-
-# Full SVD decomposition
-U, S, Vt = np.linalg.svd(A, full_matrices=False)
-print("Shapes -> U:", U.shape, "S:", S.shape, "Vt:", Vt.shape)
-
-# Truncated rank-k approximation
-def low_rank_approx(U, S, Vt, k):
-    return (U[:, :k] * S[:k]) @ Vt[:k, :]
-
-A_k5 = low_rank_approx(U, S, Vt, k=5)
-frobenius_error = np.linalg.norm(A - A_k5, 'fro')
-theoretical_error = np.sqrt(np.sum(S[5:]**2))
-
-print(f"Empirical Frobenius Error (k=5): {frobenius_error:.4f}")
-print(f"Theoretical Error sqrt(sum(S[k:]^2)): {theoretical_error:.4f}")
-assert np.isclose(frobenius_error, theoretical_error)
-</code></pre>
-                
-        <hr class="my-5">
-        
-
-            <!-- Video Catalog Section -->
-            <h2 class="section-heading" id="video-lectures">
-                <i class="fab fa-youtube text-danger me-2"></i> Embedded Video Lectures (7 Videos)
-            </h2>
-            <p class="text-muted">
-                Watch all video lectures for Week 6 directly or on YouTube:
+            <!-- SECTION 1 -->
+            <h2 class="section-heading" id="svd-theorem">1. The SVD Theorem & Spectral Derivation</h2>
+            <p>
+                While the classical Spectral Theorem for eigendecomposition applies <em>only</em> to square diagonalizable matrices, the <strong>Singular Value Decomposition (SVD)</strong> is universally defined for <strong>any</strong> real rectangular matrix $A \in \mathbb{R}^{m \times n}$:
             </p>
-            <div class="video-grid">
+            $$A = U \Sigma V^T$$
+            <ul>
+                <li><strong>$U \in \mathbb{R}^{m \times m}$</strong>: Orthonormal matrix whose columns $u_i$ are the <em>left singular vectors</em> (eigenvectors of $A A^T$).</li>
+                <li><strong>$\Sigma \in \mathbb{R}^{m \times n}$</strong>: Rectangular diagonal matrix containing ordered non-negative <em>singular values</em> $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_r > 0$, where $r = \text{rank}(A) \le \min(m, n)$.</li>
+                <li><strong>$V \in \mathbb{R}^{n \times n}$</strong>: Orthonormal matrix whose columns $v_i$ are the <em>right singular vectors</em> (eigenvectors of $A^T A$).</li>
+            </ul>
+
+            <div class="callout callout-math my-4">
+                <div class="callout-title"><i class="fas fa-square-root-alt text-primary"></i> Rigorous Derivation from $A^T A$ Spectral Decomposition</div>
+                <p><strong>Step 1: Gram Matrix Symmetry and Positive Semi-Definiteness.</strong></p>
+                <p>Consider the Gram matrix $G = A^T A \in \mathbb{R}^{n \times n}$. Notice:</p>
+                $$G^T = (A^T A)^T = A^T (A^T)^T = A^T A = G \implies G \text{ is symmetric.}$$
+                $$\forall x \in \mathbb{R}^n, \quad x^T G x = x^T (A^T A) x = (Ax)^T (Ax) = \|Ax\|_2^2 \ge 0 \implies G \text{ is positive semi-definite.}$$
                 
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 38</span>
-                <span class="badge bg-secondary">37.7 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W6_L1: Singular value decomposition</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=fTErMgNIKHQ" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_fTErMgNIKHQ">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_fTErMgNIKHQ">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/fTErMgNIKHQ" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 39</span>
-                <span class="badge bg-secondary">12.4 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W6_L2: Example of singular value decomposition (SVD)</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=lP1UKRK4h5k" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_lP1UKRK4h5k">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_lP1UKRK4h5k">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/lP1UKRK4h5k" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 40</span>
-                <span class="badge bg-secondary">25.2 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W6_L3: Positive definiteness</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=HspdIGCore0" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_HspdIGCore0">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_HspdIGCore0">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/HspdIGCore0" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 41</span>
-                <span class="badge bg-secondary">12.4 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W6_L4: Positive definite matrices</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=N-iBr_r9jic" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_N-iBr_r9jic">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_N-iBr_r9jic">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/N-iBr_r9jic" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 42</span>
-                <span class="badge bg-secondary">28.8 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W6_T1: Real world application of SVD</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=SYFGwuf-v9k" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_SYFGwuf-v9k">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_SYFGwuf-v9k">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/SYFGwuf-v9k" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 43</span>
-                <span class="badge bg-secondary">22.4 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W6_T2: Geometric interpretation of SVD</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=BHIpHagNcgw" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_BHIpHagNcgw">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_BHIpHagNcgw">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/BHIpHagNcgw" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 44</span>
-                <span class="badge bg-secondary">15.2 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W6_T3: Positive definite functions & matrices</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=0vb0c-0waik" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_0vb0c-0waik">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_0vb0c-0waik">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/0vb0c-0waik" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+                <p><strong>Step 2: Eigendecomposition of $A^T A$.</strong></p>
+                <p>By the Spectral Theorem for real symmetric matrices, there exists an orthonormal basis of eigenvectors $v_1, v_2, \dots, v_n \in \mathbb{R}^n$ with real, non-negative eigenvalues:</p>
+                $$A^T A v_i = \lambda_i v_i, \quad \lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_r > \lambda_{r+1} = \dots = \lambda_n = 0$$
+                <p>Define the <strong>singular values</strong> as the non-negative square roots: $\sigma_i \equiv \sqrt{\lambda_i}$.</p>
+
+                <p><strong>Step 3: Construction of Left Singular Vectors $u_i$.</strong></p>
+                <p>For each non-zero singular value $\sigma_i > 0$ ($i = 1, \dots, r$), define:</p>
+                $$u_i \equiv \frac{1}{\sigma_i} A v_i \in \mathbb{R}^m$$
+                <p>Let us verify that the vectors $\{u_1, \dots, u_r\}$ form an orthonormal set in $\mathbb{R}^m$:</p>
+                $$u_i^T u_j = \left(\frac{1}{\sigma_i} A v_i\right)^T \left(\frac{1}{\sigma_j} A v_j\right) = \frac{1}{\sigma_i \sigma_j} v_i^T (A^T A v_j) = \frac{1}{\sigma_i \sigma_j} v_i^T (\lambda_j v_j) = \frac{\lambda_j}{\sigma_i \sigma_j} v_i^T v_j$$
+                <p>Since $\lambda_j = \sigma_j^2$ and $v_i^T v_j = \delta_{ij}$ (Kronecker delta):</p>
+                $$u_i^T u_j = \frac{\sigma_j^2}{\sigma_i \sigma_j} \delta_{ij} = \frac{\sigma_i}{\sigma_i} \delta_{ij} = \delta_{ij} = \begin{cases} 1 & \text{if } i = j \\ 0 & \text{if } i \neq j \end{cases}$$
+                
+                <p><strong>Step 4: Basis Completion and Factorization.</strong></p>
+                <p>If $r < m$, extend $\{u_1, \dots, u_r\}$ to a full orthonormal basis of $\mathbb{R}^m$ by picking $m-r$ orthonormal vectors $\{u_{r+1}, \dots, u_m\}$ from the left nullspace $\text{Null}(A^T)$. Then $A v_j = \sigma_j u_j$ holds for all $j=1, \dots, n$ (since for $j > r$, $A v_j = 0 = \sigma_j u_j$). In matrix form:</p>
+                $$A V = U \Sigma \implies A = U \Sigma V^T \quad \blacksquare$$
             </div>
 
             <hr class="my-5">
 
-            <!-- Summary Section -->
+            <!-- SECTION 2 -->
+            <h2 class="section-heading" id="svd-geometry">2. Geometric Interpretation & Live Interactive Visual Lab</h2>
+            <p>
+                Geometrically, matrix multiplication $x \mapsto Ax$ is not an arbitrary distortion; it factorizes into three pure transformations:
+            </p>
+            <ol>
+                <li><strong>$V^T$</strong>: An orthonormal rotation/reflection in the input domain $\mathbb{R}^n$ that aligns the right singular vectors with standard cardinal axes.</li>
+                <li><strong>$\Sigma$</strong>: A pure axis-aligned stretch, scaling cardinal axes by factors $\sigma_1, \dots, \sigma_r$ (mapping the unit sphere to an axis-aligned ellipsoid).</li>
+                <li><strong>$U$</strong>: An orthonormal rotation/reflection in the output space $\mathbb{R}^m$, reorienting the ellipsoid principal semi-axes along $u_1, \dots, u_r$.</li>
+            </ol>
+
+            <!-- EMBEDDED SVD INTERACTIVE LAB -->
+            <div class="card p-4 border-0 shadow-sm bg-white my-4">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <div>
+                        <span class="badge bg-success">Interactive Lab</span>
+                        <h4 class="fw-bold mb-0">SVD 3-Stage Transformation Explorer</h4>
+                    </div>
+                    <span class="text-muted small">Manipulate stages and compare full vs rank-1 truncation</span>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-lg-8">
+                        <canvas id="chapterSvdCanvas" class="canvas-interactive" width="650" height="380"></canvas>
+                        <div class="mt-2 p-2 bg-dark rounded text-light text-center">
+                            <div class="row g-1">
+                                <div class="col-3">
+                                    <small class="text-muted d-block">$\sigma_1$</small>
+                                    <strong class="text-success font-monospace" id="chSvdS1">5.00</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block">$\sigma_2$</small>
+                                    <strong class="text-info font-monospace" id="chSvdS2">1.00</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block">Condition $\kappa(A)$</small>
+                                    <strong class="text-warning font-monospace" id="chSvdKappa">5.00</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block">Rank-1 $\|A-A_1\|_F$</small>
+                                    <strong class="text-danger font-monospace" id="chSvdErr">1.00</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="p-3 bg-light rounded border h-100 d-flex flex-column">
+                            <h6 class="fw-bold mb-2">Stage Navigator</h6>
+                            <div class="btn-group w-100 mb-2" id="chSvdStageBtns">
+                                <button class="btn btn-sm btn-outline-success active" data-stage="0">0: $x$</button>
+                                <button class="btn btn-sm btn-outline-success" data-stage="1">1: $V^T x$</button>
+                                <button class="btn btn-sm btn-outline-success" data-stage="2">2: $\Sigma V^T x$</button>
+                                <button class="btn btn-sm btn-outline-success" data-stage="3">3: $U\Sigma V^Tx$</button>
+                            </div>
+                            <small class="text-muted mb-3" id="chSvdDesc">Phase 0: Standard unit circle in input space.</small>
+
+                            <h6 class="fw-bold mb-2">Matrix Presets</h6>
+                            <div class="d-flex flex-column gap-1 mb-3">
+                                <button class="btn btn-sm btn-outline-dark text-start active" id="chPreset1">Preset 1: $\begin{bmatrix}3 & 2 \\ 2 & 3\end{bmatrix}$ ($\sigma=[5, 1]$)</button>
+                                <button class="btn btn-sm btn-outline-dark text-start" id="chPreset2">Preset 2: $\begin{bmatrix}0 & 3 \\ 4 & 0\end{bmatrix}$ ($\sigma=[4, 3]$)</button>
+                                <button class="btn btn-sm btn-outline-dark text-start" id="chPreset3">Preset 3: $\begin{bmatrix}1 & 1 \\ 0 & 1\end{bmatrix}$ ($\sigma=[1.62, 0.62]$)</button>
+                            </div>
+
+                            <h6 class="fw-bold mb-2">Rank Truncation</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="chRank" id="chRank2" value="2" checked>
+                                <label class="form-check-label small" for="chRank2">Full Rank $k=2$</label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="chRank" id="chRank1" value="1">
+                                <label class="form-check-label small" for="chRank1">Rank-1 Truncation $k=1$</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 3 -->
+            <h2 class="section-heading" id="numerical-walkthrough-1">3. Worked Numerical Walkthrough 1: Hand-Computable $2 \times 2$ Matrix</h2>
+            <p>Let us compute the full SVD of symmetric matrix $A = \begin{bmatrix} 3 & 2 \\ 2 & 3 \end{bmatrix}$ step by step.</p>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 1: Compute Gram Matrix $A^T A$</span>
+                $$A^T A = \begin{bmatrix} 3 & 2 \\ 2 & 3 \end{bmatrix} \begin{bmatrix} 3 & 2 \\ 2 & 3 \end{bmatrix} = \begin{bmatrix} 3(3) + 2(2) & 3(2) + 2(3) \\ 2(3) + 3(2) & 2(2) + 3(3) \end{bmatrix} = \begin{bmatrix} 13 & 12 \\ 12 & 13 \end{bmatrix}$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 2: Characteristic Equation & Eigenvalues</span>
+                $$\det(A^T A - \lambda I) = (13 - \lambda)^2 - 12^2 = (13 - \lambda - 12)(13 - \lambda + 12) = (1 - \lambda)(25 - \lambda) = 0$$
+                $$\lambda_1 = 25, \quad \lambda_2 = 1$$
+                <p class="mb-0">Singular values: $\sigma_1 = \sqrt{25} = 5, \quad \sigma_2 = \sqrt{1} = 1$.</p>
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 3: Right Singular Vectors $v_1, v_2$</span>
+                <p>For $\lambda_1 = 25$:</p>
+                $$(A^T A - 25 I) v_1 = \begin{bmatrix} -12 & 12 \\ 12 & -12 \end{bmatrix} \begin{bmatrix} v_{11} \\ v_{12} \end{bmatrix} = 0 \implies v_{11} = v_{12} \implies v_1 = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
+                <p>For $\lambda_2 = 1$:</p>
+                $$(A^T A - 1 I) v_2 = \begin{bmatrix} 12 & 12 \\ 12 & 12 \end{bmatrix} \begin{bmatrix} v_{21} \\ v_{22} \end{bmatrix} = 0 \implies v_{21} = -v_{22} \implies v_2 = \frac{1}{\sqrt{2}}\begin{bmatrix} -1 \\ 1 \end{bmatrix}$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 4: Left Singular Vectors $u_1, u_2$</span>
+                $$u_1 = \frac{1}{\sigma_1} A v_1 = \frac{1}{5}\begin{bmatrix} 3 & 2 \\ 2 & 3 \end{bmatrix} \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{5\sqrt{2}}\begin{bmatrix} 5 \\ 5 \end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
+                $$u_2 = \frac{1}{\sigma_2} A v_2 = \frac{1}{1}\begin{bmatrix} 3 & 2 \\ 2 & 3 \end{bmatrix} \frac{1}{\sqrt{2}}\begin{bmatrix} -1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix} -1 \\ 1 \end{bmatrix}$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 5: Outer Product Dyadic Expansion & Rank-1 Approximation</span>
+                $$A = \sigma_1 u_1 v_1^T + \sigma_2 u_2 v_2^T = 5 \begin{bmatrix} 0.5 & 0.5 \\ 0.5 & 0.5 \end{bmatrix} + 1 \begin{bmatrix} 0.5 & -0.5 \\ -0.5 & 0.5 \end{bmatrix} = \begin{bmatrix} 2.5 + 0.5 & 2.5 - 0.5 \\ 2.5 - 0.5 & 2.5 + 0.5 \end{bmatrix} = \begin{bmatrix} 3 & 2 \\ 2 & 3 \end{bmatrix}$$
+                <p class="mb-0">Optimal Rank-1 approximation: $A_1 = \sigma_1 u_1 v_1^T = \begin{bmatrix} 2.5 & 2.5 \\ 2.5 & 2.5 \end{bmatrix}$.</p>
+                <p class="mb-0">Frobenius error: $\|A - A_1\|_F = \sqrt{4 \times (0.5)^2} = \sqrt{1.0} = 1.0 = \sigma_2$. Exactly matches Eckart-Young!</p>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 4 -->
+            <h2 class="section-heading" id="numerical-walkthrough-2">4. Worked Numerical Walkthrough 2: Hand-Computable $3 \times 2$ Rectangular Matrix</h2>
+            <p>Consider the tall rectangular matrix $A = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} \in \mathbb{R}^{3 \times 2}$.</p>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 1: Compute $A^T A$</span>
+                $$A^T A = \begin{bmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} = \begin{bmatrix} 1+0+1 & 0+0+1 \\ 0+0+1 & 0+1+1 \end{bmatrix} = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 2: Eigenvalues & Singular Values</span>
+                $$\det(A^T A - \lambda I) = (2 - \lambda)^2 - 1 = \lambda^2 - 4\lambda + 3 = (\lambda - 3)(\lambda - 1) = 0$$
+                $$\lambda_1 = 3 \implies \sigma_1 = \sqrt{3} \approx 1.732, \quad \lambda_2 = 1 \implies \sigma_2 = 1.0$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 3: Singular Vectors $V$ and $U$</span>
+                $$v_1 = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}, \quad v_2 = \frac{1}{\sqrt{2}}\begin{bmatrix} -1 \\ 1 \end{bmatrix}$$
+                $$u_1 = \frac{1}{\sqrt{3}} A v_1 = \frac{1}{\sqrt{3}} \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{6}}\begin{bmatrix} 1 \\ 1 \\ 2 \end{bmatrix}$$
+                $$u_2 = \frac{1}{1} A v_2 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} \frac{1}{\sqrt{2}}\begin{bmatrix} -1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}\begin{bmatrix} -1 \\ 1 \\ 0 \end{bmatrix}$$
+                <p>Complete $U \in \mathbb{R}^{3 \times 3}$ by finding $u_3 \in \text{Null}(A^T)$ with $\|u_3\|=1$:</p>
+                $$A^T u_3 = \begin{bmatrix} u_{31} + u_{33} \\ u_{32} + u_{33} \end{bmatrix} = 0 \implies u_3 = \frac{1}{\sqrt{3}}\begin{bmatrix} 1 \\ 1 \\ -1 \end{bmatrix}$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 4: Reconstruction Check</span>
+                $$U \Sigma V^T = \begin{bmatrix} \frac{1}{\sqrt{6}} & -\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{3}} \\ \frac{1}{\sqrt{6}} & \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{3}} \\ \frac{2}{\sqrt{6}} & 0 & -\frac{1}{\sqrt{3}} \end{bmatrix} \begin{bmatrix} \sqrt{3} & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix} \begin{bmatrix} \frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} = A \quad \checkmark$$
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 5 -->
+            <h2 class="section-heading" id="low-rank-approx">5. Low-Rank Approximation (Eckart-Young-Mirsky Theorem)</h2>
+            <p>
+                Representing $A$ as the dyadic sum of rank-1 matrices $A = \sum_{i=1}^r \sigma_i u_i v_i^T$, the <strong>Eckart-Young-Mirsky Theorem</strong> states that for any $k < r$, the truncated sum:
+            </p>
+            $$A_k = \sum_{i=1}^k \sigma_i u_i v_i^T$$
+            <p>is the strictly optimal rank-$k$ approximation under both the Spectral Norm and the Frobenius Norm:</p>
+            $$\min_{\text{rank}(B) \le k} \|A - B\|_2 = \|A - A_k\|_2 = \sigma_{k+1}$$
+            $$\min_{\text{rank}(B) \le k} \|A - B\|_F = \|A - A_k\|_F = \sqrt{\sum_{i=k+1}^r \sigma_i^2}$$
+
+            <hr class="my-5">
+
+            <!-- SECTION 6 -->
+            <h2 class="section-heading" id="pseudoinverse">6. Moore-Penrose Pseudoinverse & Condition Numbers</h2>
+            <p>
+                When $A \in \mathbb{R}^{m \times n}$ is not square or not full rank, its ordinary inverse $A^{-1}$ does not exist. The <strong>Moore-Penrose Pseudoinverse</strong> $A^+$ provides the unique optimal minimum-norm least-squares solution:
+            </p>
+            $$A^+ = V \Sigma^+ U^T$$
+            <p>where $\Sigma^+ \in \mathbb{R}^{n \times m}$ is formed by inverting every non-zero singular value: $\Sigma^+_{ii} = 1/\sigma_i$ for $\sigma_i > 0$, and transposing.</p>
+            <div class="callout callout-warning">
+                <div class="callout-title"><i class="fas fa-exclamation-triangle text-warning"></i> Condition Number $\kappa(A)$ & Noise Sensitivity</div>
+                <p class="mb-1">
+                    The $L_2$ condition number of $A$ is $\kappa_2(A) = \frac{\sigma_{\max}}{\sigma_{\min}} = \frac{\sigma_1}{\sigma_r}$.
+                </p>
+                <p class="mb-0">
+                    If $\sigma_r \approx 0$, then $\kappa(A) \gg 10^6$. In computing $x = A^+ b$, tiny perturbations in $b$ are magnified by $1/\sigma_r$, causing severe numerical instability. Truncated SVD (discarding small singular values below a threshold $\tau$) acts as a natural regularizer.
+                </p>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 7 -->
+            <h2 class="section-heading" id="positive-definiteness">7. Positive Definite Matrices & Quadratic Forms</h2>
+            <p>
+                A symmetric matrix $A \in \mathbb{R}^{n \times n}$ is <strong>Positive Definite</strong> ($A \succ 0$) if the scalar quadratic form $q(x) = x^T A x > 0$ for all non-zero $x \neq \mathbf{0}$.
+            </p>
+            <table class="table table-bordered bg-white">
+                <thead class="table-light">
+                    <tr><th>Property</th><th>Condition for $A \succ 0$ (Positive Definite)</th><th>Condition for $A \succeq 0$ (Semi-Definite)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Eigenvalues</strong></td><td>All $\lambda_i > 0$ strictly positive</td><td>All $\lambda_i \ge 0$ non-negative</td></tr>
+                    <tr><td><strong>Minors (Sylvester)</strong></td><td>All leading principal minors $\det(A_{1:k, 1:k}) > 0$</td><td>All principal minors $\ge 0$</td></tr>
+                    <tr><td><strong>Cholesky Factorization</strong></td><td>Unique $A = L L^T$ with $L_{ii} > 0$</td><td>$A = L L^T$ with possible $L_{ii} = 0$</td></tr>
+                    <tr><td><strong>Contour Geometry</strong></td><td>Convex hyper-ellipsoid with strict global minimum</td><td>Flat valleys / degenerate cylinders</td></tr>
+                </tbody>
+            </table>
+
+            <hr class="my-5">
+
+            <!-- SECTION 8 -->
+            <h2 class="section-heading" id="python-svd">8. Python & NumPy Implementation with Mathematical Assertions</h2>
+            <pre><code class="language-python">import numpy as np
+
+# Walkthrough 1: Symmetric 2x2 Matrix
+A1 = np.array([[3.0, 2.0], [2.0, 3.0]])
+U1, S1, Vt1 = np.linalg.svd(A1)
+V1 = Vt1.T
+
+# Exact singular values check
+assert np.isclose(S1[0], 5.0) and np.isclose(S1[1], 1.0)
+# Reconstruction assertion
+assert np.allclose(A1, U1 @ np.diag(S1) @ Vt1)
+# Rank-1 approximation error assertion
+A1_k1 = S1[0] * np.outer(U1[:, 0], Vt1[0, :])
+assert np.isclose(np.linalg.norm(A1 - A1_k1, 'fro'), S1[1])
+
+# Walkthrough 2: Rectangular 3x2 Matrix
+A2 = np.array([[1.0, 0.0], [0.0, 1.0], [1.0, 1.0]])
+U2, S2, Vt2 = np.linalg.svd(A2, full_matrices=True)
+
+# Singular values check
+assert np.isclose(S2[0], np.sqrt(3.0)) and np.isclose(S2[1], 1.0)
+# Moore-Penrose pseudoinverse
+A2_pinv = np.linalg.pinv(A2)
+# Pseudoinverse satisfies Penrose conditions: A @ A^+ @ A == A
+assert np.allclose(A2 @ A2_pinv @ A2, A2)
+
+print("All Week 6 SVD mathematical assertions passed successfully!")
+</code></pre>
+
+            <hr class="my-5">
+
+            <!-- VIDEO LECTURES -->
+            <h2 class="section-heading" id="video-lectures">
+                <i class="fab fa-youtube text-danger me-2"></i> Embedded Video Lectures (7 Videos)
+            </h2>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 38</span>
+                        <span class="badge bg-secondary">37.7 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W6_L1: Singular value decomposition</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=fTErMgNIKHQ" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_fTErMgNIKHQ"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_fTErMgNIKHQ">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/fTErMgNIKHQ" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 39</span>
+                        <span class="badge bg-secondary">12.4 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W6_L2: Example of singular value decomposition (SVD)</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=lP1UKRK4h5k" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_lP1UKRK4h5k"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_lP1UKRK4h5k">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/lP1UKRK4h5k" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 40</span>
+                        <span class="badge bg-secondary">25.2 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W6_L3: Positive definiteness</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=HspdIGCore0" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_HspdIGCore0"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_HspdIGCore0">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/HspdIGCore0" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 41</span>
+                        <span class="badge bg-secondary">12.4 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W6_L4: Positive definite matrices</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=N-iBr_r9jic" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_N-iBr_r9jic"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_N-iBr_r9jic">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/N-iBr_r9jic" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 42</span>
+                        <span class="badge bg-secondary">28.8 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W6_T1: Real world application of SVD</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=SYFGwuf-v9k" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_SYFGwuf-v9k"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_SYFGwuf-v9k">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/SYFGwuf-v9k" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 43</span>
+                        <span class="badge bg-secondary">22.4 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W6_T2: Geometric interpretation of SVD</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=BHIpHagNcgw" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_BHIpHagNcgw"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_BHIpHagNcgw">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/BHIpHagNcgw" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 44</span>
+                        <span class="badge bg-secondary">15.2 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W6_T3: Positive definite functions & matrices</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=0vb0c-0waik" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_0vb0c-0waik"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_0vb0c-0waik">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/0vb0c-0waik" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SUMMARY & MASTERY CHECKLIST -->
             <h2 class="section-heading" id="summary-takeaways">
-                <i class="fas fa-flag-checkered text-warning me-2"></i> Key Takeaways & What's Next
+                <i class="fas fa-flag-checkered text-warning me-2"></i> Key Takeaways & Exam Mastery
             </h2>
             <div class="callout callout-takeaway">
                 <div class="callout-title">
-                    <i class="fas fa-check-circle text-warning"></i> Module Mastery Checklist
+                    <i class="fas fa-check-circle text-warning"></i> Module 6 Mastery Checklist
                 </div>
-                <p>By completing this module, you should have mastered:</p>
+                <p>Before proceeding to Week 7 (Principal Component Analysis), verify you can:</p>
                 <ul>
-                    <li>The mathematical theory and intuition introduced across these 7 lectures.</li>
-                    <li>Translating mathematical formulas into vectorized NumPy implementations.</li>
-                    <li>Understanding the geometric and computational trade-offs of the algorithms.</li>
+                    <li>Compute the singular values and singular vectors for any $2 \times 2$ and $3 \times 2$ matrix by hand.</li>
+                    <li>State and apply the Eckart-Young-Mirsky low-rank approximation theorem under Frobenius and spectral norms.</li>
+                    <li>Construct the Moore-Penrose pseudoinverse $A^+$ using $V \Sigma^+ U^T$ and evaluate its condition number.</li>
+                    <li>Verify positive definiteness via eigenvalue spectrum, Sylvester's minors, and Cholesky decomposition.</li>
                 </ul>
-                <div class="mt-3">
-                    <a href="summary.html" class="btn btn-warning btn-sm fw-bold">
-                        <i class="fas fa-file-contract me-1"></i> View Condensed Formula Sheet & Exam Summary
+                <div class="mt-3 d-flex gap-2">
+                    <a href="../exam_centre.html" class="btn btn-warning btn-sm fw-bold">
+                        <i class="fas fa-stopwatch me-1"></i> Attempt Week 6 Mastery Assessment
+                    </a>
+                    <a href="summary.html" class="btn btn-outline-dark btn-sm">
+                        <i class="fas fa-file-contract me-1"></i> View Formula Sheet
                     </a>
                 </div>
             </div>
@@ -327,32 +518,216 @@ assert np.isclose(frobenius_error, theoretical_error)
         <aside class="right-menu">
             <h4>On This Page</h4>
             <ul>
-                <li><a href="#svd-theorem">1. Singular Value Decomposition (SVD)</a></li>
-<li><a href="#svd-geometry">2. Geometric Interpretation & Action of SVD</a></li>
-<li><a href="#positive-definiteness">3. Positive Definite Matrices & Quadratic Forms</a></li>
-<li><a href="#low-rank-approx">4. Low-Rank Approximation (Eckart-Young-Mirsky)</a></li>
-<li><a href="#python-svd">5. Python Implementation: SVD & Low-Rank Compression</a></li>
-<li><a href="#video-lectures">Video Lectures</a></li>
-<li><a href="#summary-takeaways">Summary & Key Takeaways</a></li>
-
+                <li><a href="#svd-theorem">1. SVD Theorem & Spectral Derivation</a></li>
+                <li><a href="#svd-geometry">2. SVD Geometric Lab</a></li>
+                <li><a href="#numerical-walkthrough-1">3. Hand Walkthrough 1 (2x2)</a></li>
+                <li><a href="#numerical-walkthrough-2">4. Hand Walkthrough 2 (3x2)</a></li>
+                <li><a href="#low-rank-approx">5. Low-Rank Approximations</a></li>
+                <li><a href="#pseudoinverse">6. Pseudoinverse & Condition</a></li>
+                <li><a href="#positive-definiteness">7. Positive Definite Matrices</a></li>
+                <li><a href="#python-svd">8. Python Implementation</a></li>
+                <li><a href="#video-lectures">Video Lectures</a></li>
+                <li><a href="#summary-takeaways">Summary & Mastery</a></li>
             </ul>
         </aside>
     </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
+    <!-- Production Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- KaTeX JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-        onload="renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '\(', right: '\)', display: false},
-                {left: '$', right: '$', display: false}
-            ]
-        });"></script>
-    <!-- Prism.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="../assets/js/scoring.js"></script>
+    <script src="../assets/js/progress-validation.js"></script>
+    <script src="../assets/js/progress-store.js"></script>
+    <script src="../assets/js/math-rendering.js"></script>
+
+    <!-- Embedded Chapter Visual Lab Script -->
+    <script>
+        // Mark as Read Integration
+        const markReadBtn = document.getElementById('markReadBtn');
+        if (window.MLFProgress && markReadBtn) {
+            const isRead = window.MLFProgress.isLessonRead('week-6');
+            updateBtn(isRead);
+            markReadBtn.addEventListener('click', () => {
+                const next = window.MLFProgress.toggleLessonRead('week-6');
+                updateBtn(next);
+            });
+        }
+        function updateBtn(state) {
+            if (!markReadBtn) return;
+            if (state) {
+                markReadBtn.className = 'btn btn-sm btn-success';
+                markReadBtn.innerHTML = '<i class="fas fa-check-circle me-1"></i> Chapter Completed';
+            } else {
+                markReadBtn.className = 'btn btn-sm btn-outline-primary';
+                markReadBtn.innerHTML = '<i class="far fa-check-circle me-1"></i> Mark Chapter as Read';
+            }
+        }
+
+        // Embedded SVD Lab Canvas
+        (function() {
+            const canvas = document.getElementById('chapterSvdCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const presets = {
+                1: {
+                    U: [[Math.SQRT1_2, -Math.SQRT1_2], [Math.SQRT1_2, Math.SQRT1_2]],
+                    S: [5.0, 1.0],
+                    V: [[Math.SQRT1_2, -Math.SQRT1_2], [Math.SQRT1_2, Math.SQRT1_2]],
+                    desc: "Symmetric matrix: Left and right singular axes coincide at 45°."
+                },
+                2: {
+                    U: [[0, 1], [1, 0]],
+                    S: [4.0, 3.0],
+                    V: [[1, 0], [0, 1]],
+                    desc: "Off-diagonal matrix: Coordinate axes swap with scalings 4 and 3."
+                },
+                3: {
+                    U: [[0.8507, -0.5257], [0.5257, 0.8507]],
+                    S: [1.618, 0.618],
+                    V: [[0.5257, -0.8507], [0.8507, 0.5257]],
+                    desc: "Shear matrix: Stretches circle into an oblique tilted ellipse."
+                }
+            };
+
+            let currentPreset = 1;
+            let currentStage = 0;
+            let rankK = 2;
+
+            const descEl = document.getElementById('chSvdDesc');
+            const s1El = document.getElementById('chSvdS1');
+            const s2El = document.getElementById('chSvdS2');
+            const kapEl = document.getElementById('chSvdKappa');
+            const errEl = document.getElementById('chSvdErr');
+
+            function updateMetrics() {
+                const p = presets[currentPreset];
+                s1El.innerText = p.S[0].toFixed(2);
+                s2El.innerText = p.S[1].toFixed(2);
+                kapEl.innerText = (p.S[0] / p.S[1]).toFixed(2);
+                errEl.innerText = p.S[1].toFixed(2);
+            }
+
+            function transform(pt) {
+                const p = presets[currentPreset];
+                const Vt = [[p.V[0][0], p.V[1][0]], [p.V[0][1], p.V[1][1]]];
+                const effS = [p.S[0], rankK === 1 ? 0 : p.S[1]];
+                let x = pt[0], y = pt[1];
+
+                if (currentStage >= 1) {
+                    const tx = Vt[0][0]*x + Vt[0][1]*y;
+                    const ty = Vt[1][0]*x + Vt[1][1]*y;
+                    x = tx; y = ty;
+                }
+                if (currentStage >= 2) {
+                    x *= effS[0]; y *= effS[1];
+                }
+                if (currentStage >= 3) {
+                    const tx = p.U[0][0]*x + p.U[0][1]*y;
+                    const ty = p.U[1][0]*x + p.U[1][1]*y;
+                    x = tx; y = ty;
+                }
+                return [x, y];
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const scale = 50;
+
+                // Grid
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 1;
+                for (let r = -5; r <= 5; r++) {
+                    ctx.beginPath();
+                    ctx.moveTo(cx + r * scale, 0); ctx.lineTo(cx + r * scale, canvas.height);
+                    ctx.moveTo(0, cy + r * scale); ctx.lineTo(canvas.width, cy + r * scale);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy);
+                ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height);
+                ctx.stroke();
+
+                // Circle/Ellipse
+                ctx.beginPath();
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2.5;
+                const n = 100;
+                for (let i = 0; i <= n; i++) {
+                    const th = (i / n) * 2 * Math.PI;
+                    const tp = transform([Math.cos(th), Math.sin(th)]);
+                    const px = cx + tp[0] * scale;
+                    const py = cy - tp[1] * scale;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+                ctx.fill();
+
+                // Vectors
+                const b1 = transform([1, 0]);
+                const b2 = transform([0, 1]);
+                drawArrow(cx, cy, cx + b1[0] * scale, cy - b1[1] * scale, '#22c55e', 'v1 / u1');
+                drawArrow(cx, cy, cx + b2[0] * scale, cy - b2[1] * scale, '#f59e0b', 'v2 / u2');
+            }
+
+            function drawArrow(fx, fy, tx, ty, col, lbl) {
+                const hl = 8, dx = tx - fx, dy = ty - fy, a = Math.atan2(dy, dx);
+                ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.moveTo(fx, fy); ctx.lineTo(tx, ty); ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(tx, ty);
+                ctx.lineTo(tx - hl * Math.cos(a - Math.PI / 6), ty - hl * Math.sin(a - Math.PI / 6));
+                ctx.lineTo(tx - hl * Math.cos(a + Math.PI / 6), ty - hl * Math.sin(a + Math.PI / 6));
+                ctx.closePath(); ctx.fill();
+                ctx.font = 'bold 11px system-ui';
+                ctx.fillText(lbl, tx + 5, ty - 3);
+            }
+
+            document.querySelectorAll('#chSvdStageBtns button').forEach(b => {
+                b.addEventListener('click', () => {
+                    document.querySelectorAll('#chSvdStageBtns button').forEach(x => x.classList.remove('active'));
+                    b.classList.add('active');
+                    currentStage = parseInt(b.getAttribute('data-stage'), 10);
+                    const descs = [
+                        "Phase 0: Standard unit circle in input space.",
+                        "Phase 1: Rotated by V^T to align singular axes with cardinal grid.",
+                        "Phase 2: Scaled along cardinal axes by singular values sigma_1 and sigma_2.",
+                        "Phase 3: Rotated by U into final output space."
+                    ];
+                    descEl.innerText = descs[currentStage];
+                    draw();
+                });
+            });
+
+            document.getElementById('chPreset1').addEventListener('click', function() { setP(1, this); });
+            document.getElementById('chPreset2').addEventListener('click', function() { setP(2, this); });
+            document.getElementById('chPreset3').addEventListener('click', function() { setP(3, this); });
+
+            function setP(k, btn) {
+                currentPreset = k;
+                document.querySelectorAll('#chPreset1, #chPreset2, #chPreset3').forEach(x => x.classList.remove('active'));
+                btn.classList.add('active');
+                updateMetrics();
+                draw();
+            }
+
+            document.getElementById('chRank1').addEventListener('change', () => { rankK = 1; draw(); });
+            document.getElementById('chRank2').addEventListener('change', () => { rankK = 2; draw(); });
+
+            updateMetrics();
+            draw();
+        })();
+    </script>
 </body>
 </html>

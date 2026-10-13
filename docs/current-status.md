@@ -2,8 +2,8 @@
 
 **Project:** Machine Learning Foundations (MLF) Interactive Learning Platform  
 **Target Course:** IIT Madras BS in Data Science & Applications — BSCS2004  
-**Release Iteration:** Stabilization, Correctness & End-to-End Learning Release  
-**Branch:** `feat/stabilization-and-learning-engine`  
+**Release Iteration:** Production JavaScript Testing, Storage Hardening & Learning Expansion  
+**Branch:** `main`  
 **Date:** October 2026  
 **Zero-Backend GitHub Pages Hosting:** Verified Compatible  
 
@@ -11,55 +11,74 @@
 
 ## 1. Executive Summary
 
-This stabilization and correctness release resolves the architectural defects and educational disconnects identified during the source-code audit. Specifically:
-- Assessment question banks and dynamic question loading are unified into canonical JSON schema (`data/questions/all_questions.json`, `data/assessments.json`).
-- Hardcoded question counters have been removed; all displayed counts are derived strictly from data records.
-- The entire Exam Lifecycle in `exam_centre.html` has been overhauled with persistent `localStorage` resumability, countdown timers with deadline timestamps, question flagging, and complete question-by-question review with KaTeX derivations and targeted revision links.
-- The Progress Store (`assets/js/progress-store.js`) has been hardened with schema versioning, deep cloning, fallback memory storage, and full Import/Export JSON support with schema previews.
-- Both Interactive Visual Labs in `visual_labs.html` (Subspace Projection & Gradient Descent) have been mathematically corrected and upgraded with real-time dot products, Pythagorean verifications, Play/Pause/Step animation loops, and loss history sparklines.
-- A comprehensive multi-suite automated test system (`tests/run_all_tests.py`) has been implemented and passed with 100% success across data validation, mathematical logic, scoring, relative links, and algorithmic notebooks.
-- A seamless end-to-end Week 3 vertical slice has been established:
-  $$\text{Lesson} \longrightarrow \text{Visual Lab} \longrightarrow \text{Practice} \longrightarrow \text{Assessment} \longrightarrow \text{Submitted Review} \longrightarrow \text{Targeted Revision}$$
+This release establishes verified production JavaScript testing, closes assessment and storage edge cases, expands the question catalog with honest provenance, upgrades visual interactive labs, and completes gold-standard 18-point learning modules for Weeks 3, 6, and 7.
+
+Key achievements:
+- **Production JavaScript Testing:** Implemented modular JavaScript engines (`assets/js/scoring.js`, `assets/js/progress-validation.js`, `assets/js/assessment-engine.js`, `assets/js/progress-store.js`) tested directly using Node.js's native test runner (`node --test`), passing 47/47 tests.
+- **Unified Question Catalog:** Expanded from 53 to **98 canonical questions** across `data/questions/all_questions.json`, with dedicated week files (`week3.json`: 25 Qs, `week6.json`: 20 Qs, `week7.json`: 20 Qs).
+- **Expanded Assessments:** 7 fully validated assessments in `data/assessments.json` referencing 100% resolvable canonical questions:
+  - Diagnostic (8 Qs)
+  - Quiz 1 (10 Qs)
+  - Quiz 2 (10 Qs)
+  - End-term (15 Qs)
+  - Week 3 Mastery (15 Qs)
+  - Week 6 Mastery (15 Qs)
+  - Week 7 Mastery (15 Qs)
+- **Exam Lifecycle & Storage Edge Cases:**
+  - Type-specific input rendering (MCQ, MSQ, Numeric with tolerances, Derivation with rubrics).
+  - Pre-validation check blocking launches with missing question references.
+  - Active attempt conflict modal (`#conflictModal`) offering Resume, Restart & Replace, or Cancel.
+  - Expired attempt detection and automatic finalization.
+  - Storage failure detection alerting user with `#storageModeWarning` banner when running on in-memory fallback.
+  - Import modal with live JSON summary statistics preview before state overwrite.
+- **Visual Labs Expansion:**
+  - **SVD Transformation Lab (`#lab-svd`):** 3-stage animated transformation ($V^T \to \Sigma \to U$), singular value readouts, condition number $\kappa(A)$, rank-1 approximation, and live Frobenius error $\|A - A_1\|_F = \sigma_2$.
+  - **PCA Variance Conservation Lab (`#lab-pca`):** Rotatable projection line $\theta$, live variance $V(\theta)$ vs. error $E(\theta)$ verifying Pythagorean conservation $V(\theta) + E(\theta) = \text{Tr}(\Sigma)$ to $< 10^{-10}$ error, and snap buttons for principal components.
+- **18-Point Gold Standard Textbook Chapters:**
+  - `week-3/week-3.html`: Least Squares, Projections, 4 Subspaces, QR vs Normal Equations, Outlier leverage.
+  - `week-6/week-6.html`: SVD derivation via $A^T A$, 2 worked numerical walkthroughs, embedded SVD lab, Eckart-Young theorem, Moore-Penrose pseudoinverse, Python code with assertions.
+  - `week-7/week-7.html`: Centering requirement, Lagrangian variance derivation, Pythagorean error proof, 2 worked numerical walkthroughs, embedded PCA lab, Gram trick ($N \ll D$), Python code with assertions.
+- **Automated Verification:** 6/6 test suites passing in master runner (`python tests/run_all_tests.py`), alongside live headless browser verification via Chrome DevTools.
 
 ---
 
-## 2. Findings Resolution Matrix (Findings A through I)
+## 2. Findings Resolution Matrix
 
-| Finding ID & Title | Initial Audit Issue | Current Verified Resolution | Verification Status |
+| Finding ID & Area | Previous Status | Current Production Implementation | Verification Level |
 |:---|:---|:---|:---:|
-| **A. Exam Counts** | `exam_centre.html` cards advertised 10, 10, 15 questions, but embedded arrays contained only 6, 4, 3 questions. | Eliminated hardcoded arrays. Assessments reference explicit canonical question IDs (`diagnostic`: 8, `quiz1`: 10, `quiz2`: 10, `endterm`: 15). All cards render `${assessment.questionIds.length} Questions` dynamically. | **RESOLVED & VERIFIED** |
-| **B. Hidden Explanations** | `submitExam()` inserted solutions into cards inside `activeExamView`, then hid `activeExamView`, preventing students from reviewing explanations. | Implemented dedicated `detailedReviewContainer` inside `examReportView`. Renders every question, chosen option, correct answer, score status badge, KaTeX derivation, and lesson/lab/revision buttons. | **RESOLVED & VERIFIED** |
-| **C. Non-persistent Exam State** | Responses and timer were stored in loose variables and decremented by interval ticks; lost on refresh. | State saved to `MLFProgress.activeAttempt` on every answer and flag toggle. Timer calculates `Math.floor((deadlineAt - Date.now()) / 1000)`. Reloading displays a Resume Attempt banner with remaining minutes/seconds. | **RESOLVED & VERIFIED** |
-| **D. Duplicate Assessment Data** | Duplicate question banks existed between `data/assessments.json` and hardcoded JS objects in `exam_centre.html`. | Deleted hardcoded `quizBanks` object. `exam_centre.html` dynamically fetches `data/assessments.json` and canonical questions from `data/questions/all_questions.json`. | **RESOLVED & VERIFIED** |
-| **E. Practice Engine Limitations** | Difficulty filter variable lacked event binding; hints replaced instead of cumulative; auto-solved on click without recording attempts. | Bound difficulty pills (`All`, `Easy`, `Medium`, `Hard`); cumulative progressive hints accordion; attempts, solution reveals, and hint usage recorded in `MLFProgress.recordProblemAttempt()`. | **RESOLVED & VERIFIED** |
-| **F. Fixed Projection Subspace** | Visual lab projected strictly onto the $xy$-plane while claiming arbitrary column space projection. | Explicitly defined column basis $A = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix}$ spanning the $xy$-plane in $\mathbb{R}^3$, projection matrix $P = \text{diag}(1, 1, 0)$, live dot products $a_1^T e = 0, a_2^T e = 0$, $p^T e = 0$, $\|b\|^2 = \|p\|^2 + \|e\|^2$, presets, and camera reset. | **RESOLVED & VERIFIED** |
-| **G. Misleading GD Status** | 40-step synchronous batch could leave status as "Running...". | Replaced batch with interactive animation loop supporting Play, Pause, Step, Reset, live sparkline loss curve, and state machine (`Ready`, `Running`, `Paused`, `Converged`, `Max Iterations`, `Diverged`). | **RESOLVED & VERIFIED** |
-| **H. Progress Store Robustness** | Shallow spread `{ ...defaultState, ...parsed }`, open targetOrigin `'*'`, no schema validation, and no import/export UI. | Implemented deep cloning, schema version 2 with backward compatibility, in-memory fallback if `localStorage` is blocked, same-origin postMessage safety, and Import/Export JSON modal with schema preview. | **RESOLVED & VERIFIED** |
-| **I. Test Coverage** | Python tests only checked notebook script exit codes; no data, scoring, or math tests. | Added `tests/test_data_validation.py`, `tests/test_labs_math.py`, `tests/test_scoring_and_progress.py`, `tests/verify_links.py`, and master runner `tests/run_all_tests.py`. All suites pass. | **RESOLVED & VERIFIED** |
+| **1. Real JS Testing** | Tested via Python re-implementations only. | Implemented `node --test` suite across `assets/js/*.js` covering scoring, validation, storage fallback, and engine grading. | **PASS (47/47 tests)** |
+| **2. Storage Edge Cases** | Silent fallback, potential state corruption. | Explicit storage mode tracking (`localStorage` vs `memory`), `#storageModeWarning` UI banner, strict import schema validation with summary preview modal. | **VERIFIED** |
+| **3. Exam Edge Cases** | MCQ-only inputs, no conflict resolution on concurrent exam starts. | Type-specific inputs (MCQ, MSQ, Numeric, Derivation), active attempt conflict modal, expired attempt auto-grading, KaTeX review breakdown. | **VERIFIED** |
+| **4. Question Catalog** | 53 questions total; 16 in Week 3. | Expanded to 98 canonical questions: 25 in Week 3, 20 in Week 6, 20 in Week 7. Honest provenance labeling (`'original'`). | **VERIFIED** |
+| **5. Dedicated Assessments** | 4 general exams; no week mastery exams. | Added Week 3 Mastery (15 Qs), Week 6 Mastery (15 Qs), Week 7 Mastery (15 Qs). All 7 exams have 100% question ID resolution. | **VERIFIED** |
+| **6. Visual Labs Expansion** | 2 labs (Projection, Gradient Descent). | 4 interactive labs: Projection, Gradient Descent, SVD 3-stage transformation, and PCA Pythagorean variance conservation. | **VERIFIED & MATH PROVEN** |
+| **7. 18-Point Chapters** | Week 3 only. | Week 3, Week 6, and Week 7 fully upgraded to 18-point rubric with worked numerical examples, embedded labs, and Python assertions. | **VERIFIED** |
 
 ---
 
 ## 3. Data Inventory & Canonical Statistics
 
-| Dataset | File Path | Record Count | Schema Standard |
+| Dataset | File Path | Record Count | Schema Notes |
 |:---|:---|:---:|:---|
-| **Master Questions Bank** | `data/questions/all_questions.json` | **53** | Canonical Schema (IDs, types, difficulty, platform, provenance, answerSpec) |
-| **Week 3 Question Subset** | `data/questions/week3.json` | **16** | Canonical Schema (Week 3 subset) |
-| **Assessments Register** | `data/assessments.json` | **4** | Dynamic Question Reference Model: <br>&bull; `diagnostic`: 8 Qs<br>&bull; `quiz1`: 10 Qs<br>&bull; `quiz2`: 10 Qs<br>&bull; `endterm`: 15 Qs |
+| **Master Questions Bank** | `data/questions/all_questions.json` | **98** | Full canonical schema (IDs, types, difficulty, platform, provenance, answerSpec) |
+| **Week 3 Question Subset** | `data/questions/week3.json` | **25** | Projections, Least Squares, QR, Subspaces |
+| **Week 6 Question Subset** | `data/questions/week6.json` | **20** | SVD, Eckart-Young, Pseudoinverse, Singular Values |
+| **Week 7 Question Subset** | `data/questions/week7.json` | **20** | PCA, Covariance, Variance Maximization, Gram Trick |
+| **Assessments Register** | `data/assessments.json` | **7** | Dynamic question reference model: <br>&bull; `diagnostic`: 8 Qs<br>&bull; `quiz1`: 10 Qs<br>&bull; `quiz2`: 10 Qs<br>&bull; `endterm`: 15 Qs<br>&bull; `week3-mastery`: 15 Qs<br>&bull; `week6-mastery`: 15 Qs<br>&bull; `week7-mastery`: 15 Qs |
 | **Curriculum Register** | `data/curriculum.json` | **12** | 12 Weekly Modules |
 | **Concepts Ontology** | `data/concepts.json` | **24** | 24 Foundational Mathematical Concepts |
 
-### Platform & Provenance Breakdown
-- **Course Practice / Adapted / Verified PYQ:** 36 questions
-- **Deep-ML Hands-On Code:** 12 questions
-- **LeetCode Algorithmic Math:** 5 questions
-- **Total Catalog:** Exactly **53 questions** (honest metric, no inflated counts).
+### Platform Breakdown (98 Total Questions)
+- **Course Practice / Adapted / PYQ:** 63 questions
+- **Deep-ML Hands-On Code:** 22 questions
+- **LeetCode Algorithmic Math:** 13 questions
+- **Provenance:** All original practice questions are marked honestly (`provenance: 'original'`).
 
 ---
 
-## 4. Automated Test Suite Results
+## 4. Master Automated Test Runner Summary
 
-Master test runner output (`python tests/run_all_tests.py`):
+Command: `python tests/run_all_tests.py`
 
 ```
 ===========================================================================
@@ -67,24 +86,28 @@ Machine Learning Foundations (MLF) - Master Automated Test Runner
 Root: C:\Users\DELL\.gemini\antigravity\scratch\ml-foundations
 ===========================================================================
 
->> Running Suite: Canonical Data Validation (test_data_validation.py)
-   [PASS] Canonical Data Validation passed in 0.47s
+>> Running Suite: Production JavaScript Unit Tests (node --test)
+   [PASS] Production JavaScript Unit Tests (node --test) passed in 1.16s
 
->> Running Suite: Visual Labs Mathematics (test_labs_math.py)
-   [PASS] Visual Labs Mathematics passed in 1.37s
+>> Running Suite: Canonical Data Validation
+   [PASS] Canonical Data Validation passed in 0.60s
 
->> Running Suite: Scoring & Progress Store Logic (test_scoring_and_progress.py)
-   [PASS] Scoring & Progress Store Logic passed in 0.44s
+>> Running Suite: Visual Labs Mathematics
+   [PASS] Visual Labs Mathematics passed in 1.72s
 
->> Running Suite: Internal Relative Links & Assets (verify_links.py)
-   [PASS] Internal Relative Links & Assets passed in 2.71s
+>> Running Suite: Scoring & Progress Store Logic
+   [PASS] Scoring & Progress Store Logic passed in 0.45s
 
->> Running Suite: Algorithmic Python Notebooks (verify_all.py)
-   [PASS] Algorithmic Python Notebooks passed in 10.62s
+>> Running Suite: Internal Relative Links & Assets
+   [PASS] Internal Relative Links & Assets passed in 1.56s
+
+>> Running Suite: Algorithmic Python Notebooks
+   [PASS] Algorithmic Python Notebooks passed in 8.49s
 
 ===========================================================================
 FINAL SUMMARY REPORT:
 ===========================================================================
+  [PASS] Production JavaScript Unit Tests (node --test)
   [PASS] Canonical Data Validation
   [PASS] Visual Labs Mathematics
   [PASS] Scoring & Progress Store Logic
@@ -93,30 +116,3 @@ FINAL SUMMARY REPORT:
 ===========================================================================
 SUCCESS: All automated validation, math, data, link, and algorithm suites PASSED!
 ```
-
----
-
-## 5. End-to-End Learning Loop Verification (Week 3)
-
-The complete vertical slice has been tested and verified across all 6 stages:
-1. **Lesson (`week-3/week-3.html`):**
-   - High-yield theory, 4 fundamental subspaces, orthogonal projection derivations, and clean Python implementations.
-   - "Mark as Read" toggles and persists in `MLFProgress.lessonsRead['week-3']`.
-2. **Interactive Visual Lab (`visual_labs.html#lab-projection`):**
-   - Direct link from Section 5 in Lesson.
-   - Interactive 3D canvas displaying basis $A$, $P$, vector $b$, projection $p$, error $e$, live inner products $a_1^T e = 0, a_2^T e = 0$, $p^T e = 0$, and Pythagorean norm verification.
-3. **Practice Portal (`practice/solved_problems.html?week=3`):**
-   - Filters directly to Week 3 questions.
-   - Multi-criteria filter (Difficulty, Platform, Keyword).
-   - Progressive hints accordion, option checker, and "Save to Revision Vault" button.
-4. **Assessment (`exam_centre.html`):**
-   - Launches Mock Quiz 1 (Weeks 1 to 4) with 10 questions and 20-minute timer.
-   - Live question navigation, bookmarking/flagging, and state persistence on reload.
-5. **Submitted-Answer Review (`exam_centre.html#examReportView`):**
-   - Immediate score calculation, performance breakdown (correct/incorrect/unanswered).
-   - Question-by-question review showing student's chosen option vs. correct answer with full KaTeX derivations.
-   - Automated identification of weak concepts with 1-click "Save to Revision Vault".
-6. **Targeted Revision (`revision.html`):**
-   - Displays student's personalized Revision Queue at top of vault.
-   - Direct one-click links: `[Review Chapter]` and `[Interactive Lab]`.
-   - `[Resolved]` button clears item from queue once mastered.

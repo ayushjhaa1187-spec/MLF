@@ -90,10 +90,16 @@ class TestDataValidation(unittest.TestCase):
         # Quiz 1: 10 questions
         # Quiz 2: 10 questions
         # End-term: 15 questions
+        # Week 3 Mastery: 15 questions
+        # Week 6 Mastery: 15 questions
+        # Week 7 Mastery: 15 questions
         self.assertEqual(len(self.assessments["diagnostic"]["questionIds"]), 8)
         self.assertEqual(len(self.assessments["quiz1"]["questionIds"]), 10)
         self.assertEqual(len(self.assessments["quiz2"]["questionIds"]), 10)
         self.assertEqual(len(self.assessments["endterm"]["questionIds"]), 15)
+        self.assertEqual(len(self.assessments["week3-mastery"]["questionIds"]), 15)
+        self.assertEqual(len(self.assessments["week6-mastery"]["questionIds"]), 15)
+        self.assertEqual(len(self.assessments["week7-mastery"]["questionIds"]), 15)
 
 
 if __name__ == "__main__":

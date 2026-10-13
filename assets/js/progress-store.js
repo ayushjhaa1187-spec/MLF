@@ -1,24 +1,76 @@
 /**
- * MLF Progressive Learning Platform - Progress State Store
- * Schema Version: MLF_PROGRESS_V2 (backward-compatible with V1)
+ * MLF Progressive Learning Platform - Progress State Store (Version 2)
  * Features:
- * - Robust schema validation & deep cloning
- * - Resumable active exam attempts with deadline persistence
- * - Granular problem attempts, hint usage, & solution reveals
- * - Targeted revision queue keyed by concept
- * - Safe fallback in-memory storage if localStorage is blocked
+ * - Robust schema validation & sanitization via MLFProgressValidation
+ * - Active storage mode tracking ('localStorage' vs 'memory') with seamless read/write consistency
+ * - Idempotent assessment submission recording by attemptId
+ * - Deduplicated history merge preserving in-progress active attempts
+ * - Automatic recovery & evaluation of expired attempts
  * - Same-origin postMessage cross-frame synchronization
- * - Full JSON export, import preview, and merge/overwrite
  */
-(function(window) {
+(function(root, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['./progress-validation', './scoring'], factory);
+    } else if (typeof module === 'object' && module.exports) {
+        const val = require('./progress-validation');
+        const sc = require('./scoring');
+        module.exports = factory(val, sc);
+    } else {
+        root.MLFProgress = factory(root.MLFProgressValidation, root.MLFScoring);
+    }
+}(typeof self !== 'undefined' ? self : this, function(ProgressValidation, Scoring) {
     'use strict';
 
-    const STORAGE_KEY = 'MLF_PROGRESS_V1'; // keep key for seamless continuity
-    const SCHEMA_VERSION = 2;
+    const fallbackValidation = {
+        SCHEMA_VERSION: 2,
+        createDefaultState: function() {
+            return {
+                version: 2,
+                lessonsRead: {},
+                problemsSolved: {},
+                problemAttempts: {},
+                quizAttempts: {},
+                assessmentSubmissions: {},
+                needsRevision: {},
+                bookmarks: [],
+                diagnosticCompleted: false,
+                diagnosticScore: null,
+                activeAttempt: null,
+                lastActive: new Date().toISOString()
+            };
+        },
+        validateStoredState: function(raw) {
+            if (!raw || typeof raw !== 'object') return fallbackValidation.createDefaultState();
+            return Object.assign(fallbackValidation.createDefaultState(), raw);
+        },
+        validateImportPayload: function(str) {
+            const parsed = JSON.parse(str);
+            const state = parsed.progress || parsed;
+            return {
+                valid: true,
+                state: state,
+                summary: {
+                    lessonsReadCount: Object.keys(state.lessonsRead || {}).length,
+                    problemsSolvedCount: Object.keys(state.problemsSolved || {}).length,
+                    quizAttemptsCount: 0,
+                    submissionsCount: 0,
+                    needsRevisionCount: 0
+                }
+            };
+        },
+        deepClone: function(o) { return o ? JSON.parse(JSON.stringify(o)) : o; }
+    };
+
+    const validation = ProgressValidation || (typeof window !== 'undefined' && window.MLFProgressValidation) || fallbackValidation;
+    const scoringEngine = Scoring || (typeof window !== 'undefined' && window.MLFScoring);
 
     let memoryStorage = null;
+    let activeStorageMode = 'localStorage'; // 'localStorage' or 'memory'
 
-    function hasLocalStorage() {
+    function testLocalStorage() {
+        if (typeof window === 'undefined' || !window.localStorage) {
+            return false;
+        }
         try {
             const testKey = '__mlf_storage_test__';
             window.localStorage.setItem(testKey, '1');
@@ -29,138 +81,70 @@
         }
     }
 
-    const storageAvailable = hasLocalStorage();
-
-    function createDefaultState() {
-        return {
-            version: SCHEMA_VERSION,
-            lastActive: new Date().toISOString(),
-            lessonsRead: {},            // { 'week-1': true, ... }
-            problemsSolved: {},         // { [problemId]: true }
-            problemAttempts: {},       // { [problemId]: { attempts: 1, hintsUsed: 0, solutionRevealed: false, solved: true } }
-            quizAttempts: {},           // { [assessmentId]: [{ score, total, percentage, timestamp, attemptId }] }
-            activeAttempt: null,        // { attemptId, assessmentId, version, questionIds: [], startedAt, deadlineAt, answers: {}, flags: [], status }
-            assessmentSubmissions: {},  // { [attemptId]: { attemptId, assessmentId, score, maxScore, percentage, answers, itemScores, timestamp } }
-            needsRevision: {},          // { [conceptId]: { conceptId, title, week, missedCount, lastMissedAt, relatedLesson, relatedLab } }
-            diagnosticCompleted: false,
-            diagnosticScore: null,
-            bookmarks: []
-        };
-    }
-
-    function deepClone(obj) {
-        if (obj === null || typeof obj !== 'object') return obj;
-        try {
-            return JSON.parse(JSON.stringify(obj));
-        } catch (e) {
-            return Object.assign({}, obj);
-        }
-    }
-
-    function validateState(raw) {
-        if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
-            return createDefaultState();
-        }
-
-        const state = createDefaultState();
-
-        if (typeof raw.lastActive === 'string') state.lastActive = raw.lastActive;
-        if (raw.lessonsRead && typeof raw.lessonsRead === 'object' && !Array.isArray(raw.lessonsRead)) {
-            for (const k in raw.lessonsRead) {
-                if (Boolean(raw.lessonsRead[k])) state.lessonsRead[k] = true;
-            }
-        }
-        if (raw.problemsSolved && typeof raw.problemsSolved === 'object' && !Array.isArray(raw.problemsSolved)) {
-            for (const k in raw.problemsSolved) {
-                if (Boolean(raw.problemsSolved[k])) state.problemsSolved[k] = true;
-            }
-        }
-        if (raw.problemAttempts && typeof raw.problemAttempts === 'object' && !Array.isArray(raw.problemAttempts)) {
-            state.problemAttempts = deepClone(raw.problemAttempts);
-        }
-        if (raw.quizAttempts && typeof raw.quizAttempts === 'object' && !Array.isArray(raw.quizAttempts)) {
-            state.quizAttempts = deepClone(raw.quizAttempts);
-        }
-        if (raw.assessmentSubmissions && typeof raw.assessmentSubmissions === 'object' && !Array.isArray(raw.assessmentSubmissions)) {
-            state.assessmentSubmissions = deepClone(raw.assessmentSubmissions);
-        }
-        if (raw.needsRevision && typeof raw.needsRevision === 'object' && !Array.isArray(raw.needsRevision)) {
-            state.needsRevision = deepClone(raw.needsRevision);
-        }
-        if (Array.isArray(raw.bookmarks)) {
-            state.bookmarks = raw.bookmarks.filter(b => typeof b === 'string');
-        }
-        if (typeof raw.diagnosticCompleted === 'boolean') {
-            state.diagnosticCompleted = raw.diagnosticCompleted;
-        }
-        if (raw.diagnosticScore && typeof raw.diagnosticScore === 'object') {
-            state.diagnosticScore = deepClone(raw.diagnosticScore);
-        }
-        if (raw.activeAttempt && typeof raw.activeAttempt === 'object') {
-            const att = raw.activeAttempt;
-            if (att.attemptId && att.assessmentId && Array.isArray(att.questionIds) && typeof att.deadlineAt === 'number') {
-                state.activeAttempt = deepClone(att);
-            }
-        }
-
-        return state;
+    if (!testLocalStorage()) {
+        activeStorageMode = 'memory';
     }
 
     function loadState() {
-        if (!storageAvailable) {
-            if (!memoryStorage) memoryStorage = createDefaultState();
-            return deepClone(memoryStorage);
+        if (activeStorageMode === 'memory') {
+            if (!memoryStorage) memoryStorage = validation.createDefaultState();
+            return validation.deepClone(memoryStorage);
         }
+
         try {
             const raw = window.localStorage.getItem(STORAGE_KEY);
-            if (!raw) return createDefaultState();
+            if (!raw) return validation.createDefaultState();
             const parsed = JSON.parse(raw);
-            return validateState(parsed);
+            return validation.validateStoredState(parsed);
         } catch (e) {
-            console.warn('MLFProgress: failed to load state from localStorage, falling back to default:', e);
-            return createDefaultState();
+            console.warn('MLFProgress: localStorage read failed, falling back to memory:', e);
+            activeStorageMode = 'memory';
+            if (!memoryStorage) memoryStorage = validation.createDefaultState();
+            return validation.deepClone(memoryStorage);
         }
     }
 
     function saveState(state) {
         state.lastActive = new Date().toISOString();
-        if (!storageAvailable) {
-            memoryStorage = deepClone(state);
+
+        if (activeStorageMode === 'memory') {
+            memoryStorage = validation.deepClone(state);
             dispatchUpdate(state);
             return;
         }
+
         try {
             window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             dispatchUpdate(state);
         } catch (e) {
-            console.error('MLFProgress: failed to save state to localStorage:', e);
-            // fallback to memory
-            memoryStorage = deepClone(state);
+            console.error('MLFProgress: localStorage write failed (e.g. QuotaExceeded). Switching to memory storage:', e);
+            activeStorageMode = 'memory';
+            memoryStorage = validation.deepClone(state);
             dispatchUpdate(state);
         }
     }
 
     function getSafeOrigin() {
-        if (!window.location.origin || window.location.origin === 'null') {
+        if (typeof window === 'undefined' || !window.location || !window.location.origin || window.location.origin === 'null') {
             return '*';
         }
         return window.location.origin;
     }
 
     function dispatchUpdate(state) {
-        const payload = deepClone(state);
+        if (typeof window === 'undefined') return;
+
+        const payload = validation.deepClone(state);
         window.dispatchEvent(new CustomEvent('mlf-progress-updated', { detail: payload }));
 
         const targetOrigin = getSafeOrigin();
 
-        // Notify parent iframe
         if (window.parent && window.parent !== window) {
             try {
                 window.parent.postMessage({ type: 'MLF_PROGRESS_SYNC', state: payload }, targetOrigin);
             } catch (err) {}
         }
 
-        // Notify child iframes
         const iframes = document.querySelectorAll('iframe');
         iframes.forEach(frame => {
             try {
@@ -172,7 +156,18 @@
     }
 
     const MLFProgress = {
-        SCHEMA_VERSION: SCHEMA_VERSION,
+        SCHEMA_VERSION: validation.SCHEMA_VERSION,
+
+        getStorageMode: function() {
+            return activeStorageMode;
+        },
+
+        setStorageModeForTest: function(mode) {
+            activeStorageMode = mode === 'memory' ? 'memory' : 'localStorage';
+            if (activeStorageMode === 'memory' && !memoryStorage) {
+                memoryStorage = validation.createDefaultState();
+            }
+        },
 
         getState: function() {
             return loadState();
@@ -257,20 +252,31 @@
             return updated;
         },
 
-        // Active exam attempt lifecycle
+        // Active Attempt Lifecycle
         getActiveAttempt: function(expectedAssessmentId) {
             const state = loadState();
             if (!state.activeAttempt) return null;
+
+            // Check if attempt deadline expired
+            const now = Date.now();
+            if (state.activeAttempt.status === 'in-progress' && state.activeAttempt.deadlineAt <= now) {
+                // Auto-finalize expired attempt
+                const expiredAttempt = validation.deepClone(state.activeAttempt);
+                expiredAttempt.status = 'expired';
+                return expiredAttempt;
+            }
+
             if (expectedAssessmentId && state.activeAttempt.assessmentId !== expectedAssessmentId) {
                 return null;
             }
-            return deepClone(state.activeAttempt);
+
+            return validation.deepClone(state.activeAttempt);
         },
 
         saveActiveAttempt: function(attempt) {
             if (!attempt || !attempt.attemptId || !attempt.assessmentId) return;
             const state = loadState();
-            state.activeAttempt = deepClone(attempt);
+            state.activeAttempt = validation.deepClone(attempt);
             saveState(state);
         },
 
@@ -280,32 +286,40 @@
             saveState(state);
         },
 
-        // Assessment submission history
+        // Assessment submission history (strictly idempotent by attemptId)
         recordAssessmentSubmission: function(submission) {
-            if (!submission || !submission.assessmentId) return;
+            if (!submission || !submission.assessmentId || !submission.attemptId) return;
             const state = loadState();
             const aid = submission.assessmentId;
+            const attemptId = submission.attemptId;
 
-            // Legacy array record
+            // 1. Detailed submission map (keyed by attemptId)
+            if (!state.assessmentSubmissions) state.assessmentSubmissions = {};
+            state.assessmentSubmissions[attemptId] = validation.deepClone(submission);
+
+            // 2. Summary quizAttempts list (deduplicated by attemptId)
             if (!state.quizAttempts[aid]) {
                 state.quizAttempts[aid] = [];
             }
-            state.quizAttempts[aid].push({
-                attemptId: submission.attemptId || 'att-' + Date.now(),
-                score: submission.score,
-                total: submission.maxScore || submission.total,
-                percentage: submission.percentage,
-                timestamp: submission.timestamp || new Date().toISOString()
-            });
 
-            // Detailed submission object
-            if (submission.attemptId) {
-                if (!state.assessmentSubmissions) state.assessmentSubmissions = {};
-                state.assessmentSubmissions[submission.attemptId] = deepClone(submission);
+            const existingIdx = state.quizAttempts[aid].findIndex(item => item.attemptId === attemptId);
+            const summaryRecord = {
+                attemptId: attemptId,
+                score: submission.score,
+                total: submission.maxScore || submission.total || 1,
+                percentage: typeof submission.percentage === 'number' ? submission.percentage : Math.round((submission.score / (submission.maxScore || 1)) * 100),
+                timestamp: submission.timestamp || new Date().toISOString()
+            };
+
+            if (existingIdx >= 0) {
+                // Replace in place
+                state.quizAttempts[aid][existingIdx] = summaryRecord;
+            } else {
+                state.quizAttempts[aid].push(summaryRecord);
             }
 
             // Clear active attempt if it matches
-            if (state.activeAttempt && state.activeAttempt.attemptId === submission.attemptId) {
+            if (state.activeAttempt && state.activeAttempt.attemptId === attemptId) {
                 state.activeAttempt = null;
             }
 
@@ -315,32 +329,8 @@
         getAssessmentSubmission: function(attemptId) {
             const state = loadState();
             return state.assessmentSubmissions && state.assessmentSubmissions[attemptId]
-                ? deepClone(state.assessmentSubmissions[attemptId])
+                ? validation.deepClone(state.assessmentSubmissions[attemptId])
                 : null;
-        },
-
-        recordQuizAttempt: function(quizId, score, total) {
-            const perc = total > 0 ? Math.round((score / total) * 100) : 0;
-            this.recordAssessmentSubmission({
-                attemptId: 'att-legacy-' + Date.now(),
-                assessmentId: quizId,
-                score: score,
-                maxScore: total,
-                percentage: perc,
-                timestamp: new Date().toISOString()
-            });
-        },
-
-        saveDiagnosticResult: function(score, total) {
-            const state = loadState();
-            state.diagnosticCompleted = true;
-            state.diagnosticScore = {
-                score: score,
-                total: total,
-                percentage: total > 0 ? Math.round((score / total) * 100) : 0,
-                timestamp: new Date().toISOString()
-            };
-            saveState(state);
         },
 
         // Revision queue
@@ -380,7 +370,6 @@
             return Object.values(state.needsRevision).sort((a, b) => (b.missedCount || 0) - (a.missedCount || 0));
         },
 
-        // Summary statistics
         getStats: function() {
             const state = loadState();
             const readCount = Object.keys(state.lessonsRead || {}).length;
@@ -398,18 +387,18 @@
                 activeAttempt: state.activeAttempt ? {
                     assessmentId: state.activeAttempt.assessmentId,
                     deadlineAt: state.activeAttempt.deadlineAt
-                } : null
+                } : null,
+                storageMode: activeStorageMode
             };
         },
 
-        // Export & Import
         exportStateJSON: function() {
             const state = loadState();
             const exportData = {
                 metadata: {
                     appName: 'MLF Progressive Learning Platform',
                     exportDate: new Date().toISOString(),
-                    schemaVersion: SCHEMA_VERSION
+                    schemaVersion: validation.SCHEMA_VERSION
                 },
                 progress: state
             };
@@ -418,17 +407,10 @@
 
         previewImportJSON: function(jsonString) {
             try {
-                const parsed = JSON.parse(jsonString);
-                const data = parsed.progress ? parsed.progress : parsed;
-                const validated = validateState(data);
+                const res = validation.validateImportPayload(jsonString);
                 return {
                     valid: true,
-                    lessonsReadCount: Object.keys(validated.lessonsRead).length,
-                    problemsSolvedCount: Object.keys(validated.problemsSolved).length,
-                    quizAttemptsCount: Object.values(validated.quizAttempts).reduce((acc, arr) => acc + (Array.isArray(arr) ? arr.length : 0), 0),
-                    needsRevisionCount: Object.keys(validated.needsRevision).length,
-                    hasDiagnostic: validated.diagnosticCompleted,
-                    lastActive: validated.lastActive
+                    summary: res.summary
                 };
             } catch (err) {
                 return {
@@ -439,40 +421,80 @@
         },
 
         importStateJSON: function(jsonString, mode) {
-            // mode: 'overwrite' (default) or 'merge'
-            const preview = this.previewImportJSON(jsonString);
-            if (!preview.valid) {
-                throw new Error('Invalid JSON format: ' + preview.error);
-            }
-
-            const parsed = JSON.parse(jsonString);
-            const incoming = validateState(parsed.progress ? parsed.progress : parsed);
+            const verifyRes = validation.validateImportPayload(jsonString);
+            const incoming = verifyRes.state;
 
             if (mode === 'merge') {
                 const current = loadState();
-                const merged = createDefaultState();
+                const merged = validation.createDefaultState();
 
+                // Merge lessonsRead and problemsSolved (union)
                 merged.lessonsRead = Object.assign({}, current.lessonsRead, incoming.lessonsRead);
                 merged.problemsSolved = Object.assign({}, current.problemsSolved, incoming.problemsSolved);
-                merged.problemAttempts = Object.assign({}, current.problemAttempts, incoming.problemAttempts);
-                merged.needsRevision = Object.assign({}, current.needsRevision, incoming.needsRevision);
 
-                // Merge quizAttempts
-                for (const qid in current.quizAttempts) {
-                    merged.quizAttempts[qid] = deepClone(current.quizAttempts[qid]);
-                }
-                for (const qid in incoming.quizAttempts) {
-                    if (!merged.quizAttempts[qid]) merged.quizAttempts[qid] = [];
-                    merged.quizAttempts[qid] = merged.quizAttempts[qid].concat(deepClone(incoming.quizAttempts[qid]));
+                // Merge problemAttempts (take max attempts and solved)
+                merged.problemAttempts = Object.assign({}, current.problemAttempts);
+                for (const pid in incoming.problemAttempts) {
+                    const inc = incoming.problemAttempts[pid];
+                    const cur = merged.problemAttempts[pid];
+                    if (!cur) {
+                        merged.problemAttempts[pid] = validation.deepClone(inc);
+                    } else {
+                        merged.problemAttempts[pid] = {
+                            attempts: Math.max(cur.attempts || 0, inc.attempts || 0),
+                            hintsUsed: Math.max(cur.hintsUsed || 0, inc.hintsUsed || 0),
+                            solutionRevealed: Boolean(cur.solutionRevealed || inc.solutionRevealed),
+                            solved: Boolean(cur.solved || inc.solved),
+                            lastAttempted: (inc.lastAttempted > cur.lastAttempted) ? inc.lastAttempted : cur.lastAttempted
+                        };
+                    }
                 }
 
-                // Submissions
+                // Merge quizAttempts with deduplication by attemptId
+                merged.quizAttempts = validation.deepClone(current.quizAttempts || {});
+                for (const aid in incoming.quizAttempts) {
+                    if (!merged.quizAttempts[aid]) {
+                        merged.quizAttempts[aid] = [];
+                    }
+                    const seenIds = new Set(merged.quizAttempts[aid].map(att => att.attemptId));
+                    incoming.quizAttempts[aid].forEach(att => {
+                        if (!seenIds.has(att.attemptId)) {
+                            merged.quizAttempts[aid].push(validation.deepClone(att));
+                            seenIds.add(att.attemptId);
+                        }
+                    });
+                }
+
+                // Merge assessmentSubmissions by attemptId
                 merged.assessmentSubmissions = Object.assign({}, current.assessmentSubmissions, incoming.assessmentSubmissions);
 
-                // Diagnostic
+                // Merge needsRevision
+                merged.needsRevision = Object.assign({}, current.needsRevision);
+                for (const cid in incoming.needsRevision) {
+                    const inc = incoming.needsRevision[cid];
+                    const cur = merged.needsRevision[cid];
+                    if (!cur) {
+                        merged.needsRevision[cid] = validation.deepClone(inc);
+                    } else {
+                        merged.needsRevision[cid] = {
+                            conceptId: cid,
+                            title: inc.title || cur.title,
+                            week: inc.week || cur.week,
+                            missedCount: Math.max(cur.missedCount || 1, inc.missedCount || 1),
+                            lastMissedAt: (inc.lastMissedAt > cur.lastMissedAt) ? inc.lastMissedAt : cur.lastMissedAt,
+                            relatedLesson: inc.relatedLesson || cur.relatedLesson,
+                            relatedLab: inc.relatedLab || cur.relatedLab
+                        };
+                    }
+                }
+
+                // Preserve activeAttempt from current if ongoing, else take incoming
+                merged.activeAttempt = current.activeAttempt ? validation.deepClone(current.activeAttempt) : validation.deepClone(incoming.activeAttempt);
+
+                // Merge bookmarks and diagnostics
+                merged.bookmarks = Array.from(new Set((current.bookmarks || []).concat(incoming.bookmarks || [])));
                 merged.diagnosticCompleted = current.diagnosticCompleted || incoming.diagnosticCompleted;
                 merged.diagnosticScore = incoming.diagnosticScore || current.diagnosticScore;
-                merged.bookmarks = Array.from(new Set((current.bookmarks || []).concat(incoming.bookmarks || [])));
 
                 saveState(merged);
                 return merged;
@@ -483,32 +505,33 @@
         },
 
         reset: function() {
-            if (storageAvailable) {
-                window.localStorage.removeItem(STORAGE_KEY);
+            if (activeStorageMode === 'localStorage' && typeof window !== 'undefined' && window.localStorage) {
+                try {
+                    window.localStorage.removeItem(STORAGE_KEY);
+                } catch (e) {}
             }
-            memoryStorage = createDefaultState();
+            memoryStorage = validation.createDefaultState();
             dispatchUpdate(memoryStorage);
         }
     };
 
-    // Cross-frame message listener with safe origin filtering
-    window.addEventListener('message', function(event) {
-        if (!event.data || event.data.type !== 'MLF_PROGRESS_SYNC') return;
+    // Cross-frame listener
+    if (typeof window !== 'undefined') {
+        window.addEventListener('message', function(event) {
+            if (!event.data || event.data.type !== 'MLF_PROGRESS_SYNC') return;
 
-        // If not in local file: protocol, verify origin match
-        if (window.location.origin && window.location.origin !== 'null') {
-            if (event.origin && event.origin !== window.location.origin) {
-                console.warn('MLFProgress: rejected cross-origin message from:', event.origin);
-                return;
+            if (window.location.origin && window.location.origin !== 'null') {
+                if (event.origin && event.origin !== window.location.origin) {
+                    return;
+                }
             }
-        }
 
-        if (event.data.state) {
-            const validated = validateState(event.data.state);
-            window.dispatchEvent(new CustomEvent('mlf-progress-updated', { detail: validated }));
-        }
-    });
+            if (event.data.state) {
+                const validated = validation.validateStoredState(event.data.state);
+                window.dispatchEvent(new CustomEvent('mlf-progress-updated', { detail: validated }));
+            }
+        });
+    }
 
-    window.MLFProgress = MLFProgress;
-
-})(typeof window !== 'undefined' ? window : this);
+    return MLFProgress;
+}));

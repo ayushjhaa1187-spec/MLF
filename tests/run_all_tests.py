@@ -16,17 +16,18 @@ REPO_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 TESTS_DIR = os.path.join(REPO_DIR, "tests")
 
 SUITES = [
-    ("Canonical Data Validation", os.path.join(TESTS_DIR, "test_data_validation.py")),
-    ("Visual Labs Mathematics", os.path.join(TESTS_DIR, "test_labs_math.py")),
-    ("Scoring & Progress Store Logic", os.path.join(TESTS_DIR, "test_scoring_and_progress.py")),
-    ("Internal Relative Links & Assets", os.path.join(TESTS_DIR, "verify_links.py")),
-    ("Algorithmic Python Notebooks", os.path.join(TESTS_DIR, "verify_all.py"))
+    ("Production JavaScript Unit Tests (node --test)", ["node", "--test", "tests/unit/scoring.test.mjs", "tests/unit/progress.test.mjs", "tests/unit/assessment-engine.test.mjs"]),
+    ("Canonical Data Validation", [sys.executable, os.path.join(TESTS_DIR, "test_data_validation.py")]),
+    ("Visual Labs Mathematics", [sys.executable, os.path.join(TESTS_DIR, "test_labs_math.py")]),
+    ("Scoring & Progress Store Logic", [sys.executable, os.path.join(TESTS_DIR, "test_scoring_and_progress.py")]),
+    ("Internal Relative Links & Assets", [sys.executable, os.path.join(TESTS_DIR, "verify_links.py")]),
+    ("Algorithmic Python Notebooks", [sys.executable, os.path.join(TESTS_DIR, "verify_all.py")])
 ]
 
-def run_suite(name, script_path):
-    print(f"\n>> Running Suite: {name} ({os.path.basename(script_path)})")
+def run_suite(name, cmd):
+    print(f"\n>> Running Suite: {name}")
     t0 = time.time()
-    res = subprocess.run([sys.executable, script_path], cwd=REPO_DIR, capture_output=True, text=True)
+    res = subprocess.run(cmd, cwd=REPO_DIR, capture_output=True, text=True, shell=True)
     dt = time.time() - t0
 
     if res.returncode == 0:

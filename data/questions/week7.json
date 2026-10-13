@@ -1,0 +1,1032 @@
+[
+  {
+    "id": "q-w7-iitm-22",
+    "version": 1,
+    "title": "Covariance Matrix & Principal Components (Complete IITM Graded Data Set)",
+    "week": 7,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
+    "provenance": "adapted",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 7",
+      "url": ""
+    },
+    "statement": "Consider 3 observational vectors: $x_1 = [0, 1, 2]^T$, $x_2 = [1, 1, 1]^T$, $x_3 = [2, 1, 0]^T$.1. Compute the mean vector $\\bar{x}$.2. Compute the sample covariance matrix $\\Sigma = \\frac{1}{3} \\sum_{i=1}^3 (x_i - \\bar{x})(x_i - \\bar{x})^T$.3. Find the first principal component and the percentage of total variance it explains.",
+    "options": [
+      {
+        "id": "a",
+        "text": "\\bar{x} = [1, 1, 1]^T \\text{ and } \\Sigma = \\begin{bmatrix} 2/3 & 0 & -2/3 \\\\ 0 & 0 & 0 \\\\ -2/3 & 0 & 2/3 \\end{bmatrix}"
+      },
+      {
+        "id": "b",
+        "text": "\\bar{x} = [1, 0, 1]^T \\text{ and } \\Sigma = I_3"
+      },
+      {
+        "id": "c",
+        "text": "\\bar{x} = [0, 1, 2]^T \\text{ and } \\Sigma = \\text{diag}(1, 0, 1)"
+      },
+      {
+        "id": "d",
+        "text": "\\bar{x} = [1, 1, 1]^T \\text{ and } \\Sigma = \\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Review the core theoretical equations introduced in Week 7.",
+      "Identify the inputs and match them to the relevant vector/matrix operations."
+    ],
+    "solution": "Solution:1. Mean: $\\bar{x} = \\frac{1}{3}([0, 1, 2]^T + [1, 1, 1]^T + [2, 1, 0]^T) = [1, 1, 1]^T$.2. Centered vectors: $x_1 - \\bar{x} = [-1, 0, 1]^T$, $x_2 - \\bar{x} = [0, 0, 0]^T$, $x_3 - \\bar{x} = [1, 0, -1]^T$.Outer products: $\\begin{bmatrix}1 & 0 & -1 \\\\ 0 & 0 & 0 \\\\ -1 & 0 & 1\\end{bmatrix} + \\mathbf{0} + \\begin{bmatrix}1 & 0 & -1 \\\\ 0 & 0 & 0 \\\\ -1 & 0 & 1\\end{bmatrix} = \\begin{bmatrix}2 & 0 & -2 \\\\ 0 & 0 & 0 \\\\ -2 & 0 & 2\\end{bmatrix}$.$$\\Sigma = \\frac{1}{3} \\begin{bmatrix}2 & 0 & -2 \\\\ 0 & 0 & 0 \\\\ -2 & 0 & 2\\end{bmatrix} = \\begin{bmatrix}0.67 & 0 & -0.67 \\\\ 0 & 0 & 0 \\\\ -0.67 & 0 & 0.67\\end{bmatrix}$$3. Eigenvalues: $\\lambda_1 = 4/3 \\approx 1.33$, $\\lambda_2 = 0, \\lambda_3 = 0$.Unit Eigenvector: $u_1 = \\frac{1}{\\sqrt{2}} [1, 0, -1]^T$.Explained Variance:$\\frac{1.33}{1.33 + 0 + 0} = \\mathbf{100\\%}$!",
+    "commonMistakes": [],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": null
+  },
+  {
+    "id": "q-w7-deepml-23",
+    "version": 1,
+    "title": "Deep-ML #19: Principal Component Analysis (PCA) Implementation",
+    "week": 7,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "deepml",
+    "provenance": "deepml",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/19"
+    },
+    "statement": "Implement PCA dimensionality reduction from scratch in Python: center data, compute covariance matrix, compute eigenvectors, and project data to $k$ dimensions.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Review the core theoretical equations introduced in Week 7.",
+      "Identify the inputs and match them to the relevant vector/matrix operations."
+    ],
+    "solution": "Python Solution:import numpy as np\n\ndef pca(data: list[list[float]], k: int) -> list[list[float]]:\n    X = np.array(data)\n    X_centered = X - np.mean(X, axis=0)\n    cov = np.cov(X_centered, rowvar=False)\n    eigvals, eigvecs = np.linalg.eigh(cov)\n    # Sort descending\n    top_indices = np.argsort(eigvals)[::-1][:k]\n    components = eigvecs[:, top_indices]\n    projected = X_centered @ components\n    return np.round(projected, 4).tolist()",
+    "commonMistakes": [],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": null
+  },
+  {
+    "id": "w7-orig-q01",
+    "version": 1,
+    "title": "Mean Centering as a PCA Prerequisite",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "covariance-matrix"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF PCA Principles",
+      "url": null
+    },
+    "statement": "Why must the data matrix $X$ always be mean-centered (subtracting column means $\\bar{x}_j$) before computing Principal Component Analysis?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Because without centering, the first principal component points toward the mean of the data cloud rather than along the axis of maximum variance."
+      },
+      {
+        "id": "b",
+        "text": "Because the covariance matrix cannot be inverted unless data is centered."
+      },
+      {
+        "id": "c",
+        "text": "Because centering forces all eigenvalues to be non-zero."
+      },
+      {
+        "id": "d",
+        "text": "Because non-centered data prevents computing the matrix determinant."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Consider a tight cluster centered at $(100, 100)$.",
+      "Variance is measured about the mean: $\\text{Var}(u^T X) = u^T \\mathbb{E}[(X - \\mu)(X - \\mu)^T] u$."
+    ],
+    "solution": "PCA finds directions maximizing variance around the mean. If the data is not centered, maximizing $u^T (X^T X) u$ maximizes the second raw moment $\\mathbb{E}[(u^T x)^2] = \\text{Var}(u^T x) + (u^T \\mu)^2$. If $\\mu$ is far from the origin, the first component simply points from the origin to the center of the cloud, failing to capture internal variance. Option A is correct.",
+    "commonMistakes": [
+      "Believing centering is required for matrix invertibility."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q02",
+    "version": 1,
+    "title": "Sample Covariance Between Two 2D Features",
+    "week": 7,
+    "conceptIds": [
+      "covariance-matrix",
+      "pca"
+    ],
+    "prerequisiteConceptIds": [
+      "covariance-matrix"
+    ],
+    "type": "numeric",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Covariance Calculation",
+      "url": null
+    },
+    "statement": "Given three 2D observations: $(x_1, y_1) = (1, 1)$, $(x_2, y_2) = (2, 3)$, and $(x_3, y_3) = (3, 5)$. Notice that the mean is $(\\bar{x}, \\bar{y}) = (2, 3)$. Compute the sample covariance $\\text{Cov}(X, Y) = \\frac{1}{N} \\sum_{i=1}^3 (x_i - \\bar{x})(y_i - \\bar{y})$ using $N = 3$.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 1.33,
+      "tolerance": 0.03
+    },
+    "hints": [
+      "Deviations for $x$: $1-2 = -1$, $2-2 = 0$, $3-2 = 1$.",
+      "Deviations for $y$: $1-3 = -2$, $3-3 = 0$, $5-3 = 2$.",
+      "Sum of products: $(-1)(-2) + (0)(0) + (1)(2) = 2 + 0 + 2 = 4$.",
+      "Divide by $N=3$: $4/3 \\approx 1.333$."
+    ],
+    "solution": "$$\\text{Deviations}: x - \\bar{x} = [-1, 0, 1], \\quad y - \\bar{y} = [-2, 0, 2].$$\n$$\\sum_{i=1}^3 (x_i - \\bar{x})(y_i - \\bar{y}) = (-1)(-2) + (0)(0) + (1)(2) = 2 + 2 = 4.$$\n$$\\text{Cov}(X, Y) = \\frac{4}{3} \\approx 1.33.$$",
+    "commonMistakes": [
+      "Dividing by $N-1=2$ instead of population formula $N=3$ specified in problem."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q03",
+    "version": 1,
+    "title": "Lagrangian Optimization for First Principal Component",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "lagrangian-optimization"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Principal Component Derivation",
+      "url": null
+    },
+    "statement": "When deriving the first principal component direction $u_1$, we formulate the constrained optimization problem $\\max_{u} u^T \\Sigma u$ subject to $u^T u = 1$. Using the Lagrangian $\\mathcal{L}(u, \\lambda) = u^T \\Sigma u - \\lambda(u^T u - 1)$, setting $\\nabla_u \\mathcal{L} = 0$ leads directly to which fundamental equation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$\\Sigma u = \\lambda u$, the eigenvalue equation for sample covariance matrix $\\Sigma$."
+      },
+      {
+        "id": "b",
+        "text": "$\\Sigma^{-1} u = \\lambda u$."
+      },
+      {
+        "id": "c",
+        "text": "$u^T \\Sigma = \\lambda I$."
+      },
+      {
+        "id": "d",
+        "text": "$\\nabla_u \\Sigma = 0$."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Compute vector derivative $\\nabla_u (u^T \\Sigma u) = 2 \\Sigma u$ (since $\\Sigma$ is symmetric).",
+      "Compute $\\nabla_u (u^T u) = 2 u$.",
+      "Set $2 \\Sigma u - 2 \\lambda u = 0$."
+    ],
+    "solution": "Taking gradient with respect to $u$:\n$$\\nabla_u \\mathcal{L} = 2 \\Sigma u - 2 \\lambda u = 0 \\implies \\Sigma u = \\lambda u.$$\nThis proves that the direction of maximum projected variance must be an eigenvector of the covariance matrix $\\Sigma$, and the projected variance $u^T \\Sigma u = u^T (\\lambda u) = \\lambda$ is maximized by choosing the eigenvector corresponding to the largest eigenvalue $\\lambda_1$. Option A is correct.",
+    "commonMistakes": [
+      "Thinking the Lagrangian leads to a linear system rather than an eigenvalue problem."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q04",
+    "version": 1,
+    "title": "Properties of the Sample Covariance Matrix",
+    "week": 7,
+    "conceptIds": [
+      "covariance-matrix",
+      "pca"
+    ],
+    "prerequisiteConceptIds": [
+      "covariance-matrix"
+    ],
+    "type": "msq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Covariance Matrix Properties",
+      "url": null
+    },
+    "statement": "Let $\\Sigma = \\frac{1}{N} X_c^T X_c \\in \\mathbb{R}^{d \\times d}$ be the sample covariance matrix of centered data $X_c$. Which of the following statements are always mathematically true?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$\\Sigma$ is symmetric: $\\Sigma^T = \\Sigma$."
+      },
+      {
+        "id": "b",
+        "text": "$\\Sigma$ is positive semi-definite: $u^T \\Sigma u \\ge 0$ for all $u \\in \\mathbb{R}^d$."
+      },
+      {
+        "id": "c",
+        "text": "All eigenvalues of $\\Sigma$ are real and non-negative: $\\lambda_i \\ge 0$."
+      },
+      {
+        "id": "d",
+        "text": "$\\Sigma$ is always strictly invertible, even when $N < d$."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Consider $u^T \\Sigma u = \\frac{1}{N} \\|X_c u\\|_2^2 \\ge 0$.",
+      "If $N < d$, $\\text{rank}(\\Sigma) \\le N < d$, so $\\Sigma$ is singular."
+    ],
+    "solution": "$\\Sigma$ is symmetric and positive semi-definite because $u^T \\Sigma u = \\frac{1}{N} \\|X_c u\\|^2 \\ge 0$. By the Spectral Theorem, its eigenvalues are real and non-negative. However, if sample size $N < d$, the rank of $\\Sigma$ is at most $N < d$, so $\\det(\\Sigma) = 0$ and it is NOT invertible. Therefore A, B, and C are correct, while D is false.",
+    "commonMistakes": [
+      "Assuming covariance matrices are always full rank when $N < d$."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q05",
+    "version": 1,
+    "title": "Total Variance and Trace of Covariance Matrix",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "covariance-matrix"
+    ],
+    "prerequisiteConceptIds": [
+      "covariance-matrix"
+    ],
+    "type": "numeric",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Total Variance Exercise",
+      "url": null
+    },
+    "statement": "The covariance matrix of a 3D dataset has eigenvalues $\\lambda_1 = 8.0$, $\\lambda_2 = 3.5$, and $\\lambda_3 = 0.5$. What is the total variance of the dataset, given by $\\text{Tr}(\\Sigma) = \\sum_{i=1}^3 \\lambda_i$?",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 12.0,
+      "tolerance": 0.05
+    },
+    "hints": [
+      "Total variance equals the trace of $\\Sigma$, which equals the sum of its eigenvalues: $8.0 + 3.5 + 0.5$."
+    ],
+    "solution": "$$\\text{Total Variance} = \\text{Tr}(\\Sigma) = \\sum_{i=1}^3 \\lambda_i = 8.0 + 3.5 + 0.5 = 12.0.$$",
+    "commonMistakes": [
+      "Multiplying eigenvalues instead of summing."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q06",
+    "version": 1,
+    "title": "Explained Variance Ratio Calculation",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "explained-variance"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "numeric",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Explained Variance Problem",
+      "url": null
+    },
+    "statement": "A covariance matrix has eigenvalues $\\lambda = [6, 2, 2]$. Compute the percentage of total variance explained by the first principal component ($k=1$), given by $\\frac{\\lambda_1}{\\sum \\lambda_i} \\times 100$. Enter as an integer percentage.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 60,
+      "tolerance": 0.5
+    },
+    "hints": [
+      "Total variance = $6 + 2 + 2 = 10$.",
+      "Proportion for component 1: $6 / 10 = 0.60 = 60\\%$."
+    ],
+    "solution": "$$\\text{Explained Variance Ratio} = \\frac{6}{6 + 2 + 2} = \\frac{6}{10} = 0.60 = 60\\%.$$",
+    "commonMistakes": [
+      "Dividing by the count of features (3) instead of total eigenvalue sum (10)."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q07",
+    "version": 1,
+    "title": "Dual Views: Max Variance vs Min Reconstruction Error",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "reconstruction-error"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Dual Formulation of PCA",
+      "url": null
+    },
+    "statement": "In PCA, the maximum projected variance formulation and the minimum mean squared reconstruction error formulation are mathematically equivalent. Why?",
+    "options": [
+      {
+        "id": "a",
+        "text": "By the Pythagorean theorem, for any projection $P_U x$, $\\|x\\|^2 = \\|P_U x\\|^2 + \\|x - P_U x\\|^2$. Since $\\|x\\|^2$ is fixed, maximizing projection variance $\\|P_U x\\|^2$ directly minimizes reconstruction error $\\|x - P_U x\\|^2$."
+      },
+      {
+        "id": "b",
+        "text": "Because reconstruction error is defined to be zero for any orthogonal transformation."
+      },
+      {
+        "id": "c",
+        "text": "Because covariance matrices are always symmetric and positive definite."
+      },
+      {
+        "id": "d",
+        "text": "Because the eigenvalues of a projection matrix always sum to zero."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Decompose each vector $x = P x + (I - P)x$ into orthogonal components.",
+      "Sum of squared norms is constant: Total Variance = Captured Variance + Residual Error."
+    ],
+    "solution": "For orthogonal projection $P$, the Pythagorean theorem yields $\\|x\\|^2 = \\|P x\\|^2 + \\|x - P x\\|^2$. Averaging over all samples: $\\text{Total Variance} = \\text{Projected Variance} + \\text{Reconstruction Error}$. Because total variance is an invariant property of the original dataset, maximizing the projected variance is mathematically equivalent to minimizing the reconstruction error. Option A is correct.",
+    "commonMistakes": [
+      "Thinking the two formulations optimize different subspaces."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q08",
+    "version": 1,
+    "title": "Exact Mathematical Connection: PCA and SVD",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "svd"
+    ],
+    "prerequisiteConceptIds": [
+      "svd",
+      "pca"
+    ],
+    "type": "msq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF PCA-SVD Equivalence",
+      "url": null
+    },
+    "statement": "Let centered data matrix $X_c \\in \\mathbb{R}^{N \\times d}$ have SVD $X_c = U \\Sigma V^T$. How do the PCA components and eigenvalues relate to this SVD?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The right singular vectors (columns of $V$) are the principal component loading directions."
+      },
+      {
+        "id": "b",
+        "text": "The sample covariance matrix eigenvalues relate to singular values via $\\lambda_i = \\frac{\\sigma_i^2}{N}$."
+      },
+      {
+        "id": "c",
+        "text": "The projected principal component scores are given by $Z = X_c V = U \\Sigma$."
+      },
+      {
+        "id": "d",
+        "text": "The left singular vectors (columns of $U$) represent the feature weights."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Covariance $\\Sigma_X = \\frac{1}{N} X_c^T X_c = \\frac{1}{N} (V \\Sigma U^T)(U \\Sigma V^T) = \\frac{1}{N} V \\Sigma^2 V^T$.",
+      "Projected scores: $Z = X_c V = (U \\Sigma V^T) V = U \\Sigma$."
+    ],
+    "solution": "Substituting SVD $X_c = U \\Sigma V^T$ into the sample covariance matrix yields $\\frac{1}{N} X_c^T X_c = V (\\frac{\\Sigma^2}{N}) V^T$. Thus the right singular vectors $V$ are the principal eigenvectors (loadings), and eigenvalues are $\\lambda_i = \\sigma_i^2 / N$. The projected coordinates (scores) are $X_c V = U \\Sigma$. Columns of $U$ are normalized score directions across samples, not feature weights. Options A, B, C are correct.",
+    "commonMistakes": [
+      "Confusing $U$ (sample space) with $V$ (feature space)."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q09",
+    "version": 1,
+    "title": "Scree Plot and the Elbow Criterion",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "scree-plot"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Scree Plot Analysis",
+      "url": null
+    },
+    "statement": "What is a Scree Plot in PCA, and how is the 'elbow criterion' used to select the number of retained principal components $k$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A plot of eigenvalues $\\lambda_i$ in descending order against component index $i$; the elbow is the point where the eigenvalues level off, indicating subsequent components represent primarily noise."
+      },
+      {
+        "id": "b",
+        "text": "A scatter plot of the first two features against each other to identify clusters."
+      },
+      {
+        "id": "c",
+        "text": "A histogram of the residuals to verify Gaussian assumptions."
+      },
+      {
+        "id": "d",
+        "text": "A plot of sample sizes versus computational runtime."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "'Scree' is a geological term for the rubble at the base of a cliff.",
+      "The steep cliff represents major variance components; the rubble represents insignificant noise dimensions."
+    ],
+    "solution": "A scree plot plots the eigenvalues $\\lambda_i$ (or explained variance ratio) against the component index $i$ in descending order. The 'elbow' is the point of inflection where the sharp decline transitions into a shallow horizontal slope. Components before the elbow capture true signal, while components after it represent noise. Option A is correct.",
+    "commonMistakes": [
+      "Confusing a scree plot with a 2D scatter plot."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q10",
+    "version": 1,
+    "title": "Reconstruction Error Formula from Discarded Eigenvalues",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "reconstruction-error"
+    ],
+    "prerequisiteConceptIds": [
+      "reconstruction-error"
+    ],
+    "type": "numeric",
+    "difficulty": "medium",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Reconstruction Error Calculation",
+      "url": null
+    },
+    "statement": "A 4-dimensional centered dataset has covariance matrix eigenvalues $\\lambda = [14, 5, 2, 1]$. If we compress the data to $k = 2$ dimensions using PCA, what is the expected mean squared reconstruction error $\\frac{1}{N} \\sum_{i=1}^N \\|x_i - \\hat{x}_i\\|_2^2 = \\sum_{j=k+1}^d \\lambda_j$?",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 3.0,
+      "tolerance": 0.05
+    },
+    "hints": [
+      "Retained components are $k=1, 2$ with eigenvalues $14$ and $5$.",
+      "Discarded components are $j=3, 4$ with eigenvalues $2$ and $1$.",
+      "Sum the discarded eigenvalues: $2 + 1 = 3$."
+    ],
+    "solution": "The mean squared reconstruction error in PCA equals the sum of the discarded eigenvalues:\n$$\\text{MSE} = \\sum_{j=k+1}^d \\lambda_j = \\lambda_3 + \\lambda_4 = 2 + 1 = 3.0.$$",
+    "commonMistakes": [
+      "Summing the retained eigenvalues ($14 + 5 = 19$) instead of discarded ones."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q11",
+    "version": 1,
+    "title": "Mutual Orthogonality of Principal Directions",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "orthogonality"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "msq",
+    "difficulty": "medium",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF PCA Orthogonality Review",
+      "url": null
+    },
+    "statement": "Let $u_1, u_2, \\dots, u_d$ be the principal component direction vectors obtained from covariance matrix $\\Sigma$. Which orthogonality properties are guaranteed?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are mutually orthogonal: $u_i^T u_j = 0$ for all $i \\neq j$."
+      },
+      {
+        "id": "b",
+        "text": "They are mutually conjugate with respect to $\\Sigma$: $u_i^T \\Sigma u_j = 0$ for all $i \\neq j$."
+      },
+      {
+        "id": "c",
+        "text": "Each direction vector has unit length: $\\|u_i\\|_2 = 1$."
+      },
+      {
+        "id": "d",
+        "text": "They must all lie strictly in the positive orthant ($u_{ik} \\ge 0$)."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Because $\\Sigma$ is symmetric, eigenvectors corresponding to distinct eigenvalues are mutually orthogonal.",
+      "Also $u_i^T \\Sigma u_j = u_i^T (\\lambda_j u_j) = \\lambda_j (u_i^T u_j) = 0$ for $i \\neq j$."
+    ],
+    "solution": "Eigenvectors of any real symmetric matrix can be chosen to be orthonormal ($u_i^T u_j = \\delta_{ij}$) and mutually conjugate ($u_i^T \\Sigma u_j = \\lambda_j \\delta_{ij} = 0$ for $i \\neq j$). Eigenvectors can contain negative numbers and are defined only up to sign flip. Options A, B, and C are correct.",
+    "commonMistakes": [
+      "Believing principal components must be strictly non-negative (that is NMF, not PCA)."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q12",
+    "version": 1,
+    "title": "Projection of Data Point onto Principal Component",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "projection-matrix"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "numeric",
+    "difficulty": "medium",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF PCA Projection Arithmetic",
+      "url": null
+    },
+    "statement": "A centered data observation is $x = \\begin{bmatrix} 3 \\\\ 4 \\end{bmatrix}$. The first principal component unit direction is $u_1 = \\begin{bmatrix} 0.6 \\\\ 0.8 \\end{bmatrix}$. Compute the 1D principal component score (coordinate) $z_1 = u_1^T x$.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 5.0,
+      "tolerance": 0.05
+    },
+    "hints": [
+      "Compute dot product: $z_1 = (0.6)(3) + (0.8)(4)$.",
+      "$1.8 + 3.2 = 5.0$."
+    ],
+    "solution": "$$z_1 = u_1^T x = 0.6(3) + 0.8(4) = 1.8 + 3.2 = 5.0.$$",
+    "commonMistakes": [
+      "Multiplying matrices in wrong order."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q13",
+    "version": 1,
+    "title": "Scale Sensitivity of PCA and Feature Standardization",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "standardization"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Preprocessing for PCA",
+      "url": null
+    },
+    "statement": "Why is PCA generally **not scale-invariant**, making feature standardization ($z = \\frac{x - \\mu}{\\sigma}$) necessary when features are measured in different physical units (e.g., kilograms vs milligrams)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Because features with artificially large numerical variances (e.g. milligrams) will dominate the covariance matrix and hijack the principal components, regardless of their actual informative content."
+      },
+      {
+        "id": "b",
+        "text": "Because the covariance matrix becomes non-symmetric if units differ."
+      },
+      {
+        "id": "c",
+        "text": "Because eigenvalues cannot be computed if feature scales are unequal."
+      },
+      {
+        "id": "d",
+        "text": "Because standardization turns non-linear manifolds into linear hyperplanes."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Multiplying a feature by 1000 multiplies its variance by $10^6$.",
+      "PCA maximizes raw variance. A feature scaled in millimeters will appear $10^6$ times more 'important' than one scaled in meters."
+    ],
+    "solution": "PCA maximizes variance. If one variable has an arbitrary large scale (e.g. income in cents vs age in years), its raw variance will dwarf other variables, causing PC1 to align almost entirely with that single variable. Standardizing features to unit variance (correlation matrix PCA) removes this scale dependency. Option A is correct.",
+    "commonMistakes": [
+      "Thinking PCA is inherently scale-invariant like Mahalanobis distance."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q14",
+    "version": 1,
+    "title": "Uncorrelated Nature of Principal Component Scores",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "covariance-matrix"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "msq",
+    "difficulty": "medium",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Decorrelation Property",
+      "url": null
+    },
+    "statement": "Let $Z = X_c U$ be the transformed data points in the principal component coordinate system. Which properties of the transformed coordinates $Z$ are guaranteed?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The sample covariance matrix of $Z$ is diagonal: $\\text{Cov}(Z_i, Z_j) = 0$ for all $i \\neq j$ (complete decorrelation)."
+      },
+      {
+        "id": "b",
+        "text": "The variance of the $i$-th principal component is $\\text{Var}(Z_i) = \\lambda_i$."
+      },
+      {
+        "id": "c",
+        "text": "The total variance is preserved: $\\sum_{i=1}^d \\text{Var}(Z_i) = \\sum_{j=1}^d \\text{Var}(X_j)$."
+      },
+      {
+        "id": "d",
+        "text": "$Z_i$ and $Z_j$ are always statistically independent, even if the data distribution is non-Gaussian."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Covariance of $Z$ is $\\frac{1}{N} Z^T Z = U^T (\\frac{1}{N} X_c^T X_c) U = U^T \\Sigma U = \\Lambda$ (diagonal).",
+      "Zero correlation implies statistical independence ONLY for Gaussian distributions."
+    ],
+    "solution": "PCA diagonalizes the covariance matrix: $\\text{Cov}(Z) = \\Lambda = \\text{diag}(\\lambda_1, \\dots, \\lambda_d)$. Thus all components are uncorrelated, $\\text{Var}(Z_i) = \\lambda_i$, and total variance is conserved. However, uncorrelatedness implies statistical independence ONLY for multivariate normal distributions. For general distributions, higher-order non-linear dependencies may persist. Options A, B, C are correct.",
+    "commonMistakes": [
+      "Confusing zero covariance (uncorrelated) with full statistical independence."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q15",
+    "version": 1,
+    "title": "Eigenvalues of 2x2 Covariance Matrix",
+    "week": 7,
+    "conceptIds": [
+      "covariance-matrix",
+      "eigenvalues"
+    ],
+    "prerequisiteConceptIds": [
+      "eigenvalues"
+    ],
+    "type": "numeric",
+    "difficulty": "medium",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF 2x2 Spectral Calculation",
+      "url": null
+    },
+    "statement": "Given 2D covariance matrix $\\Sigma = \\begin{bmatrix} 5 & 2 \\\\ 2 & 2 \\end{bmatrix}$, calculate the largest eigenvalue $\\lambda_1$.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 6.0,
+      "tolerance": 0.05
+    },
+    "hints": [
+      "Characteristic polynomial: $\\det(\\Sigma - \\lambda I) = (5 - \\lambda)(2 - \\lambda) - 4 = \\lambda^2 - 7\\lambda + 6 = 0$.",
+      "Factor the polynomial: $(\\lambda - 6)(\\lambda - 1) = 0$."
+    ],
+    "solution": "$$\\det(\\Sigma - \\lambda I) = (5 - \\lambda)(2 - \\lambda) - 4 = \\lambda^2 - 7\\lambda + 10 - 4 = \\lambda^2 - 7\\lambda + 6 = 0.$$\n$$(\\lambda - 6)(\\lambda - 1) = 0 \\implies \\lambda_1 = 6.0, \\quad \\lambda_2 = 1.0.$$",
+    "commonMistakes": [
+      "Calculating the trace (7) instead of the largest root (6)."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q16",
+    "version": 1,
+    "title": "High-Dimensional PCA Trick When N < D",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "computational-complexity"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "mcq",
+    "difficulty": "hard",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF High-Dimensional PCA Method",
+      "url": null
+    },
+    "statement": "In genomic and facial image datasets where feature count $D = 100,000$ vastly exceeds sample size $N = 50$, computing the full $D \\times D$ covariance matrix is computationally prohibitive ($O(D^2)$ memory). How does the 'high-dimensional PCA trick' (Gram matrix trick) solve this?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It computes the $N \\times N$ Gram matrix $K = X_c X_c^T$ instead. If $K v = \\mu v$, then $u = X_c^T v$ is an eigenvector of $X_c^T X_c$ with the same eigenvalue $\\mu$."
+      },
+      {
+        "id": "b",
+        "text": "It discards the first 99,950 features randomly before running standard PCA."
+      },
+      {
+        "id": "c",
+        "text": "It replaces PCA with simple feature standardization."
+      },
+      {
+        "id": "d",
+        "text": "It computes the inverse covariance matrix using gradient descent."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Multiply $X_c X_c^T v = \\mu v$ on the left by $X_c^T$:",
+      "$X_c^T (X_c X_c^T v) = X_c^T (\\mu v) \\implies (X_c^T X_c)(X_c^T v) = \\mu (X_c^T v)$."
+    ],
+    "solution": "When $N \\ll D$, $X_c X_c^T$ is only $N \\times N$ (e.g. $50 \\times 50$), which is trivial to diagonalize. If $v$ is an eigenvector of $X_c X_c^T$ with eigenvalue $\\mu$, multiplying by $X_c^T$ gives $(X_c^T X_c)(X_c^T v) = \\mu (X_c^T v)$. Thus $u = X_c^T v$ (normalized) is an exact eigenvector of the huge $D \\times D$ matrix $X_c^T X_c$. This reduces complexity from $O(D^3)$ to $O(N^3 + D N^2)$. Option A is correct.",
+    "commonMistakes": [
+      "Thinking $X_c^T X_c$ must always be directly formed."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q17",
+    "version": 1,
+    "title": "Minimum Components for Target Variance Threshold",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "explained-variance"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "numeric",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Dimension Selection Exercise",
+      "url": null
+    },
+    "statement": "A dataset has covariance matrix eigenvalues $\\lambda = [5.0, 3.0, 1.0, 1.0]$. How many principal components $k$ are needed to explain at least 80% of the total variance?",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 2,
+      "tolerance": 0
+    },
+    "hints": [
+      "Total variance = $5.0 + 3.0 + 1.0 + 1.0 = 10.0$.",
+      "80% threshold = $0.80 \\times 10.0 = 8.0$.",
+      "Cumulative sums: $k=1 \\implies 5.0$ (50%), $k=2 \\implies 5.0 + 3.0 = 8.0$ (80%)."
+    ],
+    "solution": "Total eigenvalue sum is $10.0$. 80% of total variance is $8.0$.\nWith $k=1$, variance captured is $5.0$ ($50\\%$).\nWith $k=2$, variance captured is $5.0 + 3.0 = 8.0$ ($80\\%$).\nThus exactly $k=2$ components are required.",
+    "commonMistakes": [
+      "Counting 3 components instead of 2."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  },
+  {
+    "id": "w7-orig-q18",
+    "version": 1,
+    "title": "Inherent Assumptions and Limitations of PCA",
+    "week": 7,
+    "conceptIds": [
+      "pca",
+      "limitations-of-pca"
+    ],
+    "prerequisiteConceptIds": [
+      "pca"
+    ],
+    "type": "msq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF PCA Limitations Analysis",
+      "url": null
+    },
+    "statement": "Which of the following are recognized mathematical limitations and assumptions of standard Principal Component Analysis?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Linearity assumption: PCA can only discover linear subspaces and fails on non-linear manifolds (such as a Swiss roll)."
+      },
+      {
+        "id": "b",
+        "text": "Unsupervised nature: PCA maximizes overall variance, which does not necessarily align with class separability (unlike LDA)."
+      },
+      {
+        "id": "c",
+        "text": "Sensitivity to outliers: Because variance is based on squared Euclidean distances, extreme outliers disproportionately distort principal axes."
+      },
+      {
+        "id": "d",
+        "text": "Inability to work on datasets where sample size $N$ is smaller than feature count $d$."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Consider non-linear dimensionality reduction (Kernel PCA, t-SNE, UMAP).",
+      "Consider PCA vs LDA (unsupervised vs supervised).",
+      "Remember that PCA works fine when $N < d$ (yielding at most $N$ non-zero components)."
+    ],
+    "solution": "Standard PCA assumes linear combinations, is unsupervised (variance $\\neq$ discrimination), and is vulnerable to outliers due to $L_2$ squared distance penalties. However, PCA works perfectly well when $N < d$ (producing $\\min(N-1, d)$ components). Options A, B, and C are correct.",
+    "commonMistakes": [
+      "Believing PCA cannot be applied when $N < d$."
+    ],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": "visual_labs.html#lab-pca"
+  }
+]

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exam Centre & Mock Quizzes - ML Foundations</title>
+    <title>Exam Centre & Practice Simulator - ML Foundations</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- FontAwesome -->
@@ -128,6 +128,9 @@
         .review-card.unanswered-card {
             border-left: 5px solid #94a3b8;
         }
+        .review-card.self-assessed-card {
+            border-left: 5px solid #0284c7;
+        }
     </style>
 </head>
 <body>
@@ -153,10 +156,10 @@
         <div class="exam-hero">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <span class="badge bg-danger mb-2 px-3 py-2">Timed Examination Simulator</span>
+                    <span class="badge bg-danger mb-2 px-3 py-2">Timed Practice Simulator</span>
                     <h1 class="display-6 fw-bold mb-2">IIT Madras BS Exam Centre</h1>
                     <p class="lead opacity-75 mb-0">
-                        Practice under authentic timed conditions for BSCS2004. Take curated diagnostic tests, Quiz 1, Quiz 2, and the comprehensive End-Term exam with instant diagnostic scoring, full question review, and targeted revision links.
+                        Practice under timed exam conditions for BSCS2004. Take curated diagnostic tests, module mastery quizzes, and comprehensive practice assessments with transparent scoring, detailed question review, and targeted revision links.
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
@@ -178,6 +181,34 @@
                 <button class="btn btn-sm btn-outline-secondary" id="discardAttemptBtn">
                     <i class="fas fa-trash me-1"></i> Discard
                 </button>
+            </div>
+        </div>
+
+        <!-- EXAM ATTEMPT CONFLICT MODAL -->
+        <div class="modal fade" id="conflictModal" tabindex="-1" aria-labelledby="conflictModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title fw-bold" id="conflictModalLabel"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Active Attempt Conflict</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="conflictModalMessage">You currently have an active unfinished attempt.</p>
+                        <div class="p-3 bg-light rounded small border mb-3" id="conflictAttemptDetails">
+                            <!-- Attempt details -->
+                        </div>
+                        <p class="small text-muted mb-0">What would you like to do?</p>
+                    </div>
+                    <div class="modal-footer flex-wrap gap-2">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" id="conflictRestartBtn">
+                            <i class="fas fa-redo me-1"></i> Restart & Replace Attempt
+                        </button>
+                        <button type="button" class="btn btn-primary btn-sm" id="conflictResumeBtn">
+                            <i class="fas fa-play me-1"></i> Resume Existing Attempt
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -213,9 +244,9 @@
 
             <!-- Question Quick Navigator -->
             <div class="card p-3 border-0 shadow-sm bg-white mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
                     <small class="fw-bold text-muted text-uppercase">Question Navigation</small>
-                    <div class="d-flex gap-3 small text-muted">
+                    <div class="d-flex gap-3 small text-muted flex-wrap">
                         <span><span class="badge bg-primary me-1">&bull;</span> Answered</span>
                         <span><span class="badge bg-warning text-dark me-1"><i class="fas fa-bookmark"></i></span> Flagged</span>
                         <span><span class="badge bg-light text-dark border me-1">&bull;</span> Unanswered</span>
@@ -239,6 +270,12 @@
 
         <!-- EXAM REPORT VIEW (Initially Hidden) -->
         <div id="examReportView" class="d-none">
+            <!-- Expiry Alert if applicable -->
+            <div id="expiredAttemptNotice" class="alert alert-warning border-0 shadow-sm d-none mb-4">
+                <i class="fas fa-clock me-2"></i>
+                <strong>Time Expired:</strong> This attempt concluded because the timer ran out. All saved answers have been evaluated below.
+            </div>
+
             <div class="card p-4 border-0 shadow-sm bg-white mb-4">
                 <div class="text-center mb-4">
                     <div class="display-3 fw-bold text-primary mb-2" id="scoreDisplay">0 / 0</div>
@@ -296,11 +333,14 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Production Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <script src="assets/js/scoring.js"></script>
+    <script src="assets/js/progress-validation.js"></script>
     <script src="assets/js/progress-store.js"></script>
+    <script src="assets/js/assessment-engine.js"></script>
     <script src="assets/js/math-rendering.js"></script>
 
     <script>
@@ -313,6 +353,7 @@
             let currentQuestions = [];
             let activeAttempt = null;
             let timerInterval = null;
+            let pendingAssessmentLaunchKey = null;
 
             // DOM Elements
             const resumeBanner = document.getElementById('resumeAttemptBanner');
@@ -321,10 +362,18 @@
             const resumeExamBtn = document.getElementById('resumeExamBtn');
             const discardAttemptBtn = document.getElementById('discardAttemptBtn');
 
+            const conflictModalEl = document.getElementById('conflictModal');
+            const conflictModal = new bootstrap.Modal(conflictModalEl);
+            const conflictMessage = document.getElementById('conflictModalMessage');
+            const conflictDetails = document.getElementById('conflictAttemptDetails');
+            const conflictResumeBtn = document.getElementById('conflictResumeBtn');
+            const conflictRestartBtn = document.getElementById('conflictRestartBtn');
+
             const examSelectView = document.getElementById('examSelectView');
             const assessmentsGrid = document.getElementById('assessmentsGrid');
             const activeExamView = document.getElementById('activeExamView');
             const examReportView = document.getElementById('examReportView');
+            const expiredNotice = document.getElementById('expiredAttemptNotice');
 
             const currentQuizTitle = document.getElementById('currentQuizTitle');
             const quizQuestionCount = document.getElementById('quizQuestionCount');
@@ -339,7 +388,6 @@
             const chooseAnotherBtn = document.getElementById('chooseAnotherExamBtn');
             const detailedReviewContainer = document.getElementById('detailedReviewContainer');
 
-            // Initialize: load data files
             async function init() {
                 try {
                     const [assessmentsRes, questionsRes] = await Promise.all([
@@ -348,7 +396,7 @@
                     ]);
 
                     if (!assessmentsRes.ok || !questionsRes.ok) {
-                        throw new Error('Failed to load assessment data files');
+                        throw new Error('Failed to load assessment or question files.');
                     }
 
                     assessmentsData = await assessmentsRes.json();
@@ -372,14 +420,25 @@
                 const keys = Object.keys(assessmentsData);
                 assessmentsGrid.innerHTML = keys.map(key => {
                     const a = assessmentsData[key];
+                    const validation = window.MLFAssessmentEngine.validateAssessmentReferences(a, questionsMap);
                     const count = a.questionIds ? a.questionIds.length : 0;
                     const mins = Math.round((a.durationSeconds || 1200) / 60);
+
                     let badgeClass = 'bg-primary';
-                    let badgeLabel = 'Module Test';
+                    let badgeLabel = 'Module Practice';
 
                     if (key === 'diagnostic') {
                         badgeClass = 'bg-info text-dark';
                         badgeLabel = 'Course Diagnostic';
+                    } else if (key === 'week3-mastery') {
+                        badgeClass = 'bg-primary';
+                        badgeLabel = 'Week 3 Mastery';
+                    } else if (key === 'week6-mastery') {
+                        badgeClass = 'bg-info text-dark';
+                        badgeLabel = 'Week 6 Mastery';
+                    } else if (key === 'week7-mastery') {
+                        badgeClass = 'bg-success';
+                        badgeLabel = 'Week 7 Mastery';
                     } else if (key === 'quiz1') {
                         badgeClass = 'bg-primary';
                         badgeLabel = 'Weeks 1 to 4';
@@ -388,11 +447,27 @@
                         badgeLabel = 'Weeks 5 to 8';
                     } else if (key === 'endterm') {
                         badgeClass = 'bg-danger';
-                        badgeLabel = 'Comprehensive (Weeks 1 to 12)';
+                        badgeLabel = 'Comprehensive Practice (Weeks 1 to 12)';
+                    }
+
+                    if (!validation.valid) {
+                        return `
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card h-100 p-4 border-danger shadow-sm bg-white d-flex flex-column">
+                                    <span class="badge bg-danger w-fit mb-2 align-self-start">Data Error</span>
+                                    <h5 class="fw-bold">${a.title}</h5>
+                                    <p class="small text-danger mb-3 flex-grow-1">
+                                        <i class="fas fa-ban me-1"></i> Cannot start assessment: ${validation.missingQuestionIds.length} question reference(s) missing from catalog:
+                                        <code>${validation.missingQuestionIds.join(', ')}</code>
+                                    </p>
+                                    <button class="btn btn-secondary w-100 mt-auto" disabled>Unavailable</button>
+                                </div>
+                            </div>
+                        `;
                     }
 
                     return `
-                        <div class="col-md-6 col-lg-3">
+                        <div class="col-md-6 col-lg-4">
                             <div class="card h-100 p-4 border-0 shadow-sm bg-white d-flex flex-column">
                                 <span class="badge ${badgeClass} w-fit mb-2 align-self-start">${badgeLabel}</span>
                                 <h5 class="fw-bold">${a.title}</h5>
@@ -400,7 +475,7 @@
                                 <ul class="small text-muted mb-4 ps-3">
                                     <li><strong>${count} Questions</strong></li>
                                     <li><strong>${mins} Minute</strong> timer</li>
-                                    <li>Question-by-question review</li>
+                                    <li>Question-by-question review & derivations</li>
                                 </ul>
                                 <button class="btn btn-outline-primary w-100 mt-auto start-quiz-btn" data-assessment="${key}">
                                     <i class="fas fa-play me-1"></i> Start Assessment
@@ -413,7 +488,7 @@
                 assessmentsGrid.querySelectorAll('.start-quiz-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const key = btn.getAttribute('data-assessment');
-                        launchAssessment(key);
+                        requestAssessmentStart(key);
                     });
                 });
             }
@@ -421,9 +496,15 @@
             function checkExistingAttempt() {
                 if (!window.MLFProgress) return;
                 const saved = window.MLFProgress.getActiveAttempt();
+
                 if (saved && saved.assessmentId && assessmentsData[saved.assessmentId]) {
                     const now = Date.now();
-                    if (saved.deadlineAt > now) {
+
+                    if (saved.status === 'expired' || saved.deadlineAt <= now) {
+                        // Recover expired attempt: evaluate preserved responses and show report
+                        handleExpiredAttemptRecovery(saved);
+                    } else {
+                        // Still active: display resume banner
                         const secLeft = Math.floor((saved.deadlineAt - now) / 1000);
                         const m = Math.floor(secLeft / 60);
                         const s = secLeft % 60;
@@ -431,11 +512,38 @@
                         resumeTimeLeft.innerText = `${m}:${s.toString().padStart(2, '0')}`;
                         resumeBanner.classList.remove('d-none');
                         activeAttempt = saved;
-                    } else {
-                        // Expired while away
-                        window.MLFProgress.clearActiveAttempt();
                     }
                 }
+            }
+
+            function handleExpiredAttemptRecovery(expiredAtt) {
+                const a = assessmentsData[expiredAtt.assessmentId];
+                if (!a) return;
+
+                currentAssessment = a;
+                currentQuestions = a.questionIds.map(qid => questionsMap[qid]).filter(Boolean);
+
+                // Grade with preserved answers
+                const report = window.MLFAssessmentEngine.gradeAttempt(currentAssessment, questionsMap, expiredAtt.answers || {});
+
+                const submission = {
+                    attemptId: expiredAtt.attemptId,
+                    assessmentId: expiredAtt.assessmentId,
+                    score: report.score,
+                    maxScore: report.maxScore,
+                    percentage: report.percentage,
+                    timestamp: new Date().toISOString(),
+                    answers: expiredAtt.answers || {},
+                    itemScores: report.itemScores,
+                    status: 'expired'
+                };
+
+                window.MLFProgress.recordAssessmentSubmission(submission);
+                window.MLFProgress.clearActiveAttempt();
+                activeAttempt = null;
+                resumeBanner.classList.add('d-none');
+
+                displayAssessmentReport(report, submission, true);
             }
 
             resumeExamBtn.addEventListener('click', () => {
@@ -446,34 +554,67 @@
             });
 
             discardAttemptBtn.addEventListener('click', () => {
-                if (confirm('Discard your previous exam attempt?')) {
+                if (confirm('Discard your previous exam attempt? All unsaved responses will be cleared.')) {
                     if (window.MLFProgress) window.MLFProgress.clearActiveAttempt();
                     activeAttempt = null;
                     resumeBanner.classList.add('d-none');
                 }
             });
 
-            function launchAssessment(key) {
-                if (activeAttempt && activeAttempt.assessmentId !== key) {
-                    if (!confirm(`You have an active attempt for ${assessmentsData[activeAttempt.assessmentId]?.title || 'another assessment'}. Starting this will replace it. Proceed?`)) {
-                        return;
-                    }
+            function requestAssessmentStart(assessmentKey) {
+                const currentActive = window.MLFProgress ? window.MLFProgress.getActiveAttempt() : null;
+
+                if (currentActive && currentActive.assessmentId) {
+                    pendingAssessmentLaunchKey = assessmentKey;
+                    const ongoingAssessment = assessmentsData[currentActive.assessmentId];
+                    const ongoingTitle = ongoingAssessment ? ongoingAssessment.title : currentActive.assessmentId;
+                    const secLeft = Math.max(0, Math.floor((currentActive.deadlineAt - Date.now()) / 1000));
+                    const minsLeft = Math.floor(secLeft / 60);
+
+                    conflictMessage.innerText = (currentActive.assessmentId === assessmentKey)
+                        ? `You already have an unfinished active attempt for ${ongoingTitle}.`
+                        : `You have an active attempt for "${ongoingTitle}" that has not been submitted yet.`;
+
+                    conflictDetails.innerHTML = `
+                        <div><strong>Assessment:</strong> ${ongoingTitle}</div>
+                        <div><strong>Time Remaining:</strong> ${minsLeft} minute(s)</div>
+                        <div><strong>Questions Answered:</strong> ${Object.keys(currentActive.answers || {}).length} of ${currentActive.questionIds.length}</div>
+                    `;
+
+                    conflictModal.show();
+                    return;
                 }
-                loadAssessmentView(key, false);
+
+                loadAssessmentView(assessmentKey, false);
             }
+
+            conflictResumeBtn.addEventListener('click', () => {
+                conflictModal.hide();
+                const active = window.MLFProgress.getActiveAttempt();
+                if (active) {
+                    loadAssessmentView(active.assessmentId, true);
+                }
+            });
+
+            conflictRestartBtn.addEventListener('click', () => {
+                conflictModal.hide();
+                if (window.MLFProgress) window.MLFProgress.clearActiveAttempt();
+                activeAttempt = null;
+                loadAssessmentView(pendingAssessmentLaunchKey, false);
+            });
 
             function loadAssessmentView(assessmentKey, isResume) {
                 currentAssessment = assessmentsData[assessmentKey];
                 if (!currentAssessment) return;
 
-                currentQuestions = (currentAssessment.questionIds || [])
-                    .map(qid => questionsMap[qid])
-                    .filter(Boolean);
-
-                if (currentQuestions.length === 0) {
-                    alert('No questions found for this assessment.');
+                // Validate questions
+                const val = window.MLFAssessmentEngine.validateAssessmentReferences(currentAssessment, questionsMap);
+                if (!val.valid) {
+                    alert(val.error);
                     return;
                 }
+
+                currentQuestions = currentAssessment.questionIds.map(qid => questionsMap[qid]);
 
                 if (!isResume) {
                     const now = Date.now();
@@ -483,7 +624,7 @@
                         assessmentId: assessmentKey,
                         startedAt: now,
                         deadlineAt: now + (durationSec * 1000),
-                        questionIds: currentQuestions.map(q => q.id),
+                        questionIds: currentAssessment.questionIds.slice(),
                         answers: {},
                         flags: [],
                         status: 'in-progress'
@@ -509,47 +650,123 @@
 
             function renderQuestionNav() {
                 questionNavContainer.innerHTML = currentQuestions.map((q, idx) => {
-                    const isAnswered = activeAttempt.answers && activeAttempt.answers[q.id];
+                    const ans = activeAttempt.answers ? activeAttempt.answers[q.id] : null;
+                    const isAnswered = !window.MLFScoring.isUnansweredResponse(ans);
                     const isFlagged = activeAttempt.flags && activeAttempt.flags.includes(q.id);
+
                     let cls = 'q-nav-pill';
                     if (isAnswered) cls += ' answered';
                     if (isFlagged) cls += ' flagged';
+
                     return `
-                        <button class="${cls}" data-nav-idx="${idx}" title="Go to Question ${idx + 1}">
+                        <button class="${cls}" data-nav-idx="${idx}" title="Question ${idx + 1}">
                             ${idx + 1}
                         </button>
                     `;
                 }).join('');
 
-                questionNavContainer.querySelectorAll('.q-nav-pill').forEach(btn => {
+                questionNavContainer.querySelectorAll('.q-nav-idx').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const idx = parseInt(btn.getAttribute('data-nav-idx'), 10);
                         const card = document.getElementById('qcard-' + currentQuestions[idx].id);
-                        if (card) {
-                            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
+                        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     });
                 });
             }
 
             function renderExamQuestions() {
                 qContainer.innerHTML = currentQuestions.map((q, idx) => {
-                    const userSelected = activeAttempt.answers ? activeAttempt.answers[q.id] : null;
+                    const userResponse = activeAttempt.answers ? activeAttempt.answers[q.id] : null;
                     const isFlagged = activeAttempt.flags && activeAttempt.flags.includes(q.id);
+                    const qType = (q.type || 'mcq').toLowerCase();
 
-                    const optionsHtml = (q.options || []).map(opt => {
-                        const isSel = userSelected === opt.id;
-                        return `
-                            <button class="exam-opt-btn ${isSel ? 'active' : ''}" data-qid="${q.id}" data-optid="${opt.id}">
-                                <strong class="me-2">${opt.id.toUpperCase()}.</strong> ${opt.text}
-                            </button>
+                    let inputControlsHtml = '';
+
+                    // 1. MCQ rendering
+                    if (qType === 'mcq') {
+                        const opts = q.options || [];
+                        inputControlsHtml = `
+                            <div class="opt-group" data-qid="${q.id}">
+                                ${opts.map(opt => {
+                                    const isSel = userResponse === opt.id;
+                                    return `
+                                        <button class="exam-opt-btn mcq-opt-btn ${isSel ? 'active' : ''}" data-qid="${q.id}" data-optid="${opt.id}">
+                                            <strong class="me-2">${opt.id.toUpperCase()}.</strong> ${opt.text}
+                                        </button>
+                                    `;
+                                }).join('')}
+                                <div class="mt-2 text-end">
+                                    <button class="btn btn-sm btn-link text-muted clear-ans-btn text-decoration-none" data-qid="${q.id}">
+                                        <i class="fas fa-undo me-1"></i> Clear selection
+                                    </button>
+                                </div>
+                            </div>
                         `;
-                    }).join('');
+                    }
+                    // 2. MSQ rendering (Multiple Selection)
+                    else if (qType === 'msq') {
+                        const opts = q.options || [];
+                        const userSelList = Array.isArray(userResponse) ? userResponse : [];
+                        inputControlsHtml = `
+                            <div class="alert alert-info py-2 small mb-3">
+                                <i class="fas fa-check-square me-1"></i> <strong>Multiple Select Question:</strong> Select all options that apply.
+                            </div>
+                            <div class="msq-group" data-qid="${q.id}">
+                                ${opts.map(opt => {
+                                    const isSel = userSelList.includes(opt.id);
+                                    return `
+                                        <button class="exam-opt-btn msq-opt-btn ${isSel ? 'active' : ''}" data-qid="${q.id}" data-optid="${opt.id}">
+                                            <span class="me-2"><i class="fas ${isSel ? 'fa-check-square' : 'fa-square'}"></i></span>
+                                            <strong class="me-2">${opt.id.toUpperCase()}.</strong> ${opt.text}
+                                        </button>
+                                    `;
+                                }).join('')}
+                                <div class="mt-2 text-end">
+                                    <button class="btn btn-sm btn-link text-muted clear-ans-btn text-decoration-none" data-qid="${q.id}">
+                                        <i class="fas fa-undo me-1"></i> Clear all selections
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    // 3. Numeric input rendering
+                    else if (qType === 'numeric') {
+                        const numVal = (userResponse !== null && userResponse !== undefined) ? userResponse : '';
+                        inputControlsHtml = `
+                            <div class="numeric-input-group mt-3" data-qid="${q.id}">
+                                <label class="form-label small fw-bold text-muted text-uppercase">Enter Numerical Answer (Round within &plusmn;0.05):</label>
+                                <div class="input-group" style="max-width: 300px;">
+                                    <input type="number" step="any" class="form-control numeric-input-box" data-qid="${q.id}" value="${numVal}" placeholder="e.g. 2.45">
+                                    <button class="btn btn-outline-secondary clear-num-btn" type="button" data-qid="${q.id}">Clear</button>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    // 4. Derivation / Self-Assessed rendering
+                    else {
+                        const selfScore = (userResponse && userResponse.selfEvalScore !== undefined) ? userResponse.selfEvalScore : '';
+                        inputControlsHtml = `
+                            <div class="derivation-input-group mt-3 p-3 bg-light rounded border" data-qid="${q.id}">
+                                <h6 class="fw-bold mb-2"><i class="fas fa-pen-alt me-1"></i> Derivation / Proof Workspace:</h6>
+                                <p class="small text-muted mb-2">Work through this derivation on paper. You will review the complete reference proof and self-assess upon submitting.</p>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input deriv-checkbox" type="checkbox" id="deriv-chk-${q.id}" data-qid="${q.id}" ${selfScore === 1 ? 'checked' : ''}>
+                                    <label class="form-check-label small fw-semibold" for="deriv-chk-${q.id}">
+                                        I have completed my derivation and am ready to review against reference proof.
+                                    </label>
+                                </div>
+                            </div>
+                        `;
+                    }
 
                     return `
                         <div class="exam-q-card ${isFlagged ? 'flagged' : ''}" id="qcard-${q.id}">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-secondary">Week ${q.week} &bull; ${q.title}</span>
+                            <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                                <div>
+                                    <span class="badge bg-secondary">Week ${q.week}</span>
+                                    <span class="badge bg-light text-dark border ms-1">${qType.toUpperCase()}</span>
+                                    <span class="badge bg-light text-muted border ms-1">${q.difficulty || 'Medium'}</span>
+                                </div>
                                 <div class="d-flex align-items-center gap-2">
                                     <button class="btn btn-sm btn-outline-warning flag-q-btn ${isFlagged ? 'active' : ''}" data-qid="${q.id}">
                                         <i class="fas fa-bookmark me-1"></i> ${isFlagged ? 'Flagged' : 'Flag'}
@@ -557,35 +774,112 @@
                                     <span class="small text-muted">Q${idx + 1} of ${currentQuestions.length}</span>
                                 </div>
                             </div>
-                            <h5 class="fw-bold mb-3 mt-2">${q.statement}</h5>
-                            <div class="opt-group" data-qid="${q.id}">
-                                ${optionsHtml}
-                            </div>
+                            <h5 class="fw-bold mb-3 mt-2">${q.statement || q.question}</h5>
+                            ${inputControlsHtml}
                         </div>
                     `;
                 }).join('');
 
-                // Option click handler
-                qContainer.querySelectorAll('.exam-opt-btn').forEach(btn => {
+                // Bind MCQ option clicks
+                qContainer.querySelectorAll('.mcq-opt-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const qid = btn.getAttribute('data-qid');
                         const optid = btn.getAttribute('data-optid');
                         const group = btn.closest('.opt-group');
 
-                        group.querySelectorAll('.exam-opt-btn').forEach(b => b.classList.remove('active'));
+                        group.querySelectorAll('.mcq-opt-btn').forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
 
                         if (!activeAttempt.answers) activeAttempt.answers = {};
                         activeAttempt.answers[qid] = optid;
 
-                        if (window.MLFProgress) {
-                            window.MLFProgress.saveActiveAttempt(activeAttempt);
-                        }
-                        renderQuestionNav();
+                        saveAndRefreshNav();
                     });
                 });
 
-                // Flag click handler
+                // Bind MSQ option clicks
+                qContainer.querySelectorAll('.msq-opt-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const qid = btn.getAttribute('data-qid');
+                        const optid = btn.getAttribute('data-optid');
+
+                        if (!activeAttempt.answers) activeAttempt.answers = {};
+                        let curList = Array.isArray(activeAttempt.answers[qid]) ? activeAttempt.answers[qid] : [];
+
+                        const idx = curList.indexOf(optid);
+                        if (idx > -1) {
+                            curList.splice(idx, 1);
+                            btn.classList.remove('active');
+                            btn.querySelector('i').className = 'fas fa-square';
+                        } else {
+                            curList.push(optid);
+                            btn.classList.add('active');
+                            btn.querySelector('i').className = 'fas fa-check-square';
+                        }
+
+                        activeAttempt.answers[qid] = curList;
+                        saveAndRefreshNav();
+                    });
+                });
+
+                // Clear selection buttons
+                qContainer.querySelectorAll('.clear-ans-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const qid = btn.getAttribute('data-qid');
+                        if (activeAttempt.answers) delete activeAttempt.answers[qid];
+                        const card = document.getElementById('qcard-' + qid);
+                        if (card) {
+                            card.querySelectorAll('.exam-opt-btn').forEach(b => {
+                                b.classList.remove('active');
+                                const icon = b.querySelector('i');
+                                if (icon) icon.className = 'fas fa-square';
+                            });
+                        }
+                        saveAndRefreshNav();
+                    });
+                });
+
+                // Numeric input change
+                qContainer.querySelectorAll('.numeric-input-box').forEach(input => {
+                    input.addEventListener('input', () => {
+                        const qid = input.getAttribute('data-qid');
+                        const val = input.value.trim();
+
+                        if (!activeAttempt.answers) activeAttempt.answers = {};
+                        if (val === '') {
+                            delete activeAttempt.answers[qid];
+                        } else {
+                            activeAttempt.answers[qid] = val;
+                        }
+                        saveAndRefreshNav();
+                    });
+                });
+
+                qContainer.querySelectorAll('.clear-num-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const qid = btn.getAttribute('data-qid');
+                        const box = qContainer.querySelector(`.numeric-input-box[data-qid="${qid}"]`);
+                        if (box) box.value = '';
+                        if (activeAttempt.answers) delete activeAttempt.answers[qid];
+                        saveAndRefreshNav();
+                    });
+                });
+
+                // Derivation checkbox
+                qContainer.querySelectorAll('.deriv-checkbox').forEach(cb => {
+                    cb.addEventListener('change', () => {
+                        const qid = cb.getAttribute('data-qid');
+                        if (!activeAttempt.answers) activeAttempt.answers = {};
+                        if (cb.checked) {
+                            activeAttempt.answers[qid] = { selfEvalScore: 1 };
+                        } else {
+                            delete activeAttempt.answers[qid];
+                        }
+                        saveAndRefreshNav();
+                    });
+                });
+
+                // Flag toggle
                 qContainer.querySelectorAll('.flag-q-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const qid = btn.getAttribute('data-qid');
@@ -605,14 +899,18 @@
                             if (card) card.classList.add('flagged');
                         }
 
-                        if (window.MLFProgress) {
-                            window.MLFProgress.saveActiveAttempt(activeAttempt);
-                        }
-                        renderQuestionNav();
+                        saveAndRefreshNav();
                     });
                 });
 
                 if (window.renderMLFMath) window.renderMLFMath(qContainer);
+            }
+
+            function saveAndRefreshNav() {
+                if (window.MLFProgress && activeAttempt) {
+                    window.MLFProgress.saveActiveAttempt(activeAttempt);
+                }
+                renderQuestionNav();
             }
 
             function startTimer() {
@@ -626,7 +924,7 @@
 
                     if (secLeft <= 0) {
                         clearInterval(timerInterval);
-                        alert('Time is up! Your exam is being submitted.');
+                        alert('Time limit reached. Your exam is being automatically submitted.');
                         submitExam(true);
                     }
                 }, 1000);
@@ -648,11 +946,16 @@
 
             submitBtn.addEventListener('click', () => {
                 const totalQ = currentQuestions.length;
-                const answeredQ = Object.keys(activeAttempt.answers || {}).length;
-                const unansweredQ = totalQ - answeredQ;
+                let answeredCount = 0;
 
+                currentQuestions.forEach(q => {
+                    const ans = activeAttempt.answers ? activeAttempt.answers[q.id] : null;
+                    if (!window.MLFScoring.isUnansweredResponse(ans)) answeredCount++;
+                });
+
+                const unansweredQ = totalQ - answeredCount;
                 if (unansweredQ > 0) {
-                    if (!confirm(`You have ${unansweredQ} unanswered question(s). Are you sure you want to submit?`)) {
+                    if (!confirm(`You have ${unansweredQ} unanswered question(s). Are you sure you want to finalize your submission?`)) {
                         return;
                     }
                 }
@@ -662,103 +965,67 @@
             function submitExam(isAutoSubmit) {
                 if (timerInterval) clearInterval(timerInterval);
 
-                let correctCount = 0;
-                let incorrectCount = 0;
-                let unansweredCount = 0;
-                const weakConcepts = new Map(); // conceptId -> meta
-                const itemScores = {};
-
-                currentQuestions.forEach(q => {
-                    const userOpt = activeAttempt.answers ? activeAttempt.answers[q.id] : null;
-                    const correctOpts = (q.answerSpec && q.answerSpec.correctOptionIds) || [];
-                    const isCorrect = userOpt && correctOpts.includes(userOpt);
-
-                    if (!userOpt) {
-                        unansweredCount++;
-                        itemScores[q.id] = { status: 'unanswered', score: 0 };
-                        recordWeakConcept(q, 'Unanswered in exam');
-                    } else if (isCorrect) {
-                        correctCount++;
-                        itemScores[q.id] = { status: 'correct', score: 1 };
-                    } else {
-                        incorrectCount++;
-                        itemScores[q.id] = { status: 'incorrect', score: 0 };
-                        recordWeakConcept(q, 'Incorrect choice in exam');
-                    }
-                });
-
-                function recordWeakConcept(q, reason) {
-                    const cids = q.conceptIds || [`week-${q.week}`];
-                    cids.forEach(cid => {
-                        if (!weakConcepts.has(cid)) {
-                            weakConcepts.set(cid, {
-                                conceptId: cid,
-                                title: q.title,
-                                week: q.week,
-                                relatedLesson: q.relatedLesson,
-                                relatedLab: q.relatedLab,
-                                reason: reason
-                            });
-                        }
-                    });
-                    // Also mark in progress store
-                    if (window.MLFProgress) {
-                        cids.forEach(cid => {
-                            window.MLFProgress.markNeedsRevision(cid, {
-                                title: q.title,
-                                week: q.week,
-                                relatedLesson: q.relatedLesson,
-                                relatedLab: q.relatedLab
-                            });
-                        });
-                    }
-                }
-
-                const total = currentQuestions.length;
-                const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+                const report = window.MLFAssessmentEngine.gradeAttempt(currentAssessment, questionsMap, activeAttempt.answers || {});
 
                 const submission = {
                     attemptId: activeAttempt.attemptId,
                     assessmentId: currentAssessment.id || activeAttempt.assessmentId,
-                    score: correctCount,
-                    maxScore: total,
-                    percentage: percentage,
+                    score: report.score,
+                    maxScore: report.maxScore,
+                    percentage: report.percentage,
                     timestamp: new Date().toISOString(),
                     answers: activeAttempt.answers || {},
-                    itemScores: itemScores
+                    itemScores: report.itemScores,
+                    status: isAutoSubmit ? 'expired' : 'submitted'
                 };
 
+                // Record in store (idempotent by attemptId)
                 if (window.MLFProgress) {
                     window.MLFProgress.recordAssessmentSubmission(submission);
+                    // Also mark weak concepts in revision queue
+                    report.weakConcepts.forEach(c => {
+                        window.MLFProgress.markNeedsRevision(c.conceptId, c);
+                    });
                 }
 
-                // Render Summary Report
-                document.getElementById('scoreDisplay').innerText = `${correctCount} / ${total}`;
-                document.getElementById('statCorrect').innerText = correctCount;
-                document.getElementById('statIncorrect').innerText = incorrectCount;
-                document.getElementById('statUnanswered').innerText = unansweredCount;
+                displayAssessmentReport(report, submission, isAutoSubmit);
+            }
+
+            function displayAssessmentReport(report, submission, isExpired) {
+                if (isExpired) {
+                    expiredNotice.classList.remove('d-none');
+                } else {
+                    expiredNotice.classList.add('d-none');
+                }
+
+                document.getElementById('scoreDisplay').innerText = `${report.score} / ${report.maxScore}`;
+                document.getElementById('statCorrect').innerText = report.counts.correct;
+                document.getElementById('statIncorrect').innerText = report.counts.incorrect;
+                document.getElementById('statUnanswered').innerText = report.counts.unanswered;
 
                 const headline = document.getElementById('reportHeadline');
                 const subline = document.getElementById('reportSubline');
-                if (percentage >= 80) {
+                const pct = report.percentage;
+
+                if (pct >= 80) {
                     headline.innerText = '🎉 Outstanding Performance!';
-                    subline.innerText = 'High conceptual retention across tested curriculum components.';
-                } else if (percentage >= 50) {
-                    headline.innerText = '👍 Passing Grade — Targeted Practice Recommended';
-                    subline.innerText = 'Review the missed concepts below before proceeding to subsequent modules.';
+                    subline.innerText = 'Strong conceptual grasp across the evaluated material.';
+                } else if (pct >= 50) {
+                    headline.innerText = '👍 Passing Mastery — Targeted Review Recommended';
+                    subline.innerText = 'Review the weak topics below before advancing to subsequent modules.';
                 } else {
-                    headline.innerText = '⚠️ Core Concepts Require Revision';
-                    subline.innerText = 'We recommend working through the linked lessons and interactive labs.';
+                    headline.innerText = '⚠️ Intensive Conceptual Review Needed';
+                    subline.innerText = 'We recommend working through the linked textbook chapters and visual labs.';
                 }
 
-                // Weak Concepts List
                 const weakListEl = document.getElementById('weakConceptsList');
                 const weakAlertEl = document.getElementById('weakConceptsAlert');
-                if (weakConcepts.size > 0) {
-                    weakListEl.innerHTML = Array.from(weakConcepts.values()).map(c => `
+
+                if (report.weakConcepts.length > 0) {
+                    weakListEl.innerHTML = report.weakConcepts.map(c => `
                         <li class="mb-1">
                             <strong>Week ${c.week}:</strong> ${c.title}
-                            ${c.relatedLesson ? `<a href="${c.relatedLesson}" class="ms-2 badge bg-primary text-decoration-none">Study Lesson</a>` : ''}
+                            <a href="${c.relatedLesson}" class="ms-2 badge bg-primary text-decoration-none">Study Chapter</a>
                             ${c.relatedLab ? `<a href="${c.relatedLab}" class="ms-1 badge bg-info text-dark text-decoration-none">Interactive Lab</a>` : ''}
                         </li>
                     `).join('');
@@ -767,75 +1034,112 @@
                     weakAlertEl.classList.add('d-none');
                 }
 
-                // Render Detailed Review
-                renderDetailedReview(submission);
+                renderDetailedReview(report, submission);
 
                 activeExamView.classList.add('d-none');
                 examReportView.classList.remove('d-none');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
 
-            function renderDetailedReview(submission) {
+            function renderDetailedReview(report, submission) {
                 detailedReviewContainer.innerHTML = currentQuestions.map((q, idx) => {
-                    const userOpt = submission.answers[q.id] || null;
-                    const correctOpts = (q.answerSpec && q.answerSpec.correctOptionIds) || [];
-                    const isCorrect = userOpt && correctOpts.includes(userOpt);
-                    const isUnanswered = !userOpt;
+                    const evalResult = report.itemScores[q.id] || { status: 'unanswered', score: 0 };
+                    const qType = (q.type || 'mcq').toLowerCase();
+                    const userResponse = submission.answers[q.id];
 
-                    let cardClass = isCorrect ? 'correct-card' : (isUnanswered ? 'unanswered-card' : 'incorrect-card');
-                    let statusBadge = isCorrect 
-                        ? '<span class="badge bg-success"><i class="fas fa-check me-1"></i> Correct (+1 pt)</span>'
-                        : (isUnanswered 
-                            ? '<span class="badge bg-secondary"><i class="fas fa-minus-circle me-1"></i> Unanswered (0 pts)</span>'
-                            : '<span class="badge bg-danger"><i class="fas fa-times me-1"></i> Incorrect (0 pts)</span>');
+                    let cardClass = 'incorrect-card';
+                    let statusBadge = '<span class="badge bg-danger"><i class="fas fa-times me-1"></i> Incorrect (0 pts)</span>';
 
-                    const optionsReview = (q.options || []).map(opt => {
-                        const isThisCorrect = correctOpts.includes(opt.id);
-                        const isThisUser = userOpt === opt.id;
-                        let optClass = 'exam-opt-btn';
+                    if (evalResult.status === 'correct') {
+                        cardClass = 'correct-card';
+                        statusBadge = `<span class="badge bg-success"><i class="fas fa-check me-1"></i> Correct (+${evalResult.score} pts)</span>`;
+                    } else if (evalResult.status === 'unanswered') {
+                        cardClass = 'unanswered-card';
+                        statusBadge = '<span class="badge bg-secondary"><i class="fas fa-minus-circle me-1"></i> Unanswered (0 pts)</span>';
+                    } else if (evalResult.status === 'self-assessed') {
+                        cardClass = 'self-assessed-card';
+                        statusBadge = '<span class="badge bg-info text-dark"><i class="fas fa-check me-1"></i> Self-Assessed</span>';
+                    }
 
-                        if (isThisCorrect) {
-                            optClass += ' correct';
-                        } else if (isThisUser) {
-                            optClass += ' incorrect';
-                        }
+                    // Render responses per question type
+                    let optionsReview = '';
+                    if (qType === 'mcq') {
+                        const correctIds = (q.answerSpec && q.answerSpec.correctOptionIds) || [];
+                        optionsReview = (q.options || []).map(opt => {
+                            const isCorrectOpt = correctIds.includes(opt.id);
+                            const isUserChoice = userResponse === opt.id;
+                            let optClass = 'exam-opt-btn';
+                            if (isCorrectOpt) optClass += ' correct';
+                            else if (isUserChoice) optClass += ' incorrect';
 
-                        return `
-                            <div class="${optClass}" style="cursor: default;">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <span>
-                                        <strong class="me-2">${opt.id.toUpperCase()}.</strong> ${opt.text}
-                                    </span>
-                                    <span>
-                                        ${isThisCorrect ? '<span class="badge bg-success ms-2">Correct Answer</span>' : ''}
-                                        ${isThisUser && !isThisCorrect ? '<span class="badge bg-danger ms-2">Your Answer</span>' : ''}
-                                        ${isThisUser && isThisCorrect ? '<span class="badge bg-success ms-2">Your Answer</span>' : ''}
-                                    </span>
+                            return `
+                                <div class="${optClass}" style="cursor: default;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span><strong class="me-2">${opt.id.toUpperCase()}.</strong> ${opt.text}</span>
+                                        <span>
+                                            ${isCorrectOpt ? '<span class="badge bg-success ms-2">Correct Answer</span>' : ''}
+                                            ${isUserChoice && !isCorrectOpt ? '<span class="badge bg-danger ms-2">Your Choice</span>' : ''}
+                                        </span>
+                                    </div>
                                 </div>
+                            `;
+                        }).join('');
+                    } else if (qType === 'msq') {
+                        const correctIds = (q.answerSpec && q.answerSpec.correctOptionIds) || [];
+                        const userList = Array.isArray(userResponse) ? userResponse : [];
+                        optionsReview = (q.options || []).map(opt => {
+                            const isCorrectOpt = correctIds.includes(opt.id);
+                            const isUserChoice = userList.includes(opt.id);
+                            let optClass = 'exam-opt-btn';
+                            if (isCorrectOpt) optClass += ' correct';
+                            else if (isUserChoice) optClass += ' incorrect';
+
+                            return `
+                                <div class="${optClass}" style="cursor: default;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span><strong class="me-2">${opt.id.toUpperCase()}.</strong> ${opt.text}</span>
+                                        <span>
+                                            ${isCorrectOpt ? '<span class="badge bg-success ms-2">Correct Target</span>' : ''}
+                                            ${isUserChoice ? '<span class="badge bg-primary ms-2">Selected</span>' : ''}
+                                        </span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+                    } else if (qType === 'numeric') {
+                        const targetVal = q.answerSpec && q.answerSpec.numericValue;
+                        optionsReview = `
+                            <div class="p-3 bg-light rounded border mb-3">
+                                <div><strong>Your Input:</strong> ${userResponse !== null && userResponse !== undefined ? userResponse : '<span class="text-muted">None</span>'}</div>
+                                <div class="mt-1"><strong>Target Value:</strong> ${targetVal} (&plusmn;${q.answerSpec.tolerance?.absolute || 0.05})</div>
                             </div>
                         `;
-                    }).join('');
+                    }
 
                     return `
                         <div class="review-card ${cardClass}" id="rev-${q.id}">
                             <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-                                <span class="badge bg-secondary">Week ${q.week} &bull; ${q.title}</span>
+                                <div>
+                                    <span class="badge bg-secondary">Week ${q.week}</span>
+                                    <span class="badge bg-light text-dark border ms-1">${qType.toUpperCase()}</span>
+                                    <span class="fw-bold ms-2">${q.title}</span>
+                                </div>
                                 <div class="d-flex align-items-center gap-2">
                                     ${statusBadge}
                                     <span class="small text-muted">Q${idx + 1} of ${currentQuestions.length}</span>
                                 </div>
                             </div>
-                            <h5 class="fw-bold mb-3 mt-2">${q.statement}</h5>
+                            <h5 class="fw-bold mb-3 mt-2">${q.statement || q.question}</h5>
                             <div class="mb-3">
                                 ${optionsReview}
                             </div>
                             <div class="alert alert-light border small mb-3">
-                                <h6 class="fw-bold mb-1 text-primary"><i class="fas fa-check-circle me-1"></i> Mathematical Derivation & Solution:</h6>
-                                <div>${q.solution || 'No detailed solution provided.'}</div>
+                                <h6 class="fw-bold mb-1 text-primary"><i class="fas fa-check-circle me-1"></i> Reference Derivation & Solution:</h6>
+                                <div>${q.solution || q.explanation || 'No derivation provided.'}</div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top">
                                 <div class="d-flex gap-2">
-                                    ${q.relatedLesson ? `<a href="${q.relatedLesson}" class="btn btn-sm btn-outline-primary"><i class="fas fa-book-open me-1"></i> Study Week ${q.week} Chapter</a>` : ''}
+                                    ${q.relatedLesson ? `<a href="${q.relatedLesson}" class="btn btn-sm btn-outline-primary"><i class="fas fa-book-open me-1"></i> Study Chapter</a>` : ''}
                                     ${q.relatedLab ? `<a href="${q.relatedLab}" class="btn btn-sm btn-outline-info text-dark"><i class="fas fa-cube me-1"></i> Interactive Lab</a>` : ''}
                                 </div>
                                 <button class="btn btn-sm btn-outline-warning mark-rev-btn" data-qid="${q.id}" data-week="${q.week}" data-title="${q.title}">
@@ -868,7 +1172,7 @@
             }
 
             exitBtn.addEventListener('click', () => {
-                if (confirm('Are you sure you want to pause/exit? Your responses are saved and can be resumed while the timer remains.')) {
+                if (confirm('Pause this exam? Your active responses are saved and can be resumed while the timer remains.')) {
                     if (timerInterval) clearInterval(timerInterval);
                     activeExamView.classList.add('d-none');
                     examSelectView.classList.remove('d-none');
@@ -879,13 +1183,14 @@
             retakeBtn.addEventListener('click', () => {
                 if (currentAssessment) {
                     if (window.MLFProgress) window.MLFProgress.clearActiveAttempt();
-                    loadAssessmentView(activeAttempt.assessmentId, false);
+                    loadAssessmentView(currentAssessment.id, false);
                 }
             });
 
             chooseAnotherBtn.addEventListener('click', () => {
                 examReportView.classList.add('d-none');
                 examSelectView.classList.remove('d-none');
+                checkExistingAttempt();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
 

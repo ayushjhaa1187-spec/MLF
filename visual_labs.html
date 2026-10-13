@@ -273,6 +273,210 @@
             </div>
         </div>
 
+        <!-- LAB 3: SVD 3-STAGE GEOMETRIC TRANSFORMATION LAB (WEEK 6) -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white" id="lab-svd">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div>
+                    <span class="badge bg-success lab-badge">Interactive Lab &bull; Week 6</span>
+                    <h3 class="fw-bold mt-1 mb-0">SVD: 3-Stage Geometric Action & Low-Rank Approximation</h3>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="practice/solved_problems.html?week=6" class="btn btn-sm btn-outline-success">
+                        <i class="fas fa-dumbbell me-1"></i> Practice Week 6
+                    </a>
+                    <a href="week-6/week-6.html#svd-geometry" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-book-open me-1"></i> Week 6 Textbook
+                    </a>
+                </div>
+            </div>
+            
+            <p class="text-muted">
+                Every matrix transformation $x \mapsto Ax$ factorizes into three elementary geometric steps:
+                <strong>$A = U \Sigma V^T$</strong>. 
+                Step 1: <strong>$V^T$</strong> rotates/reflects the input space. 
+                Step 2: <strong>$\Sigma$</strong> stretches the circle into an ellipse with semi-axis lengths $\sigma_1$ and $\sigma_2$. 
+                Step 3: <strong>$U$</strong> rotates the ellipse in the output space. 
+                Use the phase buttons below to inspect the coordinate geometry at each stage and test rank truncation ($A_1 = \sigma_1 u_1 v_1^T$).
+            </p>
+
+            <div class="interactive-lab-container my-2">
+                <div class="row g-3">
+                    <div class="col-lg-8">
+                        <canvas id="svdCanvas" class="canvas-interactive" width="650" height="380"></canvas>
+                        
+                        <div class="mt-3 p-3 bg-dark rounded text-light">
+                            <div class="row text-center g-2">
+                                <div class="col-3">
+                                    <small class="text-muted d-block text-uppercase">Singular Value $\sigma_1$</small>
+                                    <strong class="text-success font-monospace fs-5" id="svdSigma1Val">5.00</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block text-uppercase">Singular Value $\sigma_2$</small>
+                                    <strong class="text-info font-monospace fs-5" id="svdSigma2Val">1.00</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block text-uppercase">Condition $\kappa(A)$</small>
+                                    <strong class="text-warning font-monospace fs-5" id="svdKappaVal">5.00</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block text-uppercase">Rank-1 Error $\|A - A_1\|_F$</small>
+                                    <strong class="text-danger font-monospace fs-5" id="svdRank1ErrVal">1.00</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="p-3 bg-light rounded border h-100 d-flex flex-column">
+                            <h6 class="fw-bold mb-3"><i class="fas fa-sliders-h text-success me-2"></i>SVD Controls</h6>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Geometric Phase:</label>
+                                <div class="btn-group w-100" role="group" id="svdStageBtnGroup">
+                                    <button type="button" class="btn btn-sm btn-outline-success active" data-stage="0">0: $x$</button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" data-stage="1">1: $V^T x$</button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" data-stage="2">2: $\Sigma V^T x$</button>
+                                    <button type="button" class="btn btn-sm btn-outline-success" data-stage="3">3: $U\Sigma V^T x$</button>
+                                </div>
+                                <div class="small text-muted mt-2" id="svdStageDescription">
+                                    Phase 0: Standard unit circle and cardinal basis in input space $\mathbb{R}^2$.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Matrix Preset:</label>
+                                <div class="d-flex flex-column gap-1">
+                                    <button class="btn btn-sm btn-outline-dark text-start active" id="svdPreset1">Preset 1: $\begin{bmatrix}3 & 2 \\ 2 & 3\end{bmatrix}$ ($\sigma = [5, 1]$)</button>
+                                    <button class="btn btn-sm btn-outline-dark text-start" id="svdPreset2">Preset 2: $\begin{bmatrix}0 & 3 \\ 4 & 0\end{bmatrix}$ ($\sigma = [4, 3]$)</button>
+                                    <button class="btn btn-sm btn-outline-dark text-start" id="svdPreset3">Preset 3: $\begin{bmatrix}1 & 1 \\ 0 & 1\end{bmatrix}$ ($\sigma = [1.62, 0.62]$)</button>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Rank Truncation:</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="svdRankMode" id="svdRank2Radio" value="2" checked>
+                                    <label class="form-check-label small" for="svdRank2Radio">
+                                        Full Rank $k=2$ (Exact $A$)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="svdRankMode" id="svdRank1Radio" value="1">
+                                    <label class="form-check-label small" for="svdRank1Radio">
+                                        Rank-1 $k=1$ ($A_1 = \sigma_1 u_1 v_1^T$)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="mt-auto p-2 bg-white rounded border small">
+                                <div class="fw-bold mb-1"><i class="fas fa-lightbulb text-warning me-1"></i> Eckart-Young Theorem</div>
+                                <span class="text-muted">Rank-1 truncation projects the output ellipse onto the line spanned by $u_1$. The residual error is exactly $\sigma_2$.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAB 4: PCA VARIANCE MAXIMIZATION LAB (WEEK 7) -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white" id="lab-pca">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div>
+                    <span class="badge bg-info text-dark lab-badge">Interactive Lab &bull; Week 7</span>
+                    <h3 class="fw-bold mt-1 mb-0">PCA: Maximizing Projected Variance & Reconstruction Error</h3>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="practice/solved_problems.html?week=7" class="btn btn-sm btn-outline-info text-dark">
+                        <i class="fas fa-dumbbell me-1"></i> Practice Week 7
+                    </a>
+                    <a href="week-7/week-7.html#pca-formulation" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-book-open me-1"></i> Week 7 Textbook
+                    </a>
+                </div>
+            </div>
+            
+            <p class="text-muted">
+                Principal Component Analysis finds a projection direction $u$ that maximizes projected variance:
+                $\max_{\|u\|=1} u^T \Sigma u = \lambda_1$. 
+                By the Pythagorean theorem: 
+                <strong>$\text{Projected Variance } V(\theta) + \text{Reconstruction MSE } E(\theta) = \text{Tr}(\Sigma) = 5.48$</strong>. 
+                Rotate the projection axis below to witness variance maximization and error minimization simultaneously.
+            </p>
+
+            <div class="interactive-lab-container my-2">
+                <div class="row g-3">
+                    <div class="col-lg-8">
+                        <canvas id="pcaCanvas" class="canvas-interactive" width="650" height="380"></canvas>
+                        
+                        <div class="mt-3 p-3 bg-dark rounded text-light">
+                            <div class="row text-center g-2">
+                                <div class="col-3">
+                                    <small class="text-muted d-block text-uppercase">Projected Var $V(\theta)$</small>
+                                    <strong class="text-success font-monospace fs-5" id="pcaProjVarVal">5.09</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block text-uppercase">Reconstruction MSE</small>
+                                    <strong class="text-danger font-monospace fs-5" id="pcaReconErrVal">0.39</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block text-uppercase">Max Var $\lambda_1$ (PC1)</small>
+                                    <strong class="text-info font-monospace fs-5" id="pcaLambda1Val">5.09</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block text-uppercase">Total Var $\text{Tr}(\Sigma)$</small>
+                                    <strong class="text-light font-monospace fs-5" id="pcaTotalVarVal">5.48</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="p-3 bg-light rounded border h-100 d-flex flex-column">
+                            <h6 class="fw-bold mb-3"><i class="fas fa-compass text-info me-2"></i>Projection Controls</h6>
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label for="pcaAngleSlider" class="form-label small fw-bold mb-0">Projection Angle $\theta$:</label>
+                                    <span class="badge bg-primary font-monospace" id="pcaAngleBadge">26.5&deg;</span>
+                                </div>
+                                <input type="range" class="form-range" id="pcaAngleSlider" min="0" max="180" step="1" value="27">
+                                <div class="d-flex justify-content-between text-muted small">
+                                    <span>$0^\circ$</span>
+                                    <span>$90^\circ$</span>
+                                    <span>$180^\circ$</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-3 d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-success flex-grow-1" id="pcaSnapPC1Btn">
+                                    <i class="fas fa-check me-1"></i> Snap to PC1 ($\theta \approx 26.5^\circ$)
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning text-dark flex-grow-1" id="pcaSnapPC2Btn">
+                                    <i class="fas fa-arrows-alt-v me-1"></i> Snap to PC2 ($\theta \approx 116.5^\circ$)
+                                </button>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="pcaResidualsToggle" checked>
+                                    <label class="form-check-label small fw-bold" for="pcaResidualsToggle">Show Residual Error Lines</label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="pcaOrthogonalToggle" checked>
+                                    <label class="form-check-label small fw-bold" for="pcaOrthogonalToggle">Show Orthogonal PC2 Axis</label>
+                                </div>
+                            </div>
+
+                            <div class="mt-auto p-2 bg-white rounded border small">
+                                <div class="fw-bold mb-1"><i class="fas fa-balance-scale text-success me-1"></i> Conservation Invariant</div>
+                                <span class="text-muted">Projected variance and reconstruction error sum to $\text{Tr}(\Sigma) = 5.48$ for all angles. Maximizing variance strictly minimizes error.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- LAB DIRECTORY GRID -->
         <h4 class="fw-bold mb-3"><i class="fas fa-th-large me-2"></i>Curriculum Integrated Visual Labs</h4>
         <div class="row g-4">
@@ -298,21 +502,21 @@
             </div>
             <div class="col-md-4">
                 <div class="lab-card p-3 h-100 d-flex flex-column">
-                    <span class="badge bg-success lab-badge mb-2 align-self-start">Week 6 &bull; Integrated</span>
+                    <span class="badge bg-success lab-badge mb-2 align-self-start">Week 6 &bull; Live Interactive</span>
                     <h6 class="fw-bold mb-1">SVD Unit Sphere Transformation</h6>
                     <p class="small text-muted mb-3 flex-grow-1">Visualizing $A = U \Sigma V^T$ mapping unit circle to ellipse.</p>
-                    <a href="week-6/week-6.html" class="btn btn-sm btn-outline-success mt-auto">
-                        <i class="fas fa-book-open me-1"></i> Open Week 6
+                    <a href="#lab-svd" class="btn btn-sm btn-success mt-auto">
+                        <i class="fas fa-cube me-1"></i> Open Lab
                     </a>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="lab-card p-3 h-100 d-flex flex-column">
-                    <span class="badge bg-info text-dark lab-badge mb-2 align-self-start">Week 7 &bull; Integrated</span>
+                    <span class="badge bg-info text-dark lab-badge mb-2 align-self-start">Week 7 &bull; Live Interactive</span>
                     <h6 class="fw-bold mb-1">PCA Variance Maximizer</h6>
                     <p class="small text-muted mb-3 flex-grow-1">Rotating projection line to maximize data spread and eigenvalue ratio.</p>
-                    <a href="week-7/week-7.html" class="btn btn-sm btn-outline-info text-dark mt-auto">
-                        <i class="fas fa-book-open me-1"></i> Open Week 7
+                    <a href="#lab-pca" class="btn btn-sm btn-info text-dark mt-auto">
+                        <i class="fas fa-cube me-1"></i> Open Lab
                     </a>
                 </div>
             </div>
@@ -343,6 +547,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <script src="assets/js/scoring.js"></script>
+    <script src="assets/js/progress-validation.js"></script>
     <script src="assets/js/progress-store.js"></script>
     <script src="assets/js/math-rendering.js"></script>
 
@@ -732,6 +938,409 @@
             });
 
             resetGD();
+        })();
+
+        // =========================================================================
+        // 3. SVD 3-Stage Geometric Transformation Engine (Week 6)
+        // =========================================================================
+        (function() {
+            const canvas = document.getElementById('svdCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const presets = {
+                1: {
+                    U: [[Math.SQRT1_2, -Math.SQRT1_2], [Math.SQRT1_2, Math.SQRT1_2]],
+                    S: [5.0, 1.0],
+                    V: [[Math.SQRT1_2, -Math.SQRT1_2], [Math.SQRT1_2, Math.SQRT1_2]],
+                    desc: "Symmetric matrix: Right and left singular axes are identical ($45^\\circ$ rotation)."
+                },
+                2: {
+                    U: [[0, 1], [1, 0]],
+                    S: [4.0, 3.0],
+                    V: [[1, 0], [0, 1]],
+                    desc: "Off-diagonal matrix: Swaps cardinal axes with scaling factors 4 and 3."
+                },
+                3: {
+                    U: [[0.8507, -0.5257], [0.5257, 0.8507]],
+                    S: [1.618, 0.618],
+                    V: [[0.5257, -0.8507], [0.8507, 0.5257]],
+                    desc: "Shear matrix: Stretches circle into an oblique ellipse with golden ratio spectrum."
+                }
+            };
+
+            let currentPreset = 1;
+            let currentStage = 0; // 0: x, 1: V^T x, 2: Sigma V^T x, 3: U Sigma V^T x
+            let rankK = 2; // 1 or 2
+
+            const stageDescEl = document.getElementById('svdStageDescription');
+            const sigma1El = document.getElementById('svdSigma1Val');
+            const sigma2El = document.getElementById('svdSigma2Val');
+            const kappaEl = document.getElementById('svdKappaVal');
+            const rank1ErrEl = document.getElementById('svdRank1ErrVal');
+
+            function updateMetrics() {
+                const p = presets[currentPreset];
+                const s1 = p.S[0];
+                const s2 = p.S[1];
+                sigma1El.innerText = s1.toFixed(2);
+                sigma2El.innerText = s2.toFixed(2);
+                kappaEl.innerText = (s1 / s2).toFixed(2);
+                rank1ErrEl.innerText = s2.toFixed(2);
+            }
+
+            function transformPoint(pt, stage, presetKey, k) {
+                const p = presets[presetKey];
+                const Vt = [
+                    [p.V[0][0], p.V[1][0]],
+                    [p.V[0][1], p.V[1][1]]
+                ];
+                const effS = [p.S[0], (k === 1 ? 0 : p.S[1])];
+
+                let x = pt[0], y = pt[1];
+
+                if (stage >= 1) {
+                    // V^T @ pt
+                    const tx = Vt[0][0] * x + Vt[0][1] * y;
+                    const ty = Vt[1][0] * x + Vt[1][1] * y;
+                    x = tx; y = ty;
+                }
+                if (stage >= 2) {
+                    // Sigma @ pt
+                    x = x * effS[0];
+                    y = y * effS[1];
+                }
+                if (stage >= 3) {
+                    // U @ pt
+                    const tx = p.U[0][0] * x + p.U[0][1] * y;
+                    const ty = p.U[1][0] * x + p.U[1][1] * y;
+                    x = tx; y = ty;
+                }
+                return [x, y];
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const scale = 50; // px per unit
+
+                // Draw Coordinate Grid
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 1;
+                for (let r = -5; r <= 5; r++) {
+                    ctx.beginPath();
+                    ctx.moveTo(cx + r * scale, 0);
+                    ctx.lineTo(cx + r * scale, canvas.height);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.moveTo(0, cy + r * scale);
+                    ctx.lineTo(canvas.width, cy + r * scale);
+                    ctx.stroke();
+                }
+
+                // Main Axes
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy);
+                ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height);
+                ctx.stroke();
+
+                // Draw Transformed Unit Circle
+                const numPts = 120;
+                ctx.beginPath();
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2.5;
+
+                for (let i = 0; i <= numPts; i++) {
+                    const theta = (i / numPts) * 2 * Math.PI;
+                    const unitPt = [Math.cos(theta), Math.sin(theta)];
+                    const tPt = transformPoint(unitPt, currentStage, currentPreset, rankK);
+                    const px = cx + tPt[0] * scale;
+                    const py = cy - tPt[1] * scale;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Fill translucent
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+                ctx.fill();
+
+                // Draw Canonical Basis Vectors Transformations
+                const b1 = transformPoint([1, 0], currentStage, currentPreset, rankK);
+                const b2 = transformPoint([0, 1], currentStage, currentPreset, rankK);
+
+                drawArrow(cx, cy, cx + b1[0] * scale, cy - b1[1] * scale, '#22c55e', 3, 'v1 / u1');
+                drawArrow(cx, cy, cx + b2[0] * scale, cy - b2[1] * scale, '#f59e0b', 3, 'v2 / u2');
+
+                // Label stage indicator on canvas
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '12px system-ui, sans-serif';
+                const stageNames = [
+                    "Stage 0: Input Domain (Unit Circle)",
+                    "Stage 1: Right Rotation V^T",
+                    "Stage 2: Singular Scaling Sigma",
+                    "Stage 3: Left Rotation U (Output Ellipse)"
+                ];
+                ctx.fillText(stageNames[currentStage], 15, 25);
+                if (rankK === 1) {
+                    ctx.fillStyle = '#ef4444';
+                    ctx.fillText("Rank-1 Approximation Active (collapsed along u2)", 15, 45);
+                }
+            }
+
+            function drawArrow(fromX, fromY, toX, toY, color, width, label) {
+                const headlen = 10;
+                const dx = toX - fromX;
+                const dy = toY - fromY;
+                const angle = Math.atan2(dy, dx);
+                ctx.strokeStyle = color;
+                ctx.fillStyle = color;
+                ctx.lineWidth = width;
+
+                ctx.beginPath();
+                ctx.moveTo(fromX, fromY);
+                ctx.lineTo(toX, toY);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(toX, toY);
+                ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
+                ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.font = 'bold 11px system-ui';
+                ctx.fillText(label, toX + 6, toY - 4);
+            }
+
+            // Bind Event Listeners
+            document.querySelectorAll('#svdStageBtnGroup button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('#svdStageBtnGroup button').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentStage = parseInt(btn.getAttribute('data-stage'), 10);
+
+                    const descs = [
+                        "Phase 0: Standard unit circle and cardinal basis in input space R^2.",
+                        "Phase 1: Multiplied by V^T. Rotates input domain to align with cardinal axes.",
+                        "Phase 2: Multiplied by Sigma. Stretches coordinates along axes by singular values sigma_1 and sigma_2.",
+                        "Phase 3: Multiplied by U. Rotates the scaled ellipse into the final output space."
+                    ];
+                    stageDescEl.innerText = descs[currentStage];
+                    draw();
+                });
+            });
+
+            document.getElementById('svdPreset1').addEventListener('click', function() {
+                setActivePreset(1, this);
+            });
+            document.getElementById('svdPreset2').addEventListener('click', function() {
+                setActivePreset(2, this);
+            });
+            document.getElementById('svdPreset3').addEventListener('click', function() {
+                setActivePreset(3, this);
+            });
+
+            function setActivePreset(key, btn) {
+                currentPreset = key;
+                document.querySelectorAll('#lab-svd .preset-btn, #svdPreset1, #svdPreset2, #svdPreset3').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                updateMetrics();
+                draw();
+            }
+
+            document.getElementById('svdRank1Radio').addEventListener('change', () => { rankK = 1; draw(); });
+            document.getElementById('svdRank2Radio').addEventListener('change', () => { rankK = 2; draw(); });
+
+            updateMetrics();
+            draw();
+        })();
+
+        // =========================================================================
+        // 4. PCA Variance Maximization Engine (Week 7)
+        // =========================================================================
+        (function() {
+            const canvas = document.getElementById('pcaCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            // Deterministic 2D dataset with strong linear trend
+            const data = [
+                [-3.0, -1.5],
+                [-2.0, -2.0],
+                [-1.0, -0.5],
+                [ 0.0,  0.0],
+                [ 1.0,  0.8],
+                [ 2.0,  1.5],
+                [ 3.0,  2.2]
+            ];
+            const N = data.length;
+
+            // Theoretical values:
+            // Covariance: [[4.0, 2.114], [2.114, 1.483]]
+            // Tr(Cov) = 5.483
+            // lambda_1 = 5.093 at theta = 26.5 deg
+            // lambda_2 = 0.390 at theta = 116.5 deg
+            const TOTAL_VAR = 5.483;
+            const OPT_THETA_DEG = 26.565;
+
+            const slider = document.getElementById('pcaAngleSlider');
+            const angleBadge = document.getElementById('pcaAngleBadge');
+            const projVarEl = document.getElementById('pcaProjVarVal');
+            const reconErrEl = document.getElementById('pcaReconErrVal');
+            const lambda1El = document.getElementById('pcaLambda1Val');
+            const totalVarEl = document.getElementById('pcaTotalVarVal');
+            const residualsToggle = document.getElementById('pcaResidualsToggle');
+            const orthogonalToggle = document.getElementById('pcaOrthogonalToggle');
+
+            function getMetrics(angleDeg) {
+                const theta = (angleDeg * Math.PI) / 180;
+                const ux = Math.cos(theta);
+                const uy = Math.sin(theta);
+
+                let sumZ2 = 0;
+                let sumErr2 = 0;
+
+                for (let i = 0; i < N; i++) {
+                    const x = data[i][0];
+                    const y = data[i][1];
+                    const z = x * ux + y * uy;
+                    sumZ2 += z * z;
+
+                    const rx = x - z * ux;
+                    const ry = y - z * uy;
+                    sumErr2 += (rx * rx + ry * ry);
+                }
+
+                const projVar = sumZ2 / N;
+                const reconErr = sumErr2 / N;
+                return { projVar, reconErr, ux, uy };
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const scale = 50; // px per unit
+
+                const angleDeg = parseFloat(slider.value);
+                angleBadge.innerText = `${angleDeg.toFixed(1)}°`;
+                const metrics = getMetrics(angleDeg);
+
+                projVarEl.innerText = metrics.projVar.toFixed(2);
+                reconErrEl.innerText = metrics.reconErr.toFixed(2);
+                lambda1El.innerText = (5.09).toFixed(2);
+                totalVarEl.innerText = TOTAL_VAR.toFixed(2);
+
+                // Grid
+                ctx.strokeStyle = '#1e293b';
+                ctx.lineWidth = 1;
+                for (let r = -5; r <= 5; r++) {
+                    ctx.beginPath();
+                    ctx.moveTo(cx + r * scale, 0); ctx.lineTo(cx + r * scale, canvas.height);
+                    ctx.moveTo(0, cy + r * scale); ctx.lineTo(canvas.width, cy + r * scale);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy);
+                ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height);
+                ctx.stroke();
+
+                const ux = metrics.ux;
+                const uy = metrics.uy;
+
+                // Projection Line L
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(cx - ux * 300, cy + uy * 300);
+                ctx.lineTo(cx + ux * 300, cy - uy * 300);
+                ctx.stroke();
+
+                // Orthogonal Axis PC2 Line (if checked)
+                if (orthogonalToggle && orthogonalToggle.checked) {
+                    const u_perp_x = -uy;
+                    const u_perp_y = ux;
+                    ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+                    ctx.lineWidth = 1.5;
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(cx - u_perp_x * 200, cy + u_perp_y * 200);
+                    ctx.lineTo(cx + u_perp_x * 200, cy - u_perp_y * 200);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+
+                // Draw Data Points, Projections, Residuals
+                for (let i = 0; i < N; i++) {
+                    const x = data[i][0];
+                    const y = data[i][1];
+                    const z = x * ux + y * uy;
+                    const px = z * ux;
+                    const py = z * uy;
+
+                    const scX = cx + x * scale;
+                    const scY = cy - y * scale;
+                    const scPx = cx + px * scale;
+                    const scPy = cy - py * scale;
+
+                    // Residual line
+                    if (residualsToggle && residualsToggle.checked) {
+                        ctx.strokeStyle = 'rgba(239, 68, 68, 0.7)';
+                        ctx.lineWidth = 1.5;
+                        ctx.setLineDash([3, 3]);
+                        ctx.beginPath();
+                        ctx.moveTo(scX, scY);
+                        ctx.lineTo(scPx, scPy);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+
+                    // Projected Point (green)
+                    ctx.fillStyle = '#22c55e';
+                    ctx.beginPath();
+                    ctx.arc(scPx, scPy, 4.5, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // Original Point (cyan)
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.beginPath();
+                    ctx.arc(scX, scY, 5.5, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.strokeStyle = '#fff';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                }
+
+                // Legend on canvas
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '12px system-ui';
+                ctx.fillText(`Axis Angle: ${angleDeg.toFixed(1)}° (PC1 optimal is 26.5°)`, 15, 25);
+            }
+
+            slider.addEventListener('input', draw);
+            if (residualsToggle) residualsToggle.addEventListener('change', draw);
+            if (orthogonalToggle) orthogonalToggle.addEventListener('change', draw);
+
+            document.getElementById('pcaSnapPC1Btn').addEventListener('click', () => {
+                slider.value = OPT_THETA_DEG;
+                draw();
+            });
+
+            document.getElementById('pcaSnapPC2Btn').addEventListener('click', () => {
+                slider.value = OPT_THETA_DEG + 90;
+                draw();
+            });
+
+            draw();
         })();
     </script>
 </body>

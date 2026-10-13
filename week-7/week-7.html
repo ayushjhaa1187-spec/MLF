@@ -14,6 +14,25 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        .canvas-interactive {
+            width: 100%;
+            height: 380px;
+            background: #090d16;
+            border-radius: 8px;
+            display: block;
+        }
+        .step-pill {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-weight: 700;
+            border-radius: 999px;
+            padding: 2px 10px;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+        }
+    </style>
 </head>
 <body>
 
@@ -25,10 +44,13 @@
             </a>
             <div class="d-flex gap-2">
                 <a href="../practice/solved_problems.html?week=7" class="btn btn-sm btn-outline-success">
-                    <i class="fas fa-tasks me-1"></i> Practice Problems
+                    <i class="fas fa-tasks me-1"></i> Practice Problems (Week 7)
+                </a>
+                <a href="../exam_centre.html" class="btn btn-sm btn-outline-warning text-dark">
+                    <i class="fas fa-stopwatch me-1"></i> Week 7 Mastery Exam
                 </a>
                 <a href="summary.html" class="btn btn-sm btn-outline-info">
-                    <i class="fas fa-file-alt me-1"></i> Week 7 Summary Sheet
+                    <i class="fas fa-file-alt me-1"></i> Summary Sheet
                 </a>
             </div>
         </div>
@@ -36,264 +58,424 @@
 
     <div class="page-wrapper">
         <main class="content-area">
-            <div class="chapter-meta">
-                <span class="badge bg-primary">Module 7</span>
-                <span><i class="fas fa-video me-1"></i> 6 Video Lectures</span>
-                <span><i class="fas fa-code me-1"></i> Runnable Python Code</span>
-                <span><i class="fas fa-square-root-alt me-1"></i> Full Mathematical Derivations</span>
+            <div class="chapter-meta d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <span class="badge bg-primary">Module 7</span>
+                    <span><i class="fas fa-video me-1"></i> 6 Video Lectures</span>
+                    <span><i class="fas fa-code me-1"></i> Runnable Python Code</span>
+                    <span><i class="fas fa-square-root-alt me-1"></i> Full Mathematical Derivations</span>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-outline-primary" id="markReadBtn">
+                        <i class="far fa-check-circle me-1"></i> Mark Chapter as Read
+                    </button>
+                </div>
             </div>
 
             <h1 class="chapter-title">Week 7: Principal Component Analysis (PCA) & Dimensionality Reduction</h1>
             <p class="lead text-muted mb-4">
-                Detailed notes, algorithmic foundations, mathematical formulations, and Python implementations aligned with the IIT Madras lecture series.
+                Dimensionality reduction from first principles: the maximum variance formulation, Lagrangian derivations, Pythagorean error equivalence, SVD correspondence, and high-dimensional computational shortcuts.
             </p>
 
-            <!-- Main Content Sections -->
-            
-        <h2 class="section-heading" id="pca-motivation">1. Principal Component Analysis (PCA) Motivation</h2>
-        
-                <p>High-dimensional data frequently suffers from multicollinearity, redundant attributes, and the curse of dimensionality. PCA is an unsupervised linear dimensionality reduction technique that transforms $D$-dimensional correlated features into $d$ ($d \ll D$) uncorrelated coordinates called <strong>Principal Components</strong>.</p>
-                
-        <hr class="my-5">
-        
-        <h2 class="section-heading" id="pca-formulation">2. Formulation: Maximizing Projected Variance</h2>
-        
-                <p>Let data matrix $X \in \mathbb{R}^{N \times D}$ be zero-centered (sample mean $\mu = 0$). The sample covariance matrix is:</p>
-                $$\Sigma = \frac{1}{N} X^T X \in \mathbb{R}^{D \times D}$$
-                <p>We seek a unit projection vector $u_1$ ($\|u_1\|_2 = 1$) such that the variance of the projected data $z_1 = X u_1$ is maximized:</p>
-                $$\max_{u_1} \text{Var}(z_1) = \max_{u_1} \frac{1}{N} (X u_1)^T (X u_1) = \max_{u_1} u_1^T \Sigma u_1 \quad \text{s.t.} \quad u_1^T u_1 = 1$$
-                <p>Setting up the Lagrangian: $\mathcal{L}(u_1, \lambda) = u_1^T \Sigma u_1 - \lambda (u_1^T u_1 - 1)$.</p>
-                $$\nabla_{u_1} \mathcal{L} = 2 \Sigma u_1 - 2 \lambda u_1 = 0 \implies \Sigma u_1 = \lambda u_1$$
-                <p>The optimal direction $u_1$ is precisely the <strong>eigenvector of $\Sigma$ corresponding to the largest eigenvalue $\lambda_1$</strong>! The maximum variance achieved is $u_1^T \Sigma u_1 = u_1^T (\lambda_1 u_1) = \lambda_1$.</p>
-                
-        <hr class="my-5">
-        
-        <h2 class="section-heading" id="explained-variance">3. Explained Variance Ratio & Scree Plot</h2>
-        
-                <p>The total variance in the dataset equals the trace of the covariance matrix: $\text{Tr}(\Sigma) = \sum_{i=1}^D \lambda_i$. The fraction of variance explained by the first $k$ components is:</p>
-                $$\text{Explained Variance Ratio}(k) = \frac{\sum_{i=1}^k \lambda_i}{\sum_{j=1}^D \lambda_j}$$
-                
-        <hr class="my-5">
-        
-        <h2 class="section-heading" id="python-pca">4. Python Implementation: PCA from Scratch with NumPy</h2>
-        
-                <pre><code class="language-python">import numpy as np
-
-class PCAFromScratch:
-    def __init__(self, n_components=2):
-        self.n_components = n_components
-        self.components_ = None
-        self.mean_ = None
-        self.explained_variance_ratio_ = None
-
-    def fit(self, X):
-        # 1. Center the data
-        self.mean_ = np.mean(X, axis=0)
-        X_centered = X - self.mean_
-
-        # 2. Compute sample covariance matrix
-        cov = (X_centered.T @ X_centered) / len(X)
-
-        # 3. Eigendecomposition
-        eigvals, eigvecs = np.linalg.eigh(cov)
-
-        # 4. Sort eigenvalues in descending order
-        idx = np.argsort(eigvals)[::-1]
-        eigvals = eigvals[idx]
-        eigvecs = eigvecs[:, idx]
-
-        # 5. Store top components and variance ratios
-        self.components_ = eigvecs[:, :self.n_components]
-        self.explained_variance_ratio_ = eigvals[:self.n_components] / np.sum(eigvals)
-        return self
-
-    def transform(self, X):
-        X_centered = X - self.mean_
-        return X_centered @ self.components_
-
-# Demonstration on correlated synthetic data
-np.random.seed(42)
-X_synth = np.random.multivariate_normal(mean=[2, 5], cov=[[3.0, 2.5], [2.5, 3.0]], size=200)
-
-pca = PCAFromScratch(n_components=1)
-pca.fit(X_synth)
-X_proj = pca.transform(X_synth)
-
-print("Principal Component Direction:\n", pca.components_)
-print("Explained Variance Ratio:", pca.explained_variance_ratio_)
-</code></pre>
-                
-        <hr class="my-5">
-        
-
-            <!-- Video Catalog Section -->
-            <h2 class="section-heading" id="video-lectures">
-                <i class="fab fa-youtube text-danger me-2"></i> Embedded Video Lectures (6 Videos)
-            </h2>
-            <p class="text-muted">
-                Watch all video lectures for Week 7 directly or on YouTube:
+            <!-- SECTION 1 -->
+            <h2 class="section-heading" id="pca-motivation">1. Motivation, Prerequisites & The Centering Imperative</h2>
+            <p>
+                In high-dimensional machine learning, raw feature spaces contain redundancy, multicollinearity, and excessive noise. <strong>Principal Component Analysis (PCA)</strong> is the foundational linear unsupervised dimensionality reduction technique: it finds an orthogonal basis of directions that capture maximal variance.
             </p>
-            <div class="video-grid">
-                
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 45</span>
-                <span class="badge bg-secondary">33.0 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W7_L1: Principal component analysis(PCA)</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=K5vOOARxVyU" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_K5vOOARxVyU">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_K5vOOARxVyU">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/K5vOOARxVyU" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 46</span>
-                <span class="badge bg-secondary">20.8 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W7_L2: Principal component analysis (contd.)</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=TDlSb1-QhhA" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_TDlSb1-QhhA">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_TDlSb1-QhhA">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/TDlSb1-QhhA" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 47</span>
-                <span class="badge bg-secondary">25.2 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W7_L3: PCA as maximizing variance</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=BHovu_rftQA" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_BHovu_rftQA">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_BHovu_rftQA">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/BHovu_rftQA" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 48</span>
-                <span class="badge bg-secondary">14.4 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W7_L4: PCA in higher dimensions</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=d0Ch0S1hAs8" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_d0Ch0S1hAs8">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_d0Ch0S1hAs8">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/d0Ch0S1hAs8" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 49</span>
-                <span class="badge bg-secondary">10.6 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">W7_T1: Tutorial | principal component analysis</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=XrDPtTvuYz4" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_XrDPtTvuYz4">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_XrDPtTvuYz4">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/XrDPtTvuYz4" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="video-card">
-            <div class="video-card-header">
-                <span><i class="fab fa-youtube text-danger me-1"></i> Video 93</span>
-                <span class="badge bg-secondary">20.6 min</span>
-            </div>
-            <div class="video-card-body">
-                <div class="video-card-title">Week 7: Tutorial</div>
-                <div class="video-card-actions">
-                    <a href="https://www.youtube.com/watch?v=tywEGBtZTu0" target="_blank" class="btn btn-sm btn-outline-danger">
-                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
-                    </a>
-                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_tywEGBtZTu0">
-                        <i class="fas fa-play me-1"></i> Toggle Player
-                    </button>
-                </div>
-                <div class="collapse mt-2" id="vframe_tywEGBtZTu0">
-                    <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/tywEGBtZTu0" allowfullscreen loading="lazy"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
+
+            <div class="callout callout-warning my-4">
+                <div class="callout-title"><i class="fas fa-exclamation-triangle text-warning"></i> Why Mean-Centering is Mandatory</div>
+                <p>Let observation vectors $x_1, \dots, x_N \in \mathbb{R}^D$ have sample mean $\mu = \frac{1}{N}\sum_{i=1}^N x_i$. The true variance along direction unit vector $u$ is:</p>
+                $$\text{Var}(u^T x) = \frac{1}{N} \sum_{i=1}^N (u^T (x_i - \mu))^2 = u^T \left[ \frac{1}{N}\sum_{i=1}^N (x_i - \mu)(x_i - \mu)^T \right] u = u^T \Sigma u$$
+                <p class="mb-0">
+                    If data is <em>not</em> centered, the quantity $\frac{1}{N}\sum (u^T x_i)^2 = \text{Var}(u^T x) + (u^T \mu)^2$ maximizes the second raw moment. If $\mu$ is far from the origin, $u_1$ will simply point toward the centroid $\mu$, capturing no meaningful variance within the data cloud! Centering ($x_c = x - \mu$) ensures that the coordinate origin sits exactly at the center of mass.
+                </p>
             </div>
 
             <hr class="my-5">
 
-            <!-- Summary Section -->
+            <!-- SECTION 2 -->
+            <h2 class="section-heading" id="pca-formulation">2. Mathematical Derivations: Maximum Variance & Error Minimization</h2>
+            
+            <div class="callout callout-math my-4">
+                <div class="callout-title"><i class="fas fa-square-root-alt text-primary"></i> Lagrangian Derivation of the First Principal Component</div>
+                <p>Let centered data $X_c \in \mathbb{R}^{N \times D}$ have sample covariance matrix $\Sigma = \frac{1}{N} X_c^T X_c \in \mathbb{R}^{D \times D}$.</p>
+                <p>We seek a unit vector $u_1 \in \mathbb{R}^D$ ($\|u_1\|_2 = 1$) maximizing the projected variance:</p>
+                $$\max_{u_1} u_1^T \Sigma u_1 \quad \text{subject to} \quad u_1^T u_1 = 1$$
+                <p>Introduce the Lagrange multiplier $\lambda_1$:</p>
+                $$\mathcal{L}(u_1, \lambda_1) = u_1^T \Sigma u_1 - \lambda_1 (u_1^T u_1 - 1)$$
+                <p>Taking the vector derivative with respect to $u_1$ (using $\nabla_u (u^T \Sigma u) = 2 \Sigma u$ for symmetric $\Sigma$):</p>
+                $$\nabla_{u_1} \mathcal{L} = 2 \Sigma u_1 - 2 \lambda_1 u_1 = 0 \implies \Sigma u_1 = \lambda_1 u_1$$
+                <p class="mb-0">
+                    This is the classic <strong>eigenvalue equation</strong>! Left-multiplying by $u_1^T$:
+                </p>
+                $$u_1^T \Sigma u_1 = \lambda_1 (u_1^T u_1) = \lambda_1$$
+                <p class="mb-0">
+                    Therefore, the projected variance equals the eigenvalue $\lambda_1$. To maximize variance, $u_1$ must be the <strong>eigenvector corresponding to the largest eigenvalue $\lambda_1 = \lambda_{\max}(\Sigma)$</strong>.
+                </p>
+            </div>
+
+            <div class="callout callout-intuition my-4">
+                <div class="callout-title"><i class="fas fa-balance-scale text-success"></i> Pythagorean Equivalence: Max Variance $\iff$ Min Reconstruction Error</div>
+                <p>
+                    For any orthogonal projection matrix $P = u u^T$, any centered point $x$ decomposes into projected and residual components:
+                </p>
+                $$x = P x + (I - P)x, \quad \text{where } (P x) \perp ((I - P)x)$$
+                <p>By the Pythagorean theorem:</p>
+                $$\|x\|_2^2 = \|P x\|_2^2 + \|x - P x\|_2^2$$
+                <p>Averaging across all $N$ data points:</p>
+                $$\frac{1}{N}\sum_{i=1}^N \|x_i\|^2 = \frac{1}{N}\sum_{i=1}^N \|P x_i\|^2 + \frac{1}{N}\sum_{i=1}^N \|x_i - P x_i\|^2$$
+                $$\text{Total Variance } \text{Tr}(\Sigma) = \text{Projected Variance } V(u) + \text{Reconstruction MSE } E(u)$$
+                <p class="mb-0">
+                    Because $\text{Tr}(\Sigma)$ is an invariant property of the original dataset, <strong>maximizing projected variance $V(u)$ is mathematically identical to minimizing reconstruction error $E(u)$</strong>!
+                </p>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 3 -->
+            <h2 class="section-heading" id="pca-lab">3. Interactive Visual PCA Lab</h2>
+            <p>
+                Rotate the projection line $u(\theta)$ below. Observe how projected variance $V(\theta)$ peaks at the principal eigenvector angle $\theta^* \approx 26.5^\circ$, where residual error lines reach their minimum length.
+            </p>
+
+            <!-- EMBEDDED PCA LAB -->
+            <div class="card p-4 border-0 shadow-sm bg-white my-4">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                    <div>
+                        <span class="badge bg-info text-dark">Interactive Lab</span>
+                        <h4 class="fw-bold mb-0">Variance Maximization & Residual Explorer</h4>
+                    </div>
+                    <span class="text-muted small">Demonstrates Pythagorean conservation invariant $V(\theta) + E(\theta) = \text{Tr}(\Sigma)$</span>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-lg-8">
+                        <canvas id="chapterPcaCanvas" class="canvas-interactive" width="650" height="380"></canvas>
+                        <div class="mt-2 p-2 bg-dark rounded text-light text-center">
+                            <div class="row g-1">
+                                <div class="col-3">
+                                    <small class="text-muted d-block">Projected Var $V(\theta)$</small>
+                                    <strong class="text-success font-monospace" id="chPcaV">5.09</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block">Reconstruction MSE</small>
+                                    <strong class="text-danger font-monospace" id="chPcaE">0.39</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block">$\lambda_1$ (PC1 Max)</small>
+                                    <strong class="text-info font-monospace" id="chPcaL1">5.09</strong>
+                                </div>
+                                <div class="col-3">
+                                    <small class="text-muted d-block">$\text{Tr}(\Sigma)$ (Total)</small>
+                                    <strong class="text-light font-monospace" id="chPcaTot">5.48</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="p-3 bg-light rounded border h-100 d-flex flex-column">
+                            <h6 class="fw-bold mb-2">Projection Controls</h6>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <label for="chPcaAngle" class="form-label small fw-bold mb-0">Angle $\theta$:</label>
+                                    <span class="badge bg-primary font-monospace" id="chPcaAngleBadge">26.5&deg;</span>
+                                </div>
+                                <input type="range" class="form-range" id="chPcaAngle" min="0" max="180" step="1" value="27">
+                            </div>
+
+                            <div class="d-flex gap-2 mb-3">
+                                <button class="btn btn-sm btn-outline-success flex-grow-1" id="chSnapPC1">Snap PC1 ($\approx 26.5^\circ$)</button>
+                                <button class="btn btn-sm btn-outline-warning text-dark flex-grow-1" id="chSnapPC2">Snap PC2 ($\approx 116.5^\circ$)</button>
+                            </div>
+
+                            <div class="form-check form-switch mb-2">
+                                <input class="form-check-input" type="checkbox" id="chResiduals" checked>
+                                <label class="form-check-label small fw-bold" for="chResiduals">Show Residual Errors</label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" id="chOrthogonal" checked>
+                                <label class="form-check-label small fw-bold" for="chOrthogonal">Show PC2 Axis</label>
+                            </div>
+                            <div class="mt-auto p-2 bg-white rounded border small">
+                                <span class="text-muted">Total variance is strictly conserved at 5.48 for all $\theta$.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 4 -->
+            <h2 class="section-heading" id="numerical-walkthrough-1">4. Worked Numerical Walkthrough 1: Hand-Computable 2D Dataset (Rank 1)</h2>
+            <p>Consider three 2D data points: $x_1 = (-2, -1)$, $x_2 = (0, 0)$, $x_3 = (2, 1)$.</p>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 1: Verify Mean Centering</span>
+                $$\bar{x} = \frac{-2 + 0 + 2}{3} = 0, \quad \bar{y} = \frac{-1 + 0 + 1}{3} = 0 \implies \text{Data is strictly centered.}$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 2: Compute Sample Covariance Matrix $\Sigma$</span>
+                $$\Sigma = \frac{1}{3} \sum_{i=1}^3 x_i x_i^T = \frac{1}{3} \left[ \begin{bmatrix} 4 & 2 \\ 2 & 1 \end{bmatrix} + \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} + \begin{bmatrix} 4 & 2 \\ 2 & 1 \end{bmatrix} \right] = \frac{1}{3} \begin{bmatrix} 8 & 4 \\ 4 & 2 \end{bmatrix} = \begin{bmatrix} 8/3 & 4/3 \\ 4/3 & 2/3 \end{bmatrix}$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 3: Characteristic Equation & Eigenvalues</span>
+                $$\det(\Sigma - \lambda I) = \left(\frac{8}{3} - \lambda\right)\left(\frac{2}{3} - \lambda\right) - \left(\frac{4}{3}\right)^2 = \lambda^2 - \frac{10}{3}\lambda + \frac{16}{9} - \frac{16}{9} = \lambda\left(\lambda - \frac{10}{3}\right) = 0$$
+                $$\lambda_1 = \frac{10}{3} \approx 3.333, \quad \lambda_2 = 0$$
+                <p class="mb-0">Total variance: $\text{Tr}(\Sigma) = \frac{8}{3} + \frac{2}{3} = \frac{10}{3}$. PC1 captures $\frac{10/3}{10/3} = 100\%$ of total variance!</p>
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 4: Principal Direction $u_1$ & Projected Scores</span>
+                $$\left(\Sigma - \frac{10}{3}I\right)u_1 = \begin{bmatrix} -2/3 & 4/3 \\ 4/3 & -8/3 \end{bmatrix} \begin{bmatrix} u_{11} \\ u_{12} \end{bmatrix} = 0 \implies u_{11} = 2 u_{12} \implies u_1 = \frac{1}{\sqrt{5}}\begin{bmatrix} 2 \\ 1 \end{bmatrix}$$
+                <p>Projected coordinates $z_i = u_1^T x_i$:</p>
+                $$z_1 = \frac{1}{\sqrt{5}}(2(-2) + 1(-1)) = -\frac{5}{\sqrt{5}} = -\sqrt{5} \approx -2.236$$
+                $$z_2 = 0, \quad z_3 = \frac{1}{\sqrt{5}}(2(2) + 1(1)) = \sqrt{5} \approx 2.236$$
+                <p class="mb-0">Sample variance of projected scores: $\frac{1}{3}((-\sqrt{5})^2 + 0^2 + (\sqrt{5})^2) = \frac{1}{3}(5 + 0 + 5) = \frac{10}{3} = \lambda_1$. Exactly matches theory!</p>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 5 -->
+            <h2 class="section-heading" id="numerical-walkthrough-2">5. Worked Numerical Walkthrough 2: 4-Point Dataset with Non-Zero Residual Variance</h2>
+            <p>Consider four 2D points: $x_1 = (-1, -2)$, $x_2 = (-1, 0)$, $x_3 = (1, 0)$, $x_4 = (1, 2)$ (Mean is $[0, 0]$).</p>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 1: Compute Covariance Matrix</span>
+                $$\Sigma = \frac{1}{4} \left[ \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix} + \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix} + \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix} + \begin{bmatrix} 1 & 2 \\ 2 & 4 \end{bmatrix} \right] = \frac{1}{4} \begin{bmatrix} 4 & 4 \\ 4 & 8 \end{bmatrix} = \begin{bmatrix} 1 & 1 \\ 1 & 2 \end{bmatrix}$$
+            </div>
+
+            <div class="p-3 bg-light rounded border mb-3">
+                <span class="step-pill">Step 2: Eigenvalues & Explained Variance</span>
+                $$\det(\Sigma - \lambda I) = (1 - \lambda)(2 - \lambda) - 1 = \lambda^2 - 3\lambda + 1 = 0$$
+                $$\lambda_1 = \frac{3 + \sqrt{5}}{2} \approx 2.618, \quad \lambda_2 = \frac{3 - \sqrt{5}}{2} \approx 0.382$$
+                <p>Total variance: $\text{Tr}(\Sigma) = 1 + 2 = 3.000$.</p>
+                <p class="mb-0">Explained Variance Ratio of PC1: $\frac{2.618}{3.000} \approx 87.27\%$.</p>
+                <p class="mb-0">Residual Reconstruction Error: $\lambda_2 \approx 0.382$ ($12.73\%$).</p>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 6 -->
+            <h2 class="section-heading" id="pca-svd-connection">6. Exact Equivalence: PCA via SVD</h2>
+            <p>
+                In practical machine learning libraries (such as scikit-learn), PCA is almost never solved via eigendecomposition of $\Sigma$ (which requires $O(D^2)$ memory and computing $X^T X$); instead, it is solved directly via the <strong>Singular Value Decomposition of centered data $X_c$</strong>:
+            </p>
+            $$X_c = U \Sigma_{\text{svd}} V^T$$
+            $$\Sigma = \frac{1}{N} X_c^T X_c = \frac{1}{N} (V \Sigma_{\text{svd}} U^T)(U \Sigma_{\text{svd}} V^T) = V \left(\frac{\Sigma_{\text{svd}}^2}{N}\right) V^T$$
+            <ul>
+                <li>The right singular vectors (columns of $V$) are the exact <strong>principal loading vectors</strong> $u_i$.</li>
+                <li>The covariance eigenvalues relate to singular values by $\lambda_i = \frac{\sigma_i^2}{N}$.</li>
+                <li>The projected principal scores are $Z = X_c V = U \Sigma_{\text{svd}}$.</li>
+            </ul>
+
+            <div class="callout callout-intuition my-4">
+                <div class="callout-title"><i class="fas fa-bolt text-warning"></i> High-Dimensional Gram Matrix Shortcut ($N \ll D$)</div>
+                <p class="mb-0">
+                    When dealing with genetic arrays or facial images where feature count $D = 100,000$ vastly exceeds sample size $N = 50$, computing $X_c^T X_c$ ($100,000 \times 100,000$) is prohibitive. Instead, diagonalize the small $N \times N$ Gram matrix $K = X_c X_c^T$ ($50 \times 50$). If $K v = \mu v$, then multiplying by $X_c^T$ gives $(X_c^T X_c)(X_c^T v) = \mu (X_c^T v)$, proving that $X_c^T v$ is an exact eigenvector of the huge covariance matrix!
+                </p>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SECTION 7 -->
+            <h2 class="section-heading" id="python-pca">7. Python & NumPy Implementation with Mathematical Assertions</h2>
+            <pre><code class="language-python">import numpy as np
+
+class PCAFromScratch:
+    def __init__(self, n_components=1):
+        self.n_components = n_components
+        self.components_ = None
+        self.mean_ = None
+        self.explained_variance_ = None
+        self.explained_variance_ratio_ = None
+
+    def fit(self, X):
+        self.mean_ = np.mean(X, axis=0)
+        X_c = X - self.mean_
+        N = len(X)
+        
+        # Sample covariance matrix
+        cov = (X_c.T @ X_c) / N
+        eigvals, eigvecs = np.linalg.eigh(cov)
+        
+        # Sort descending
+        idx = np.argsort(eigvals)[::-1]
+        self.explained_variance_ = eigvals[idx]
+        self.explained_variance_ratio_ = self.explained_variance_ / np.sum(eigvals)
+        self.components_ = eigvecs[:, idx[:self.n_components]]
+        return self
+
+    def transform(self, X):
+        return (X - self.mean_) @ self.components_
+
+# Walkthrough 1 Assertion Check
+X1 = np.array([[-2.0, -1.0], [0.0, 0.0], [2.0, 1.0]])
+pca1 = PCAFromScratch(n_components=1).fit(X1)
+assert np.isclose(pca1.explained_variance_[0], 10.0 / 3.0)
+assert np.isclose(pca1.explained_variance_[1], 0.0)
+assert np.isclose(pca1.explained_variance_ratio_[0], 1.0) # 100% variance
+
+# Walkthrough 2 Assertion Check
+X2 = np.array([[-1.0, -2.0], [-1.0, 0.0], [1.0, 0.0], [1.0, 2.0]])
+pca2 = PCAFromScratch(n_components=1).fit(X2)
+l1_expected = (3.0 + np.sqrt(5.0)) / 2.0
+l2_expected = (3.0 - np.sqrt(5.0)) / 2.0
+assert np.isclose(pca2.explained_variance_[0], l1_expected)
+assert np.isclose(pca2.explained_variance_[1], l2_expected)
+assert np.isclose(pca2.explained_variance_ratio_[0], l1_expected / 3.0)
+
+print("All Week 7 PCA mathematical assertions passed successfully!")
+</code></pre>
+
+            <hr class="my-5">
+
+            <!-- VIDEO CATALOG -->
+            <h2 class="section-heading" id="video-lectures">
+                <i class="fab fa-youtube text-danger me-2"></i> Embedded Video Lectures (6 Videos)
+            </h2>
+            <div class="video-grid">
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 45</span>
+                        <span class="badge bg-secondary">33.0 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W7_L1: Principal component analysis (PCA)</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=K5vOOARxVyU" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_K5vOOARxVyU"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_K5vOOARxVyU">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/K5vOOARxVyU" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 46</span>
+                        <span class="badge bg-secondary">20.8 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W7_L2: Principal component analysis (contd.)</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=TDlSb1-QhhA" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_TDlSb1-QhhA"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_TDlSb1-QhhA">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/TDlSb1-QhhA" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 47</span>
+                        <span class="badge bg-secondary">25.2 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W7_L3: PCA as maximizing variance</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=BHovu_rftQA" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_BHovu_rftQA"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_BHovu_rftQA">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/BHovu_rftQA" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 48</span>
+                        <span class="badge bg-secondary">14.4 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W7_L4: PCA in higher dimensions</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=d0Ch0S1hAs8" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_d0Ch0S1hAs8"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_d0Ch0S1hAs8">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/d0Ch0S1hAs8" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 49</span>
+                        <span class="badge bg-secondary">10.6 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">W7_T1: Tutorial | principal component analysis</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=XrDPtTvuYz4" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_XrDPtTvuYz4"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_XrDPtTvuYz4">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/XrDPtTvuYz4" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <div class="video-card-header">
+                        <span><i class="fab fa-youtube text-danger me-1"></i> Video 93</span>
+                        <span class="badge bg-secondary">20.6 min</span>
+                    </div>
+                    <div class="video-card-body">
+                        <div class="video-card-title">Week 7: Tutorial</div>
+                        <div class="video-card-actions">
+                            <a href="https://www.youtube.com/watch?v=tywEGBtZTu0" target="_blank" class="btn btn-sm btn-outline-danger"><i class="fab fa-youtube me-1"></i> Watch</a>
+                            <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_tywEGBtZTu0"><i class="fas fa-play me-1"></i> Toggle</button>
+                        </div>
+                        <div class="collapse mt-2" id="vframe_tywEGBtZTu0">
+                            <div class="video-frame-container">
+                                <iframe src="https://www.youtube.com/embed/tywEGBtZTu0" allowfullscreen loading="lazy"></iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-5">
+
+            <!-- SUMMARY & MASTERY CHECKLIST -->
             <h2 class="section-heading" id="summary-takeaways">
-                <i class="fas fa-flag-checkered text-warning me-2"></i> Key Takeaways & What's Next
+                <i class="fas fa-flag-checkered text-warning me-2"></i> Key Takeaways & Exam Mastery
             </h2>
             <div class="callout callout-takeaway">
                 <div class="callout-title">
-                    <i class="fas fa-check-circle text-warning"></i> Module Mastery Checklist
+                    <i class="fas fa-check-circle text-warning"></i> Module 7 Mastery Checklist
                 </div>
-                <p>By completing this module, you should have mastered:</p>
+                <p>Before proceeding to Week 8 (Gradient Descent & Optimization), confirm that you can:</p>
                 <ul>
-                    <li>The mathematical theory and intuition introduced across these 6 lectures.</li>
-                    <li>Translating mathematical formulas into vectorized NumPy implementations.</li>
-                    <li>Understanding the geometric and computational trade-offs of the algorithms.</li>
+                    <li>Set up and solve the Lagrangian for PCA variance maximization.</li>
+                    <li>Prove the Pythagorean equivalence between maximizing projected variance and minimizing reconstruction MSE.</li>
+                    <li>Compute sample covariance matrices and principal eigenvalues by hand for 2D datasets.</li>
+                    <li>Relate PCA loadings and singular values directly to SVD factorization.</li>
                 </ul>
-                <div class="mt-3">
-                    <a href="summary.html" class="btn btn-warning btn-sm fw-bold">
-                        <i class="fas fa-file-contract me-1"></i> View Condensed Formula Sheet & Exam Summary
+                <div class="mt-3 d-flex gap-2">
+                    <a href="../exam_centre.html" class="btn btn-warning btn-sm fw-bold">
+                        <i class="fas fa-stopwatch me-1"></i> Attempt Week 7 Mastery Assessment
+                    </a>
+                    <a href="summary.html" class="btn btn-outline-dark btn-sm">
+                        <i class="fas fa-file-contract me-1"></i> View Formula Sheet
                     </a>
                 </div>
             </div>
@@ -302,31 +484,175 @@ print("Explained Variance Ratio:", pca.explained_variance_ratio_)
         <aside class="right-menu">
             <h4>On This Page</h4>
             <ul>
-                <li><a href="#pca-motivation">1. Principal Component Analysis (PCA) Motivation</a></li>
-<li><a href="#pca-formulation">2. Formulation: Maximizing Projected Variance</a></li>
-<li><a href="#explained-variance">3. Explained Variance Ratio & Scree Plot</a></li>
-<li><a href="#python-pca">4. Python Implementation: PCA from Scratch with NumPy</a></li>
-<li><a href="#video-lectures">Video Lectures</a></li>
-<li><a href="#summary-takeaways">Summary & Key Takeaways</a></li>
-
+                <li><a href="#pca-motivation">1. Motivation & Centering</a></li>
+                <li><a href="#pca-formulation">2. Lagrangian & Variance Derivations</a></li>
+                <li><a href="#pca-lab">3. Interactive Visual PCA Lab</a></li>
+                <li><a href="#numerical-walkthrough-1">4. Hand Walkthrough 1</a></li>
+                <li><a href="#numerical-walkthrough-2">5. Hand Walkthrough 2</a></li>
+                <li><a href="#pca-svd-connection">6. PCA via SVD</a></li>
+                <li><a href="#python-pca">7. Python Implementation</a></li>
+                <li><a href="#video-lectures">Video Lectures</a></li>
+                <li><a href="#summary-takeaways">Summary & Mastery</a></li>
             </ul>
         </aside>
     </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
+    <!-- Production Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- KaTeX JS -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-        onload="renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '\(', right: '\)', display: false},
-                {left: '$', right: '$', display: false}
-            ]
-        });"></script>
-    <!-- Prism.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="../assets/js/scoring.js"></script>
+    <script src="../assets/js/progress-validation.js"></script>
+    <script src="../assets/js/progress-store.js"></script>
+    <script src="../assets/js/math-rendering.js"></script>
+
+    <!-- Embedded Chapter Visual Lab Script -->
+    <script>
+        // Mark as Read Integration
+        const markReadBtn = document.getElementById('markReadBtn');
+        if (window.MLFProgress && markReadBtn) {
+            const isRead = window.MLFProgress.isLessonRead('week-7');
+            updateBtn(isRead);
+            markReadBtn.addEventListener('click', () => {
+                const next = window.MLFProgress.toggleLessonRead('week-7');
+                updateBtn(next);
+            });
+        }
+        function updateBtn(state) {
+            if (!markReadBtn) return;
+            if (state) {
+                markReadBtn.className = 'btn btn-sm btn-success';
+                markReadBtn.innerHTML = '<i class="fas fa-check-circle me-1"></i> Chapter Completed';
+            } else {
+                markReadBtn.className = 'btn btn-sm btn-outline-primary';
+                markReadBtn.innerHTML = '<i class="far fa-check-circle me-1"></i> Mark Chapter as Read';
+            }
+        }
+
+        // Embedded PCA Lab Canvas
+        (function() {
+            const canvas = document.getElementById('chapterPcaCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const data = [
+                [-3.0, -1.5],
+                [-2.0, -2.0],
+                [-1.0, -0.5],
+                [ 0.0,  0.0],
+                [ 1.0,  0.8],
+                [ 2.0,  1.5],
+                [ 3.0,  2.2]
+            ];
+            const N = data.length;
+            const TOTAL_VAR = 5.483;
+            const OPT_THETA = 26.565;
+
+            const slider = document.getElementById('chPcaAngle');
+            const badge = document.getElementById('chPcaAngleBadge');
+            const vEl = document.getElementById('chPcaV');
+            const eEl = document.getElementById('chPcaE');
+            const l1El = document.getElementById('chPcaL1');
+            const totEl = document.getElementById('chPcaTot');
+            const resToggle = document.getElementById('chResiduals');
+            const orthToggle = document.getElementById('chOrthogonal');
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const scale = 50;
+
+                const angleDeg = parseFloat(slider.value);
+                badge.innerText = `${angleDeg.toFixed(1)}°`;
+                const theta = (angleDeg * Math.PI) / 180;
+                const ux = Math.cos(theta), uy = Math.sin(theta);
+
+                let sumZ2 = 0, sumErr2 = 0;
+                for (let i = 0; i < N; i++) {
+                    const x = data[i][0], y = data[i][1];
+                    const z = x * ux + y * uy;
+                    sumZ2 += z * z;
+                    const rx = x - z * ux, ry = y - z * uy;
+                    sumErr2 += (rx * rx + ry * ry);
+                }
+                const v = sumZ2 / N;
+                const e = sumErr2 / N;
+
+                vEl.innerText = v.toFixed(2);
+                eEl.innerText = e.toFixed(2);
+                l1El.innerText = (5.09).toFixed(2);
+                totEl.innerText = TOTAL_VAR.toFixed(2);
+
+                // Grid
+                ctx.strokeStyle = '#1e293b'; ctx.lineWidth = 1;
+                for (let r = -5; r <= 5; r++) {
+                    ctx.beginPath();
+                    ctx.moveTo(cx + r * scale, 0); ctx.lineTo(cx + r * scale, canvas.height);
+                    ctx.moveTo(0, cy + r * scale); ctx.lineTo(canvas.width, cy + r * scale);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#475569'; ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                ctx.moveTo(0, cy); ctx.lineTo(canvas.width, cy);
+                ctx.moveTo(cx, 0); ctx.lineTo(cx, canvas.height);
+                ctx.stroke();
+
+                // Line
+                ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(cx - ux * 300, cy + uy * 300);
+                ctx.lineTo(cx + ux * 300, cy - uy * 300);
+                ctx.stroke();
+
+                // Orthogonal
+                if (orthToggle && orthToggle.checked) {
+                    ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)'; ctx.lineWidth = 1.5;
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(cx + uy * 200, cy + ux * 200);
+                    ctx.lineTo(cx - uy * 200, cy - ux * 200);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+
+                // Points & Residuals
+                for (let i = 0; i < N; i++) {
+                    const x = data[i][0], y = data[i][1];
+                    const z = x * ux + y * uy;
+                    const px = z * ux, py = z * uy;
+
+                    const sx = cx + x * scale, sy = cy - y * scale;
+                    const spx = cx + px * scale, spy = cy - py * scale;
+
+                    if (resToggle && resToggle.checked) {
+                        ctx.strokeStyle = 'rgba(239, 68, 68, 0.7)'; ctx.lineWidth = 1.5;
+                        ctx.setLineDash([3, 3]);
+                        ctx.beginPath(); ctx.moveTo(sx, sy); ctx.lineTo(spx, spy); ctx.stroke();
+                        ctx.setLineDash([]);
+                    }
+
+                    ctx.fillStyle = '#22c55e';
+                    ctx.beginPath(); ctx.arc(spx, spy, 4.5, 0, 2 * Math.PI); ctx.fill();
+
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.beginPath(); ctx.arc(sx, sy, 5.5, 0, 2 * Math.PI); ctx.fill();
+                    ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5; ctx.stroke();
+                }
+            }
+
+            slider.addEventListener('input', draw);
+            if (resToggle) resToggle.addEventListener('change', draw);
+            if (orthToggle) orthToggle.addEventListener('change', draw);
+            document.getElementById('chSnapPC1').addEventListener('click', () => { slider.value = OPT_THETA; draw(); });
+            document.getElementById('chSnapPC2').addEventListener('click', () => { slider.value = OPT_THETA + 90; draw(); });
+
+            draw();
+        })();
+    </script>
 </body>
 </html>

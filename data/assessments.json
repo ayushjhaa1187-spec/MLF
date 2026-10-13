@@ -165,5 +165,147 @@
       },
       "unanswered": 0
     }
+  },
+  "week3-mastery": {
+    "id": "week3-mastery",
+    "version": 1,
+    "title": "Week 3 Mastery Assessment: Subspaces, Projections & Least Squares",
+    "origin": "original",
+    "coverageStatus": "mastery-check",
+    "description": "Timed mastery assessment testing vector subspaces, projection matrices, Gram-Schmidt orthogonality, and least squares normal equations.",
+    "durationSeconds": 1500,
+    "instructions": [
+      "Dedicated Week 3 mastery assessment containing 15 curated questions.",
+      "Includes conceptual multiple choice, multi-select, and numerical calculation items.",
+      "Time limit is 25 minutes with automatic browser-persisted state.",
+      "Submission updates your mastery analytics and flags any weak concepts for targeted review."
+    ],
+    "questionIds": [
+      "iitm-w3-q01",
+      "iitm-w3-q02",
+      "iitm-w3-q03",
+      "iitm-w3-q04",
+      "iitm-w3-q06",
+      "iitm-w3-q08",
+      "iitm-w3-q11",
+      "iitm-w3-q12",
+      "w3-orig-q14",
+      "w3-orig-q15",
+      "w3-orig-q16",
+      "w3-orig-q17",
+      "w3-orig-q18",
+      "w3-orig-q19",
+      "w3-orig-q21"
+    ],
+    "scoring": {
+      "mcq": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "msq": {
+        "mode": "exact-set",
+        "correct": 1,
+        "incorrect": 0
+      },
+      "numeric": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "unanswered": 0
+    }
+  },
+  "week6-mastery": {
+    "id": "week6-mastery",
+    "version": 1,
+    "title": "Week 6 Mastery Assessment: Singular Value Decomposition & Positive Definite Matrices",
+    "origin": "original",
+    "coverageStatus": "mastery-check",
+    "description": "Timed mastery assessment covering SVD geometry, truncated SVD approximations, condition numbers, and positive definiteness.",
+    "durationSeconds": 1500,
+    "instructions": [
+      "Dedicated Week 6 mastery assessment containing 15 curated questions.",
+      "Covers Eckart-Young-Mirsky theorem, singular vectors, condition numbers, and pseudoinverses.",
+      "Time limit is 25 minutes."
+    ],
+    "questionIds": [
+      "q-w6-iitm-20",
+      "w6-orig-q01",
+      "w6-orig-q02",
+      "w6-orig-q03",
+      "w6-orig-q04",
+      "w6-orig-q05",
+      "w6-orig-q06",
+      "w6-orig-q07",
+      "w6-orig-q08",
+      "w6-orig-q09",
+      "w6-orig-q10",
+      "w6-orig-q11",
+      "w6-orig-q12",
+      "w6-orig-q13",
+      "w6-orig-q15"
+    ],
+    "scoring": {
+      "mcq": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "msq": {
+        "mode": "exact-set",
+        "correct": 1,
+        "incorrect": 0
+      },
+      "numeric": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "unanswered": 0
+    }
+  },
+  "week7-mastery": {
+    "id": "week7-mastery",
+    "version": 1,
+    "title": "Week 7 Mastery Assessment: Principal Component Analysis & Dimensionality Reduction",
+    "origin": "original",
+    "coverageStatus": "mastery-check",
+    "description": "Timed mastery assessment covering sample covariance, maximum variance derivation, explained variance ratios, and PCA reconstruction error.",
+    "durationSeconds": 1500,
+    "instructions": [
+      "Dedicated Week 7 mastery assessment containing 15 curated questions.",
+      "Covers mean centering, covariance spectrum, scree plot analysis, and PCA-SVD connections.",
+      "Time limit is 25 minutes."
+    ],
+    "questionIds": [
+      "q-w7-iitm-22",
+      "w7-orig-q01",
+      "w7-orig-q02",
+      "w7-orig-q03",
+      "w7-orig-q04",
+      "w7-orig-q05",
+      "w7-orig-q06",
+      "w7-orig-q07",
+      "w7-orig-q08",
+      "w7-orig-q09",
+      "w7-orig-q10",
+      "w7-orig-q11",
+      "w7-orig-q12",
+      "w7-orig-q13",
+      "w7-orig-q14"
+    ],
+    "scoring": {
+      "mcq": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "msq": {
+        "mode": "exact-set",
+        "correct": 1,
+        "incorrect": 0
+      },
+      "numeric": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "unanswered": 0
+    }
   }
 }

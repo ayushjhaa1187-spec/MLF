@@ -125,6 +125,90 @@ class TestVisualLabsMath(unittest.TestCase):
         # y magnitude must explode beyond 20
         self.assertGreater(abs(y), 20.0, "Gradient descent should diverge when eta > 2/L")
 
+    def test_svd_3stage_decomposition(self):
+        # 2x2 matrix used in SVD visual lab
+        A = np.array([[3.0, 2.0], [2.0, 3.0]])
+        U, S, Vt = np.linalg.svd(A)
+        V = Vt.T
+
+        # 1. Orthonormality of U and V
+        np.testing.assert_allclose(U.T @ U, np.eye(2), atol=1e-12)
+        np.testing.assert_allclose(V.T @ V, np.eye(2), atol=1e-12)
+
+        # 2. Singular values match sqrt(eigenvalues(A^T A))
+        AtA = A.T @ A
+        eigvals = np.sort(np.linalg.eigvalsh(AtA))[::-1]
+        np.testing.assert_allclose(S, np.sqrt(eigvals), atol=1e-12)
+        self.assertAlmostEqual(S[0], 5.0, places=10)
+        self.assertAlmostEqual(S[1], 1.0, places=10)
+
+        # 3. Exact reconstruction: A == U @ diag(S) @ V^T
+        A_reconstructed = U @ np.diag(S) @ Vt
+        np.testing.assert_allclose(A, A_reconstructed, atol=1e-12)
+
+        # 4. Condition number
+        kappa = S[0] / S[1]
+        self.assertAlmostEqual(kappa, 5.0, places=10)
+
+        # 5. Eckart-Young Rank-1 approximation error: ||A - A_1||_F == S[1]
+        A_1 = S[0] * np.outer(U[:, 0], Vt[0, :])
+        fro_err = np.linalg.norm(A - A_1, 'fro')
+        self.assertAlmostEqual(fro_err, S[1], places=10)
+
+    def test_pca_variance_and_reconstruction_conservation(self):
+        # Deterministic 2D dataset used in PCA visual lab
+        X = np.array([
+            [-3.0, -1.5],
+            [-2.0, -2.0],
+            [-1.0, -0.5],
+            [ 0.0,  0.0],
+            [ 1.0,  0.8],
+            [ 2.0,  1.5],
+            [ 3.0,  2.2]
+        ])
+        N = len(X)
+        mean = np.mean(X, axis=0)
+        np.testing.assert_allclose(mean, np.zeros(2), atol=0.1) # nearly centered
+        X_c = X - mean
+
+        # Sample covariance
+        cov = (X_c.T @ X_c) / N
+        total_variance = np.trace(cov)
+
+        # Eigendecomposition
+        eigvals, eigvecs = np.linalg.eigh(cov)
+        idx = np.argsort(eigvals)[::-1]
+        lambda1, lambda2 = eigvals[idx]
+        pc1_vec = eigvecs[:, idx[0]]
+
+        # Conservation test across 100 angles:
+        # Projected variance V(theta) + Reconstruction MSE E(theta) == Tr(cov)
+        for theta_deg in np.linspace(0, 180, 100):
+            theta = np.radians(theta_deg)
+            u = np.array([np.cos(theta), np.sin(theta)])
+
+            # Projected coordinates z = X_c @ u
+            z = X_c @ u
+            proj_var = np.mean(z**2)
+
+            # Reconstructed points: X_hat = np.outer(z, u)
+            X_hat = np.outer(z, u)
+            recon_mse = np.mean(np.sum((X_c - X_hat)**2, axis=1))
+
+            # Exact conservation
+            self.assertAlmostEqual(proj_var + recon_mse, total_variance, places=10)
+
+            # Projected variance must never exceed lambda1 or drop below lambda2
+            self.assertLessEqual(proj_var, lambda1 + 1e-10)
+            self.assertGreaterEqual(proj_var, lambda2 - 1e-10)
+
+        # Test maximum occurs at principal direction
+        pc1_angle = np.arctan2(pc1_vec[1], pc1_vec[0])
+        u_star = np.array([np.cos(pc1_angle), np.sin(pc1_angle)])
+        max_proj_var = np.mean((X_c @ u_star)**2)
+        self.assertAlmostEqual(max_proj_var, lambda1, places=10)
+
 
 if __name__ == "__main__":
     unittest.main()
+

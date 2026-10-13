@@ -61,6 +61,17 @@
             </div>
         </div>
 
+        <!-- STORAGE MODE ALERT (when memory fallback is active) -->
+        <div id="storageModeWarning" class="alert alert-warning border-warning shadow-sm d-flex align-items-center mb-4 d-none" role="alert">
+            <i class="fas fa-exclamation-triangle fa-2x me-3 flex-shrink-0 text-warning"></i>
+            <div>
+                <h6 class="alert-heading fw-bold mb-1">Local Storage Unavailable (Memory Mode Active)</h6>
+                <div class="small">
+                    Your browser does not permit persistent storage (e.g. private browsing mode or restrictive storage policies). Any changes made during this session will be lost once the browser tab is closed. Use the <strong>Export Progress JSON</strong> button below to save your progress before navigating away.
+                </div>
+            </div>
+        </div>
+
         <!-- METRIC CARDS -->
         <div class="row g-4 mb-4">
             <div class="col-md-3 col-6">
@@ -180,6 +191,8 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/scoring.js"></script>
+    <script src="assets/js/progress-validation.js"></script>
     <script src="assets/js/progress-store.js"></script>
 
     <script>
@@ -198,10 +211,38 @@
             "Gaussians & EM / GMM"
         ];
 
+        let totalCatalogQuestions = 53;
+
+        async function initCatalogCount() {
+            try {
+                const res = await fetch('data/questions/all_questions.json');
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        totalCatalogQuestions = data.length;
+                    }
+                }
+            } catch (e) {
+                // fallback to 53
+            }
+            renderDashboard();
+        }
+
         function renderDashboard() {
             if (!window.MLFProgress) return;
             const stats = window.MLFProgress.getStats();
             const state = window.MLFProgress.getState();
+
+            // 0. Storage Mode Warning
+            const storageMode = window.MLFProgress.getStorageMode ? window.MLFProgress.getStorageMode() : 'localStorage';
+            const warningEl = document.getElementById('storageModeWarning');
+            if (warningEl) {
+                if (storageMode === 'memory') {
+                    warningEl.classList.remove('d-none');
+                } else {
+                    warningEl.classList.add('d-none');
+                }
+            }
 
             // 1. Lessons Read Metric
             document.getElementById('lessonsReadCount').innerText = `${stats.lessonsReadCount} / 12`;
@@ -209,7 +250,8 @@
 
             // 2. Solved Problems Metric
             document.getElementById('problemsSolvedCount').innerText = stats.problemsSolvedCount;
-            document.getElementById('problemsPercentage').innerText = `${Math.round((stats.problemsSolvedCount / 53) * 100)}% of 53 questions`;
+            const pct = Math.round((stats.problemsSolvedCount / Math.max(1, totalCatalogQuestions)) * 100);
+            document.getElementById('problemsPercentage').innerText = `${pct}% of ${totalCatalogQuestions} questions`;
 
             // 3. Needs Revision Metric
             document.getElementById('needsRevisionCount').innerText = stats.needsRevisionCount || 0;
@@ -301,12 +343,13 @@
                 return;
             }
             const preview = window.MLFProgress.previewImportJSON(val);
-            if (preview.valid) {
+            if (preview.valid && preview.summary) {
+                const s = preview.summary;
                 importPreview.className = 'alert alert-success small mb-3';
-                importPreview.innerHTML = `<strong>Valid Backup:</strong> ${preview.lessonsReadCount} lessons read, ${preview.problemsSolvedCount} solved problems, ${preview.quizAttemptsCount} exam attempts, ${preview.needsRevisionCount} items in revision.`;
+                importPreview.innerHTML = `<strong>Valid Backup:</strong> ${s.lessonsReadCount || 0} lessons read, ${s.problemsSolvedCount || 0} solved problems, ${s.quizAttemptsCount || 0} exam attempts, ${s.needsRevisionCount || 0} items in revision.`;
             } else {
                 importPreview.className = 'alert alert-danger small mb-3';
-                importPreview.innerHTML = `<strong>Invalid JSON:</strong> ${preview.error}`;
+                importPreview.innerHTML = `<strong>Invalid JSON:</strong> ${preview.error || 'Failed schema verification'}`;
             }
             importPreview.classList.remove('d-none');
         });
@@ -333,7 +376,7 @@
             }
         });
 
-        document.addEventListener('DOMContentLoaded', renderDashboard);
+        document.addEventListener('DOMContentLoaded', initCatalogCount);
     </script>
 </body>
 </html>

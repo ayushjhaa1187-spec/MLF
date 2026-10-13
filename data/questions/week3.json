@@ -825,5 +825,496 @@
     "commonMistakes": [],
     "relatedLesson": "week-3/week-3.html",
     "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q14",
+    "version": 1,
+    "title": "Properties of Orthogonal Projection Matrices",
+    "week": 3,
+    "conceptIds": [
+      "projection-matrix",
+      "subspaces"
+    ],
+    "prerequisiteConceptIds": [
+      "inner-product"
+    ],
+    "type": "msq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Subspace Geometry Exercise",
+      "url": null
+    },
+    "statement": "Let $P \\in \\mathbb{R}^{n \\times n}$ be an orthogonal projection matrix onto a subspace $S \\subset \\mathbb{R}^n$. Which of the following statements are **always** true?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$P^2 = P$ (Idempotence)"
+      },
+      {
+        "id": "b",
+        "text": "$P^T = P$ (Symmetry / Self-adjointness)"
+      },
+      {
+        "id": "c",
+        "text": "All eigenvalues of $P$ lie in the discrete set $\\{0, 1\\}$"
+      },
+      {
+        "id": "d",
+        "text": "$\\det(P) = 1$ whenever $\\dim(S) < n$"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "An orthogonal projection preserves any vector already in the subspace: $P(Pv) = Pv$, so $P^2 = P$.",
+      "Orthogonality implies $(Pv)^T(I-P)v = 0$ for all $v$, leading to $P^T = P$.",
+      "If $Pv = \\lambda v$, then $P^2 v = \\lambda^2 v = \\lambda v$, which implies $\\lambda(\\lambda - 1) = 0$.",
+      "If $\\dim(S) < n$, the nullspace of $P$ contains non-zero vectors, making $\\det(P) = 0$, not 1."
+    ],
+    "solution": "Orthogonal projection matrices satisfy $P = P^2$ (idempotent) and $P = P^T$ (symmetric). Since $P^2 = P$, any eigenvalue $\\lambda$ must satisfy $\\lambda^2 = \\lambda$, meaning $\\lambda \\in \\{0, 1\\}$. The determinant is the product of eigenvalues, so $\\det(P) = 1^{\\dim(S)} \\cdot 0^{n-\\dim(S)} = 0$ whenever $\\dim(S) < n$. Thus options A, B, and C are correct.",
+    "commonMistakes": [
+      "Confusing orthogonal projection ($P^T = P = P^2$) with orthogonal matrix ($Q^T Q = I$)."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q15",
+    "version": 1,
+    "title": "Normal Equations: One-Parameter Least Squares",
+    "week": 3,
+    "conceptIds": [
+      "least-squares",
+      "normal-equations"
+    ],
+    "prerequisiteConceptIds": [
+      "inner-product"
+    ],
+    "type": "numeric",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Linear Regression Exercise",
+      "url": null
+    },
+    "statement": "Given three 1D data points $(x_i, y_i) \\in \\{(1, 2), (2, 5), (3, 7)\\}$, we fit the model $y = \\theta x$ passing through the origin using ordinary least squares. Compute the optimal coefficient $\\theta^* = \\frac{\\sum_{i=1}^3 x_i y_i}{\\sum_{i=1}^3 x_i^2}$. Enter your answer rounded to two decimal places.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 2.36,
+      "tolerance": 0.02
+    },
+    "hints": [
+      "Compute numerator: $\\sum x_i y_i = 1(2) + 2(5) + 3(7)$.",
+      "Compute denominator: $\\sum x_i^2 = 1^2 + 2^2 + 3^2$.",
+      "Divide numerator by denominator and round to 2 decimal places."
+    ],
+    "solution": "$$\\sum_{i=1}^3 x_i y_i = 1(2) + 2(5) + 3(7) = 2 + 10 + 21 = 33.$$\n$$\\sum_{i=1}^3 x_i^2 = 1^2 + 2^2 + 3^2 = 1 + 4 + 9 = 14.$$\n$$\\theta^* = \\frac{33}{14} \\approx 2.35714... \\approx 2.36.$$",
+    "commonMistakes": [
+      "Dividing by $N=3$ instead of $\\sum x_i^2$."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q16",
+    "version": 1,
+    "title": "QR Decomposition vs Normal Equations Numerical Stability",
+    "week": 3,
+    "conceptIds": [
+      "least-squares",
+      "qr-decomposition",
+      "numerical-stability"
+    ],
+    "prerequisiteConceptIds": [
+      "least-squares"
+    ],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Numerical Linear Algebra Review",
+      "url": null
+    },
+    "statement": "When solving the linear least squares problem $\\min_{\\theta} \\|X\\theta - y\\|_2^2$ where design matrix $X$ has condition number $\\kappa(X)$, why is QR factorization ($X = QR$) numerically superior to solving the Normal Equations $(X^T X)\\theta = X^T y$ via Cholesky decomposition?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The condition number of $X^T X$ is $(\\kappa(X))^2$, squaring the sensitivity to floating-point rounding errors, whereas QR operates directly on $X$ with condition number $\\kappa(X)$."
+      },
+      {
+        "id": "b",
+        "text": "QR factorization requires only $O(n)$ operations while Normal Equations require $O(n^4)$ operations."
+      },
+      {
+        "id": "c",
+        "text": "The Normal Equations are mathematically invalid whenever $X$ has more rows than columns."
+      },
+      {
+        "id": "d",
+        "text": "QR factorization completely guarantees zero residual error $\\|X\\theta - y\\|_2 = 0$ for any dataset."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Recall that the condition number of a product $A^T A$ is $\\kappa(A^T A) = \\sigma_{\\max}^2 / \\sigma_{\\min}^2 = (\\kappa(A))^2$.",
+      "If $\\kappa(X) = 10^4$, then $\\kappa(X^T X) = 10^8$, losing roughly 8 decimal digits of floating-point precision."
+    ],
+    "solution": "Forming the Gram matrix $X^T X$ squares the condition number: $\\kappa(X^T X) = (\\kappa(X))^2$. When $X$ is ill-conditioned, forming $X^T X$ results in catastrophic loss of precision. QR decomposition $X = QR$ bypasses computing $X^T X$, preserving the original conditioning $\\kappa(X)$. Thus option A is correct.",
+    "commonMistakes": [
+      "Believing QR is faster in operations (Normal equations is actually slightly faster in flops, but much less stable)."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q17",
+    "version": 1,
+    "title": "Trace and Rank of an Orthogonal Projection Matrix",
+    "week": 3,
+    "conceptIds": [
+      "projection-matrix",
+      "subspaces"
+    ],
+    "prerequisiteConceptIds": [
+      "rank-nullity"
+    ],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Subspace Algebra Problem",
+      "url": null
+    },
+    "statement": "Let $X \\in \\mathbb{R}^{m \\times n}$ have rank $k$ (where $m > n > k$). Let $P$ be the orthogonal projection matrix onto the column space $\\text{Col}(X) \\subset \\mathbb{R}^m$. What is the trace $\\text{Tr}(P)$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$m$"
+      },
+      {
+        "id": "b",
+        "text": "$n$"
+      },
+      {
+        "id": "c",
+        "text": "$k$"
+      },
+      {
+        "id": "d",
+        "text": "$m - k$"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "The trace of any matrix equals the sum of its eigenvalues.",
+      "An orthogonal projection onto a subspace of dimension $d$ has $d$ eigenvalues equal to 1 and the rest equal to 0.",
+      "The dimension of $\\text{Col}(X)$ is $\\text{rank}(X) = k$."
+    ],
+    "solution": "The eigenvalues of an orthogonal projection matrix onto a subspace of dimension $k$ consist of $k$ ones and $(m-k)$ zeros. Since the trace equals the sum of all eigenvalues, $\\text{Tr}(P) = k(1) + (m-k)(0) = k$. Therefore, $\\text{Tr}(P) = \\text{rank}(P) = k$ (Option C).",
+    "commonMistakes": [
+      "Assuming the trace equals $m$ (matrix dimension) or $n$ (column count)."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q18",
+    "version": 1,
+    "title": "Fundamental Subspaces and Orthogonal Complements",
+    "week": 3,
+    "conceptIds": [
+      "subspaces",
+      "orthogonality",
+      "rank-nullity"
+    ],
+    "prerequisiteConceptIds": [
+      "subspaces"
+    ],
+    "type": "msq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Fundamental Theorem of Linear Algebra Problem",
+      "url": null
+    },
+    "statement": "For any real matrix $A \\in \\mathbb{R}^{m \\times n}$, which of the following orthogonality and dimensional relationships are universally true?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$(\\text{Col}(A))^\\perp = \\text{Null}(A^T)$ in $\\mathbb{R}^m$"
+      },
+      {
+        "id": "b",
+        "text": "$(\\text{Row}(A))^\\perp = \\text{Null}(A)$ in $\\mathbb{R}^n$"
+      },
+      {
+        "id": "c",
+        "text": "$\\dim(\\text{Col}(A)) + \\dim(\\text{Null}(A^T)) = m$"
+      },
+      {
+        "id": "d",
+        "text": "$\\text{Col}(A) \\cap \\text{Null}(A^T) = \\mathbb{R}^m$"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a",
+        "b",
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Recall the Fundamental Theorem of Linear Algebra (Strang).",
+      "Row space and nullspace partition $\\mathbb{R}^n$ into orthogonal complements.",
+      "Column space and left nullspace partition $\\mathbb{R}^m$ into orthogonal complements.",
+      "Orthogonal complements intersect only at the zero vector: $S \\cap S^\\perp = \\{\\mathbf{0}\\}$."
+    ],
+    "solution": "By the Fundamental Theorem of Linear Algebra: $(\\text{Col}(A))^\\perp = \\text{Null}(A^T)$ and $(\\text{Row}(A))^\\perp = \\text{Null}(A)$. Because $\\text{Col}(A)$ and \\text{Null}(A^T) are orthogonal complements in $\\mathbb{R}^m$, their dimensions sum to $m$, and their intersection is $\\{\\mathbf{0}\\}$, NOT $\\mathbb{R}^m$. Thus A, B, and C are correct.",
+    "commonMistakes": [
+      "Thinking orthogonal complements can intersect at anything other than $\\{\\mathbf{0}\\}$."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q19",
+    "version": 1,
+    "title": "Orthogonal Residual Norm Calculation",
+    "week": 3,
+    "conceptIds": [
+      "least-squares",
+      "projection-matrix"
+    ],
+    "prerequisiteConceptIds": [
+      "inner-product"
+    ],
+    "type": "numeric",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Residual Norm Problem",
+      "url": null
+    },
+    "statement": "Let target vector $y = \\begin{bmatrix} 3 \\\\ 4 \\\\ 0 \\end{bmatrix}$ and direction vector $u = \\begin{bmatrix} 1 \\\\ 0 \\\\ 0 \\end{bmatrix}$ span 1D subspace $S = \\text{span}(u)$ in $\\mathbb{R}^3$. Calculate the minimum Euclidean distance from $y$ to $S$, given by $\\|y - P_S y\\|_2$.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 4.0,
+      "tolerance": 0.05
+    },
+    "hints": [
+      "Compute projection: $P_S y = \\frac{u^T y}{u^T u} u$.",
+      "Calculate the residual vector $e = y - P_S y$.",
+      "Find the Euclidean norm $\\|e\\|_2 = \\sqrt{e_1^2 + e_2^2 + e_3^2}$."
+    ],
+    "solution": "$$P_S y = \\frac{1(3) + 0(4) + 0(0)}{1^2 + 0^2 + 0^2} \\begin{bmatrix} 1 \\\\ 0 \\\\ 0 \\end{bmatrix} = 3 \\begin{bmatrix} 1 \\\\ 0 \\\\ 0 \\end{bmatrix} = \\begin{bmatrix} 3 \\\\ 0 \\\\ 0 \\end{bmatrix}.$$\n$$e = y - P_S y = \\begin{bmatrix} 3 \\\\ 4 \\\\ 0 \\end{bmatrix} - \\begin{bmatrix} 3 \\\\ 0 \\\\ 0 \\end{bmatrix} = \\begin{bmatrix} 0 \\\\ 4 \\\\ 0 \\end{bmatrix}.$$\n$$\\|e\\|_2 = \\sqrt{0^2 + 4^2 + 0^2} = 4.0.$$",
+    "commonMistakes": [
+      "Entering the length of $y$ ($5$) or the projection length ($3$) instead of the residual norm ($4$)."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q20",
+    "version": 1,
+    "title": "Statistical Leverage Scores and the Hat Matrix",
+    "week": 3,
+    "conceptIds": [
+      "least-squares",
+      "projection-matrix"
+    ],
+    "prerequisiteConceptIds": [
+      "least-squares"
+    ],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Regression Diagnostics Exercise",
+      "url": null
+    },
+    "statement": "In linear regression $y = X\\theta + \\epsilon$, the projection (hat) matrix is $H = X(X^T X)^{-1} X^T$. The leverage score of observation $i$ is defined as $h_{ii} = H_{ii}$. If $X$ is an $n \\times p$ matrix with full column rank $p$, which property of leverage scores is mathematically guaranteed?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$\\sum_{i=1}^n h_{ii} = p$, and $0 \\le h_{ii} \\le 1$ for all $i = 1, \\dots, n$."
+      },
+      {
+        "id": "b",
+        "text": "$\\sum_{i=1}^n h_{ii} = n$, and $h_{ii} > 1$ for outliers."
+      },
+      {
+        "id": "c",
+        "text": "$h_{ii} = 1/p$ uniformly for all data points."
+      },
+      {
+        "id": "d",
+        "text": "$\\det(H) = \\sum_{i=1}^n h_{ii}$."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "The trace of the projection matrix equals the sum of diagonal entries: $\\text{Tr}(H) = \\sum h_{ii}$.",
+      "Since $H$ projects onto a $p$-dimensional subspace, $\\text{Tr}(H) = p$.",
+      "Because $H$ is symmetric and idempotent: $h_{ii} = \\sum_{j=1}^n H_{ij}^2 \\ge h_{ii}^2$, so $h_{ii} \\in [0, 1]$."
+    ],
+    "solution": "$H$ is an orthogonal projection matrix onto the column space of $X$ (dimension $p$). Therefore, $\\text{Tr}(H) = \\sum_{i=1}^n h_{ii} = p$. Furthermore, since $H^2 = H$ and $H = H^T$, $h_{ii} = \\sum_{j=1}^n H_{ij}^2 = h_{ii}^2 + \\sum_{j \\neq i} H_{ij}^2 \\ge h_{ii}^2$, which forces $0 \\le h_{ii} \\le 1$. Thus option A is correct.",
+    "commonMistakes": [
+      "Thinking leverage scores can exceed 1."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q21",
+    "version": 1,
+    "title": "Rank-Nullity Theorem for Tall Matrix Transformation",
+    "week": 3,
+    "conceptIds": [
+      "rank-nullity",
+      "subspaces"
+    ],
+    "prerequisiteConceptIds": [
+      "subspaces"
+    ],
+    "type": "numeric",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Rank-Nullity Exercise",
+      "url": null
+    },
+    "statement": "Let linear transformation $T: \\mathbb{R}^5 \\to \\mathbb{R}^8$ be represented by matrix $A \\in \\mathbb{R}^{8 \\times 5}$. If the column space $\\text{Col}(A)$ has dimension $3$ ($\text{rank}(A) = 3$), what is the dimension of the null space $\\dim(\\text{Null}(A))$?",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": 2,
+      "tolerance": 0
+    },
+    "hints": [
+      "State the Rank-Nullity Theorem: $\\text{rank}(A) + \\text{nullity}(A) = n$.",
+      "Identify $n$: the dimension of the domain $\\mathbb{R}^5$ (number of columns), so $n = 5$."
+    ],
+    "solution": "By the Rank-Nullity Theorem, for $A \\in \\mathbb{R}^{m \\times n}$:\n$$\\text{rank}(A) + \\text{nullity}(A) = n$$\nHere, domain dimension is $n = 5$, and rank is $3$. Thus:\n$$\\text{nullity}(A) = 5 - 3 = 2.$$",
+    "commonMistakes": [
+      "Using $m=8$ (codomain dimension) instead of $n=5$ (domain dimension)."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "w3-orig-q22",
+    "version": 1,
+    "title": "Invertibility of Gram Matrix X^T X and Full Column Rank",
+    "week": 3,
+    "conceptIds": [
+      "least-squares",
+      "normal-equations"
+    ],
+    "prerequisiteConceptIds": [
+      "least-squares"
+    ],
+    "type": "msq",
+    "difficulty": "medium",
+    "estimatedMinutes": 4,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Original MLF Normal Equations Invertibility Problem",
+      "url": null
+    },
+    "statement": "Let $X \\in \\mathbb{R}^{m \\times n}$ with $m \\ge n$. Under which of the following equivalent conditions is the Gram matrix $X^T X$ guaranteed to be strictly positive definite and invertible?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The columns of $X$ are linearly independent."
+      },
+      {
+        "id": "b",
+        "text": "$\\text{rank}(X) = n$ (full column rank)."
+      },
+      {
+        "id": "c",
+        "text": "$\\text{Null}(X) = \\{\\mathbf{0}\\}$."
+      },
+      {
+        "id": "d",
+        "text": "$\\det(X^T X) > 0$."
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
+    "hints": [
+      "Recall that $v^T (X^T X) v = \\|Xv\\|_2^2$.",
+      "If $Xv = 0 \\implies v = 0$, then $v^T (X^T X) v > 0$ for all $v \\neq 0$."
+    ],
+    "solution": "For any real matrix $X \\in \\mathbb{R}^{m \\times n}$ with $m \\ge n$:\n$v^T (X^T X) v = \\|Xv\\|^2 \\ge 0$.\nEquality holds ($Xv = 0$) if and only if $v \\in \\text{Null}(X)$. If columns are linearly independent, $\\text{Null}(X) = \\{\\mathbf{0}\\}$ and $\\text{rank}(X) = n$. This makes $X^T X$ positive definite, which is equivalent to all eigenvalues being positive, and $\\det(X^T X) > 0$. Therefore, all four options are mathematically equivalent.",
+    "commonMistakes": [
+      "Thinking $\\det(X^T X)$ could be negative for a Gram matrix."
+    ],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   }
 ]
