@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 2: Calculus for ML: Sets, Functions & Derivatives - ML Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="../home.html">
+                <i class="fas fa-book-open"></i> ML Foundations Textbook
+                <span class="badge-sub">Week 2</span>
+            </a>
+            <div class="d-flex gap-2">
+                <a href="summary.html" class="btn btn-sm btn-outline-info">
+                    <i class="fas fa-file-alt me-1"></i> Week 2 Summary Sheet
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <main class="content-area">
+            <div class="chapter-meta">
+                <span class="badge bg-primary">Module 2</span>
+                <span><i class="fas fa-video me-1"></i> 7 Video Lectures</span>
+                <span><i class="fas fa-code me-1"></i> Runnable Python Code</span>
+                <span><i class="fas fa-square-root-alt me-1"></i> Full Mathematical Derivations</span>
+            </div>
+
+            <h1 class="chapter-title">Week 2: Calculus for ML: Sets, Functions & Derivatives</h1>
+            <p class="lead text-muted mb-4">
+                Detailed notes, algorithmic foundations, mathematical formulations, and Python implementations aligned with the IIT Madras lecture series.
+            </p>
+
+            <!-- Main Content Sections -->
+            
+        <h2 class="section-heading" id="sets-functions">1. Sets, Mappings & Functions in Vector Spaces</h2>
+        
+                <p>Vector calculus forms the analytical foundation for machine learning optimization. A function $f: \mathbb{R}^d \to \mathbb{R}$ maps a $d$-dimensional feature vector $x = [x_1, x_2, \dots, x_d]^T$ to a scalar value (such as loss or probability).</p>
+                <div class="callout callout-math">
+                    <div class="callout-title"><i class="fas fa-square-root-alt text-purple"></i> Formal Definition: Continuity</div>
+                    <p class="mb-0">A function $f: \mathbb{R}^d \to \mathbb{R}$ is continuous at $x_0$ if for every $\epsilon > 0$, there exists $\delta > 0$ such that:
+                    $$\|x - x_0\| < \delta \implies |f(x) - f(x_0)| < \epsilon$$
+                    </p>
+                </div>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="multivariate-derivatives">2. Univariate & Multivariate Derivatives</h2>
+        
+                <p>The derivative quantifies the instantaneous rate of change of a function. In higher dimensions, the <strong>Gradient Vector</strong> $\nabla f(x)$ aggregates all partial derivatives:</p>
+                $$\nabla f(x) = \begin{bmatrix} \frac{\partial f}{\partial x_1} \\ \frac{\partial f}{\partial x_2} \\ \vdots \\ \frac{\partial f}{\partial x_d} \end{bmatrix} \in \mathbb{R}^d$$
+                <p><strong>Directional Derivative:</strong> The rate of change of $f$ in the direction of a unit vector $v$ ($||v|| = 1$) is given by the inner product:</p>
+                $$D_v f(x) = \nabla f(x)^T v = \|\nabla f(x)\| \cos(\theta)$$
+                <p>This directly proves that the directional derivative is maximized when $\theta = 0$, meaning <strong>the gradient points in the direction of steepest ascent</strong>, and $-\nabla f(x)$ points in the direction of steepest descent.</p>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="linear-approximations">3. Linear Approximations & Tangent Hyperplanes</h2>
+        
+                <p>The first-order Taylor approximation of $f$ near $x_0$ defines the tangent hyperplane:</p>
+                $$f(x) \approx f(x_0) + \nabla f(x_0)^T (x - x_0)$$
+                <p>This affine approximation replaces complex non-linear functions with a local linear model, which is the foundational principle underlying gradient descent update rules.</p>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="python-calculus">4. Python Implementation: Numerical & Symbolic Gradients</h2>
+        
+                <p>Computing numerical gradients via finite differences:</p>
+                <pre><code class="language-python">import numpy as np
+
+def numerical_gradient(f, x, h=1e-5):
+    grad = np.zeros_like(x, dtype=float)
+    for i in range(len(x)):
+        x_forward = np.array(x, dtype=float)
+        x_backward = np.array(x, dtype=float)
+        x_forward[i] += h
+        x_backward[i] -= h
+        grad[i] = (f(x_forward) - f(x_backward)) / (2 * h)
+    return grad
+
+# Example: Rosenbrock-style function f(x, y) = x^2 + 10*y^2
+def func(v):
+    return v[0]**2 + 10 * v[1]**2
+
+x0 = np.array([3.0, 2.0])
+print("Analytical Gradient [2x, 20y]:", np.array([2*x0[0], 20*x0[1]]))
+print("Numerical Gradient:", numerical_gradient(func, x0))
+</code></pre>
+                
+        <hr class="my-5">
+        
+
+            <!-- Video Catalog Section -->
+            <h2 class="section-heading" id="video-lectures">
+                <i class="fab fa-youtube text-danger me-2"></i> Embedded Video Lectures (7 Videos)
+            </h2>
+            <p class="text-muted">
+                Watch all video lectures for Week 2 directly or on YouTube:
+            </p>
+            <div class="video-grid">
+                
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 10</span>
+                <span class="badge bg-secondary">38.5 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W2_L1: Sets & functions</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=Gi9nUcrZAJs" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_Gi9nUcrZAJs">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_Gi9nUcrZAJs">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/Gi9nUcrZAJs" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 11</span>
+                <span class="badge bg-secondary">24.2 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W2_L2: Univariate calculus: continuity & differentiability</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=yvaPORg2w9c" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_yvaPORg2w9c">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_yvaPORg2w9c">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/yvaPORg2w9c" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 12</span>
+                <span class="badge bg-secondary">20.9 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W2_L3: Univariate calculus: derivatives & linear approximations</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=AG2fQvxEpbE" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_AG2fQvxEpbE">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_AG2fQvxEpbE">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/AG2fQvxEpbE" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 13</span>
+                <span class="badge bg-secondary">25.0 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W2_L4: Univariate calculus: applications & advanced rules</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=En15LA59Fsw" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_En15LA59Fsw">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_En15LA59Fsw">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/En15LA59Fsw" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 14</span>
+                <span class="badge bg-secondary">24.6 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W2_L5: Multivariate calculus: lines & planes in higher dimensional space</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=O5jrvVi05wA" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_O5jrvVi05wA">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_O5jrvVi05wA">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/O5jrvVi05wA" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 15</span>
+                <span class="badge bg-secondary">35.2 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W2_L6: Multivariate calculus: linear approximation & applications</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=dLLbl0vucCc" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_dLLbl0vucCc">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_dLLbl0vucCc">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/dLLbl0vucCc" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 16</span>
+                <span class="badge bg-secondary">23.7 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">Week 2: Tutorial</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=YNJMUyNlqFQ" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_YNJMUyNlqFQ">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_YNJMUyNlqFQ">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/YNJMUyNlqFQ" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            </div>
+
+            <hr class="my-5">
+
+            <!-- Summary Section -->
+            <h2 class="section-heading" id="summary-takeaways">
+                <i class="fas fa-flag-checkered text-warning me-2"></i> Key Takeaways & What's Next
+            </h2>
+            <div class="callout callout-takeaway">
+                <div class="callout-title">
+                    <i class="fas fa-check-circle text-warning"></i> Module Mastery Checklist
+                </div>
+                <p>By completing this module, you should have mastered:</p>
+                <ul>
+                    <li>The mathematical theory and intuition introduced across these 7 lectures.</li>
+                    <li>Translating mathematical formulas into vectorized NumPy implementations.</li>
+                    <li>Understanding the geometric and computational trade-offs of the algorithms.</li>
+                </ul>
+                <div class="mt-3">
+                    <a href="summary.html" class="btn btn-warning btn-sm fw-bold">
+                        <i class="fas fa-file-contract me-1"></i> View Condensed Formula Sheet & Exam Summary
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <aside class="right-menu">
+            <h4>On This Page</h4>
+            <ul>
+                <li><a href="#sets-functions">1. Sets, Mappings & Functions in Vector Spaces</a></li>
+<li><a href="#multivariate-derivatives">2. Univariate & Multivariate Derivatives</a></li>
+<li><a href="#linear-approximations">3. Linear Approximations & Tangent Hyperplanes</a></li>
+<li><a href="#python-calculus">4. Python Implementation: Numerical & Symbolic Gradients</a></li>
+<li><a href="#video-lectures">Video Lectures</a></li>
+<li><a href="#summary-takeaways">Summary & Key Takeaways</a></li>
+
+            </ul>
+        </aside>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\(', right: '\)', display: false},
+                {left: '$', right: '$', display: false}
+            ]
+        });"></script>
+    <!-- Prism.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,323 @@
+/* Shared Styles for Machine Learning Foundations Course Site */
+:root {
+    --primary-color: #0284c7;
+    --primary-dark: #0369a1;
+    --secondary-color: #0f172a;
+    --accent-color: #10b981;
+    --bg-light: #f8fafc;
+    --card-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    margin: 0;
+    padding: 0;
+}
+
+.top-navbar {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: white;
+    padding: 12px 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.top-navbar .navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #38bdf8;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.top-navbar .badge-sub {
+    background-color: #0284c7;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.page-wrapper {
+    display: flex;
+    max-width: 1550px;
+    margin: 0 auto;
+    padding: 24px 20px 80px 20px;
+    gap: 28px;
+}
+
+.content-area {
+    flex: 1;
+    min-width: 0;
+    background: var(--card-bg);
+    padding: 36px 42px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    border: 1px solid var(--border-color);
+}
+
+.right-menu {
+    width: 280px;
+    position: sticky;
+    top: 80px;
+    height: fit-content;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.right-menu h4 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    font-weight: 700;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 6px;
+}
+
+.right-menu ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.right-menu li {
+    margin-bottom: 8px;
+}
+
+.right-menu a {
+    color: #475569;
+    text-decoration: none;
+    font-size: 0.88rem;
+    display: block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.right-menu a:hover {
+    color: var(--primary-color);
+    background-color: #f0f9ff;
+    padding-left: 12px;
+}
+
+h1.chapter-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 10px;
+    border-bottom: 3px solid #38bdf8;
+    padding-bottom: 12px;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+    align-items: center;
+}
+
+.chapter-meta .badge {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+h2.section-heading {
+    font-size: 1.65rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 12px;
+}
+
+h3.sub-heading {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-top: 26px;
+    margin-bottom: 12px;
+}
+
+/* Callout Boxes */
+.callout {
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin: 20px 0;
+    border-left: 4px solid;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.callout-intuition {
+    border-color: #0284c7;
+    background-color: #f0f9ff;
+}
+
+.callout-math {
+    border-color: #8b5cf6;
+    background-color: #fbf7ff;
+}
+
+.callout-concept {
+    border-color: #10b981;
+    background-color: #f0fdf4;
+}
+
+.callout-takeaway {
+    border-color: #f59e0b;
+    background-color: #fffbeb;
+}
+
+.callout-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Video Card Grid */
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+    margin: 24px 0;
+}
+
+.video-card {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.video-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.video-card-header {
+    background: #0f172a;
+    color: #fff;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.video-card-body {
+    padding: 14px 16px;
+}
+
+.video-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.video-card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.video-frame-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    background: #000;
+    border-radius: 8px;
+    margin-top: 12px;
+}
+
+.video-frame-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Code Blocks */
+pre[class*="language-"] {
+    border-radius: 8px;
+    margin: 18px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+code {
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.9em;
+}
+
+/* Table styling */
+.table-custom {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+
+.table-custom th {
+    background-color: #0f172a;
+    color: #fff;
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.table-custom td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.92rem;
+}
+
+.table-custom tr:hover {
+    background-color: #f8fafc;
+}
+
+@media (max-width: 992px) {
+    .page-wrapper {
+        flex-direction: column;
+    }
+    .right-menu {
+        width: 100%;
+        position: relative;
+        top: 0;
+    }
+    .content-area {
+        padding: 24px 20px;
+    }
+}

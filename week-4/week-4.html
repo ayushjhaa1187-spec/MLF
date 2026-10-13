@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 4: Regression, Eigenvalues & Matrix Diagonalization - ML Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="../home.html">
+                <i class="fas fa-book-open"></i> ML Foundations Textbook
+                <span class="badge-sub">Week 4</span>
+            </a>
+            <div class="d-flex gap-2">
+                <a href="summary.html" class="btn btn-sm btn-outline-info">
+                    <i class="fas fa-file-alt me-1"></i> Week 4 Summary Sheet
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <main class="content-area">
+            <div class="chapter-meta">
+                <span class="badge bg-primary">Module 4</span>
+                <span><i class="fas fa-video me-1"></i> 7 Video Lectures</span>
+                <span><i class="fas fa-code me-1"></i> Runnable Python Code</span>
+                <span><i class="fas fa-square-root-alt me-1"></i> Full Mathematical Derivations</span>
+            </div>
+
+            <h1 class="chapter-title">Week 4: Regression, Eigenvalues & Matrix Diagonalization</h1>
+            <p class="lead text-muted mb-4">
+                Detailed notes, algorithmic foundations, mathematical formulations, and Python implementations aligned with the IIT Madras lecture series.
+            </p>
+
+            <!-- Main Content Sections -->
+            
+        <h2 class="section-heading" id="poly-regression">1. Linear & Polynomial Regression via Feature Maps</h2>
+        
+                <p>Polynomial regression fits non-linear relationships by mapping input $x \in \mathbb{R}$ into a higher-dimensional polynomial basis $\phi(x) = [1, x, x^2, \dots, x^d]^T$. The problem remains mathematically linear with respect to the parameter vector $w$:</p>
+                $$f_w(x) = w^T \phi(x) = w_0 + w_1 x + w_2 x^2 + \dots + w_d x^d$$
+                <p>Constructing the Vandermonde design matrix $\Phi \in \mathbb{R}^{N \times (d+1)}$ reduces polynomial fitting back to ordinary least squares: $w^* = (\Phi^T \Phi)^{-1} \Phi^T y$.</p>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="eigenvalues">2. Eigenvalues & Eigenvectors: Geometric Intuition</h2>
+        
+                <p>For a square matrix $A \in \mathbb{R}^{n \times n}$, an eigenvector $v \neq 0$ is a special vector whose direction is unchanged by matrix multiplication, merely scaled by an eigenvalue $\lambda$:</p>
+                $$Av = \lambda v \iff (A - \lambda I)v = 0$$
+                <p>Non-trivial solutions require the characteristic equation: $\det(A - \lambda I) = 0$.</p>
+                <div class="callout callout-intuition">
+                    <div class="callout-title"><i class="fas fa-shapes text-primary"></i> Geometric Meaning</div>
+                    <p class="mb-0">A matrix $A$ acts on space by rotating, reflecting, and stretching vectors. Eigenvectors are the invariant axes of this transformation, and the eigenvalues $\lambda$ are the stretch factors along those axes.</p>
+                </div>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="diagonalization">3. Matrix Diagonalization & Powers ($A^k$)</h2>
+        
+                <p>If $A$ has $n$ linearly independent eigenvectors $v_1, \dots, v_n$, we form modal matrix $P = [v_1 | v_2 | \dots | v_n]$ and diagonal matrix $\Lambda = \text{diag}(\lambda_1, \dots, \lambda_n)$:</p>
+                $$AP = P\Lambda \implies A = P \Lambda P^{-1}$$
+                <p>Computing matrix powers simplifies to: $A^k = P \Lambda^k P^{-1}$, which enables closed-form solutions to linear dynamical systems and Fibonacci numbers.</p>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="python-poly-eigen">4. Python Implementation: Polynomial Fit & Eigendecomposition</h2>
+        
+                <pre><code class="language-python">import numpy as np
+
+# 1. Polynomial feature fitting
+x_data = np.linspace(-2, 2, 20)
+y_data = 1.5 * x_data**2 - 2.0 * x_data + 0.5 + np.random.randn(20)*0.2
+
+# Vandermonde matrix for degree 2: [1, x, x^2]
+Phi = np.column_stack([np.ones_like(x_data), x_data, x_data**2])
+weights = np.linalg.inv(Phi.T @ Phi) @ Phi.T @ y_data
+print("Fitted weights [w0, w1, w2]:", weights)
+
+# 2. Eigendecomposition of a 2x2 matrix
+M = np.array([[4, 1], [2, 3]])
+eigenvalues, eigenvectors = np.linalg.eig(M)
+print("Eigenvalues:", eigenvalues)
+print("Eigenvectors:\n", eigenvectors)
+
+# Verify A = P @ Lambda @ P^-1
+P = eigenvectors
+Lambda = np.diag(eigenvalues)
+M_reconstructed = P @ Lambda @ np.linalg.inv(P)
+print("Reconstruction matches M:", np.allclose(M, M_reconstructed))
+</code></pre>
+                
+        <hr class="my-5">
+        
+
+            <!-- Video Catalog Section -->
+            <h2 class="section-heading" id="video-lectures">
+                <i class="fab fa-youtube text-danger me-2"></i> Embedded Video Lectures (7 Videos)
+            </h2>
+            <p class="text-muted">
+                Watch all video lectures for Week 4 directly or on YouTube:
+            </p>
+            <div class="video-grid">
+                
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 25</span>
+                <span class="badge bg-secondary">34.0 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W4_L1: Linear & polynomial regression</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=x7UJYkGHVJw" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_x7UJYkGHVJw">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_x7UJYkGHVJw">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/x7UJYkGHVJw" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 26</span>
+                <span class="badge bg-secondary">33.3 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W4_L2: Eigenvalues & Eigenvectors</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=GA6m_T4d_d0" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_GA6m_T4d_d0">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_GA6m_T4d_d0">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/GA6m_T4d_d0" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 27</span>
+                <span class="badge bg-secondary">28.5 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W4_L3: Diagonalization of a matrix</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=WKZUxnrLmRk" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_WKZUxnrLmRk">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_WKZUxnrLmRk">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/WKZUxnrLmRk" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 28</span>
+                <span class="badge bg-secondary">19.8 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W4_L4: Solving fibonacci sequence using diagonalization</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=ISB87lDKOVE" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_ISB87lDKOVE">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_ISB87lDKOVE">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/ISB87lDKOVE" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 29</span>
+                <span class="badge bg-secondary">14.0 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W4_L5: Orthogonality diagonalizable matrices</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=f0hVL9xhL94" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_f0hVL9xhL94">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_f0hVL9xhL94">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/f0hVL9xhL94" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 30</span>
+                <span class="badge bg-secondary">6.3 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W4_T1: Polynomial regression</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=EF85-fHy-m0" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_EF85-fHy-m0">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_EF85-fHy-m0">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/EF85-fHy-m0" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 31</span>
+                <span class="badge bg-secondary">7.7 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W4_T2: Tutorial on eigenvalues & eigenvectors</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=SPF2ovt7uYg" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_SPF2ovt7uYg">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_SPF2ovt7uYg">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/SPF2ovt7uYg" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            </div>
+
+            <hr class="my-5">
+
+            <!-- Summary Section -->
+            <h2 class="section-heading" id="summary-takeaways">
+                <i class="fas fa-flag-checkered text-warning me-2"></i> Key Takeaways & What's Next
+            </h2>
+            <div class="callout callout-takeaway">
+                <div class="callout-title">
+                    <i class="fas fa-check-circle text-warning"></i> Module Mastery Checklist
+                </div>
+                <p>By completing this module, you should have mastered:</p>
+                <ul>
+                    <li>The mathematical theory and intuition introduced across these 7 lectures.</li>
+                    <li>Translating mathematical formulas into vectorized NumPy implementations.</li>
+                    <li>Understanding the geometric and computational trade-offs of the algorithms.</li>
+                </ul>
+                <div class="mt-3">
+                    <a href="summary.html" class="btn btn-warning btn-sm fw-bold">
+                        <i class="fas fa-file-contract me-1"></i> View Condensed Formula Sheet & Exam Summary
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <aside class="right-menu">
+            <h4>On This Page</h4>
+            <ul>
+                <li><a href="#poly-regression">1. Linear & Polynomial Regression via Feature Maps</a></li>
+<li><a href="#eigenvalues">2. Eigenvalues & Eigenvectors: Geometric Intuition</a></li>
+<li><a href="#diagonalization">3. Matrix Diagonalization & Powers ($A^k$)</a></li>
+<li><a href="#python-poly-eigen">4. Python Implementation: Polynomial Fit & Eigendecomposition</a></li>
+<li><a href="#video-lectures">Video Lectures</a></li>
+<li><a href="#summary-takeaways">Summary & Key Takeaways</a></li>
+
+            </ul>
+        </aside>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\(', right: '\)', display: false},
+                {left: '$', right: '$', display: false}
+            ]
+        });"></script>
+    <!-- Prism.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>

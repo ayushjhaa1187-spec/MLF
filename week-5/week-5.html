@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 5: Complex Matrices, Hermitian Matrices & Spectral Theory - ML Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="../home.html">
+                <i class="fas fa-book-open"></i> ML Foundations Textbook
+                <span class="badge-sub">Week 5</span>
+            </a>
+            <div class="d-flex gap-2">
+                <a href="summary.html" class="btn btn-sm btn-outline-info">
+                    <i class="fas fa-file-alt me-1"></i> Week 5 Summary Sheet
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <main class="content-area">
+            <div class="chapter-meta">
+                <span class="badge bg-primary">Module 5</span>
+                <span><i class="fas fa-video me-1"></i> 6 Video Lectures</span>
+                <span><i class="fas fa-code me-1"></i> Runnable Python Code</span>
+                <span><i class="fas fa-square-root-alt me-1"></i> Full Mathematical Derivations</span>
+            </div>
+
+            <h1 class="chapter-title">Week 5: Complex Matrices, Hermitian Matrices & Spectral Theory</h1>
+            <p class="lead text-muted mb-4">
+                Detailed notes, algorithmic foundations, mathematical formulations, and Python implementations aligned with the IIT Madras lecture series.
+            </p>
+
+            <!-- Main Content Sections -->
+            
+        <h2 class="section-heading" id="complex-hermitian">1. Complex Vector Spaces & Hermitian Matrices</h2>
+        
+                <p>In complex vector spaces $\mathbb{C}^n$, the inner product is defined as $\langle x, y \rangle = x^* y = \sum \bar{x}_i y_i$, where $x^*$ is the conjugate transpose (Hermitian transpose).</p>
+                <p>A matrix $A \in \mathbb{C}^{n \times n}$ is <strong>Hermitian</strong> if $A = A^*$. If $A$ is real, this reduces to a real symmetric matrix ($A = A^T$).</p>
+                <div class="callout callout-math">
+                    <div class="callout-title"><i class="fas fa-certificate text-purple"></i> Fundamental Theorem: Real Eigenvalues</div>
+                    <p><strong>Theorem:</strong> Every eigenvalue of a Hermitian matrix is strictly real.</p>
+                    <p><em>Proof:</em> Let $Av = \lambda v$ with $v \neq 0$. Take the conjugate transpose: $v^* A^* = \bar{\lambda} v^*$. Multiply both sides:
+                    $$v^* A v = v^* (\lambda v) = \lambda v^* v$$
+                    $$(v^* A^*) v = (\bar{\lambda} v^*) v = \bar{\lambda} v^* v$$
+                    Since $A = A^*$, $v^* A v = v^* A^* v \implies \lambda \|v\|^2 = \bar{\lambda} \|v\|^2$. Since $\|v\| \neq 0$, $\lambda = \bar{\lambda}$, which holds if and only if $\lambda \in \mathbb{R}$.</p>
+                </div>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="unitary-matrices">2. Unitary Matrices & Spectral Theorem</h2>
+        
+                <p>A complex matrix $U$ is <strong>Unitary</strong> if $U^* U = U U^* = I$. Unitary matrices preserve inner products and lengths: $\|Ux\| = \|x\|$.</p>
+                <p><strong>The Spectral Theorem for Hermitian Matrices:</strong> Any Hermitian matrix $A$ can be unitarily diagonalized by an orthonormal basis of eigenvectors:</p>
+                $$A = U \Lambda U^* = \sum_{i=1}^n \lambda_i u_i u_i^*$$
+                <p>Each $u_i u_i^*$ is a rank-1 projection operator onto the eigenspace spanned by $u_i$.</p>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="rayleigh-quotient">3. The Rayleigh Quotient</h2>
+        
+                <p>For a Hermitian matrix $A$, the <strong>Rayleigh Quotient</strong> is defined for $x \neq 0$ as:</p>
+                $$R_A(x) = \frac{x^* A x}{x^* x}$$
+                <p>The Courant-Fischer theorem guarantees that the minimum and maximum of $R_A(x)$ correspond directly to the smallest and largest eigenvalues:</p>
+                $$\lambda_{\min} \le R_A(x) \le \lambda_{\max}$$
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="python-hermitian">4. Python Implementation: Spectral Decomposition</h2>
+        
+                <pre><code class="language-python">import numpy as np
+
+# Create a complex Hermitian matrix
+A = np.array([
+    [2.0 + 0.0j, 1.0 - 1.0j],
+    [1.0 + 1.0j, 3.0 + 0.0j]
+])
+
+# Verify A == A^*
+assert np.allclose(A, A.conj().T), "Matrix must be Hermitian"
+
+# Compute eigenvalues and eigenvectors
+eigvals, U = np.linalg.eigh(A)
+print("Eigenvalues (all strictly real):", eigvals)
+print("Unitary eigenvectors U:\n", np.round(U, 3))
+
+# Check U^* U == I
+print("Is U Unitary?", np.allclose(U.conj().T @ U, np.eye(2)))
+
+# Spectral reconstruction
+A_rec = U @ np.diag(eigvals) @ U.conj().T
+print("Reconstructed A matches original:", np.allclose(A, A_rec))
+</code></pre>
+                
+        <hr class="my-5">
+        
+
+            <!-- Video Catalog Section -->
+            <h2 class="section-heading" id="video-lectures">
+                <i class="fab fa-youtube text-danger me-2"></i> Embedded Video Lectures (6 Videos)
+            </h2>
+            <p class="text-muted">
+                Watch all video lectures for Week 5 directly or on YouTube:
+            </p>
+            <div class="video-grid">
+                
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 32</span>
+                <span class="badge bg-secondary">17.6 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W5_L1: Complex matrices</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=G6A3PDivChQ" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_G6A3PDivChQ">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_G6A3PDivChQ">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/G6A3PDivChQ" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 33</span>
+                <span class="badge bg-secondary">27.6 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W5_L2: Hermitian matrices</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=aHykfDdjDiw" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_aHykfDdjDiw">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_aHykfDdjDiw">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/aHykfDdjDiw" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 34</span>
+                <span class="badge bg-secondary">18.8 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W5_L3: Unitary matrices</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=2DAG0I1NKiI" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_2DAG0I1NKiI">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_2DAG0I1NKiI">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/2DAG0I1NKiI" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 35</span>
+                <span class="badge bg-secondary">34.0 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W5_L4: Diagonalization of hermitian matrices | part 1</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=qG1tlEa2Zn0" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_qG1tlEa2Zn0">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_qG1tlEa2Zn0">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/qG1tlEa2Zn0" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 36</span>
+                <span class="badge bg-secondary">17.7 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W5_L5: Diagonalization of hermitian matrices | part 2</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=u9uFJNrCL0E" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_u9uFJNrCL0E">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_u9uFJNrCL0E">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/u9uFJNrCL0E" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 37</span>
+                <span class="badge bg-secondary">36.3 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W5_T1: Some problems to think & solve</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=__TUd8Sq-wU" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe___TUd8Sq-wU">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe___TUd8Sq-wU">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/__TUd8Sq-wU" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            </div>
+
+            <hr class="my-5">
+
+            <!-- Summary Section -->
+            <h2 class="section-heading" id="summary-takeaways">
+                <i class="fas fa-flag-checkered text-warning me-2"></i> Key Takeaways & What's Next
+            </h2>
+            <div class="callout callout-takeaway">
+                <div class="callout-title">
+                    <i class="fas fa-check-circle text-warning"></i> Module Mastery Checklist
+                </div>
+                <p>By completing this module, you should have mastered:</p>
+                <ul>
+                    <li>The mathematical theory and intuition introduced across these 6 lectures.</li>
+                    <li>Translating mathematical formulas into vectorized NumPy implementations.</li>
+                    <li>Understanding the geometric and computational trade-offs of the algorithms.</li>
+                </ul>
+                <div class="mt-3">
+                    <a href="summary.html" class="btn btn-warning btn-sm fw-bold">
+                        <i class="fas fa-file-contract me-1"></i> View Condensed Formula Sheet & Exam Summary
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <aside class="right-menu">
+            <h4>On This Page</h4>
+            <ul>
+                <li><a href="#complex-hermitian">1. Complex Vector Spaces & Hermitian Matrices</a></li>
+<li><a href="#unitary-matrices">2. Unitary Matrices & Spectral Theorem</a></li>
+<li><a href="#rayleigh-quotient">3. The Rayleigh Quotient</a></li>
+<li><a href="#python-hermitian">4. Python Implementation: Spectral Decomposition</a></li>
+<li><a href="#video-lectures">Video Lectures</a></li>
+<li><a href="#summary-takeaways">Summary & Key Takeaways</a></li>
+
+            </ul>
+        </aside>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\(', right: '\)', display: false},
+                {left: '$', right: '$', display: false}
+            ]
+        });"></script>
+    <!-- Prism.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>

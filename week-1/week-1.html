@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 1: Introduction to Machine Learning, Tasks & Taxonomy - ML Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="../home.html">
+                <i class="fas fa-book-open"></i> ML Foundations Textbook
+                <span class="badge-sub">Week 1</span>
+            </a>
+            <div class="d-flex gap-2">
+                <a href="summary.html" class="btn btn-sm btn-outline-info">
+                    <i class="fas fa-file-alt me-1"></i> Week 1 Summary Sheet
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <main class="content-area">
+            <div class="chapter-meta">
+                <span class="badge bg-primary">Module 1</span>
+                <span><i class="fas fa-video me-1"></i> 9 Video Lectures</span>
+                <span><i class="fas fa-code me-1"></i> Runnable Python Code</span>
+                <span><i class="fas fa-square-root-alt me-1"></i> Full Mathematical Derivations</span>
+            </div>
+
+            <h1 class="chapter-title">Week 1: Introduction to Machine Learning, Tasks & Taxonomy</h1>
+            <p class="lead text-muted mb-4">
+                Detailed notes, algorithmic foundations, mathematical formulations, and Python implementations aligned with the IIT Madras lecture series.
+            </p>
+
+            <!-- Main Content Sections -->
+            
+        <h2 class="section-heading" id="intro-ml">1. What is Machine Learning? Data & Models</h2>
+        
+                <p>Machine Learning is the study of computer algorithms that improve automatically through experience. Unlike traditional programming where human engineers hardcode rules, a machine learning system synthesizes rules by finding patterns in observational data.</p>
+                <div class="callout callout-intuition">
+                    <div class="callout-title"><i class="fas fa-lightbulb text-primary"></i> The Fundamental Paradigm Shift</div>
+                    <p><strong>Traditional Software:</strong> Input Data + Explicit Rules $\longrightarrow$ Output Answers.</p>
+                    <p class="mb-0"><strong>Machine Learning:</strong> Input Data + Desired Outputs $\longrightarrow$ Learned Hypothesis Function (Rules/Model).</p>
+                </div>
+                <p>Formally, given an input space $\mathcal{X} \subseteq \mathbb{R}^d$ and an output space $\mathcal{Y}$, our goal is to find a hypothesis function $f: \mathcal{X} \to \mathcal{Y}$ from a hypothesis class $\mathcal{H}$ that minimizes the expected risk:</p>
+                $$R(f) = \mathbb{E}_{(x, y) \sim \mathcal{D}}[L(f(x), y)]$$
+                <p>where $L: \mathcal{Y} \times \mathcal{Y} \to \mathbb{R}_+$ is a task-specific loss function, and $\mathcal{D}$ is the underlying joint data distribution.</p>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="supervised-learning">2. Supervised Learning: Regression vs Classification</h2>
+        
+                <p>In Supervised Learning, the training dataset consists of input-output pairs $\mathcal{D}_{train} = \{(x_1, y_1), (x_2, y_2), \dots, (x_N, y_N)\}$.</p>
+                <ul>
+                    <li><strong>Regression:</strong> The target $y_i \in \mathbb{R}$ is continuous (e.g., house prices, temperature, stock yield). Standard loss is Mean Squared Error:
+                    $$L_{MSE}(f(x), y) = \frac{1}{2}(f(x) - y)^2$$
+                    </li>
+                    <li><strong>Classification:</strong> The target $y_i \in \{1, 2, \dots, C\}$ is discrete (e.g., spam vs non-spam, disease diagnosis). Standard loss is Cross-Entropy:
+                    $$L_{CE}(\hat{y}, y) = -\sum_{c=1}^C \mathbf{1}(y = c) \log \hat{y}_c$$
+                    </li>
+                </ul>
+                <div class="callout callout-concept">
+                    <div class="callout-title"><i class="fas fa-balance-scale text-success"></i> Empirical Risk Minimization (ERM)</div>
+                    <p class="mb-0">Since the true distribution $\mathcal{D}$ is unknown, we approximate the true risk by minimizing the empirical risk over the training set:
+                    $$\hat{R}_{emp}(f) = \frac{1}{N} \sum_{i=1}^N L(f(x_i), y_i)$$
+                    </p>
+                </div>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="unsupervised-learning">3. Unsupervised Learning: Dimensionality Reduction & Density Estimation</h2>
+        
+                <p>In Unsupervised Learning, we observe only inputs $\mathcal{D} = \{x_1, x_2, \dots, x_N\}$ without any supervisory labels.</p>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded bg-white">
+                            <h5 class="fw-bold text-primary">Dimensionality Reduction</h5>
+                            <p class="small text-muted mb-0">Project high-dimensional data $x \in \mathbb{R}^D$ into a lower-dimensional space $z \in \mathbb{R}^d$ ($d \ll D$) while preserving intrinsic variance or geometric distances (e.g., PCA, t-SNE, Autoencoders).</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 border rounded bg-white">
+                            <h5 class="fw-bold text-primary">Density Estimation</h5>
+                            <p class="small text-muted mb-0">Model the underlying probability density function $p(x)$ that generated the observations (e.g., Gaussian Mixture Models, Kernel Density Estimation) to identify anomalies or generate new samples.</p>
+                        </div>
+                    </div>
+                </div>
+                
+        <hr class="my-5">
+        
+        <h2 class="section-heading" id="python-baseline">4. Python Implementation: Dataset Generation & Baseline Predictor</h2>
+        
+                <p>Let's implement a foundational data synthesis and k-Nearest Neighbors classifier from scratch using NumPy:</p>
+                <pre><code class="language-python">import numpy as np
+
+# 1. Generate synthetic 2-class dataset
+np.random.seed(42)
+N = 100
+X_class0 = np.random.randn(N, 2) + np.array([-2, -2])
+X_class1 = np.random.randn(N, 2) + np.array([2, 2])
+X = np.vstack([X_class0, X_class1])
+y = np.array([0]*N + [1]*N)
+
+# 2. k-NN Classifier from scratch
+class KNNClassifier:
+    def __init__(self, k=3):
+        self.k = k
+
+    def fit(self, X_train, y_train):
+        self.X_train = X_train
+        self.y_train = y_train
+
+    def predict(self, X_test):
+        preds = []
+        for x in X_test:
+            # Compute Euclidean distances to all training points
+            distances = np.linalg.norm(self.X_train - x, axis=1)
+            # Find indices of k smallest distances
+            k_indices = np.argsort(distances)[:self.k]
+            k_nearest_labels = self.y_train[k_indices]
+            # Majority vote
+            majority = np.bincount(k_nearest_labels).argmax()
+            preds.append(majority)
+        return np.array(preds)
+
+knn = KNNClassifier(k=5)
+knn.fit(X, y)
+test_points = np.array([[-1.5, -1.8], [1.8, 2.1]])
+print("Predictions for test points:", knn.predict(test_points))
+# Output: [0, 1]
+</code></pre>
+                
+        <hr class="my-5">
+        
+
+            <!-- Video Catalog Section -->
+            <h2 class="section-heading" id="video-lectures">
+                <i class="fab fa-youtube text-danger me-2"></i> Embedded Video Lectures (9 Videos)
+            </h2>
+            <p class="text-muted">
+                Watch all video lectures for Week 1 directly or on YouTube:
+            </p>
+            <div class="video-grid">
+                
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 1</span>
+                <span class="badge bg-secondary">30.9 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1.L1. What is machine learning? | intro to machine learning & its applications</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=zuS1WZQGhAs" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_zuS1WZQGhAs">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_zuS1WZQGhAs">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/zuS1WZQGhAs" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 2</span>
+                <span class="badge bg-secondary">19.2 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1_L2: Data, models & machine learning task</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=zssr9nOZlVg" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_zssr9nOZlVg">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_zssr9nOZlVg">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/zssr9nOZlVg" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 3</span>
+                <span class="badge bg-secondary">24.4 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1_L3: Supervised learning: regression</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=iVcrCdEaJ7A" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_iVcrCdEaJ7A">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_iVcrCdEaJ7A">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/iVcrCdEaJ7A" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 4</span>
+                <span class="badge bg-secondary">24.9 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1_L4: Supervised learning: classification</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=QtOrjs0Fzzc" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_QtOrjs0Fzzc">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_QtOrjs0Fzzc">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/QtOrjs0Fzzc" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 5</span>
+                <span class="badge bg-secondary">17.2 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1_L5: Unsupervised learning: dimensionality reduction</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=EuNPsw9zA1k" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_EuNPsw9zA1k">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_EuNPsw9zA1k">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/EuNPsw9zA1k" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 6</span>
+                <span class="badge bg-secondary">18.4 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1_L6: Unsupervised learning: density estimation</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=Gj6-61UDeMs" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_Gj6-61UDeMs">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_Gj6-61UDeMs">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/Gj6-61UDeMs" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 7</span>
+                <span class="badge bg-secondary">15.3 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1_T1: To machine learning or not to machine learning</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=5G4klfCCoIs" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_5G4klfCCoIs">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_5G4klfCCoIs">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/5G4klfCCoIs" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 8</span>
+                <span class="badge bg-secondary">15.2 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1_T2: Illustration with a real world dataset</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=T7vdFVC6DOo" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_T7vdFVC6DOo">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_T7vdFVC6DOo">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/T7vdFVC6DOo" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="video-card">
+            <div class="video-card-header">
+                <span><i class="fab fa-youtube text-danger me-1"></i> Video 9</span>
+                <span class="badge bg-secondary">17.1 min</span>
+            </div>
+            <div class="video-card-body">
+                <div class="video-card-title">W1_T3: Dimensionality reduction & density estimation with applications</div>
+                <div class="video-card-actions">
+                    <a href="https://www.youtube.com/watch?v=JG5Z9np4Tbs" target="_blank" class="btn btn-sm btn-outline-danger">
+                        <i class="fab fa-youtube me-1"></i> Watch on YouTube
+                    </a>
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vframe_JG5Z9np4Tbs">
+                        <i class="fas fa-play me-1"></i> Toggle Player
+                    </button>
+                </div>
+                <div class="collapse mt-2" id="vframe_JG5Z9np4Tbs">
+                    <div class="video-frame-container">
+                        <iframe src="https://www.youtube.com/embed/JG5Z9np4Tbs" allowfullscreen loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+            </div>
+
+            <hr class="my-5">
+
+            <!-- Summary Section -->
+            <h2 class="section-heading" id="summary-takeaways">
+                <i class="fas fa-flag-checkered text-warning me-2"></i> Key Takeaways & What's Next
+            </h2>
+            <div class="callout callout-takeaway">
+                <div class="callout-title">
+                    <i class="fas fa-check-circle text-warning"></i> Module Mastery Checklist
+                </div>
+                <p>By completing this module, you should have mastered:</p>
+                <ul>
+                    <li>The mathematical theory and intuition introduced across these 9 lectures.</li>
+                    <li>Translating mathematical formulas into vectorized NumPy implementations.</li>
+                    <li>Understanding the geometric and computational trade-offs of the algorithms.</li>
+                </ul>
+                <div class="mt-3">
+                    <a href="summary.html" class="btn btn-warning btn-sm fw-bold">
+                        <i class="fas fa-file-contract me-1"></i> View Condensed Formula Sheet & Exam Summary
+                    </a>
+                </div>
+            </div>
+        </main>
+
+        <aside class="right-menu">
+            <h4>On This Page</h4>
+            <ul>
+                <li><a href="#intro-ml">1. What is Machine Learning? Data & Models</a></li>
+<li><a href="#supervised-learning">2. Supervised Learning: Regression vs Classification</a></li>
+<li><a href="#unsupervised-learning">3. Unsupervised Learning: Dimensionality Reduction & Density Estimation</a></li>
+<li><a href="#python-baseline">4. Python Implementation: Dataset Generation & Baseline Predictor</a></li>
+<li><a href="#video-lectures">Video Lectures</a></li>
+<li><a href="#summary-takeaways">Summary & Key Takeaways</a></li>
+
+            </ul>
+        </aside>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\(', right: '\)', display: false},
+                {left: '$', right: '$', display: false}
+            ]
+        });"></script>
+    <!-- Prism.js JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Dashboard - Machine Learning Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- KaTeX CSS for Math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0284c7 100%);
+            color: white;
+            padding: 48px 36px;
+            border-radius: 14px;
+            margin-bottom: 36px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .pillar-card {
+            border-radius: 10px;
+            padding: 24px;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            height: 100%;
+            transition: box-shadow 0.2s;
+        }
+
+        .pillar-card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+
+        .pillar-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+        }
+
+        .icon-la { background: #e0f2fe; color: #0284c7; }
+        .icon-calc { background: #f3e8ff; color: #8b5cf6; }
+        .icon-prob { background: #fef3c7; color: #d97706; }
+        .icon-algo { background: #dcfce7; color: #10b981; }
+
+        .syllabus-table-wrapper {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper" style="max-width: 1350px;">
+        <div class="content-area" style="width: 100%;">
+            
+            <!-- Hero Banner -->
+            <div class="hero-banner">
+                <span class="badge bg-info text-dark px-3 py-2 rounded-pill fw-bold mb-3">
+                    <i class="fas fa-graduation-cap me-1"></i> IIT Madras BS Degree Curriculum
+                </span>
+                <h1 class="display-5 fw-bold mb-3 text-white">Machine Learning Foundations</h1>
+                <p class="lead text-light mb-4" style="max-width: 850px; opacity: 0.95;">
+                    A comprehensive, mathematically rigorous companion textbook for the 93-video lecture series. Blending linear algebra, vector calculus, constrained optimization, and probability theory with practical NumPy and Python algorithms.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="week-1/week-1.html" class="btn btn-primary btn-lg px-4 shadow">
+                        <i class="fas fa-play me-2"></i> Start Week 1
+                    </a>
+                    <a href="https://youtube.com/playlist?list=PLZ2ps__7DhBammhVmBE9f5eezTj2kDfTN" target="_blank" class="btn btn-outline-light btn-lg px-4">
+                        <i class="fab fa-youtube text-danger me-2"></i> Open YouTube Playlist
+                    </a>
+                </div>
+            </div>
+
+            <!-- Highlights Row -->
+            <div class="row g-3 mb-5">
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-value">93</div>
+                        <div class="stat-label">Video Lectures & Tutorials</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Structured Weeks</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-value">36+</div>
+                        <div class="stat-label">Hours of Rigorous Theory</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-card">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">NumPy & Python Implementations</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Four Pillars of ML -->
+            <h2 class="section-heading mb-3">
+                <i class="fas fa-cubes text-primary me-2"></i> The Four Pillars of Machine Learning
+            </h2>
+            <p class="text-muted mb-4">
+                This course bridges theoretical mathematics with machine learning practice across four foundational pillars:
+            </p>
+
+            <div class="row g-4 mb-5">
+                <div class="col-md-3">
+                    <div class="pillar-card">
+                        <div class="pillar-icon icon-la">
+                            <i class="fas fa-vector-square"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2">1. Linear Algebra</h4>
+                        <p class="text-muted small">
+                            Subspaces, Orthogonal Projections, Gram-Schmidt, Eigenvalues, SVD, Positive Definiteness, and Matrix Factorization for dimensional representation.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="pillar-card">
+                        <div class="pillar-icon icon-calc">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2">2. Optimization & Calculus</h4>
+                        <p class="text-muted small">
+                            Multivariate gradients, Hessian curvature, Taylor expansions, Convexity, Method of Lagrange Multipliers, and KKT Duality theorems.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="pillar-card">
+                        <div class="pillar-icon icon-prob">
+                            <i class="fas fa-dice"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2">3. Probability & Stats</h4>
+                        <p class="text-muted small">
+                            Joint and conditional distributions, Expectations, Covariance, Multivariate Gaussians, Maximum Likelihood (MLE), and Laws of Large Numbers.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="pillar-card">
+                        <div class="pillar-icon icon-algo">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4 class="fw-bold mb-2">4. Learning Algorithms</h4>
+                        <p class="text-muted small">
+                            Least Squares Regression, Polynomial fitting, PCA variance maximization, Support Vector Machines, GMMs, and Expectation-Maximization (EM).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete 12-Week Syllabus Table -->
+            <h2 class="section-heading mb-3">
+                <i class="fas fa-list-ol text-primary me-2"></i> Complete 12-Week Curriculum Matrix
+            </h2>
+            <p class="text-muted mb-3">
+                All 93 videos mapped chronologically into weekly lessons, including lecture summaries, mathematical derivations, and Python code.
+            </p>
+
+            <div class="syllabus-table-wrapper table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th style="width: 80px;">Week</th>
+                            <th>Module Title</th>
+                            <th>Core Mathematical & Algorithmic Topics</th>
+                            <th style="width: 120px;">Videos</th>
+                            <th style="width: 150px;" class="text-end">Chapter Access</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W1</span></td>
+                            <td class="fw-bold">Intro to ML, Tasks & Taxonomy</td>
+                            <td>Supervised (Regression vs Classification), Unsupervised (Dim. Reduction, Density Estimation), Real-world applications.</td>
+                            <td><span class="badge bg-secondary">9 videos</span></td>
+                            <td class="text-end"><a href="week-1/week-1.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W2</span></td>
+                            <td class="fw-bold">Calculus for ML: Sets, Functions & Derivatives</td>
+                            <td>Sets, Maps, Continuity, Univariate & Multivariate Derivatives, Linear Approximations, Planes in $\mathbb{R}^d$.</td>
+                            <td><span class="badge bg-secondary">7 videos</span></td>
+                            <td class="text-end"><a href="week-2/week-2.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W3</span></td>
+                            <td class="fw-bold">Linear Algebra: Subspaces, Orthogonality & Least Squares</td>
+                            <td>Four fundamental subspaces ($\text{Col}(A), \text{Row}(A), \text{Null}(A), \text{Null}(A^T)$), Orthogonal projections, Normal equations $A^T A \hat{x} = A^T b$.</td>
+                            <td><span class="badge bg-secondary">8 videos</span></td>
+                            <td class="text-end"><a href="week-3/week-3.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W4</span></td>
+                            <td class="fw-bold">Regression, Eigenvalues & Diagonalization</td>
+                            <td>Linear & Polynomial regression, Characteristic polynomial, Eigenvalues & Eigenvectors, Matrix diagonalization, Fibonacci closed-form.</td>
+                            <td><span class="badge bg-secondary">7 videos</span></td>
+                            <td class="text-end"><a href="week-4/week-4.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W5</span></td>
+                            <td class="fw-bold">Complex & Hermitian Matrices, Spectral Theory</td>
+                            <td>Complex vector spaces, Hermitian matrices ($A = A^*$), Unitary matrices ($U^* U = I$), Spectral Theorem for Hermitian operators.</td>
+                            <td><span class="badge bg-secondary">6 videos</span></td>
+                            <td class="text-end"><a href="week-5/week-5.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W6</span></td>
+                            <td class="fw-bold">SVD & Positive Definiteness</td>
+                            <td>Singular Value Decomposition ($A = U \Sigma V^T$), Geometry of SVD, Positive Definite matrices ($x^T A x > 0$), Low-rank matrix approximations.</td>
+                            <td><span class="badge bg-secondary">7 videos</span></td>
+                            <td class="text-end"><a href="week-6/week-6.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W7</span></td>
+                            <td class="fw-bold">PCA & Dimensionality Reduction</td>
+                            <td>Principal Component Analysis, Maximizing projection variance, Covariance matrix decomposition, High-dimensional embeddings.</td>
+                            <td><span class="badge bg-secondary">6 videos</span></td>
+                            <td class="text-end"><a href="week-7/week-7.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W8</span></td>
+                            <td class="fw-bold">Unconstrained Optimization & Gradient Descent</td>
+                            <td>Critical points, Hessian matrix, First & Second order Taylor series in $\mathbb{R}^d$, Gradient Descent convergence & learning rates.</td>
+                            <td><span class="badge bg-secondary">8 videos</span></td>
+                            <td class="text-end"><a href="week-8/week-8.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W9</span></td>
+                            <td class="fw-bold">Constrained Optimization & Convexity</td>
+                            <td>Equality constraints, Method of Lagrange Multipliers, Projected Gradient Descent, Convex Sets, Convex Functions & Jensen's inequality.</td>
+                            <td><span class="badge bg-secondary">8 videos</span></td>
+                            <td class="text-end"><a href="week-9/week-9.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W10</span></td>
+                            <td class="fw-bold">Duality & KKT Conditions</td>
+                            <td>Primal & Dual problems, Weak/Strong duality, Karush-Kuhn-Tucker (KKT) optimality conditions, Support Vector Machines (SVM) formulation.</td>
+                            <td><span class="badge bg-secondary">7 videos</span></td>
+                            <td class="text-end"><a href="week-10/week-10.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W11</span></td>
+                            <td class="fw-bold">Probability Foundations: Discrete & Continuous</td>
+                            <td>Axioms of probability, Conditioning & Bayes Rule, Random Variables, PMFs & PDFs, Expectation & Variance, Bernoulli, Binomial, Poisson, Gaussian.</td>
+                            <td><span class="badge bg-secondary">15 videos</span></td>
+                            <td class="text-end"><a href="week-11/week-11.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                        <tr>
+                            <td class="fw-bold text-center"><span class="badge bg-primary">W12</span></td>
+                            <td class="fw-bold">Multivariate Gaussians, GMMs & EM Algorithm</td>
+                            <td>Bivariate & Multivariate Normal, Maximum Likelihood Estimation (MLE), Gaussian Mixture Models, Expectation-Maximization (EM), Central Limit Theorem.</td>
+                            <td><span class="badge bg-secondary">5 videos</span></td>
+                            <td class="text-end"><a href="week-12/week-12.html" class="btn btn-sm btn-outline-primary">Read Chapter &rarr;</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Callout Note -->
+            <div class="callout callout-concept mt-5">
+                <div class="callout-title">
+                    <i class="fas fa-info-circle text-success"></i> How to Use this Textbook Effectively
+                </div>
+                <p class="mb-2">
+                    1. <strong>Watch & Read Concurrently</strong>: Each weekly chapter contains embedded video players with direct lecture markers matching the IIT Madras playlist.
+                </p>
+                <p class="mb-2">
+                    2. <strong>Run the Code Locally</strong>: Every algorithm is provided as runnable Python / NumPy code. You can copy and execute the snippets in Jupyter notebooks or Google Colab.
+                </p>
+                <p class="mb-0">
+                    3. <strong>Exam & Interview Preparation</strong>: Review the <strong>Summary</strong> page at the end of each week for mathematical definitions, theorem statements, and complexity metrics.
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

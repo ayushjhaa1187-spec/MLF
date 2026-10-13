@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week 9 Summary Sheet - ML Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="week-9.html">
+                <i class="fas fa-arrow-left me-2"></i> Back to Week 9 Full Lecture Notes
+            </a>
+            <span class="badge bg-warning text-dark px-3 py-2 fw-bold">Revision Cheat-Sheet</span>
+        </div>
+    </nav>
+
+    <div class="container my-5" style="max-width: 960px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="fw-bold mb-1">Week 9: High-Yield Summary</h1>
+                <p class="text-muted">Constrained Optimization, Lagrange Multipliers & Convexity &bull; Core Formulas, Definitions & Quick Code</p>
+            </div>
+            <button class="btn btn-outline-secondary" onclick="window.print()">
+                <i class="fas fa-print me-1"></i> Print / Save PDF
+            </button>
+        </div>
+
+        
+        <div class="card mb-3 border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">Lagrangian Multipliers</h5>
+                <div>$\mathcal{L}(x, \lambda) = f(x) + \lambda^T h(x)$ aligns objective gradient with constraint normal vectors.</div>
+            </div>
+        </div>
+        
+        <div class="card mb-3 border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">Convex Sets & Functions</h5>
+                <div>Convexity ensures that any local minimizer is a global minimizer.</div>
+            </div>
+        </div>
+        
+        <div class="card mb-3 border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary">Projected Gradient Descent</h5>
+                <div>$x_{t+1} = \Pi_C(x_t - \eta \nabla f(x_t))$ maintains strict feasibility after every update.</div>
+            </div>
+        </div>
+        
+
+        <div class="text-center mt-5">
+            <a href="week-9.html" class="btn btn-primary px-4 me-2">
+                <i class="fas fa-book-open me-1"></i> Read Full Chapter
+            </a>
+            <a href="../week-10/week-10.html" class="btn btn-success px-4">Next Week &rarr;</a>
+        </div>
+    </div>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.body, {
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '\(', right: '\)', display: false},
+                {left: '$', right: '$', display: false}
+            ]
+        });"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+</html>
