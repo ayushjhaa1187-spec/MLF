@@ -1,0 +1,77 @@
+<div id="whole-ml-lecture-visual" aria-label="Visual explanation of the entire introductory machine learning lecture">
+  <style>
+    #whole-ml-lecture-visual { color: var(--foreground); }
+    #whole-ml-lecture-visual .map { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+    #whole-ml-lecture-visual .panel { padding:14px; background:var(--muted); color:var(--foreground); }
+    #whole-ml-lecture-visual .panel h3 { margin:0 0 8px; font-weight:500; }
+    #whole-ml-lecture-visual .panel p { margin:0; }
+    #whole-ml-lecture-visual .flow { display:flex; align-items:stretch; gap:8px; margin-top:10px; }
+    #whole-ml-lecture-visual .box { flex:1; padding:9px; background:var(--card); color:var(--card-foreground); }
+    #whole-ml-lecture-visual .arrow { align-self:center; color:var(--muted-foreground); }
+    #whole-ml-lecture-visual .ladder { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:10px; }
+    #whole-ml-lecture-visual .rung { padding:10px; background:var(--secondary); color:var(--secondary-foreground); }
+    #whole-ml-lecture-visual .rung:last-child { background:var(--accent); color:var(--accent-foreground); }
+    #whole-ml-lecture-visual .rung strong { display:block; font-weight:500; }
+    #whole-ml-lecture-visual .comparison { display:grid; grid-template-columns:1.1fr 1.1fr 1.35fr; gap:8px; margin-top:10px; }
+    #whole-ml-lecture-visual .comparison > div { padding:10px; background:var(--card); color:var(--card-foreground); }
+    #whole-ml-lecture-visual .comparison > div:last-child { background:var(--accent); color:var(--accent-foreground); }
+    #whole-ml-lecture-visual .examples { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
+    #whole-ml-lecture-visual .case { padding:10px; border-left:3px solid var(--border); }
+    #whole-ml-lecture-visual .case strong { font-weight:500; }
+    #whole-ml-lecture-visual .case .io { display:block; margin:6px 0; color:var(--muted-foreground); }
+    #whole-ml-lecture-visual .case.ml { border-left-color:var(--viz-series-1); background:var(--accent); color:var(--accent-foreground); }
+    #whole-ml-lecture-visual .case.ml .io { color:var(--accent-foreground); }
+    #whole-ml-lecture-visual h2 { margin:0 0 10px; font-weight:500; }
+    #whole-ml-lecture-visual h3 { font-weight:500; }
+    #whole-ml-lecture-visual .text-small { display:block; margin-top:5px; }
+    #whole-ml-lecture-visual hr { margin:16px 0; }
+    @media (max-width:650px) { #whole-ml-lecture-visual .map, #whole-ml-lecture-visual .ladder, #whole-ml-lecture-visual .comparison, #whole-ml-lecture-visual .examples { grid-template-columns:1fr; } #whole-ml-lecture-visual .flow { flex-direction:column; } #whole-ml-lecture-visual .arrow { align-self:center; transform:rotate(90deg); } }
+  </style>
+  <h2>Machine Learning Foundations &mdash; Lecture 1 visual walkthrough</h2>
+  <div class="map">
+    <section class="panel"><h3>1. What ML means</h3><p>Machine learning is the study of algorithms that improve through experience and data.</p><div class="flow" role="img" aria-label="Data flows into a learning algorithm which produces a model that makes predictions."><div class="box">past data</div><div class="arrow">&rarr;</div><div class="box">learning algorithm</div><div class="arrow">&rarr;</div><div class="box">model for new cases</div></div></section>
+    <section class="panel"><h3>2. The key abstraction: a task</h3><p>Every task is treated as a mapping from an input to an output.</p><div class="flow"><div class="box">input</div><div class="arrow">&rarr;</div><div class="box">task / rule</div><div class="arrow">&rarr;</div><div class="box">output</div></div><span class="text-small">Example: radar map &rarr; tomorrow: rain or shine.</span></section>
+    <section class="panel"><h3>3. Why it matters</h3><p>ML is already woven into ordinary activities: weather forecasts, camera focus, inboxes, shopping, video feeds and voice assistants.</p><span class="text-small">The lecture argues that ubiquity comes from solving tasks that do not yield clean hand-written rules.</span></section>
+  </div>
+  <hr>
+  <h3>Four levels for solving an input &rarr; output task</h3>
+  <div class="ladder" role="img" aria-label="Task-solving abstraction ladder: manual labour, tools, programming, then machine learning.">
+    <div class="rung"><strong>Manual labour</strong><span class="text-small">A person directly produces the output.</span></div>
+    <div class="rung"><strong>Tool use</strong><span class="text-small">A person builds or operates a tool.</span></div>
+    <div class="rung"><strong>Programming</strong><span class="text-small">A person writes the exact rule into software.</span></div>
+    <div class="rung"><strong>Machine learning</strong><span class="text-small">A person supplies data and broad design; the system learns the rule.</span></div>
+  </div>
+  <hr>
+  <h3>Decision rule: when should you consider ML?</h3>
+  <div class="comparison">
+    <div><strong>Can people do it?</strong><span class="text-small">If not, manual labour is not a solution.</span></div>
+    <div><strong>Can people state the rule?</strong><span class="text-small">If yes, programming may be simpler and better.</span></div>
+    <div><strong>Does a pattern exist, with enough data?</strong><span class="text-small">If yes, ML may learn a useful approximation &mdash; even when the rule cannot be articulated.</span></div>
+  </div>
+  <hr>
+  <h3>Case studies from the lecture</h3>
+  <div class="examples">
+    <article class="case"><strong>Password verification</strong><span class="io">password &rarr; accept / reject</span><span class="text-small">The rule is explicit: compare with the saved password. Program it directly; ML is unnecessary.</span></article>
+    <article class="case ml"><strong>Face detection</strong><span class="io">image pixels &rarr; face locations</span><span class="text-small">People recognise faces, but cannot precisely encode the concept from pixels. Learn from many labeled face and non-face images.</span></article>
+    <article class="case ml"><strong>Weather prediction</strong><span class="io">radar / conditions &rarr; rain or shine</span><span class="text-small">Nature has a complex rule, but people do not know it well enough to code. Historical weather data provides the examples.</span></article>
+  </div>
+  <hr>
+  <h3>Why manual work and rules break down</h3>
+  <div class="map">
+    <section class="panel"><h3>Scale &amp; speed</h3><p>Humans could label spam or inspect images, but not fast enough for millions of cases.</p></section>
+    <section class="panel"><h3>Unclear concepts</h3><p>Ideas such as a face, spam, or a spoken wake word are easy to recognize but hard to translate into an exact program.</p></section>
+    <section class="panel"><h3>Unknown dynamics</h3><p>For weather or robot navigation, relevant rules exist but are too complex or incomplete to hand-code for every situation.</p></section>
+  </div>
+  <hr>
+  <h3>Applications: the same pattern repeated</h3>
+  <div class="examples">
+    <article class="case ml"><strong>Spam filter</strong><span class="io">email &rarr; spam / inbox</span><span class="text-small">Learn from examples of spam and legitimate mail.</span></article>
+    <article class="case ml"><strong>Recommenders</strong><span class="io">watch / purchase history &rarr; likely interests</span><span class="text-small">Learn taste patterns across many users and items.</span></article>
+    <article class="case ml"><strong>Voice assistants</strong><span class="io">audio &rarr; text &rarr; action</span><span class="text-small">Learn speech and how varied phrases map to commands.</span></article>
+    <article class="case ml"><strong>Robotics</strong><span class="io">environment &rarr; action</span><span class="text-small">Adapt to situations that were not fully anticipated in code.</span></article>
+    <article class="case ml"><strong>Games</strong><span class="io">game state &rarr; move</span><span class="text-small">Learn strategies for complex decision spaces such as Go.</span></article>
+    <article class="case ml"><strong>Marketing</strong><span class="io">audience signals &rarr; targeting choice</span><span class="text-small">Use limited budget where it is most likely to have impact.</span></article>
+  </div>
+  <hr>
+  <section class="panel"><h3>Final mental model</h3><div class="flow" role="img" aria-label="When a task has repeatable input output patterns, sufficient data, and no practical hand written rule, machine learning can learn a predictive tool."><div class="box">repeatable task</div><div class="arrow">+</div><div class="box">data examples</div><div class="arrow">+</div><div class="box">no practical explicit rule</div><div class="arrow">&rarr;</div><div class="box">ML candidate</div></div></section>
+</div>
