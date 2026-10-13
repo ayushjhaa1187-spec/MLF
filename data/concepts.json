@@ -1,0 +1,165 @@
+[
+  {
+    "id": "inner-product",
+    "name": "Inner Product & Vector Norms",
+    "week": 1,
+    "pillar": "linear-algebra",
+    "prerequisites": [],
+    "description": "Measurement of vector length, distance, and angle between multidimensional vectors.",
+    "formula": "\\|v\\| = \\sqrt{\\langle v, v \\rangle} = \\sqrt{v^T v}"
+  },
+  {
+    "id": "gradient-vector",
+    "name": "The Gradient Vector",
+    "week": 2,
+    "pillar": "multivariate-calculus",
+    "prerequisites": [
+      "inner-product"
+    ],
+    "description": "Vector of first-order partial derivatives pointing in the direction of steepest ascent.",
+    "formula": "\\nabla f(x) = \\left[ \\frac{\\partial f}{\\partial x_1}, \\dots, \\frac{\\partial f}{\\partial x_n} \\right]^T"
+  },
+  {
+    "id": "hessian-matrix",
+    "name": "The Hessian Matrix & Curvature",
+    "week": 2,
+    "pillar": "multivariate-calculus",
+    "prerequisites": [
+      "gradient-vector"
+    ],
+    "description": "Symmetric matrix of second-order partial derivatives capturing local curvature.",
+    "formula": "H_{ij} = \\frac{\\partial^2 f}{\\partial x_i \\partial x_j}"
+  },
+  {
+    "id": "subspaces-orthogonality",
+    "name": "Fundamental Subspaces & Orthogonal Complements",
+    "week": 3,
+    "pillar": "linear-algebra",
+    "prerequisites": [
+      "inner-product"
+    ],
+    "description": "Column space C(A), Null space N(A), and their orthogonal complements under the Fundamental Theorem of Linear Algebra.",
+    "formula": "C(A)^{\\perp} = N(A^T), \\quad N(A)^{\\perp} = C(A^T)"
+  },
+  {
+    "id": "orthogonal-projection",
+    "name": "Orthogonal Projection Matrix",
+    "week": 3,
+    "pillar": "linear-algebra",
+    "prerequisites": [
+      "subspaces-orthogonality"
+    ],
+    "description": "Projection operator mapping any vector b to its closest point in subspace C(A).",
+    "formula": "P = A(A^T A)^{-1} A^T, \\quad p = Pb"
+  },
+  {
+    "id": "least-squares-normal-eq",
+    "name": "Least Squares & The Normal Equations",
+    "week": 3,
+    "pillar": "linear-algebra",
+    "prerequisites": [
+      "orthogonal-projection"
+    ],
+    "description": "Minimizing squared Euclidean error ||Ax - b||^2 via the orthogonality principle.",
+    "formula": "A^T A \\hat{x} = A^T b \\implies \\hat{x} = (A^T A)^{-1} A^T b"
+  },
+  {
+    "id": "eigenvalues-decomposition",
+    "name": "Eigenvalues & Diagonalization",
+    "week": 4,
+    "pillar": "linear-algebra",
+    "prerequisites": [
+      "subspaces-orthogonality"
+    ],
+    "description": "Invariant directional scaling of linear transformations: Av = lambda v.",
+    "formula": "\\det(A - \\lambda I) = 0, \\quad A = V \\Lambda V^{-1}"
+  },
+  {
+    "id": "spectral-theorem",
+    "name": "Spectral Theorem & Rayleigh Quotient",
+    "week": 5,
+    "pillar": "linear-algebra",
+    "prerequisites": [
+      "eigenvalues-decomposition"
+    ],
+    "description": "Orthogonal diagonalization of real symmetric matrices and extrema of quadratic forms.",
+    "formula": "A = Q \\Lambda Q^T, \\quad R_A(x) = \\frac{x^T A x}{x^T x}"
+  },
+  {
+    "id": "svd",
+    "name": "Singular Value Decomposition (SVD)",
+    "week": 6,
+    "pillar": "linear-algebra",
+    "prerequisites": [
+      "spectral-theorem"
+    ],
+    "description": "Factorization of any rectangular matrix into orthogonal rotations and singular scaling.",
+    "formula": "A = U \\Sigma V^T = \\sum_{i=1}^r \\sigma_i u_i v_i^T"
+  },
+  {
+    "id": "pca",
+    "name": "Principal Component Analysis (PCA)",
+    "week": 7,
+    "pillar": "linear-algebra",
+    "prerequisites": [
+      "svd",
+      "spectral-theorem"
+    ],
+    "description": "Optimal orthogonal linear projection maximizing empirical variance and minimizing reconstruction error.",
+    "formula": "\\Sigma_X = \\frac{1}{N} X^T X = Q \\Lambda Q^T, \\quad z_k = X q_k"
+  },
+  {
+    "id": "gradient-descent",
+    "name": "Gradient Descent & Learning Rates",
+    "week": 8,
+    "pillar": "optimization",
+    "prerequisites": [
+      "gradient-vector"
+    ],
+    "description": "Iterative first-order optimization moving antiparallel to the gradient.",
+    "formula": "x^{(k+1)} = x^{(k)} - \\eta \\nabla f(x^{(k)})"
+  },
+  {
+    "id": "lagrange-multipliers",
+    "name": "Lagrange Multipliers & Convexity",
+    "week": 9,
+    "pillar": "optimization",
+    "prerequisites": [
+      "gradient-descent"
+    ],
+    "description": "Constrained optimization where the objective gradient aligns with constraint normals.",
+    "formula": "\\mathcal{L}(x, \\lambda) = f(x) + \\sum \\lambda_i g_i(x)"
+  },
+  {
+    "id": "kkt-conditions",
+    "name": "KKT Optimality & Support Vector Machines",
+    "week": 10,
+    "pillar": "optimization",
+    "prerequisites": [
+      "lagrange-multipliers"
+    ],
+    "description": "Necessary and sufficient conditions for non-linear inequality constrained optimization.",
+    "formula": "\\nabla_x \\mathcal{L} = 0, \\quad \\lambda_i \\ge 0, \\quad \\lambda_i g_i(x) = 0"
+  },
+  {
+    "id": "bayes-rule",
+    "name": "Conditional Probability & Bayes' Theorem",
+    "week": 11,
+    "pillar": "probability",
+    "prerequisites": [],
+    "description": "Updating probability estimates given observed evidence.",
+    "formula": "P(A \\mid B) = \\frac{P(B \\mid A) P(A)}{P(B)}"
+  },
+  {
+    "id": "multivariate-gaussian-em",
+    "name": "Multivariate Gaussian & EM Algorithm",
+    "week": 12,
+    "pillar": "probability",
+    "prerequisites": [
+      "bayes-rule",
+      "spectral-theorem"
+    ],
+    "description": "Bivariate and multivariate normal densities, mixture modeling, and latent variable optimization.",
+    "formula": "p(x) = \\frac{1}{(2\\pi)^{d/2} |\\Sigma|^{1/2}} \\exp\\left( -\\frac{1}{2} (x - \\mu)^T \\Sigma^{-1} (x - \\mu) \\right)"
+  }
+]

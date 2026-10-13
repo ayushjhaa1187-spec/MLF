@@ -1,0 +1,98 @@
+{
+  "diagnostic": {
+    "id": "mlf-diag-01",
+    "title": "Course Prerequisite Diagnostic Assessment",
+    "description": "Evaluate your readiness in linear algebra, multivariable calculus, and basic Python.",
+    "total_questions": 15,
+    "time_limit_minutes": 30,
+    "passing_threshold_percent": 70,
+    "questions": [
+      {
+        "id": "diag-q1",
+        "topic": "Linear Algebra",
+        "question": "What is the Euclidean norm $\\|v\\|$ of the vector $v = [1, 2, -2]^T$?",
+        "options": [
+          "A. 2.5",
+          "B. 3.0",
+          "C. 4.0",
+          "D. 9.0"
+        ],
+        "answer": "B",
+        "explanation": "$\\|v\\| = \\sqrt{1^2 + 2^2 + (-2)^2} = \\sqrt{1 + 4 + 4} = \\sqrt{9} = 3$."
+      },
+      {
+        "id": "diag-q2",
+        "topic": "Linear Algebra",
+        "question": "If matrix $A$ is of shape $3 \\times 4$ and matrix $B$ is of shape $4 \\times 2$, what is the shape of $A B$?",
+        "options": [
+          "A. $4 \\times 4$",
+          "B. $3 \\times 2$",
+          "C. $4 \\times 3$",
+          "D. Undefined"
+        ],
+        "answer": "B",
+        "explanation": "Inner dimensions match (4=4). Product shape is $(3 \\times 2)$."
+      },
+      {
+        "id": "diag-q3",
+        "topic": "Calculus",
+        "question": "For $f(x, y) = x^2 y + 3y^2$, what is the partial derivative $\\frac{\\partial f}{\\partial x}$?",
+        "options": [
+          "A. $2xy$",
+          "B. $2xy + 6y$",
+          "C. $x^2 + 6y$",
+          "D. $2x$"
+        ],
+        "answer": "A",
+        "explanation": "Treat $y$ as a constant: $\\frac{\\partial}{\\partial x}(x^2 y + 3y^2) = 2xy + 0 = 2xy$."
+      },
+      {
+        "id": "diag-q4",
+        "topic": "Linear Algebra",
+        "question": "Two non-zero vectors $u$ and $v$ are orthogonal if and only if:",
+        "options": [
+          "A. $u + v = 0$",
+          "B. $u^T v = 0$",
+          "C. $u^T v = 1$",
+          "D. $\\|u\\| = \\|v\\|$"
+        ],
+        "answer": "B",
+        "explanation": "By definition, the dot product of orthogonal vectors is zero: $u^T v = 0$."
+      },
+      {
+        "id": "diag-q5",
+        "topic": "Python / NumPy",
+        "question": "In NumPy, what is the shape of `a = np.array([[1, 2, 3], [4, 5, 6]])`?",
+        "options": [
+          "A. (3, 2)",
+          "B. (6,)",
+          "C. (2, 3)",
+          "D. (2, 2)"
+        ],
+        "answer": "C",
+        "explanation": "There are 2 rows and 3 columns, so `a.shape` is `(2, 3)`."
+      }
+    ]
+  },
+  "mock_quiz_1": {
+    "id": "mock-q1",
+    "title": "Mock Quiz 1 (Weeks 1 to 4)",
+    "scope": "Linear Algebra Foundations, Multivariable Calculus, Least Squares, Eigenvalues",
+    "time_limit_minutes": 60,
+    "total_questions": 15
+  },
+  "mock_quiz_2": {
+    "id": "mock-q2",
+    "title": "Mock Quiz 2 (Weeks 5 to 8)",
+    "scope": "Spectral Decomposition, SVD, PCA, Gradient Descent",
+    "time_limit_minutes": 60,
+    "total_questions": 15
+  },
+  "mock_end_term": {
+    "id": "mock-et",
+    "title": "Mock End-Term Comprehensive Exam (Weeks 1 to 12)",
+    "scope": "Full Course Syllabus",
+    "time_limit_minutes": 90,
+    "total_questions": 30
+  }
+}

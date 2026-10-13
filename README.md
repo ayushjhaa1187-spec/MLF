@@ -1,89 +1,149 @@
-# Machine Learning Foundations - Online Textbook & Companion
+# Machine Learning Foundations (BSCS2004) — Interactive Learning Platform & Textbook
 
-> A comprehensive, mathematically rigorous, and code-complete companion textbook for the **IIT Madras BS Degree - Machine Learning Foundations** curriculum.
+[![IIT Madras BS Degree](https://img.shields.io/badge/IIT%20Madras-BS%20Degree%20%7C%20BSCS2004-blue)](https://study.iitm.ac.in/ds/course_pages/BSCS2004.html)
+[![Playlist Coverage](https://img.shields.io/badge/Lectures-93%20Verified%20Videos-red)](https://youtube.com/playlist?list=PLZ2ps__7DhBammhVmBE9f5eezTj2kDfTN)
+[![Interactive Visual Labs](https://img.shields.io/badge/Visual%20Labs-3D%20Canvas%20Engine-success)](visual_labs.html)
+[![Problem Bank](https://img.shields.io/badge/Problem%20Bank-Authentic%20PYQs%20%26%20Deep--ML-orange)](practice/solved_problems.html)
+[![Tests Passing](https://img.shields.io/badge/Algorithm%20Tests-12%2F12%20Passing-brightgreen)](tests/verify_all.py)
 
-Inspired by [pdsaiitm.github.io](https://github.com/pdsaiitm/pdsaiitm.github.io), this repository structures the complete **93-video lecture series** into 12 self-contained weekly modules combining theory, LaTeX mathematical derivations, interactive video cards, runnable Python/NumPy implementations, and high-yield revision summaries.
+> An authentic, mathematically sound, practice-rich interactive learning platform for the **IIT Madras BS Degree in Data Science & Applications — Machine Learning Foundations (BSCS2004)** curriculum.
 
----
-
-## 📚 Curriculum Structure (93 Videos Across 12 Weeks)
-
-| Week | Module Title | Videos | Key Mathematical & Algorithmic Concepts |
-| :---: | :--- | :---: | :--- |
-| **[Week 1](week-1/week-1.html)** | **Intro to ML & Taxonomy** | 9 | Supervised (Regression vs Classification), Unsupervised (Dim. Reduction, Density Estimation), Empirical Risk Minimization. |
-| **[Week 2](week-2/week-2.html)** | **Calculus for ML** | 7 | Sets, Functions, Continuity, Univariate & Multivariate Derivatives, Gradients, Tangent Hyperplanes in $\mathbb{R}^d$. |
-| **[Week 3](week-3/week-3.html)** | **Subspaces & Least Squares** | 8 | 4 Fundamental Subspaces ($\text{Col}(A), \text{Row}(A), \text{Null}(A), \text{Null}(A^T)$), Orthogonal Projections, Normal Equations $A^TA\hat{x}=A^Tb$. |
-| **[Week 4](week-4/week-4.html)** | **Regression & Eigenvalues** | 7 | Polynomial feature maps, Eigenvalues/Eigenvectors, Diagonalization $A=P\Lambda P^{-1}$, Matrix powers, Fibonacci closed-form. |
-| **[Week 5](week-5/week-5.html)** | **Hermitian & Spectral Theory**| 6 | Complex vector spaces, Hermitian matrices ($A=A^*$), Unitary matrices, Spectral Theorem, Rayleigh quotient. |
-| **[Week 6](week-6/week-6.html)** | **SVD & Positive Definiteness** | 7 | Singular Value Decomposition ($A=U\Sigma V^T$), Geometry of SVD, Positive Definite matrices ($x^TAx > 0$), Eckart-Young Theorem. |
-| **[Week 7](week-7/week-7.html)** | **PCA & Dimensionality Reduction** | 6 | Maximizing projected variance, Covariance matrix eigendecomposition, Scree plots, Reconstruction error minimization. |
-| **[Week 8](week-8/week-8.html)** | **Gradient Descent & Optimization** | 8 | First & Second-order optimality conditions, Multivariate Taylor expansions, Hessian curvature, Learning rate dynamics. |
-| **[Week 9](week-9/week-9.html)** | **Constrained Opt. & Convexity** | 8 | Equality constraints, Method of Lagrange Multipliers, Projected Gradient Descent, Convex sets & functions (Jensen's inequality). |
-| **[Week 10](week-10/week-10.html)**| **Duality & KKT Conditions** | 7 | Primal & Dual problems, Weak/Strong duality, Karush-Kuhn-Tucker (KKT) conditions, Support Vector Machines (SVM). |
-| **[Week 11](week-11/week-11.html)**| **Probability Foundations** | 15 | Probability spaces, Bayes' Theorem, Discrete (Bernoulli, Binomial, Poisson, Geometric) & Continuous (Uniform, Gaussian) RVs. |
-| **[Week 12](week-12/week-12.html)**| **Gaussians, GMMs & EM** | 5 | Multivariate Normal $\mathcal{N}(\mu, \Sigma)$, MLE, Gaussian Mixture Models, Expectation-Maximization (EM), CLT & Markov/Chebyshev bounds. |
+Live Platform: [https://ayushjhaa1187-spec.github.io/MLF/](https://ayushjhaa1187-spec.github.io/MLF/)  
+Primary Lecture Playlist: [YouTube 93-Lecture Series](https://youtube.com/playlist?list=PLZ2ps__7DhBammhVmBE9f5eezTj2kDfTN)
 
 ---
 
-## 🛠️ Repository Architecture & Tech Stack
+## 🏛️ Platform Architecture & 10 Core Destinations
+
+The platform is designed around the 7-step mastery cycle:  
+**Learn $\to$ Visualize $\to$ Calculate $\to$ Practice $\to$ Implement $\to$ Revise $\to$ Test**.
 
 ```
 ml-foundations/
-├── index.html                   # Master Shell (Sidebar TOC + Top Header + Responsive Iframe Viewport)
-├── home.html                    # Course Dashboard, 93-video Syllabus Matrix, Learning Pillars
-├── README.md                    # Full documentation & syllabus guide
-├── assets/
-│   └── style.css                # Global stylesheet (Inter font, callouts, cards, mobile drawer)
+├── index.html                   # Master Shell (10-Section Navigation + Top Header + Responsive Iframe Viewport)
+├── home.html                    # Course Dashboard, 93-video Syllabus Matrix, 4 Foundational Pillars
+├── start_here.html              # Course Orientation, 15-Question Prerequisite Diagnostic, Notation Guide
+├── visual_labs.html             # Interactive Visual Labs (3D Subspace Projection, Gradient Descent Simulator)
+├── concept_atlas.html           # Concept Atlas & Dependency Graph across all 4 Pillars
+├── exam_centre.html             # Timed Examination Simulator (Mock Quiz 1, Mock Quiz 2, End-Term)
+├── revision.html                # Master Formula Vault & Common Misconceptions Matrix
+├── progress.html                # Student Progress Dashboard & Local Analytics Engine
+├── README.md                    # Comprehensive platform documentation
+│
+├── data/                        # Structured JSON Data Layer
+│   ├── curriculum.json          # Syllabus metadata, learning outcomes, foundational pillars
+│   ├── lectures.json            # 93 verified lecture records with YouTube IDs, durations, syllabus tags
+│   ├── concepts.json            # Master concept ontology and dependency hierarchy
+│   ├── assessments.json         # Diagnostic and mock assessment schemas
+│   └── questions/               # Curated Problem Banks
+│       ├── week3.json           # 16 High-yield Week 3 questions (Authentic IITM GA3, Deep-ML, LeetCode)
+│       └── all_questions.json   # 45 Master curated questions across all weeks
+│
+├── assets/                      # Shared Static Assets & Modular Engine
+│   ├── style.css                # CSS Variables, dark header, cards, callout alerts, responsive drawer
+│   └── js/
+│       ├── progress-store.js    # Singleton localStorage state store (MLF_PROGRESS_V1) & cross-frame sync
+│       ├── navigation.js        # Hash-based deep link router and iframe history synchronizer
+│       ├── math-rendering.js    # KaTeX auto-render helper ($...$ and $$...$$ delimiters)
+│       └── problem-bank.js      # Dynamic problem bank engine with multi-stage hints and filters
+│
 ├── week-1/ ... week-12/
-│   ├── week-X.html              # Full textbook chapter with theory, KaTeX, Python code, video cards
-│   └── summary.html             # High-yield exam revision sheet & formula summary
-├── notebooks/                   # Standalone runnable Python code from scratch
+│   ├── week-X.html              # Comprehensive textbook chapters (Gold-standard 18-point rubric on Week 3)
+│   └── summary.html             # High-yield revision formula cheat sheets
+│
+├── notebooks/                   # Standalone, runnable Python implementations with test assertions
+│   ├── week1_linear_algebra_basics.py
+│   ├── week2_multivariate_calculus.py
 │   ├── week3_least_squares.py
+│   ├── week4_eigenvalues_regression.py
+│   ├── week5_spectral_decomposition.py
 │   ├── week6_svd_compression.py
 │   ├── week7_pca_scratch.py
 │   ├── week8_gradient_descent.py
+│   ├── week9_constrained_optimization.py
+│   ├── week10_duality_svm.py
+│   ├── week11_probability_foundations.py
 │   └── week12_gmm_em.py
-└── practice/
-    └── solved_problems.html     # Step-by-step solved assignment & exam problems
+│
+├── tests/                       # Automated Verification Test Suite
+│   ├── verify_all.py            # Executes all 12 Python notebooks and asserts mathematical correctness
+│   └── verify_links.py          # Verifies all 213+ internal links and JSON files with zero broken paths
+│
+└── docs/                        # Formal Audit & Curriculum Crosswalk Documentation
+    ├── audit.md                 # Technical audit of navigation, routing, iframes, dependencies, accessibility
+    ├── content-inventory.md     # Module-by-module content verification analysis (PV / PI / PU / M)
+    ├── source-register.md       # Master crosswalk for all 93 playlist videos and authentic IITM PYQ provenance
+    └── implementation-plan.md   # Phased engineering roadmap
 ```
-
-- **Zero Build Overhead**: Pure client-side HTML5, CSS3, and JavaScript. Ready for instant GitHub Pages deployment with zero compilation steps.
-- **Client-Side KaTeX**: Fast, crisp rendering of LaTeX mathematics.
-- **Prism.js Syntax Highlighting**: Clean Python code blocks.
-- **Embedded YouTube Player Cards**: Toggle embedded players or watch directly on YouTube for all 93 videos.
 
 ---
 
-## 🚀 How to Run Locally
+## 🎯 The 18-Point Textbook Chapter Rubric (Week 3 Vertical Slice)
 
-You can preview the textbook locally using Python's built-in HTTP server:
+Every comprehensive textbook chapter adheres to the rigorous 18-point standard:
+1. **Module Overview & Objectives:** Syllabus scope and formal learning goals.
+2. **Big Picture & Intuition:** Geometric motivation in data science and machine learning.
+3. **Conceptual Derivations:** Four fundamental subspaces, direct sums, orthogonality principle $A^T(b - A\hat{x}) = 0$, projection operator $P = A(A^T A)^{-1} A^T$.
+4. **Step-by-Step Worked Examples:** At least 2 full numerical walkthroughs with intermediate matrix arithmetic.
+5. **Interactive Visual Lab:** Embedded real-time Canvas 3D engine demonstrating $p \in C(A)$ and $e \perp C(A)$.
+6. **Edge Cases, Pitfalls & Failures:** Rank deficiency, multicollinearity, condition number squaring $\kappa(A^T A) = \kappa(A)^2$.
+7. **Algorithmic Formulation:** Normal Equations vs. QR Factorization ($R \hat{x} = Q^T b$) vs. SVD.
+8. **Clean Python / NumPy Implementation:** Self-contained code comparing Normal Equations and QR with test assertions.
+9. **Computational Complexity & Efficiency:** Flop counts and memory requirements.
+10. **Connection to Real Machine Learning:** Ordinary Least Squares, Ridge Regularization, and Kernel Ridge Regression.
+11. **Curated Practice Problems:** Multi-stage hints (Hint 1: Concept, Hint 2: Formula, Hint 3: Intermediate computation).
+12. **Deep-ML & LeetCode Alignment:** Verified links to Deep-ML #14 (Normal Eq), Deep-ML #48 (RREF), LeetCode #50.
+13. **Exam-Style Practice:** Authentic IIT Madras Graded Assignment questions.
+14. **Interactive Self-Assessment Quiz:** Instant scoring and feedback.
+15. **Summary & Formula Sheet:** High-yield printable cheat sheet.
+16. **Common Misconceptions Table:** Detailed mathematical fallacies vs. reality.
+17. **Mini-Project / Notebook Lab:** Outlier detection via leverage scores $h_{ii} = P_{ii}$.
+18. **Next Week Bridge:** Prerequisite checklist leading into Week 4.
+
+---
+
+## 💻 Running the Test Suite Locally
+
+Verify all Python algorithms and link integrity locally:
 
 ```bash
-cd ml-foundations
+# 1. Run algorithm test suite (Verifies 12/12 notebooks)
+python tests/verify_all.py
+
+# 2. Run link integrity and JSON data validation
+python tests/verify_links.py
+```
+
+---
+
+## 🌐 Running the Platform Locally
+
+Launch the local static server:
+
+```bash
+# Start local HTTP server
 python -m http.server 8000
 ```
 
-Then open your browser at:
-```
-http://localhost:8000
-```
+Open your browser at: `http://localhost:8000`
 
 ---
 
-## 🌐 Deploying to GitHub Pages
+## 🎓 Verified Problem Provenance & Platforms
 
-1. Create a new repository on GitHub (e.g. `ml-foundations` or `<your-username>.github.io`).
-2. Push this directory to GitHub:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: Machine Learning Foundations course textbook"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/<repo-name>.git
-   git push -u origin main
-   ```
-3. In your GitHub repository settings:
-   - Navigate to **Settings** $\to$ **Pages**.
-   - Under **Build and deployment** $\to$ **Source**, choose **Deploy from a branch**.
-   - Select the `main` branch and `/ (root)` directory, then click **Save**.
-4. Your website will be live at `https://<your-username>.github.io/<repo-name>/`.
+- **IIT Madras BS Graded Assignments:** Transcribed directly from official course archives with verified step-by-step arithmetic explanations.
+- **Deep-ML Challenges:** Verified numeric URLs:
+  - `#1`: Matrix-Vector Dot Product
+  - `#2`: Transpose of a Matrix
+  - `#6`: Calculate Eigenvalues of a 2x2 Matrix
+  - `#12`: SVD of 2x2 Matrix
+  - `#14`: Linear Regression Using Normal Equation
+  - `#15`: Linear Regression Using Gradient Descent
+  - `#17`: K-Means Clustering
+  - `#19`: Principal Component Analysis (PCA)
+  - `#21`: Pegasos Kernel SVM
+  - `#23`: Softmax Activation Function
+  - `#32`: Polynomial Features
+  - `#35`: Vector to Diagonal Matrix
+  - `#48`: Reduced Row Echelon Form (RREF)
+- **LeetCode Algorithmic Math:** Verified problem slugs (`powx-n`, `sqrtx`, `transpose-matrix`, `peak-index-in-a-mountain-array`, `random-pick-with-weight`).

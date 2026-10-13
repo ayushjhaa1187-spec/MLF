@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Learning Progress & Analytics - ML Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        .progress-hero {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #fff;
+            padding: 36px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .stat-card-lg {
+            background: #fff;
+            border-radius: 10px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="home.html">
+                <i class="fas fa-home me-2"></i> Course Dashboard
+            </a>
+            <span class="badge bg-light text-dark px-3 py-2 fw-bold">Student Dashboard</span>
+        </div>
+    </nav>
+
+    <div class="container my-5" style="max-width: 1050px;">
+        <div class="progress-hero">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <span class="badge bg-white text-primary mb-2 px-3 py-2 fw-bold">Persistence Engine</span>
+                    <h1 class="display-6 fw-bold mb-1">My Course Progress & Analytics</h1>
+                    <p class="lead opacity-75 mb-0">
+                        Track your weekly chapter readings, completed problem bank items, and mock examination scores. Data is preserved automatically in your browser's local storage.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <i class="fas fa-chart-pie text-white display-2 opacity-50"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- METRIC CARDS -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-4">
+                <div class="stat-card-lg">
+                    <div class="text-primary fs-1 mb-2"><i class="fas fa-book-reader"></i></div>
+                    <h2 class="display-5 fw-bold mb-0 text-primary" id="lessonsReadCount">0 / 12</h2>
+                    <div class="text-muted small fw-semibold text-uppercase mb-3">Chapters Completed</div>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-primary" id="lessonsProgressBar" role="progressbar" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stat-card-lg">
+                    <div class="text-success fs-1 mb-2"><i class="fas fa-check-circle"></i></div>
+                    <h2 class="display-5 fw-bold mb-0 text-success" id="problemsSolvedCount">0</h2>
+                    <div class="text-muted small fw-semibold text-uppercase mb-3">Practice Problems Solved</div>
+                    <div class="small text-muted" id="problemsPercentage">0% of total catalog</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="stat-card-lg">
+                    <div class="text-warning fs-1 mb-2"><i class="fas fa-stethoscope"></i></div>
+                    <h2 class="display-5 fw-bold mb-0 text-warning" id="diagScoreDisplay">--</h2>
+                    <div class="text-muted small fw-semibold text-uppercase mb-3">Diagnostic Score</div>
+                    <div class="small text-muted" id="diagStatusText">Not yet taken</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WEEKLY COMPLETION CHECKLIST -->
+        <div class="card p-4 border-0 shadow-sm bg-white mb-4">
+            <h4 class="fw-bold mb-3"><i class="fas fa-calendar-check text-primary me-2"></i>Weekly Module Read Status</h4>
+            <div class="row g-3" id="weeklyReadGrid">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+
+        <!-- MOCK QUIZ ATTEMPTS HISTORY -->
+        <div class="card p-4 border-0 shadow-sm bg-white mb-4">
+            <h4 class="fw-bold mb-3"><i class="fas fa-history text-danger me-2"></i>Mock Exam Score History</h4>
+            <div id="quizHistoryContainer">
+                <p class="text-muted mb-0">No mock exam attempts recorded yet. Head over to the <a href="exam_centre.html">Exam Centre</a> to attempt Quiz 1, Quiz 2, or the End-Term Exam.</p>
+            </div>
+        </div>
+
+        <!-- DATA MANAGEMENT -->
+        <div class="card p-4 border-0 shadow-sm bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="fw-bold mb-1">Local Data Management</h5>
+                    <small class="text-muted">Reset all saved progress or export progress data.</small>
+                </div>
+                <button class="btn btn-outline-danger btn-sm" id="resetProgressBtn">
+                    <i class="fas fa-trash-alt me-1"></i> Reset All Progress
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/progress-store.js"></script>
+
+    <script>
+        const weekTitles = [
+            "Intro & ML Taxonomy",
+            "Calculus & Approximations",
+            "Subspaces & Least Squares",
+            "Regression & Eigenvalues",
+            "Hermitian & Spectral",
+            "SVD & Positive Definite",
+            "PCA & Dim. Reduction",
+            "Gradient Descent",
+            "Constrained Opt. & Convexity",
+            "Duality & KKT / SVM",
+            "Probability Foundations",
+            "Gaussians & EM / GMM"
+        ];
+
+        function renderDashboard() {
+            if (!window.MLFProgress) return;
+            const stats = window.MLFProgress.getStats();
+            const state = window.MLFProgress.getState();
+
+            // 1. Lessons Read Metric
+            document.getElementById('lessonsReadCount').innerText = `${stats.lessonsReadCount} / 12`;
+            document.getElementById('lessonsProgressBar').style.width = `${stats.lessonsPercentage}%`;
+
+            // 2. Solved Problems Metric
+            document.getElementById('problemsSolvedCount').innerText = stats.problemsSolvedCount;
+            document.getElementById('problemsPercentage').innerText = `${Math.round((stats.problemsSolvedCount / 45) * 100)}% of curated questions`;
+
+            // 3. Diagnostic Score
+            if (stats.diagnosticCompleted && stats.diagnosticScore) {
+                document.getElementById('diagScoreDisplay').innerText = `${stats.diagnosticScore.score} / ${stats.diagnosticScore.total}`;
+                document.getElementById('diagStatusText').innerText = `Completed (${stats.diagnosticScore.percentage}%)`;
+            } else {
+                document.getElementById('diagScoreDisplay').innerText = '--';
+                document.getElementById('diagStatusText').innerHTML = '<a href="start_here.html#diagnosticAssessmentCard">Take diagnostic test</a>';
+            }
+
+            // 4. Weekly Read Grid
+            const grid = document.getElementById('weeklyReadGrid');
+            grid.innerHTML = weekTitles.map((title, idx) => {
+                const weekNum = idx + 1;
+                const weekId = `week-${weekNum}`;
+                const isRead = !!state.lessonsRead[weekId];
+                return `
+                    <div class="col-md-4 col-sm-6">
+                        <div class="p-3 rounded border d-flex justify-content-between align-items-center ${isRead ? 'bg-success-subtle border-success' : 'bg-light'}">
+                            <div>
+                                <span class="badge ${isRead ? 'bg-success' : 'bg-secondary'} me-1">W${weekNum}</span>
+                                <span class="small fw-semibold text-truncate d-inline-block" style="max-width: 160px;">${title}</span>
+                            </div>
+                            <input class="form-check-input week-check-btn" type="checkbox" data-week="${weekId}" ${isRead ? 'checked' : ''}>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Bind week checkboxes
+            grid.querySelectorAll('.week-check-btn').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const wid = e.target.getAttribute('data-week');
+                    window.MLFProgress.setLessonRead(wid, e.target.checked);
+                    renderDashboard();
+                });
+            });
+
+            // 5. Quiz History
+            const histContainer = document.getElementById('quizHistoryContainer');
+            const attempts = state.quizAttempts;
+            const quizKeys = Object.keys(attempts);
+            if (quizKeys.length > 0) {
+                let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr><th>Assessment</th><th>Score</th><th>Percentage</th><th>Date</th></tr></thead><tbody>';
+                quizKeys.forEach(k => {
+                    attempts[k].forEach(att => {
+                        html += `
+                            <tr>
+                                <td class="fw-semibold text-capitalize">${k.replace('quiz', 'Mock Quiz ').replace('endterm', 'End-Term Exam')}</td>
+                                <td>${att.score} / ${att.total}</td>
+                                <td><span class="badge ${att.percentage >= 70 ? 'bg-success' : 'bg-warning text-dark'}">${att.percentage}%</span></td>
+                                <td class="small text-muted">${new Date(att.timestamp).toLocaleDateString()}</td>
+                            </tr>
+                        `;
+                    });
+                });
+                html += '</tbody></table></div>';
+                histContainer.innerHTML = html;
+            }
+        }
+
+        document.getElementById('resetProgressBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all course progress? This cannot be undone.')) {
+                window.MLFProgress.reset();
+                renderDashboard();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', renderDashboard);
+    </script>
+</body>
+</html>

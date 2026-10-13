@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Visual Labs - Machine Learning Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        .lab-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 48px 32px;
+            border-radius: 12px;
+            margin-bottom: 36px;
+        }
+        .lab-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+        .lab-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .lab-badge {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        .canvas-interactive {
+            width: 100%;
+            height: 360px;
+            background: #090d16;
+            border-radius: 8px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="home.html">
+                <i class="fas fa-home me-2"></i> Course Dashboard
+            </a>
+            <span class="badge bg-success px-3 py-2 fw-bold">Interactive Visual Labs</span>
+        </div>
+    </nav>
+
+    <div class="container my-5" style="max-width: 1100px;">
+        <div class="lab-hero text-center">
+            <span class="badge bg-primary mb-2 px-3 py-2">Geometric Intuition Engine</span>
+            <h1 class="display-6 fw-bold mb-3">Interactive Visual Mathematics Labs</h1>
+            <p class="lead text-light opacity-75 mb-0" style="max-width: 780px; margin: 0 auto;">
+                Machine learning algorithms are fundamentally geometric operations in high-dimensional vector spaces. Explore rotations, projections, decompositions, and optimization paths interactively.
+            </p>
+        </div>
+
+        <!-- LAB 1: FEATURED ORTHOGONAL PROJECTION LAB (WEEK 3) -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white" id="lab-projection">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <span class="badge bg-primary lab-badge">Featured Lab &bull; Week 3</span>
+                    <h3 class="fw-bold mt-1 mb-0">Orthogonal Subspace Projection & The Error Vector</h3>
+                </div>
+                <a href="week-3/week-3.html#section-5" class="btn btn-sm btn-outline-primary">
+                    <i class="fas fa-book-open me-1"></i> Week 3 Textbook
+                </a>
+            </div>
+            <p class="text-muted">
+                Drag the coordinate sliders to reposition observation vector $b = [b_x, b_y, b_z]^T$. Notice how projection $p$ remains constrained to the 2D column space plane $C(A)$, while residual error vector $e = b - p$ maintains strict perpendicularity to $C(A)$ ($a_1^T e = 0, a_2^T e = 0$).
+            </p>
+
+            <div class="interactive-lab-container my-2">
+                <div class="row g-3">
+                    <div class="col-lg-8">
+                        <canvas id="mainProjCanvas" class="canvas-interactive" width="650" height="360"></canvas>
+                        <div class="text-center mt-2 small text-muted">
+                            <i class="fas fa-mouse-pointer me-1"></i> Click and drag on the 3D canvas to rotate viewing perspective
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="lab-controls-panel">
+                            <h6 class="fw-bold text-light mb-3"><i class="fas fa-sliders-h me-1"></i> Vector $b$ Controls</h6>
+                            
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between small text-muted">
+                                    <span>$b_x$</span>
+                                    <span id="bxRead" class="text-info fw-bold">2.0</span>
+                                </div>
+                                <input type="range" class="form-range" id="bx" min="-4" max="4" step="0.2" value="2.0">
+                            </div>
+
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between small text-muted">
+                                    <span>$b_y$</span>
+                                    <span id="byRead" class="text-info fw-bold">2.5</span>
+                                </div>
+                                <input type="range" class="form-range" id="by" min="-4" max="4" step="0.2" value="2.5">
+                            </div>
+
+                            <div class="mb-2">
+                                <div class="d-flex justify-content-between small text-muted">
+                                    <span>$b_z$</span>
+                                    <span id="bzRead" class="text-info fw-bold">3.5</span>
+                                </div>
+                                <input type="range" class="form-range" id="bz" min="-4" max="4" step="0.2" value="3.5">
+                            </div>
+
+                            <div class="p-2 bg-dark rounded border border-secondary font-monospace small text-light mt-3">
+                                <div>$p = Pb$: <span class="text-success" id="pRead">[2.00, 2.50, 0.00]</span></div>
+                                <div>$e = b - p$: <span class="text-danger" id="eRead">[0.00, 0.00, 3.50]</span></div>
+                                <div class="text-warning">Orthogonality: $A^T e = 0$</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAB 2: GRADIENT DESCENT OPTIMIZATION LANDSCAPE (WEEK 8) -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white" id="lab-gd">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <span class="badge bg-warning text-dark lab-badge">Optimization Lab &bull; Week 8</span>
+                    <h3 class="fw-bold mt-1 mb-0">Gradient Descent & Learning Rate Dynamics</h3>
+                </div>
+                <a href="week-8/week-8.html" class="btn btn-sm btn-outline-warning text-dark">
+                    <i class="fas fa-book-open me-1"></i> Week 8 Textbook
+                </a>
+            </div>
+            <p class="text-muted">
+                Simulate gradient descent on quadratic bowl $f(x, y) = x^2 + 3y^2$. Adjust learning rate $\eta$ to observe stable monotonic convergence, oscillations, or divergent explosion.
+            </p>
+
+            <div class="interactive-lab-container my-2">
+                <div class="row g-3">
+                    <div class="col-lg-8">
+                        <canvas id="gdCanvas" class="canvas-interactive" width="650" height="360"></canvas>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="lab-controls-panel">
+                            <h6 class="fw-bold text-light mb-3"><i class="fas fa-cog me-1"></i> Hyperparameters</h6>
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between small text-muted">
+                                    <span>Learning Rate $\eta$</span>
+                                    <span id="lrVal" class="text-warning fw-bold">0.15</span>
+                                </div>
+                                <input type="range" class="form-range" id="lrSlider" min="0.01" max="0.45" step="0.01" value="0.15">
+                            </div>
+                            <button class="btn btn-sm btn-primary w-100 mb-2" id="resetGdBtn">
+                                <i class="fas fa-redo me-1"></i> Re-run Optimization Path
+                            </button>
+                            <div class="p-2 bg-dark rounded border border-secondary font-monospace small text-light">
+                                <div>Iter: <span id="gdIter">0</span></div>
+                                <div>Loss $f(x, y)$: <span id="gdLoss">0.000</span></div>
+                                <div id="gdStatus" class="text-success">Converged</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LAB DIRECTORY GRID -->
+        <h4 class="fw-bold mb-3"><i class="fas fa-th-large me-2"></i>Full Suite of Planned & Integrated Visual Labs</h4>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="lab-card p-3 h-100">
+                    <span class="badge bg-secondary lab-badge mb-2">Week 1 &bull; Verified</span>
+                    <h6 class="fw-bold mb-1">Vector Dot Products & Projection</h6>
+                    <p class="small text-muted mb-2">Interactive 2D vector angles and cosine similarities.</p>
+                    <a href="week-1/lec-1-walkthrough.html" class="btn btn-sm btn-outline-primary mt-auto">
+                        <i class="fas fa-play me-1"></i> Open Lab
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="lab-card p-3 h-100">
+                    <span class="badge bg-primary lab-badge mb-2">Week 3 &bull; Live</span>
+                    <h6 class="fw-bold mb-1">Subspace Projection ($e \perp C(A)$)</h6>
+                    <p class="small text-muted mb-2">3D interactive projection with live residual orthogonality metrics.</p>
+                    <a href="#lab-projection" class="btn btn-sm btn-primary mt-auto">
+                        <i class="fas fa-play me-1"></i> Open Lab
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="lab-card p-3 h-100">
+                    <span class="badge bg-success lab-badge mb-2">Week 6 &bull; Integrated</span>
+                    <h6 class="fw-bold mb-1">SVD Unit Sphere Transformation</h6>
+                    <p class="small text-muted mb-2">Visualizing $A = U \Sigma V^T$ mapping unit circle to ellipse.</p>
+                    <a href="week-6/week-6.html" class="btn btn-sm btn-outline-success mt-auto">
+                        <i class="fas fa-play me-1"></i> Open Lab
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="lab-card p-3 h-100">
+                    <span class="badge bg-info text-dark lab-badge mb-2">Week 7 &bull; Integrated</span>
+                    <h6 class="fw-bold mb-1">PCA Variance Maximizer</h6>
+                    <p class="small text-muted mb-2">Rotating projection line to maximize data spread and eigenvalue ratio.</p>
+                    <a href="week-7/week-7.html" class="btn btn-sm btn-outline-info text-dark mt-auto">
+                        <i class="fas fa-play me-1"></i> Open Lab
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="lab-card p-3 h-100">
+                    <span class="badge bg-warning text-dark lab-badge mb-2">Week 8 &bull; Live</span>
+                    <h6 class="fw-bold mb-1">Gradient Descent Trajectories</h6>
+                    <p class="small text-muted mb-2">Contour trajectory simulator with learning rate tuning.</p>
+                    <a href="#lab-gd" class="btn btn-sm btn-warning text-dark mt-auto">
+                        <i class="fas fa-play me-1"></i> Open Lab
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="lab-card p-3 h-100">
+                    <span class="badge bg-danger lab-badge mb-2">Week 12 &bull; Integrated</span>
+                    <h6 class="fw-bold mb-1">2D Gaussian & EM Clustering</h6>
+                    <p class="small text-muted mb-2">Gaussian covariance ellipses and Expectation-Maximization steps.</p>
+                    <a href="week-12/week-12.html" class="btn btn-sm btn-outline-danger mt-auto">
+                        <i class="fas fa-play me-1"></i> Open Lab
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <script src="assets/js/progress-store.js"></script>
+    <script src="assets/js/math-rendering.js"></script>
+
+    <script>
+        // 1. Orthogonal Projection Visual Lab Engine
+        const projCanvas = document.getElementById('mainProjCanvas');
+        if (projCanvas) {
+            const ctx = projCanvas.getContext('2d');
+            let rotX = -0.4, rotY = 0.5;
+            let isDragging = false, lastX = 0, lastY = 0;
+
+            const bxInput = document.getElementById('bx');
+            const byInput = document.getElementById('by');
+            const bzInput = document.getElementById('bz');
+
+            function renderProj() {
+                const bx = parseFloat(bxInput.value);
+                const by = parseFloat(byInput.value);
+                const bz = parseFloat(bzInput.value);
+
+                document.getElementById('bxRead').innerText = bx.toFixed(1);
+                document.getElementById('byRead').innerText = by.toFixed(1);
+                document.getElementById('bzRead').innerText = bz.toFixed(1);
+                document.getElementById('pRead').innerText = `[${bx.toFixed(2)}, ${by.toFixed(2)}, 0.00]`;
+                document.getElementById('eRead').innerText = `[0.00, 0.00, ${bz.toFixed(2)}]`;
+
+                ctx.clearRect(0, 0, projCanvas.width, projCanvas.height);
+                const cx = projCanvas.width / 2;
+                const cy = projCanvas.height / 2 + 25;
+                const scale = 34;
+
+                function project(x, y, z) {
+                    const x1 = x * Math.cos(rotY) + z * Math.sin(rotY);
+                    const z1 = -x * Math.sin(rotY) + z * Math.cos(rotY);
+                    const y2 = y * Math.cos(rotX) - z1 * Math.sin(rotX);
+                    const z2 = y * Math.sin(rotX) + z1 * Math.cos(rotX);
+                    const fov = 400;
+                    const p = fov / (fov + z2 * 25);
+                    return { x: cx + x1 * scale * p, y: cy - y2 * scale * p };
+                }
+
+                // Grid for Subspace Plane
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+                ctx.lineWidth = 1;
+                for (let i = -5; i <= 5; i += 2) {
+                    const s1 = project(i, -5, 0), e1 = project(i, 5, 0);
+                    ctx.beginPath(); ctx.moveTo(s1.x, s1.y); ctx.lineTo(e1.x, e1.y); ctx.stroke();
+                    const s2 = project(-5, i, 0), e2 = project(5, i, 0);
+                    ctx.beginPath(); ctx.moveTo(s2.x, s2.y); ctx.lineTo(e2.x, e2.y); ctx.stroke();
+                }
+
+                const o = project(0, 0, 0);
+                const pPt = project(bx, by, 0);
+                const bPt = project(bx, by, bz);
+
+                // p vector (Green)
+                ctx.beginPath(); ctx.strokeStyle = '#10b981'; ctx.lineWidth = 3;
+                ctx.moveTo(o.x, o.y); ctx.lineTo(pPt.x, pPt.y); ctx.stroke();
+
+                // b vector (Cyan)
+                ctx.beginPath(); ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3;
+                ctx.moveTo(o.x, o.y); ctx.lineTo(bPt.x, bPt.y); ctx.stroke();
+
+                // e vector (Red dashed)
+                ctx.beginPath(); ctx.strokeStyle = '#f43f5e'; ctx.lineWidth = 2.5;
+                ctx.setLineDash([5, 4]); ctx.moveTo(pPt.x, pPt.y); ctx.lineTo(bPt.x, bPt.y); ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Labels
+                ctx.fillStyle = '#10b981'; ctx.font = 'bold 12px Inter'; ctx.fillText('p = Pb', pPt.x + 8, pPt.y - 4);
+                ctx.fillStyle = '#38bdf8'; ctx.fillText('b', bPt.x + 8, bPt.y - 4);
+                ctx.fillStyle = '#f43f5e'; ctx.fillText('e = b - p', (pPt.x + bPt.x) / 2 + 8, (pPt.y + bPt.y) / 2);
+            }
+
+            projCanvas.addEventListener('mousedown', (e) => { isDragging = true; lastX = e.clientX; lastY = e.clientY; });
+            window.addEventListener('mouseup', () => { isDragging = false; });
+            window.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                rotY += (e.clientX - lastX) * 0.01;
+                rotX += (e.clientY - lastY) * 0.01;
+                lastX = e.clientX; lastY = e.clientY;
+                renderProj();
+            });
+
+            [bxInput, byInput, bzInput].forEach(s => s.addEventListener('input', renderProj));
+            renderProj();
+        }
+
+        // 2. Gradient Descent Simulation Lab
+        const gdCanvas = document.getElementById('gdCanvas');
+        if (gdCanvas) {
+            const ctx = gdCanvas.getContext('2d');
+            const lrSlider = document.getElementById('lrSlider');
+            const lrVal = document.getElementById('lrVal');
+            const iterEl = document.getElementById('gdIter');
+            const lossEl = document.getElementById('gdLoss');
+            const statusEl = document.getElementById('gdStatus');
+
+            let path = [];
+            let currentX = 3.5, currentY = 2.5;
+
+            function runGD() {
+                const lr = parseFloat(lrSlider.value);
+                lrVal.innerText = lr.toFixed(2);
+                path = [{ x: 3.5, y: 2.5 }];
+                let x = 3.5, y = 2.5;
+
+                for (let i = 0; i < 40; i++) {
+                    const gx = 2 * x;
+                    const gy = 6 * y;
+                    x = x - lr * gx;
+                    y = y - lr * gy;
+                    path.push({ x, y });
+                    if (Math.abs(x) > 10 || Math.abs(y) > 10) break;
+                }
+
+                drawGDScene(path);
+                const finalLoss = x * x + 3 * y * y;
+                iterEl.innerText = path.length - 1;
+                lossEl.innerText = finalLoss.toFixed(4);
+                if (finalLoss < 0.01) {
+                    statusEl.innerText = 'Converged';
+                    statusEl.className = 'text-success';
+                } else if (finalLoss > 50) {
+                    statusEl.innerText = 'Diverged (Learning rate too high!)';
+                    statusEl.className = 'text-danger';
+                } else {
+                    statusEl.innerText = 'Running...';
+                    statusEl.className = 'text-warning';
+                }
+            }
+
+            function drawGDScene(points) {
+                ctx.clearRect(0, 0, gdCanvas.width, gdCanvas.height);
+                const cx = gdCanvas.width / 2;
+                const cy = gdCanvas.height / 2;
+                const scale = 40;
+
+                // Contour ellipses: x^2 + 3y^2 = C
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+                ctx.lineWidth = 1;
+                for (let r = 1; r <= 8; r += 1) {
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy, r * scale, (r * scale) / Math.sqrt(3), 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
+
+                // Minimum star at origin
+                ctx.fillStyle = '#10b981';
+                ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+
+                // Path lines
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                points.forEach((pt, idx) => {
+                    const px = cx + pt.x * scale;
+                    const py = cy - pt.y * scale;
+                    if (idx === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                });
+                ctx.stroke();
+
+                // Points
+                points.forEach((pt, idx) => {
+                    const px = cx + pt.x * scale;
+                    const py = cy - pt.y * scale;
+                    ctx.fillStyle = idx === 0 ? '#38bdf8' : (idx === points.length - 1 ? '#f43f5e' : '#f59e0b');
+                    ctx.beginPath();
+                    ctx.arc(px, py, idx === 0 ? 5 : 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+
+            lrSlider.addEventListener('input', runGD);
+            document.getElementById('resetGdBtn').addEventListener('click', runGD);
+            runGD();
+        }
+    </script>
+</body>
+</html>

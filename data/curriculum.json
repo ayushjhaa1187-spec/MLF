@@ -1,0 +1,284 @@
+{
+  "course_code": "BSCS2004",
+  "course_title": "Machine Learning Foundations",
+  "institution": "Indian Institute of Technology Madras (IIT Madras)",
+  "degree_program": "BS in Data Science and Applications",
+  "level": "Diploma in Data Science",
+  "total_weeks": 12,
+  "total_lectures": 93,
+  "primary_playlist": "https://youtube.com/playlist?list=PLZ2ps__7DhBammhVmBE9f5eezTj2kDfTN",
+  "pillars": [
+    {
+      "id": "linear-algebra",
+      "name": "Linear Algebra & Matrix Geometry",
+      "icon": "fa-vector-square",
+      "weeks": [
+        1,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "description": "Vector spaces, subspaces, orthogonal projections, least squares, spectral theorem, SVD, and PCA."
+    },
+    {
+      "id": "multivariate-calculus",
+      "name": "Multivariable Calculus",
+      "icon": "fa-square-root-variable",
+      "weeks": [
+        2,
+        8
+      ],
+      "description": "Gradients, directional derivatives, Jacobians, Hessians, and multidimensional Taylor expansions."
+    },
+    {
+      "id": "optimization",
+      "name": "Optimization & Duality",
+      "icon": "fa-mountain",
+      "weeks": [
+        8,
+        9,
+        10
+      ],
+      "description": "Unconstrained gradient descent, learning rates, Lagrange multipliers, convexity, KKT conditions, and SVMs."
+    },
+    {
+      "id": "probability",
+      "name": "Probability & Statistical Models",
+      "icon": "fa-dice",
+      "weeks": [
+        11,
+        12
+      ],
+      "description": "Axioms of probability, Bayes' rule, random variables, multivariate normal distributions, and GMM/EM."
+    }
+  ],
+  "modules": [
+    {
+      "week": 1,
+      "title": "Introduction to Machine Learning, Tasks & Taxonomy",
+      "description": "Introduction to Machine Learning, taxonomy (supervised, unsupervised, reinforcement), data representation, vectors, inner products, and basic linear algebra setup.",
+      "video_count": 9,
+      "lecture_ids": [
+        "MLF-LEC-001",
+        "MLF-LEC-002",
+        "MLF-LEC-003",
+        "MLF-LEC-004",
+        "MLF-LEC-005",
+        "MLF-LEC-006",
+        "MLF-LEC-007",
+        "MLF-LEC-008",
+        "MLF-LEC-009"
+      ],
+      "lesson_url": "week-1/week-1.html",
+      "summary_url": "week-1/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 2,
+      "title": "Calculus for ML: Sets, Functions & Derivatives",
+      "description": "Multivariable calculus foundations: sets, limits, directional derivatives, the gradient vector, Jacobians, Hessian curvature matrices, and Taylor approximations.",
+      "video_count": 7,
+      "lecture_ids": [
+        "MLF-LEC-010",
+        "MLF-LEC-011",
+        "MLF-LEC-012",
+        "MLF-LEC-013",
+        "MLF-LEC-014",
+        "MLF-LEC-015",
+        "MLF-LEC-016"
+      ],
+      "lesson_url": "week-2/week-2.html",
+      "summary_url": "week-2/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 3,
+      "title": "Linear Algebra: Subspaces, Orthogonality & Least Squares",
+      "description": "The four fundamental subspaces, orthogonal complements, projection matrices, the orthogonality principle, normal equations, and least squares linear regression.",
+      "video_count": 8,
+      "lecture_ids": [
+        "MLF-LEC-017",
+        "MLF-LEC-018",
+        "MLF-LEC-019",
+        "MLF-LEC-020",
+        "MLF-LEC-021",
+        "MLF-LEC-022",
+        "MLF-LEC-023",
+        "MLF-LEC-024"
+      ],
+      "lesson_url": "week-3/week-3.html",
+      "summary_url": "week-3/summary.html",
+      "has_notebook": true
+    },
+    {
+      "week": 4,
+      "title": "Regression, Eigenvalues & Matrix Diagonalization",
+      "description": "Linear and polynomial regression extensions, eigenvalues, eigenvectors, characteristic polynomials, algebraic vs geometric multiplicity, and matrix diagonalization.",
+      "video_count": 7,
+      "lecture_ids": [
+        "MLF-LEC-025",
+        "MLF-LEC-026",
+        "MLF-LEC-027",
+        "MLF-LEC-028",
+        "MLF-LEC-029",
+        "MLF-LEC-030",
+        "MLF-LEC-031"
+      ],
+      "lesson_url": "week-4/week-4.html",
+      "summary_url": "week-4/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 5,
+      "title": "Complex Matrices, Hermitian Matrices & Spectral Theory",
+      "description": "Complex matrices, Hermitian and real symmetric matrices, the Spectral Theorem, quadratic forms, positive definiteness, and the Rayleigh quotient.",
+      "video_count": 6,
+      "lecture_ids": [
+        "MLF-LEC-032",
+        "MLF-LEC-033",
+        "MLF-LEC-034",
+        "MLF-LEC-035",
+        "MLF-LEC-036",
+        "MLF-LEC-037"
+      ],
+      "lesson_url": "week-5/week-5.html",
+      "summary_url": "week-5/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 6,
+      "title": "Singular Value Decomposition (SVD) & Positive Definiteness",
+      "description": "Singular Value Decomposition (SVD), geometric action on unit spheres, low-rank matrix approximation (Eckart-Young-Mirsky Theorem), and positive definite matrices.",
+      "video_count": 7,
+      "lecture_ids": [
+        "MLF-LEC-038",
+        "MLF-LEC-039",
+        "MLF-LEC-040",
+        "MLF-LEC-041",
+        "MLF-LEC-042",
+        "MLF-LEC-043",
+        "MLF-LEC-044"
+      ],
+      "lesson_url": "week-6/week-6.html",
+      "summary_url": "week-6/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 7,
+      "title": "Principal Component Analysis (PCA) & Dimensionality Reduction",
+      "description": "Dimensionality reduction, sample covariance matrices, Principal Component Analysis (PCA) as maximum variance and minimum reconstruction error, and scree plots.",
+      "video_count": 6,
+      "lecture_ids": [
+        "MLF-LEC-045",
+        "MLF-LEC-046",
+        "MLF-LEC-047",
+        "MLF-LEC-048",
+        "MLF-LEC-049",
+        "MLF-LEC-093"
+      ],
+      "lesson_url": "week-7/week-7.html",
+      "summary_url": "week-7/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 8,
+      "title": "Unconstrained Optimization, Taylor Series & Gradient Descent",
+      "description": "Unconstrained optimization, descent directions, learning rate selection, condition numbers, Lipschitz smoothness, and batch gradient descent convergence.",
+      "video_count": 8,
+      "lecture_ids": [
+        "MLF-LEC-050",
+        "MLF-LEC-051",
+        "MLF-LEC-052",
+        "MLF-LEC-053",
+        "MLF-LEC-054",
+        "MLF-LEC-055",
+        "MLF-LEC-056",
+        "MLF-LEC-057"
+      ],
+      "lesson_url": "week-8/week-8.html",
+      "summary_url": "week-8/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 9,
+      "title": "Constrained Optimization, Lagrange Multipliers & Convexity",
+      "description": "Constrained optimization, Lagrange multipliers, convex sets, convex functions, projection operators, and projected gradient descent.",
+      "video_count": 8,
+      "lecture_ids": [
+        "MLF-LEC-058",
+        "MLF-LEC-059",
+        "MLF-LEC-060",
+        "MLF-LEC-061",
+        "MLF-LEC-062",
+        "MLF-LEC-063",
+        "MLF-LEC-064",
+        "MLF-LEC-065"
+      ],
+      "lesson_url": "week-9/week-9.html",
+      "summary_url": "week-9/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 10,
+      "title": "Duality, KKT Conditions & Optimization in ML",
+      "description": "Lagrangian duality, primal and dual problems, weak and strong duality, Slater condition, Karush-Kuhn-Tucker (KKT) optimality, and Support Vector Machines.",
+      "video_count": 7,
+      "lecture_ids": [
+        "MLF-LEC-066",
+        "MLF-LEC-067",
+        "MLF-LEC-068",
+        "MLF-LEC-069",
+        "MLF-LEC-070",
+        "MLF-LEC-071",
+        "MLF-LEC-092"
+      ],
+      "lesson_url": "week-10/week-10.html",
+      "summary_url": "week-10/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 11,
+      "title": "Probability Foundations: Discrete & Continuous Distributions",
+      "description": "Probability spaces, Kolmogorov axioms, conditional probability, Bayes' theorem, discrete and continuous random variables, expectations, and key distributions.",
+      "video_count": 15,
+      "lecture_ids": [
+        "MLF-LEC-072",
+        "MLF-LEC-073",
+        "MLF-LEC-074",
+        "MLF-LEC-075",
+        "MLF-LEC-076",
+        "MLF-LEC-077",
+        "MLF-LEC-078",
+        "MLF-LEC-079",
+        "MLF-LEC-080",
+        "MLF-LEC-081",
+        "MLF-LEC-082",
+        "MLF-LEC-083",
+        "MLF-LEC-084",
+        "MLF-LEC-085",
+        "MLF-LEC-086"
+      ],
+      "lesson_url": "week-11/week-11.html",
+      "summary_url": "week-11/summary.html",
+      "has_notebook": false
+    },
+    {
+      "week": 12,
+      "title": "Multivariate Gaussians, GMMs, EM Algorithm & Limit Theorems",
+      "description": "Multivariate Gaussian distributions, covariance geometry, Gaussian Mixture Models (GMM), the Expectation-Maximization (EM) algorithm, and concentration inequalities.",
+      "video_count": 5,
+      "lecture_ids": [
+        "MLF-LEC-087",
+        "MLF-LEC-088",
+        "MLF-LEC-089",
+        "MLF-LEC-090",
+        "MLF-LEC-091"
+      ],
+      "lesson_url": "week-12/week-12.html",
+      "summary_url": "week-12/summary.html",
+      "has_notebook": false
+    }
+  ]
+}

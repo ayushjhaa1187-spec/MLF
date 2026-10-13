@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Revision Vault & Formula Cheat Sheets - ML Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        .formula-card-grid {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            background: #fff;
+            height: 100%;
+        }
+        .formula-card-grid h6 {
+            color: #0284c7;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .math-display-compact {
+            background: #f8fafc;
+            padding: 10px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 8px;
+            border-left: 3px solid #0284c7;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="home.html">
+                <i class="fas fa-home me-2"></i> Course Dashboard
+            </a>
+            <span class="badge bg-warning text-dark px-3 py-2 fw-bold">Formula Vault & Revision</span>
+        </div>
+    </nav>
+
+    <div class="container my-5" style="max-width: 1100px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <span class="badge bg-primary mb-2">High-Yield Synthesis</span>
+                <h1 class="display-6 fw-bold mb-1">Master Formula Vault & Misconceptions Matrix</h1>
+                <p class="text-muted">Consolidated mathematical cheat sheet, core derivations, and common conceptual failure modes.</p>
+            </div>
+            <button class="btn btn-outline-secondary" onclick="window.print()">
+                <i class="fas fa-print me-1"></i> Print / Save PDF
+            </button>
+        </div>
+
+        <!-- 1. LINEAR ALGEBRA FORMULA VAULT -->
+        <div class="card mb-4 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-primary mb-3"><i class="fas fa-vector-square me-2"></i>Linear Algebra & Matrix Geometry</h4>
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>Rank-Nullity Theorem</h6>
+                        <div class="math-display-compact">$$\text{rank}(A) + \text{nullity}(A) = n$$</div>
+                        <small class="text-muted">Total number of columns equals dimensions of column space plus null space.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>Projection Matrix (General)</h6>
+                        <div class="math-display-compact">$$P = A(A^T A)^{-1} A^T$$</div>
+                        <small class="text-muted">Symmetric ($P^T = P$) and idempotent ($P^2 = P$). Eigenvalues are 0 and 1.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>Normal Equations (Least Squares)</h6>
+                        <div class="math-display-compact">$$A^T A \hat{x} = A^T b \implies \hat{x} = (A^T A)^{-1} A^T b$$</div>
+                        <small class="text-muted">Minimizes Euclidean residual $\|Ax - b\|_2^2$. Orthogonality: $A^T e = 0$.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>Spectral Theorem</h6>
+                        <div class="math-display-compact">$$A = Q \Lambda Q^T = \sum_{i=1}^n \lambda_i q_i q_i^T$$</div>
+                        <small class="text-muted">Real symmetric matrices have real eigenvalues and orthonormal eigenvectors.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>Singular Value Decomposition (SVD)</h6>
+                        <div class="math-display-compact">$$A = U \Sigma V^T = \sum_{i=1}^r \sigma_i u_i v_i^T$$</div>
+                        <small class="text-muted">Singular values $\sigma_i = \sqrt{\lambda_i(A^T A)}$. Eckart-Young optimal rank-$k$ approximation.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>Principal Component Analysis (PCA)</h6>
+                        <div class="math-display-compact">$$\Sigma = \frac{1}{N} X^T X = Q \Lambda Q^T, \quad z_k = X q_k$$</div>
+                        <small class="text-muted">Maximizes projected empirical variance; eigenvalues $\lambda_k$ equal variance on PC $k$.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. OPTIMIZATION & CALCULUS VAULT -->
+        <div class="card mb-4 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-success mb-3"><i class="fas fa-mountain me-2"></i>Multivariate Calculus & Optimization</h4>
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>Multivariate Taylor Expansion</h6>
+                        <div class="math-display-compact">$$f(x) \approx f(x_0) + \nabla f(x_0)^T \Delta x + \frac{1}{2} \Delta x^T H \Delta x$$</div>
+                        <small class="text-muted">Second-order local curvature quadratic approximation.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>Gradient Descent Update</h6>
+                        <div class="math-display-compact">$$x^{(k+1)} = x^{(k)} - \eta \nabla f(x^{(k)})$$</div>
+                        <small class="text-muted">Convergence guaranteed for $L$-smooth convex functions when $\eta < 2/L$.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="formula-card-grid">
+                        <h6>KKT Optimality Conditions</h6>
+                        <div class="math-display-compact">$$\nabla \mathcal{L} = 0, \; \lambda_i \ge 0, \; \lambda_i g_i(x) = 0$$</div>
+                        <small class="text-muted">Primal feasibility, dual feasibility, and complementary slackness for inequality constraints.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. PROBABILITY VAULT -->
+        <div class="card mb-4 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-danger mb-3"><i class="fas fa-dice me-2"></i>Probability & Statistical Models</h4>
+            <div class="row g-3">
+                <div class="col-md-6 col-lg-6">
+                    <div class="formula-card-grid">
+                        <h6>Bayes' Theorem</h6>
+                        <div class="math-display-compact">$$P(A \mid B) = \frac{P(B \mid A) P(A)}{P(B)} = \frac{P(B \mid A) P(A)}{\sum_k P(B \mid A_k) P(A_k)}$$</div>
+                        <small class="text-muted">Posterior equals likelihood times prior divided by marginal evidence.</small>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-6">
+                    <div class="formula-card-grid">
+                        <h6>Multivariate Normal Density</h6>
+                        <div class="math-display-compact">$$p(x) = \frac{1}{(2\pi)^{d/2} |\Sigma|^{1/2}} \exp\left( -\frac{1}{2} (x - \mu)^T \Sigma^{-1} (x - \mu) \right)$$</div>
+                        <small class="text-muted">Quadratic Mahalanobis distance $(x - \mu)^T \Sigma^{-1} (x - \mu)$ defines elliptical contours.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. MASTER MISCONCEPTIONS MATRIX -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-dark mb-3"><i class="fas fa-exclamation-triangle text-danger me-2"></i>Master Common Misconceptions Matrix</h4>
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr><th>Concept</th><th>Common Fallacy</th><th>Mathematical Reality</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Projection $P$</strong></td>
+                            <td>"Multiplying by $P$ twice reduces vector length further."</td>
+                            <td>$P$ is idempotent: $P^2 = P$. Once a vector is in $C(A)$, projecting it again changes nothing ($P(Pb) = Pb$).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Invertibility of $A^T A$</strong></td>
+                            <td>"$A^T A$ is always invertible for any matrix $A$."</td>
+                            <td>$A^T A$ is invertible if and only if $A$ has linearly independent columns ($\text{rank}(A) = n$).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Eigenvectors of $A$ vs $A^T A$</strong></td>
+                            <td>"The eigenvectors of $A$ and $A^T A$ are the same."</td>
+                            <td>$A$ and $A^T A$ have different eigenvectors in general. The eigenvectors of $A^T A$ are the right singular vectors $V$ of $A$.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gradient Descent Step</strong></td>
+                            <td>"Taking a larger learning rate always reaches the minimum faster."</td>
+                            <td>If $\eta > 2/L$, the updates overshoot and diverge towards infinity.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Independence vs Orthogonality</strong></td>
+                            <td>"Uncorrelated random variables are always independent."</td>
+                            <td>Zero covariance ($\text{Cov}(X, Y) = 0$) implies independence <em>only</em> if the joint distribution is jointly Gaussian.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <script src="assets/js/progress-store.js"></script>
+    <script src="assets/js/math-rendering.js"></script>
+</body>
+</html>

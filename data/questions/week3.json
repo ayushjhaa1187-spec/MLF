@@ -1,0 +1,388 @@
+[
+  {
+    "id": "iitm-w3-q01",
+    "week": 3,
+    "title": "Euclidean Norm of a 3D Vector",
+    "type": "numerical",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q1",
+    "concept_id": "inner-product",
+    "difficulty": "Easy",
+    "question": "What is the Euclidean length (norm) of the vector $v = \\begin{bmatrix} 1 \\\\ 2 \\\\ -1 \\end{bmatrix}$?",
+    "options": [
+      "A. 2.342",
+      "B. 2.308",
+      "C. 2.440",
+      "D. 2.449"
+    ],
+    "answer": "D",
+    "hints": [
+      "Recall the Euclidean norm definition: $\\|v\\| = \\sqrt{\\langle v, v \\rangle} = \\sqrt{v^T v}$.",
+      "Compute the sum of squared components: $1^2 + 2^2 + (-1)^2 = 1 + 4 + 1 = 6$.",
+      "Calculate $\\sqrt{6} \\approx 2.449489$."
+    ],
+    "explanation": "$$v = \\begin{bmatrix} 1 \\\\ 2 \\\\ -1 \\end{bmatrix}$$\n$$\\|v\\| = \\sqrt{v^T v} = \\sqrt{1^2 + 2^2 + (-1)^2} = \\sqrt{1 + 4 + 1} = \\sqrt{6} \\approx 2.449.$$\nTherefore, option **D** is correct."
+  },
+  {
+    "id": "iitm-w3-q02",
+    "week": 3,
+    "title": "Inner Product of Two Vectors in R^3",
+    "type": "numerical",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q2",
+    "concept_id": "inner-product",
+    "difficulty": "Easy",
+    "question": "The inner product of $a = \\begin{bmatrix} 1 \\\\ 2 \\\\ 3 \\end{bmatrix}$ and $b = \\begin{bmatrix} -1 \\\\ 1 \\\\ 5 \\end{bmatrix}$ is:",
+    "options": [
+      "A. 11",
+      "B. 12",
+      "C. 14",
+      "D. 16"
+    ],
+    "answer": "D",
+    "hints": [
+      "The standard inner product in $\\mathbb{R}^3$ is $\\langle a, b \\rangle = a^T b = \\sum_{i=1}^3 a_i b_i$.",
+      "Compute each component product: $(1)(-1) + (2)(1) + (3)(5)$.",
+      "Sum them: $-1 + 2 + 15 = 16$."
+    ],
+    "explanation": "$$\\langle a, b \\rangle = a^T b = (1)(-1) + (2)(1) + (3)(5) = -1 + 2 + 15 = 16.$$\nTherefore, option **D** is correct."
+  },
+  {
+    "id": "iitm-w3-q03",
+    "week": 3,
+    "title": "Rank-Nullity Theorem Application",
+    "type": "conceptual",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q3",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Easy",
+    "question": "If the rank of a $4 \\times 3$ matrix $A$ is $1$, what is the dimension of its null space $\\dim(N(A))$?",
+    "options": [
+      "A. 3",
+      "B. 1",
+      "C. 2",
+      "D. 4"
+    ],
+    "answer": "C",
+    "hints": [
+      "State the Rank-Nullity Theorem: For an $m \\times n$ matrix $A$, $\\text{rank}(A) + \\dim(N(A)) = n$.",
+      "Identify the number of columns $n$: here $A$ is $4 \\times 3$, so $n = 3$.",
+      "Substitute $\\text{rank}(A) = 1$: $1 + \\dim(N(A)) = 3 \\implies \\dim(N(A)) = 2$."
+    ],
+    "explanation": "By the **Rank-Nullity Theorem**, for an $m \\times n$ matrix:\n$$\\text{rank}(A) + \\text{nullity}(A) = n$$\nHere, $A$ has shape $4 \\times 3$, so the number of columns (variables) is $n = 3$. Given $\\text{rank}(A) = 1$:\n$$1 + \\dim(N(A)) = 3 \\implies \\dim(N(A)) = 3 - 1 = 2.$$\nTherefore, option **C** is correct."
+  },
+  {
+    "id": "iitm-w3-q04",
+    "week": 3,
+    "title": "Orthogonal Vector Selection",
+    "type": "conceptual",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q4",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Easy",
+    "question": "Which of the following vectors is orthogonal to $v = \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix}$?",
+    "options": [
+      "A. [-1, 1, -3]",
+      "B. [1, 2, 1]",
+      "C. [-1, 1, 3]",
+      "D. [-3, 0, 1]"
+    ],
+    "answer": "D",
+    "hints": [
+      "Two vectors $u$ and $v$ are orthogonal if and only if their dot product $u^T v = 0$.",
+      "Test each option: for option D, compute $(-3)(1) + (0)(-1) + (1)(3)$.",
+      "$-3 + 0 + 3 = 0$."
+    ],
+    "explanation": "Two vectors are orthogonal if their inner product is identically zero:\n- For A: $[-1, 1, -3] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = -1 - 1 - 9 = -11 \\neq 0$.\n- For B: $[1, 2, 1] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = 1 - 2 + 3 = 2 \\neq 0$.\n- For D: $[-3, 0, 1] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = -3 + 0 + 3 = 0$.\nTherefore, option **D** is correct."
+  },
+  {
+    "id": "iitm-w3-q05",
+    "week": 3,
+    "title": "Matrix Rank via Linearly Dependent Rows",
+    "type": "numerical",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q5",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Easy",
+    "question": "The rank of the matrix $A = \\begin{bmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{bmatrix}$ is:",
+    "options": [
+      "A. 1",
+      "B. 2",
+      "C. 3",
+      "D. 4"
+    ],
+    "answer": "A",
+    "hints": [
+      "Observe the relationships between rows: Row 2 is $2 \\times$ Row 1, and Row 3 is $3 \\times$ Row 1.",
+      "Apply row operations: $R_2 \\to R_2 - 2R_1$ and $R_3 \\to R_3 - 3R_1$.",
+      "Both row 2 and row 3 become all zeros. Count the non-zero rows."
+    ],
+    "explanation": "Row reduction:\n$$R_2 \\to R_2 - 2R_1 \\implies [0, 0, 0]$$\n$$R_3 \\to R_3 - 3R_1 \\implies [0, 0, 0]$$\n$$\\text{RREF}(A) = \\begin{bmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{bmatrix}$$\nThere is exactly 1 non-zero pivot row, so $\\text{rank}(A) = 1$.\nTherefore, option **A** is correct."
+  },
+  {
+    "id": "iitm-w3-q06",
+    "week": 3,
+    "title": "Smallest Subspace Containing the First Quadrant",
+    "type": "conceptual",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q6",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Medium",
+    "question": "Which of the following would be the smallest vector subspace containing the first quadrant of $\\mathbb{R}^2$ ($x \\ge 0, y \\ge 0$)?",
+    "options": [
+      "A. The first quadrant",
+      "B. The first and the third quadrant",
+      "C. The first and second quadrant",
+      "D. The whole space $\\mathbb{R}^2$"
+    ],
+    "answer": "D",
+    "hints": [
+      "Recall vector subspace closure properties: if $v \\in S$, then $c v \\in S$ for any scalar $c \\in \\mathbb{R}$.",
+      "Vectors $e_1 = [1, 0]^T$ and $e_2 = [0, 1]^T$ lie in the first quadrant.",
+      "Subspace closure under negative scalar multiplication requires $-e_1, -e_2 \\in S$, spanning all of $\\mathbb{R}^2$."
+    ],
+    "explanation": "A vector subspace must be closed under vector addition and scalar multiplication for **all** scalars $c \\in \\mathbb{R}$.\nThe first quadrant contains $e_1 = [1, 0]^T$ and $e_2 = [0, 1]^T$. By closure under scalar multiplication, $c e_1$ and $d e_2$ must belong to the subspace for all $c, d \\in \\mathbb{R}$, including negative numbers.\nThe linear span of $\\{e_1, e_2\\}$ is the entire space $\\mathbb{R}^2$.\nTherefore, option **D** is correct."
+  },
+  {
+    "id": "iitm-w3-q07",
+    "week": 3,
+    "title": "Formulating Linear Equations & Matrix Rank",
+    "type": "numerical",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q7",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Easy",
+    "question": "5 peaches and 6 oranges cost 150 rupees. 10 peaches and 12 oranges cost 300 rupees. Form the coefficient matrix $A$ out of the given information and find its rank.",
+    "options": [
+      "A. Rank = 2",
+      "B. Rank = 1",
+      "C. Rank = 0",
+      "D. Rank = 4"
+    ],
+    "answer": "B",
+    "hints": [
+      "Set up the system: $5x_1 + 6x_2 = 150$ and $10x_1 + 12x_2 = 300$.",
+      "Write the coefficient matrix: $A = \\begin{bmatrix} 5 & 6 \\\\ 10 & 12 \\end{bmatrix}$.",
+      "Check linear dependence: Row 2 is $2 \\times$ Row 1, so the determinant is 0 and rank is 1."
+    ],
+    "explanation": "The linear system is:\n$$\\begin{bmatrix} 5 & 6 \\\\ 10 & 12 \\end{bmatrix} \\begin{bmatrix} x_1 \\\\ x_2 \\end{bmatrix} = \\begin{bmatrix} 150 \\\\ 300 \\end{bmatrix}$$\nThe coefficient matrix $A = \\begin{bmatrix} 5 & 6 \\\\ 10 & 12 \\end{bmatrix}$ has $R_2 = 2 R_1$.\nPerforming $R_2 \\to R_2 - 2R_1$ gives $\\begin{bmatrix} 5 & 6 \\\\ 0 & 0 \\end{bmatrix}$. Thus, $\\text{rank}(A) = 1$.\nTherefore, option **B** is correct."
+  },
+  {
+    "id": "iitm-w3-q08",
+    "week": 3,
+    "title": "Least Squares Fit for Line y = theta_1 x + theta_2",
+    "type": "derivation",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q8",
+    "concept_id": "least-squares-normal-eq",
+    "difficulty": "Hard",
+    "question": "Consider 3 paired observations $(x_i, b_i)$: $((1, 6), (-1, 3), (3, 15))$. For the closest line $b = \\theta_1 x + \\theta_2$, which is the least squares solution vector $\\hat{\\theta} = [\\theta_1, \\theta_2]^T$?",
+    "options": [
+      "A. (3, 4)",
+      "B. (4, 3)",
+      "C. (5, 3)",
+      "D. (3, 5)"
+    ],
+    "answer": "D",
+    "hints": [
+      "Set up $A \\theta = b$ where $A = \\begin{bmatrix} x_1 & 1 \\\\ x_2 & 1 \\\\ x_3 & 1 \\end{bmatrix} = \\begin{bmatrix} 1 & 1 \\\\ -1 & 1 \\\\ 3 & 1 \\end{bmatrix}$ and $b = \\begin{bmatrix} 6 \\\\ 3 \\\\ 15 \\end{bmatrix}$.",
+      "Compute $A^T A$: $\\begin{bmatrix} 1 & -1 & 3 \\\\ 1 & 1 & 1 \\end{bmatrix} \\begin{bmatrix} 1 & 1 \\\\ -1 & 1 \\\\ 3 & 1 \\end{bmatrix} = \\begin{bmatrix} 11 & 3 \\\\ 3 & 3 \\end{bmatrix}$.",
+      "Compute $A^T b$: $\\begin{bmatrix} 1 & -1 & 3 \\\\ 1 & 1 & 1 \\end{bmatrix} \\begin{bmatrix} 6 \\\\ 3 \\\\ 15 \\end{bmatrix} = \\begin{bmatrix} 6 - 3 + 45 \\\\ 6 + 3 + 15 \\end{bmatrix} = \\begin{bmatrix} 48 \\\\ 24 \\end{bmatrix}$.",
+      "Solve the $2 \\times 2$ normal equations: $11\\theta_1 + 3\\theta_2 = 48$ and $3\\theta_1 + 3\\theta_2 = 24$."
+    ],
+    "explanation": "From the normal equations $A^T A \\hat{\\theta} = A^T b$:\n$$A^T A = \\begin{bmatrix} 11 & 3 \\\\ 3 & 3 \\end{bmatrix}, \\quad A^T b = \\begin{bmatrix} 48 \\\\ 24 \\end{bmatrix}$$\nSubtracting equation 2 from equation 1:\n$$(11 - 3)\\theta_1 + (3 - 3)\\theta_2 = 48 - 24 \\implies 8\\theta_1 = 24 \\implies \\theta_1 = 3.$$\nSubstitute into equation 2:\n$$3(3) + 3\\theta_2 = 24 \\implies 9 + 3\\theta_2 = 24 \\implies 3\\theta_2 = 15 \\implies \\theta_2 = 5.$$\nThus $\\hat{\\theta} = (3, 5)$.\nTherefore, option **D** is correct."
+  },
+  {
+    "id": "iitm-w3-q09",
+    "week": 3,
+    "title": "Null Space Basis via RREF",
+    "type": "derivation",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q9",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Hard",
+    "question": "Which of the following spans the null space $N(A)$ of the matrix $A = \\begin{bmatrix} 2 & 4 & 6 & 8 \\\\ 1 & 3 & 0 & 5 \\\\ 1 & 1 & 6 & 3 \\end{bmatrix}$?",
+    "options": [
+      "A. Span([-9, 3, 1, 0]^T, [-2, -1, 0, 1]^T)",
+      "B. Span([9, 3, 1, 0]^T, [-2, 1, 0, 1]^T)",
+      "C. Span([9, 3, 1, 0]^T, [2, 1, 0, 1]^T)",
+      "D. Span([1, 3, 1, 0]^T, [0, -1, 0, 1]^T)"
+    ],
+    "answer": "A",
+    "hints": [
+      "Row reduce $A$ to RREF without changing its null space.",
+      "RREF of $A$ is $\\begin{bmatrix} 1 & 0 & 9 & 2 \\\\ 0 & 1 & -3 & 1 \\\\ 0 & 0 & 0 & 0 \\end{bmatrix}$.",
+      "Express pivot variables $x_1, x_2$ in terms of free variables $x_3 = s, x_4 = t$:\n$x_1 = -9s - 2t$, $x_2 = 3s - t$."
+    ],
+    "explanation": "Row reduction of $A$ leads to:\n$$\\text{RREF}(A) = \\begin{bmatrix} 1 & 0 & 9 & 2 \\\\ 0 & 1 & -3 & 1 \\\\ 0 & 0 & 0 & 0 \\end{bmatrix}$$\nThe system $A x = 0$ corresponds to:\n$$x_1 + 9x_3 + 2x_4 = 0 \\implies x_1 = -9x_3 - 2x_4$$\n$$x_2 - 3x_3 + x_4 = 0 \\implies x_2 = 3x_3 - x_4$$\nSetting free variables $(x_3, x_4) = (1, 0)$ gives $[-9, 3, 1, 0]^T$.\nSetting free variables $(x_3, x_4) = (0, 1)$ gives $[-2, -1, 0, 1]^T$.\nThus, the null space basis is $\\text{Span}\\left( \\begin{bmatrix} -9 \\\\ 3 \\\\ 1 \\\\ 0 \\end{bmatrix}, \\begin{bmatrix} -2 \\\\ -1 \\\\ 0 \\\\ 1 \\end{bmatrix} \\right)$.\nTherefore, option **A** is correct."
+  },
+  {
+    "id": "iitm-w3-q10",
+    "week": 3,
+    "title": "Orthogonal Vector Pair Check",
+    "type": "conceptual",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q10",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Easy",
+    "question": "Which of the following pairs of vectors are orthogonal to each other?",
+    "options": [
+      "A. [1, 2, 3] and [-1, -2, 3]",
+      "B. [1, 2, 1] and [0, -1, 2]",
+      "C. [1, 2, 5] and [1, 2, 3]",
+      "D. [1, 2, 3] and [2, 4, 6]"
+    ],
+    "answer": "B",
+    "hints": [
+      "Compute the dot product for each candidate pair.",
+      "For pair B: $(1)(0) + (2)(-1) + (1)(2) = 0 - 2 + 2 = 0$."
+    ],
+    "explanation": "Calculate the inner products:\n- Pair A: $(1)(-1) + (2)(-2) + (3)(3) = -1 - 4 + 9 = 4 \\neq 0$.\n- Pair B: $(1)(0) + (2)(-1) + (1)(2) = 0 - 2 + 2 = 0$.\nTherefore, option **B** is correct."
+  },
+  {
+    "id": "iitm-w3-q11",
+    "week": 3,
+    "title": "Orthogonal Projection of Vector onto Vector",
+    "type": "numerical",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q11",
+    "concept_id": "orthogonal-projection",
+    "difficulty": "Medium",
+    "question": "Find the orthogonal projection of vector $a = \\begin{bmatrix} 5 \\\\ -4 \\\\ 1 \\end{bmatrix}$ along vector $b = \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix}$.",
+    "options": [
+      "A. [27/29, -18/29, 36/29]^T",
+      "B. [27/29, 18/29, 36/29]^T",
+      "C. [81/29, -54/29, 108/29]^T",
+      "D. [81/29, 54/29, 108/29]^T"
+    ],
+    "answer": "C",
+    "hints": [
+      "Formula for projection of $a$ onto line spanned by $b$: $P_b(a) = \\frac{a^T b}{b^T b} b$.",
+      "Compute numerator: $a^T b = (5)(3) + (-4)(-2) + (1)(4) = 15 + 8 + 4 = 27$.",
+      "Compute denominator: $b^T b = 3^2 + (-2)^2 + 4^2 = 9 + 4 + 16 = 29$.",
+      "Scale $b$ by scalar $\\frac{27}{29}$: $\\frac{27}{29} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix} = \\begin{bmatrix} 81/29 \\\\ -54/29 \\\\ 108/29 \\end{bmatrix}$."
+    ],
+    "explanation": "$$P_b(a) = \\frac{a^T b}{b^T b} b = \\frac{(5)(3) + (-4)(-2) + (1)(4)}{3^2 + (-2)^2 + 4^2} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix}$$\n$$= \\frac{15 + 8 + 4}{9 + 4 + 16} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix} = \\frac{27}{29} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix} = \\begin{bmatrix} 81/29 \\\\ -54/29 \\\\ 108/29 \\end{bmatrix}.$$\nTherefore, option **C** is correct."
+  },
+  {
+    "id": "iitm-w3-q12",
+    "week": 3,
+    "title": "Projection Matrix for a 1D Subspace",
+    "type": "derivation",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q12",
+    "concept_id": "orthogonal-projection",
+    "difficulty": "Medium",
+    "question": "What is the projection matrix $P$ that orthogonally projects any vector in $\\mathbb{R}^3$ onto the 1D subspace spanned by $v = \\begin{bmatrix} 2 \\\\ 1 \\\\ 3 \\end{bmatrix}$?",
+    "options": [
+      "A. 1/14 * [[4, 2, 6], [2, 1, 3], [6, 3, 9]]",
+      "B. 1/14 * [[4, 3, 6], [2, 2, 3], [9, 3, 9]]",
+      "C. 1/14 * [[4, -2, 6], [3, 1, 3], [6, 6, 9]]",
+      "D. 1/14 * [[2, 2, -6], [2, -1, 5], [5, 7, 9]]"
+    ],
+    "answer": "A",
+    "hints": [
+      "Recall the rank-1 projection matrix formula: $P = \\frac{v v^T}{v^T v}$.",
+      "Compute denominator scalar: $v^T v = 2^2 + 1^2 + 3^2 = 4 + 1 + 9 = 14$.",
+      "Compute numerator outer product $v v^T = \\begin{bmatrix} 2 \\\\ 1 \\\\ 3 \\end{bmatrix} \\begin{bmatrix} 2 & 1 & 3 \\end{bmatrix} = \\begin{bmatrix} 4 & 2 & 6 \\\\ 2 & 1 & 3 \\\\ 6 & 3 & 9 \\end{bmatrix}$."
+    ],
+    "explanation": "The projection matrix onto the span of $v$ is given by the outer product divided by inner product:\n$$P = \\frac{v v^T}{v^T v}$$\nDenominator:\n$$v^T v = 2^2 + 1^2 + 3^2 = 14$$\nNumerator outer product:\n$$v v^T = \\begin{bmatrix} 2 \\\\ 1 \\\\ 3 \\end{bmatrix} \\begin{bmatrix} 2 & 1 & 3 \\end{bmatrix} = \\begin{bmatrix} 4 & 2 & 6 \\\\ 2 & 1 & 3 \\\\ 6 & 3 & 9 \\end{bmatrix}$$\nThus:\n$$P = \\frac{1}{14} \\begin{bmatrix} 4 & 2 & 6 \\\\ 2 & 1 & 3 \\\\ 6 & 3 & 9 \\end{bmatrix}.$$\nNote that $P^T = P$ (symmetric) and $P^2 = P$ (idempotent), confirming it is an orthogonal projection matrix.\nTherefore, option **A** is correct."
+  },
+  {
+    "id": "iitm-w3-q13",
+    "week": 3,
+    "title": "Projection of Vector onto Direction Vector",
+    "type": "numerical",
+    "platform": "iitm",
+    "provenance": "verified-pyq",
+    "citation": "IIT Madras BS MLF Graded Assignment 3, Q13",
+    "concept_id": "orthogonal-projection",
+    "difficulty": "Medium",
+    "question": "Find the orthogonal projection of vector $a = \\begin{bmatrix} 2 \\\\ -4 \\\\ 4 \\end{bmatrix}$ along vector $b = \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix}$.",
+    "options": [
+      "A. [-32/9, -32/9, 16/9]^T",
+      "B. [32/9, -32/9, 16/9]^T",
+      "C. [32/9, 16/9, -32/9]^T",
+      "D. [32/9, -16/9, 32/9]^T"
+    ],
+    "answer": "B",
+    "hints": [
+      "Use the projection formula: $P_b(a) = \\frac{a^T b}{b^T b} b$.",
+      "Calculate $a^T b = (2)(2) + (-4)(-2) + (4)(1) = 4 + 8 + 4 = 16$.",
+      "Calculate $b^T b = 2^2 + (-2)^2 + 1^2 = 4 + 4 + 1 = 9$.",
+      "Multiply: $\\frac{16}{9} \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix} = \\begin{bmatrix} 32/9 \\\\ -32/9 \\\\ 16/9 \\end{bmatrix}$."
+    ],
+    "explanation": "$$P_b(a) = \\frac{a^T b}{b^T b} b = \\frac{(2)(2) + (-4)(-2) + (4)(1)}{2^2 + (-2)^2 + 1^2} \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix}$$\n$$= \\frac{16}{9} \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix} = \\begin{bmatrix} 32/9 \\\\ -32/9 \\\\ 16/9 \\end{bmatrix}.$$\nTherefore, option **B** is correct."
+  },
+  {
+    "id": "deepml-14",
+    "week": 3,
+    "title": "Linear Regression Using Normal Equation",
+    "type": "coding",
+    "platform": "deepml",
+    "provenance": "deepml",
+    "citation": "Deep-ML Problem #14",
+    "concept_id": "least-squares-normal-eq",
+    "difficulty": "Medium",
+    "url": "https://www.deep-ml.com/problems/14",
+    "question": "Implement linear regression using the closed-form normal equation: $\\hat{\\theta} = (X^T X)^{-1} X^T y$. Return the parameter vector $\\hat{\\theta}$ rounded to 4 decimal places.",
+    "hints": [
+      "Recall the Normal Equation: $(X^T X) \\theta = X^T y \\implies \\theta = (X^T X)^{-1} X^T y$.",
+      "In NumPy, compute matrix products with `X.T @ X` or `np.matmul(X.T, X)`.",
+      "Use `np.linalg.inv(X.T @ X)` or preferably `np.linalg.solve(X.T @ X, X.T @ y)` for numerical stability."
+    ],
+    "solution_code": "import numpy as np\n\ndef linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> list[float]:\n    X_mat = np.array(X, dtype=float)\n    y_vec = np.array(y, dtype=float)\n    \n    # Closed-form: theta = (X^T X)^(-1) X^T y\n    theta = np.linalg.inv(X_mat.T @ X_mat) @ X_mat.T @ y_vec\n    return np.round(theta, 4).tolist()\n\n# Example Test Case\nX_example = [[1, 1], [1, 2], [1, 3]]\ny_example = [2, 2.5, 3.5]\nprint('Fitted theta:', linear_regression_normal_equation(X_example, y_example))",
+    "explanation": "The closed-form least squares solution minimizes $J(\\theta) = \\|X\\theta - y\\|^2_2$.\nBy setting $\\nabla_\\theta J(\\theta) = 2 X^T (X\\theta - y) = 0$, we arrive directly at the normal equations $X^T X \\theta = X^T y$."
+  },
+  {
+    "id": "deepml-48",
+    "week": 3,
+    "title": "Reduced Row Echelon Form (RREF)",
+    "type": "coding",
+    "platform": "deepml",
+    "provenance": "deepml",
+    "citation": "Deep-ML Problem #48",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Hard",
+    "url": "https://www.deep-ml.com/problems/48",
+    "question": "Write a function to compute the Reduced Row Echelon Form (RREF) of any rectangular matrix $A$ using elementary row operations.",
+    "hints": [
+      "Iterate through columns looking for the first non-zero pivot element in or below the current row.",
+      "Normalize the pivot row so that the pivot element equals 1.",
+      "Eliminate all other entries in the pivot column (both above and below) to zero."
+    ],
+    "solution_code": "import numpy as np\n\ndef rref(matrix: list[list[float]]) -> list[list[float]]:\n    A = np.array(matrix, dtype=float)\n    rows, cols = A.shape\n    pivot_row = 0\n    \n    for c in range(cols):\n        if pivot_row >= rows:\n            break\n        # Find pivot in column c\n        max_r = pivot_row + np.argmax(np.abs(A[pivot_row:, c]))\n        if np.isclose(A[max_r, c], 0):\n            continue\n            \n        # Swap rows\n        A[[pivot_row, max_r]] = A[[max_r, pivot_row]]\n        \n        # Normalize pivot row\n        A[pivot_row] = A[pivot_row] / A[pivot_row, c]\n        \n        # Eliminate other rows\n        for r in range(rows):\n            if r != pivot_row:\n                A[r] -= A[r, c] * A[pivot_row]\n                \n        pivot_row += 1\n        \n    return np.round(A, 4).tolist()",
+    "explanation": "RREF provides a standard canonical form to read off matrix rank, basis for the column space (pivot columns in original matrix), and basis for the null space (free variables)."
+  },
+  {
+    "id": "leetcode-50",
+    "week": 3,
+    "title": "Pow(x, n) - Fast Exponentiation",
+    "type": "coding",
+    "platform": "leetcode",
+    "provenance": "leetcode",
+    "citation": "LeetCode #50",
+    "concept_id": "subspaces-orthogonality",
+    "difficulty": "Medium",
+    "url": "https://leetcode.com/problems/powx-n/",
+    "question": "Implement `myPow(x, n)`, which calculates $x$ raised to the power $n$ ($x^n$) in $O(\\log n)$ time complexity.",
+    "hints": [
+      "Use binary exponentiation: if $n$ is even, $x^n = (x^2)^{n/2}$; if $n$ is odd, $x^n = x \\cdot (x^2)^{(n-1)/2}$.",
+      "Handle negative exponents by setting $x = 1/x$ and $n = -n$."
+    ],
+    "solution_code": "class Solution:\n    def myPow(self, x: float, n: int) -> float:\n        if n == 0:\n            return 1.0\n        if n < 0:\n            x = 1.0 / x\n            n = -n\n            \n        res = 1.0\n        current_product = x\n        while n > 0:\n            if n % 2 == 1:\n                res *= current_product\n            current_product *= current_product\n            n //= 2\n            \n        return res",
+    "explanation": "Fast binary exponentiation runs in $O(\\log n)$ operations rather than naive $O(n)$, and is foundational to matrix power algorithms ($A^k = V \\Lambda^k V^{-1}$)."
+  }
+]

@@ -60,19 +60,19 @@
         <div class="row g-3 mb-4">
             <div class="col-md-3 col-6">
                 <div class="stat-badge-mini">
-                    <h3 class="fw-bold mb-0 text-primary" id="totalQuestionsCount">34</h3>
+                    <h3 class="fw-bold mb-0 text-primary" id="totalQuestionsCount">45</h3>
                     <small class="text-muted text-uppercase fw-semibold">Curated Questions</small>
                 </div>
             </div>
             <div class="col-md-3 col-6">
                 <div class="stat-badge-mini">
-                    <h3 class="fw-bold mb-0 text-primary">12</h3>
-                    <small class="text-muted text-uppercase fw-semibold">Weekly Modules</small>
+                    <h3 class="fw-bold mb-0 text-success" id="solvedQuestionsCount">0</h3>
+                    <small class="text-muted text-uppercase fw-semibold">Completed Solved</small>
                 </div>
             </div>
             <div class="col-md-3 col-6">
                 <div class="stat-badge-mini">
-                    <h3 class="fw-bold mb-0 text-success">Deep-ML</h3>
+                    <h3 class="fw-bold mb-0 text-info">Deep-ML</h3>
                     <small class="text-muted text-uppercase fw-semibold">Hands-on ML Code</small>
                 </div>
             </div>
@@ -1325,78 +1325,9 @@ def softmax(scores: list[float]) -> list[float]:
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 
-    <!-- Interactive Filtering Script -->
-    <script>
-        let currentPlatform = 'all';
-        let currentWeek = 'all';
-        let searchKeyword = '';
-
-        const cards = document.querySelectorAll('.problem-card');
-        const noResults = document.getElementById('noResults');
-        const totalCount = document.getElementById('totalQuestionsCount');
-
-        // Check URL parameters for ?week=X
-        const urlParams = new URLSearchParams(window.location.search);
-        const weekParam = urlParams.get('week');
-        if (weekParam) {
-            currentWeek = weekParam;
-            const weekButtons = document.querySelectorAll('#weekFilter button');
-            weekButtons.forEach(btn => {
-                btn.classList.toggle('active', btn.getAttribute('data-val') === weekParam);
-            });
-        }
-
-        function applyFilters() {
-            let visibleCount = 0;
-            cards.forEach(card => {
-                const cardWeek = card.getAttribute('data-week');
-                const cardPlatform = card.getAttribute('data-platform');
-                const cardText = card.innerText.toLowerCase();
-
-                const matchesWeek = (currentWeek === 'all' || cardWeek === currentWeek);
-                const matchesPlatform = (currentPlatform === 'all' || cardPlatform === currentPlatform);
-                const matchesSearch = (searchKeyword === '' || cardText.includes(searchKeyword));
-
-                if (matchesWeek && matchesPlatform && matchesSearch) {
-                    card.classList.remove('d-none');
-                    visibleCount++;
-                } else {
-                    card.classList.add('d-none');
-                }
-            });
-
-            noResults.classList.toggle('d-none', visibleCount > 0);
-            totalCount.innerText = visibleCount;
-        }
-
-        // Platform filter listener
-        document.querySelectorAll('#platformFilter button').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('#platformFilter button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentPlatform = btn.getAttribute('data-val');
-                applyFilters();
-            });
-        });
-
-        // Week filter listener
-        document.querySelectorAll('#weekFilter button').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('#weekFilter button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentWeek = btn.getAttribute('data-val');
-                applyFilters();
-            });
-        });
-
-        // Search input listener
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            searchKeyword = e.target.value.toLowerCase().trim();
-            applyFilters();
-        });
-
-        // Initial apply
-        applyFilters();
-    </script>
+    <!-- MLF Core Modular Engines -->
+    <script src="../assets/js/progress-store.js"></script>
+    <script src="../assets/js/math-rendering.js"></script>
+    <script src="../assets/js/problem-bank.js"></script>
 </body>
 </html>

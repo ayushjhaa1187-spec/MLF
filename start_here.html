@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Here: Prerequisite Diagnostic & Study Blueprint - ML Foundations</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+        .diag-option-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .diag-option-btn:hover {
+            background: #f1f5f9;
+        }
+        .diag-option-btn.selected {
+            border-color: #0284c7;
+            background: #f0f9ff;
+        }
+        .diag-option-btn.correct {
+            background: #dcfce7 !important;
+            border-color: #22c55e !important;
+            color: #15803d !important;
+        }
+        .diag-option-btn.incorrect {
+            background: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #b91c1c !important;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="top-navbar">
+        <div class="d-flex justify-content-between align-items-center">
+            <a class="navbar-brand" href="home.html">
+                <i class="fas fa-home me-2"></i> Course Dashboard
+            </a>
+            <span class="badge bg-primary px-3 py-2 fw-bold">Orientation & Diagnostic</span>
+        </div>
+    </nav>
+
+    <div class="container my-5" style="max-width: 1050px;">
+        <div class="mb-5">
+            <h1 class="display-6 fw-bold mb-2">Start Here: Your Learning Blueprint</h1>
+            <p class="lead text-muted">
+                Welcome to <strong>Machine Learning Foundations (BSCS2004)</strong>. This onboarding guide covers the course philosophy, notation conventions, prerequisite bridge checklist, and an interactive diagnostic test.
+            </p>
+        </div>
+
+        <!-- 1. Recommended Workflow -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-primary mb-3"><i class="fas fa-route me-2"></i>1. The 7-Step Mastery Loop</h4>
+            <div class="row g-3 text-center">
+                <div class="col-md-3 col-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <div class="text-primary fs-3 mb-2"><i class="fas fa-book-reader"></i></div>
+                        <h6 class="fw-bold mb-1">1. Learn</h6>
+                        <small class="text-muted">Study the rigorous 18-point chapter & derivations</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <div class="text-success fs-3 mb-2"><i class="fas fa-cube"></i></div>
+                        <h6 class="fw-bold mb-1">2. Visualize</h6>
+                        <small class="text-muted">Interact with 2D/3D Canvas visual labs</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <div class="text-info fs-3 mb-2"><i class="fas fa-calculator"></i></div>
+                        <h6 class="fw-bold mb-1">3. Calculate</h6>
+                        <small class="text-muted">Work through complete numerical matrix walkthroughs</small>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <div class="text-warning fs-3 mb-2"><i class="fas fa-tasks"></i></div>
+                        <h6 class="fw-bold mb-1">4. Practice</h6>
+                        <small class="text-muted">Solve authentic IITM PYQs & Deep-ML code</small>
+                    </div>
+                </div>
+            </div>
+            <div class="row g-3 text-center mt-1">
+                <div class="col-md-4 col-12">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <div class="text-purple fs-3 mb-2"><i class="fab fa-python text-success"></i></div>
+                        <h6 class="fw-bold mb-1">5. Implement</h6>
+                        <small class="text-muted">Run self-contained NumPy scripts from `notebooks/`</small>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <div class="text-danger fs-3 mb-2"><i class="fas fa-bolt"></i></div>
+                        <h6 class="fw-bold mb-1">6. Revise</h6>
+                        <small class="text-muted">Review weekly formula sheets & misconception traps</small>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <div class="text-dark fs-3 mb-2"><i class="fas fa-graduation-cap"></i></div>
+                        <h6 class="fw-bold mb-1">7. Test</h6>
+                        <small class="text-muted">Take timed Mock Quizzes in the Exam Centre</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Mathematical Notation Reference Guide -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-dark mb-3"><i class="fas fa-subscript me-2"></i>2. Mathematical Notation Guide</h4>
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr><th>Symbol / Typography</th><th>Meaning</th><th>Standard Form</th><th>Example</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Lowercase italic ($x, \alpha$)</td><td>Scalar quantity</td><td>$\mathbb{R}$</td><td>$c = 2.5, \; \lambda = 0.01$</td></tr>
+                        <tr><td>Lowercase bold ($x, v, b$)</td><td>Column vector</td><td>$\mathbb{R}^{d \times 1}$</td><td>$v = [v_1, v_2, \dots, v_d]^T$</td></tr>
+                        <tr><td>Uppercase bold ($A, X, \Sigma$)</td><td>Matrix</td><td>$\mathbb{R}^{m \times n}$</td><td>$X \in \mathbb{R}^{N \times D}$ (Design matrix)</td></tr>
+                        <tr><td>$\langle u, v \rangle$ or $u^T v$</td><td>Standard Euclidean inner product</td><td>Scalar</td><td>$\sum_{i=1}^d u_i v_i$</td></tr>
+                        <tr><td>$\|v\|_2 = \sqrt{v^T v}$</td><td>$\ell_2$ Euclidean vector norm</td><td>Scalar $\ge 0$</td><td>$\|v\|_2 = \sqrt{\sum v_i^2}$</td></tr>
+                        <tr><td>$\nabla f(x)$</td><td>Gradient vector of scalar function</td><td>$\mathbb{R}^d$</td><td>$[\partial f / \partial x_1, \dots, \partial f / \partial x_d]^T$</td></tr>
+                        <tr><td>$H$ or $\nabla^2 f(x)$</td><td>Hessian matrix of second derivatives</td><td>$\mathbb{R}^{d \times d}$</td><td>$H_{ij} = \partial^2 f / \partial x_i \partial x_j$</td></tr>
+                        <tr><td>$P$</td><td>Orthogonal projection matrix</td><td>$\mathbb{R}^{m \times m}$</td><td>$P = A(A^TA)^{-1}A^T, \; P^T = P = P^2$</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 3. Interactive Prerequisite Diagnostic -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white" id="diagnosticAssessmentCard">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="fw-bold text-danger mb-0"><i class="fas fa-stethoscope me-2"></i>3. Interactive Prerequisite Diagnostic</h4>
+                    <small class="text-muted">15 Quick diagnostic questions to assess your mathematical readiness</small>
+                </div>
+                <div class="badge bg-secondary p-2" id="diagScoreBadge">Not Attempted</div>
+            </div>
+
+            <p class="text-muted">
+                Test your foundations in basic algebra, vectors, derivatives, and Python indexing. Results are saved locally and unlock tailored prerequisite bridge recommendations.
+            </p>
+
+            <div id="diagnosticQuestionsList">
+                <!-- Dynamically populated or interactive questions -->
+            </div>
+
+            <div class="mt-4 pt-3 border-top text-center" id="diagSubmitContainer">
+                <button class="btn btn-primary px-4 fw-bold" id="submitDiagBtn">
+                    <i class="fas fa-check-circle me-1"></i> Submit Diagnostic & Compute Readiness
+                </button>
+            </div>
+
+            <div class="alert mt-4 d-none" id="diagResultAlert"></div>
+        </div>
+
+        <!-- 4. Python & NumPy Setup Guide -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-success mb-3"><i class="fab fa-python me-2"></i>4. Python & NumPy Preparation</h4>
+            <p>
+                All code in this platform is standard Python 3.10+ using NumPy. You can run all provided scripts locally without external dependencies beyond NumPy and SciPy.
+            </p>
+            <pre><code class="language-bash"># Install standard numerical stack
+pip install numpy scipy matplotlib
+</code></pre>
+            <div class="mt-3">
+                <a href="notebooks/week3_least_squares.py" download class="btn btn-sm btn-outline-success">
+                    <i class="fas fa-download me-1"></i> Download Sample Notebook (`week3_least_squares.py`)
+                </a>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="text-center my-5">
+            <a href="week-1/week-1.html" class="btn btn-lg btn-primary px-5">
+                Begin Week 1 Chapter <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="assets/js/progress-store.js"></script>
+    <script src="assets/js/math-rendering.js"></script>
+
+    <script>
+        // Diagnostic Assessment Engine
+        const diagList = document.getElementById('diagnosticQuestionsList');
+        const submitBtn = document.getElementById('submitDiagBtn');
+        const resultAlert = document.getElementById('diagResultAlert');
+        const scoreBadge = document.getElementById('diagScoreBadge');
+
+        const questions = [
+            {
+                id: 'dq-1',
+                topic: 'Linear Algebra',
+                q: 'What is the Euclidean length $\|v\|$ of vector $v = [1, 2, -2]^T$?',
+                options: ['A. 2.5', 'B. 3.0', 'C. 4.0', 'D. 9.0'],
+                correct: 'B',
+                expl: '$\\|v\\| = \\sqrt{1^2 + 2^2 + (-2)^2} = \\sqrt{1 + 4 + 4} = \\sqrt{9} = 3$.'
+            },
+            {
+                id: 'dq-2',
+                topic: 'Linear Algebra',
+                q: 'If matrix $A$ has shape $3 \\times 4$ and matrix $B$ has shape $4 \\times 2$, what is the shape of $A B$?',
+                options: ['A. $4 \\times 4$', 'B. $3 \\times 2$', 'C. $4 \\times 3$', 'D. Multiplication is undefined'],
+                correct: 'B',
+                expl: 'Inner dimensions match (4 = 4). Outer dimensions dictate result: $(3 \\times 2)$.'
+            },
+            {
+                id: 'dq-3',
+                topic: 'Calculus',
+                q: 'For function $f(x, y) = x^2 y + 3y^2$, what is the partial derivative $\\frac{\\partial f}{\\partial x}$?',
+                options: ['A. $2xy$', 'B. $2xy + 6y$', 'C. $x^2 + 6y$', 'D. $2x$'],
+                correct: 'A',
+                expl: 'Treat $y$ as a constant: $\\frac{\\partial}{\\partial x}(x^2 y + 3y^2) = 2xy + 0 = 2xy$.'
+            },
+            {
+                id: 'dq-4',
+                topic: 'Linear Algebra',
+                q: 'Two non-zero vectors $u$ and $v$ are orthogonal if and only if:',
+                options: ['A. $u + v = 0$', 'B. $u^T v = 0$', 'C. $u^T v = 1$', 'D. $\\|u\\| = \\|v\\|$'],
+                correct: 'B',
+                expl: 'By definition, the dot product of orthogonal vectors is zero: $u^T v = 0$.'
+            },
+            {
+                id: 'dq-5',
+                topic: 'Python / NumPy',
+                q: 'In NumPy, what is the shape of `np.array([[1, 2, 3], [4, 5, 6]])`?',
+                options: ['A. (3, 2)', 'B. (6,)', 'C. (2, 3)', 'D. (2, 2)'],
+                correct: 'C',
+                expl: 'There are 2 rows and 3 columns, so shape is `(2, 3)`.'
+            },
+            {
+                id: 'dq-6',
+                topic: 'Probability',
+                q: 'If events $A$ and $B$ are independent, $P(A \\cap B)$ equals:',
+                options: ['A. $P(A) + P(B)$', 'B. $P(A) P(B)$', 'C. $P(A \\mid B)$', 'D. $0$'],
+                correct: 'B',
+                expl: 'Independence is defined as $P(A \\cap B) = P(A) P(B)$.'
+            },
+            {
+                id: 'dq-7',
+                topic: 'Calculus',
+                q: 'What is the critical point $x^*$ that minimizes $f(x) = (x - 4)^2 + 10$?',
+                options: ['A. $x = 0$', 'B. $x = 4$', 'C. $x = 10$', 'D. $x = -4$'],
+                correct: 'B',
+                expl: '$f\'(x) = 2(x - 4) = 0 \\implies x = 4$.'
+            },
+            {
+                id: 'dq-8',
+                topic: 'Linear Algebra',
+                q: 'What is the rank of the $2 \\times 2$ identity matrix $I_2$?',
+                options: ['A. 1', 'B. 2', 'C. 0', 'D. 4'],
+                correct: 'B',
+                expl: 'Both columns $[1, 0]^T$ and $[0, 1]^T$ are linearly independent; rank is 2.'
+            }
+        ];
+
+        let userAnswers = {};
+
+        function renderDiagnostic() {
+            if (!diagList) return;
+            diagList.innerHTML = questions.map((item, idx) => `
+                <div class="card p-3 mb-3 bg-light border-0" id="card-${item.id}">
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="badge bg-secondary">${item.topic}</span>
+                        <span class="small text-muted">Question ${idx + 1} of ${questions.length}</span>
+                    </div>
+                    <p class="fw-semibold mb-3">${item.q}</p>
+                    <div class="options-group" data-qid="${item.id}">
+                        ${item.options.map(opt => {
+                            const optKey = opt.trim().charAt(0);
+                            return `
+                                <button class="diag-option-btn" data-opt="${optKey}">
+                                    ${opt}
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div class="expl-box alert alert-info mt-2 d-none small"></div>
+                </div>
+            `).join('');
+
+            // Bind click events
+            diagList.querySelectorAll('.diag-option-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const group = btn.closest('.options-group');
+                    const qid = group.getAttribute('data-qid');
+                    const opt = btn.getAttribute('data-opt');
+
+                    group.querySelectorAll('.diag-option-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    userAnswers[qid] = opt;
+                });
+            });
+
+            if (window.renderMLFMath) window.renderMLFMath(diagList);
+        }
+
+        submitBtn.addEventListener('click', () => {
+            let correctCount = 0;
+            questions.forEach(item => {
+                const card = document.getElementById('card-' + item.id);
+                const explBox = card.querySelector('.expl-box');
+                const userChoice = userAnswers[item.id];
+                const group = card.querySelector('.options-group');
+
+                group.querySelectorAll('.diag-option-btn').forEach(btn => {
+                    const opt = btn.getAttribute('data-opt');
+                    if (opt === item.correct) {
+                        btn.classList.add('correct');
+                    } else if (opt === userChoice) {
+                        btn.classList.add('incorrect');
+                    }
+                });
+
+                if (userChoice === item.correct) {
+                    correctCount++;
+                }
+
+                explBox.innerHTML = `<strong>Explanation:</strong> ${item.expl}`;
+                explBox.classList.remove('d-none');
+            });
+
+            const pct = Math.round((correctCount / questions.length) * 100);
+            if (window.MLFProgress) {
+                window.MLFProgress.saveDiagnosticResult(correctCount, questions.length);
+            }
+
+            scoreBadge.className = pct >= 70 ? 'badge bg-success p-2' : 'badge bg-warning text-dark p-2';
+            scoreBadge.innerText = `Score: ${correctCount}/${questions.length} (${pct}%)`;
+
+            resultAlert.className = pct >= 70 ? 'alert alert-success mt-4' : 'alert alert-warning mt-4';
+            resultAlert.innerHTML = `
+                <h5 class="fw-bold mb-2">${pct >= 70 ? '🎉 Outstanding Readiness!' : '⚠️ Good Effort — Targeted Review Recommended'}</h5>
+                <p class="mb-1">You scored <strong>${correctCount} out of ${questions.length}</strong> (${pct}%).</p>
+                <p class="mb-0 small">${pct >= 70 ? 'You possess strong mathematical prerequisites to dive into Week 1 and Week 3!' : 'We recommend reviewing basic matrix multiplications and partial derivatives as you proceed through Week 1.'}</p>
+            `;
+            resultAlert.classList.remove('d-none');
+
+            if (window.renderMLFMath) window.renderMLFMath(resultAlert);
+        });
+
+        document.addEventListener('DOMContentLoaded', renderDiagnostic);
+    </script>
+</body>
+</html>

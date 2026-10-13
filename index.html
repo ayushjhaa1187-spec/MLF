@@ -253,22 +253,37 @@
     </header>
 
     <div class="app-layout">
-        <aside class="sidebar" id="sidebar">
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Course Curriculum Navigation">
             <div class="sidebar-header">
-                <h2>Curriculum Navigation</h2>
+                <h2>Getting Started</h2>
             </div>
             <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="home.html" target="content-frame" class="nav-link active">
+                    <a href="home.html" data-route="home" target="content-frame" class="nav-link active">
                         <i class="fas fa-compass"></i>
                         <span>Course Dashboard</span>
                     </a>
                 </li>
-                
-                <div class="nav-divider"></div>
-
                 <li class="nav-item">
-                    <a href="week-1/week-1.html" target="content-frame" class="nav-link">
+                    <a href="start_here.html" data-route="start-here" target="content-frame" class="nav-link">
+                        <i class="fas fa-flag-checkered"></i>
+                        <span>Start Here & Diagnostic</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="concept_atlas.html" data-route="concept-atlas" target="content-frame" class="nav-link">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>Concept Atlas</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-header">
+                <h2>12-Week Curriculum</h2>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="week-1/week-1.html" data-route="week-1" target="content-frame" class="nav-link">
                         <i class="fas fa-brain"></i>
                         <span>Week 1: Intro & ML Taxonomy</span>
                         <span class="nav-pill-count">9 vids</span>
@@ -276,47 +291,47 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-2/week-2.html" target="content-frame" class="nav-link">
+                    <a href="week-2/week-2.html" data-route="week-2" target="content-frame" class="nav-link">
                         <i class="fas fa-square-root-variable"></i>
-                        <span>Week 2: Calculus & Approximations</span>
+                        <span>Week 2: Calculus & Approx.</span>
                         <span class="nav-pill-count">7 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-3/week-3.html" target="content-frame" class="nav-link">
+                    <a href="week-3/week-3.html" data-route="week-3" target="content-frame" class="nav-link">
                         <i class="fas fa-vector-square"></i>
-                        <span>Week 3: Subspaces & Least Squares</span>
+                        <span>Week 3: Subspaces & Least Sq.</span>
                         <span class="nav-pill-count">8 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-4/week-4.html" target="content-frame" class="nav-link">
+                    <a href="week-4/week-4.html" data-route="week-4" target="content-frame" class="nav-link">
                         <i class="fas fa-chart-line"></i>
-                        <span>Week 4: Regression & Eigenvalues</span>
+                        <span>Week 4: Regression & Eigen</span>
                         <span class="nav-pill-count">7 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-5/week-5.html" target="content-frame" class="nav-link">
+                    <a href="week-5/week-5.html" data-route="week-5" target="content-frame" class="nav-link">
                         <i class="fas fa-atom"></i>
-                        <span>Week 5: Hermitian Matrices & Spectral</span>
+                        <span>Week 5: Hermitian & Spectral</span>
                         <span class="nav-pill-count">6 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-6/week-6.html" target="content-frame" class="nav-link">
+                    <a href="week-6/week-6.html" data-route="week-6" target="content-frame" class="nav-link">
                         <i class="fas fa-layer-group"></i>
-                        <span>Week 6: SVD & Positive Definiteness</span>
+                        <span>Week 6: SVD & Pos. Definite</span>
                         <span class="nav-pill-count">7 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-7/week-7.html" target="content-frame" class="nav-link">
+                    <a href="week-7/week-7.html" data-route="week-7" target="content-frame" class="nav-link">
                         <i class="fas fa-compress-arrows-alt"></i>
                         <span>Week 7: PCA & Dim. Reduction</span>
                         <span class="nav-pill-count">6 vids</span>
@@ -324,81 +339,90 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-8/week-8.html" target="content-frame" class="nav-link">
+                    <a href="week-8/week-8.html" data-route="week-8" target="content-frame" class="nav-link">
                         <i class="fas fa-mountain"></i>
-                        <span>Week 8: Gradient Descent & Taylor</span>
+                        <span>Week 8: Gradient Descent</span>
                         <span class="nav-pill-count">8 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-9/week-9.html" target="content-frame" class="nav-link">
+                    <a href="week-9/week-9.html" data-route="week-9" target="content-frame" class="nav-link">
                         <i class="fas fa-bezier-curve"></i>
-                        <span>Week 9: Constrained Opt. & Convexity</span>
+                        <span>Week 9: Constrained & Convex</span>
                         <span class="nav-pill-count">8 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-10/week-10.html" target="content-frame" class="nav-link">
+                    <a href="week-10/week-10.html" data-route="week-10" target="content-frame" class="nav-link">
                         <i class="fas fa-balance-scale"></i>
-                        <span>Week 10: Duality & KKT Conditions</span>
+                        <span>Week 10: Duality & KKT / SVM</span>
                         <span class="nav-pill-count">7 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-11/week-11.html" target="content-frame" class="nav-link">
+                    <a href="week-11/week-11.html" data-route="week-11" target="content-frame" class="nav-link">
                         <i class="fas fa-dice"></i>
-                        <span>Week 11: Probability Foundations</span>
+                        <span>Week 11: Probability Theory</span>
                         <span class="nav-pill-count">15 vids</span>
                     </a>
                 </li>
 
                 <li class="nav-item">
-                    <a href="week-12/week-12.html" target="content-frame" class="nav-link">
+                    <a href="week-12/week-12.html" data-route="week-12" target="content-frame" class="nav-link">
                         <i class="fas fa-chart-pie"></i>
-                        <span>Week 12: Gaussians, GMMs & EM</span>
+                        <span>Week 12: Gaussians & EM / GMM</span>
                         <span class="nav-pill-count">5 vids</span>
                     </a>
                 </li>
+            </ul>
 
-                <div class="nav-divider"></div>
-
+            <div class="sidebar-header">
+                <h2>Practice & Interactive</h2>
+            </div>
+            <ul class="nav-list">
                 <li class="nav-item">
-                    <a href="practice/solved_problems.html" target="content-frame" class="nav-link">
+                    <a href="practice/solved_problems.html" data-route="problem-bank" target="content-frame" class="nav-link">
                         <i class="fas fa-tasks"></i>
-                        <span>Problem Bank & Solutions</span>
+                        <span>Problem Bank & PYQs</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="visual_labs.html" data-route="visual-labs" target="content-frame" class="nav-link">
+                        <i class="fas fa-flask"></i>
+                        <span>Interactive Visual Labs</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="exam_centre.html" data-route="exam-centre" target="content-frame" class="nav-link">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Exam Centre (Mock Quizzes)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="revision.html" data-route="revision" target="content-frame" class="nav-link">
+                        <i class="fas fa-bolt"></i>
+                        <span>Formula Vault & Revision</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="progress.html" data-route="progress" target="content-frame" class="nav-link">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>My Progress & Dashboard</span>
                     </a>
                 </li>
             </ul>
         </aside>
 
         <main class="main-viewport">
-            <iframe id="contentFrame" name="content-frame" src="home.html"></iframe>
+            <iframe id="contentFrame" name="content-frame" src="home.html" title="Machine Learning Foundations Course Viewport"></iframe>
         </main>
     </div>
 
-    <script>
-        // Toggle mobile sidebar
-        const menuToggle = document.getElementById('menuToggle');
-        const sidebar = document.getElementById('sidebar');
-
-        menuToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
-        });
-
-        // Highlight active link and auto-close mobile drawer
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                if (window.innerWidth <= 900) {
-                    sidebar.classList.remove('show');
-                }
-            });
-        });
-    </script>
+    <!-- Core Progress Store & Navigation Router -->
+    <script src="assets/js/progress-store.js"></script>
+    <script src="assets/js/navigation.js"></script>
 </body>
 </html>

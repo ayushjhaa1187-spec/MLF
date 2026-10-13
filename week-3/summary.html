@@ -3,80 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Week 3 Summary Sheet - ML Foundations</title>
+    <title>Week 3 High-Yield Formula Sheet & Revision - ML Foundations</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        @media print {
+            .top-navbar, .no-print { display: none !important; }
+            .container { max-width: 100% !important; margin: 0 !important; }
+            body { background: #fff !important; }
+        }
+    </style>
 </head>
 <body>
 
     <nav class="top-navbar">
         <div class="d-flex justify-content-between align-items-center">
             <a class="navbar-brand" href="week-3.html">
-                <i class="fas fa-arrow-left me-2"></i> Back to Week 3 Full Lecture Notes
+                <i class="fas fa-arrow-left me-2"></i> Back to Week 3 Textbook Chapter
             </a>
-            <span class="badge bg-warning text-dark px-3 py-2 fw-bold">Revision Cheat-Sheet</span>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-light" onclick="window.print()">
+                    <i class="fas fa-print me-1"></i> Print / Save PDF
+                </button>
+                <a href="../practice/solved_problems.html?week=3" class="btn btn-sm btn-outline-warning">
+                    <i class="fas fa-tasks me-1"></i> Practice Problems
+                </a>
+            </div>
         </div>
     </nav>
 
-    <div class="container my-5" style="max-width: 960px;">
+    <div class="container my-5" style="max-width: 1000px;">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <div>
-                <h1 class="fw-bold mb-1">Week 3: High-Yield Summary</h1>
-                <p class="text-muted">Linear Algebra: Subspaces, Orthogonality & Least Squares &bull; Core Formulas, Definitions & Quick Code</p>
+                <span class="badge bg-primary mb-2">Module 3 Revision</span>
+                <h1 class="fw-bold mb-1">Week 3: Subspaces, Orthogonality & Least Squares</h1>
+                <p class="text-muted">High-Yield Formula Vault & Concept Review Sheet &bull; IIT Madras BS Course Companion</p>
             </div>
-            <button class="btn btn-outline-secondary" onclick="window.print()">
-                <i class="fas fa-print me-1"></i> Print / Save PDF
-            </button>
         </div>
 
-        
-        <div class="card mb-3 border-0 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-primary">Fundamental Theorem</h5>
-                <div>$\text{Row}(A) \oplus \text{Null}(A) = \mathbb{R}^n$, $\text{Col}(A) \oplus \text{Null}(A^T) = \mathbb{R}^m$.</div>
+        <!-- 1. Fundamental Subspaces -->
+        <div class="card mb-4 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-primary mb-3"><i class="fas fa-layer-group me-2"></i>1. The Four Fundamental Subspaces</h4>
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr><th>Subspace</th><th>Notation</th><th>Ambient Space</th><th>Dimension</th><th>Orthogonal Complement</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>Column Space</strong></td><td>$C(A)$</td><td>$\mathbb{R}^m$</td><td>$r$ (rank)</td><td>$N(A^T)$ (Left Null Space)</td></tr>
+                        <tr><td><strong>Null Space</strong></td><td>$N(A)$</td><td>$\mathbb{R}^n$</td><td>$n - r$ (nullity)</td><td>$C(A^T)$ (Row Space)</td></tr>
+                        <tr><td><strong>Row Space</strong></td><td>$C(A^T)$</td><td>$\mathbb{R}^n$</td><td>$r$</td><td>$N(A)$</td></tr>
+                        <tr><td><strong>Left Null Space</strong></td><td>$N(A^T)$</td><td>$\mathbb{R}^m$</td><td>$m - r$</td><td>$C(A)$</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-light border mt-3 mb-0 small">
+                <strong>Rank-Nullity Theorem:</strong> $\text{rank}(A) + \text{nullity}(A) = n$ &nbsp;|&nbsp; $\mathbb{R}^n = C(A^T) \oplus N(A)$ &nbsp;|&nbsp; $\mathbb{R}^m = C(A) \oplus N(A^T)$
             </div>
         </div>
-        
-        <div class="card mb-3 border-0 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-primary">Normal Equations</h5>
-                <div>$A^T A \hat{x} = A^T b \implies \hat{x} = (A^T A)^{-1} A^T b$.</div>
-            </div>
-        </div>
-        
-        <div class="card mb-3 border-0 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title fw-bold text-primary">Projection Matrix</h5>
-                <div>$P = A(A^T A)^{-1} A^T$. Satisfies $P^T = P$ and $P^2 = P$.</div>
-            </div>
-        </div>
-        
 
-        <div class="text-center mt-5">
+        <!-- 2. Projection Matrices -->
+        <div class="card mb-4 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-success mb-3"><i class="fas fa-project-diagram me-2"></i>2. Projection Operators & Matrices</h4>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-dark">Projection onto a 1D Line (Span of $v$)</h6>
+                        $$p = \frac{v^T b}{v^T v} v, \quad P = \frac{v v^T}{v^T v}$$
+                        <p class="small text-muted mb-0">Numerator is outer product (matrix); denominator is inner product (scalar).</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded border h-100">
+                        <h6 class="fw-bold text-dark">Projection onto Subspace $C(A)$</h6>
+                        $$p = A(A^T A)^{-1} A^T b, \quad P = A(A^T A)^{-1} A^T$$
+                        <p class="small text-muted mb-0">Requires linearly independent columns in $A$ ($\text{rank}(A) = n$).</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3 p-3 bg-light rounded border">
+                <h6 class="fw-bold text-dark mb-1">Key Algebraic Properties of any Orthogonal Projection Matrix $P$:</h6>
+                <ul class="mb-0 small">
+                    <li><strong>Symmetry:</strong> $P^T = P$</li>
+                    <li><strong>Idempotency:</strong> $P^2 = P$</li>
+                    <li><strong>Eigenvalues:</strong> $\lambda \in \{0, 1\}$ (multiplicity of 1 is rank $r$; multiplicity of 0 is $m - r$)</li>
+                    <li><strong>Complementary Projection:</strong> $I - P$ projects orthogonally onto $N(A^T)$</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 3. Least Squares & Normal Equations -->
+        <div class="card mb-4 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-info mb-3"><i class="fas fa-chart-line me-2"></i>3. Least Squares Formulation</h4>
+            <div class="formula-box my-0 mb-3">
+                <h5><i class="fas fa-balance-scale me-1"></i> The Normal Equations</h5>
+                $$A^T A \hat{x} = A^T b \implies \hat{x} = (A^T A)^{-1} A^T b$$
+            </div>
+            <p class="small text-muted">
+                <strong>Orthogonality Principle:</strong> $A^T e = A^T (b - A\hat{x}) = 0 \iff e \perp C(A)$.
+            </p>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="p-2 bg-light rounded border small">
+                        <strong>Residual Sum of Squares (RSS):</strong>
+                        $$\|e\|_2^2 = \|b - A\hat{x}\|_2^2 = b^T b - \hat{x}^T A^T b$$
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-2 bg-light rounded border small">
+                        <strong>Pythagorean Decomposition:</strong>
+                        $$\|b\|_2^2 = \|p\|_2^2 + \|e\|_2^2$$
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Quick NumPy Code Card -->
+        <div class="card mb-4 border-0 shadow-sm p-4 bg-white">
+            <h4 class="fw-bold text-dark mb-2"><i class="fab fa-python text-success me-2"></i>4. Essential NumPy Syntax</h4>
+            <pre><code class="language-python">import numpy as np
+
+# 1. Least Squares via Normal Equations
+x_hat = np.linalg.solve(A.T @ A, A.T @ b)
+
+# 2. Recommended Production QR Solver
+Q, R = np.linalg.qr(A, mode='reduced')
+x_hat_qr = np.linalg.solve(R, Q.T @ b)
+
+# 3. Built-in SVD Solver
+x_hat_lstsq, residuals, rank, s = np.linalg.lstsq(A, b, rcond=None)
+
+# 4. Projection Matrix & Residuals
+P = A @ np.linalg.inv(A.T @ A) @ A.T
+p = P @ b
+e = b - p
+</code></pre>
+        </div>
+
+        <!-- Action Bar -->
+        <div class="text-center mt-5 no-print">
             <a href="week-3.html" class="btn btn-primary px-4 me-2">
-                <i class="fas fa-book-open me-1"></i> Read Full Chapter
+                <i class="fas fa-book-open me-1"></i> Read Full Week 3 Chapter
             </a>
             <a href="../practice/solved_problems.html?week=3" class="btn btn-outline-success px-4 me-2">
-                <i class="fas fa-tasks me-1"></i> Practice Problems
+                <i class="fas fa-tasks me-1"></i> Practice Week 3 Questions
             </a>
-            <a href="../week-4/week-4.html" class="btn btn-success px-4">Next Week &rarr;</a>
+            <a href="../week-4/week-4.html" class="btn btn-success px-4">Continue to Week 4 &rarr;</a>
         </div>
     </div>
 
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
-        onload="renderMathInElement(document.body, {
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '\(', right: '\)', display: false},
-                {left: '$', right: '$', display: false}
-            ]
-        });"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="../assets/js/progress-store.js"></script>
+    <script src="../assets/js/math-rendering.js"></script>
 </body>
 </html>
