@@ -1,881 +1,2468 @@
 [
   {
     "id": "iitm-w3-q01",
-    "week": 3,
+    "version": 1,
     "title": "Euclidean Norm of a 3D Vector",
-    "type": "numerical",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q1",
-    "concept_id": "inner-product",
-    "difficulty": "Easy",
-    "question": "What is the Euclidean length (norm) of the vector $v = \\begin{bmatrix} 1 \\\\ 2 \\\\ -1 \\end{bmatrix}$?",
-    "options": [
-      "A. 2.342",
-      "B. 2.308",
-      "C. 2.440",
-      "D. 2.449"
+    "week": 3,
+    "conceptIds": [
+      "inner-product"
     ],
-    "answer": "D",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q1",
+      "url": null
+    },
+    "statement": "What is the Euclidean length (norm) of the vector $v = \\begin{bmatrix} 1 \\\\ 2 \\\\ -1 \\end{bmatrix}$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "2.342"
+      },
+      {
+        "id": "b",
+        "text": "2.308"
+      },
+      {
+        "id": "c",
+        "text": "2.440"
+      },
+      {
+        "id": "d",
+        "text": "2.449"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Recall the Euclidean norm definition: $\\|v\\| = \\sqrt{\\langle v, v \\rangle} = \\sqrt{v^T v}$.",
       "Compute the sum of squared components: $1^2 + 2^2 + (-1)^2 = 1 + 4 + 1 = 6$.",
       "Calculate $\\sqrt{6} \\approx 2.449489$."
     ],
-    "explanation": "$$v = \\begin{bmatrix} 1 \\\\ 2 \\\\ -1 \\end{bmatrix}$$\n$$\\|v\\| = \\sqrt{v^T v} = \\sqrt{1^2 + 2^2 + (-1)^2} = \\sqrt{1 + 4 + 1} = \\sqrt{6} \\approx 2.449.$$\nTherefore, option **D** is correct."
+    "solution": "$$v = \\begin{bmatrix} 1 \\\\ 2 \\\\ -1 \\end{bmatrix}$$\n$$\\|v\\| = \\sqrt{v^T v} = \\sqrt{1^2 + 2^2 + (-1)^2} = \\sqrt{1 + 4 + 1} = \\sqrt{6} \\approx 2.449.$$\nTherefore, option **D** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q02",
-    "week": 3,
+    "version": 1,
     "title": "Inner Product of Two Vectors in R^3",
-    "type": "numerical",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q2",
-    "concept_id": "inner-product",
-    "difficulty": "Easy",
-    "question": "The inner product of $a = \\begin{bmatrix} 1 \\\\ 2 \\\\ 3 \\end{bmatrix}$ and $b = \\begin{bmatrix} -1 \\\\ 1 \\\\ 5 \\end{bmatrix}$ is:",
-    "options": [
-      "A. 11",
-      "B. 12",
-      "C. 14",
-      "D. 16"
+    "week": 3,
+    "conceptIds": [
+      "inner-product"
     ],
-    "answer": "D",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q2",
+      "url": null
+    },
+    "statement": "The inner product of $a = \\begin{bmatrix} 1 \\\\ 2 \\\\ 3 \\end{bmatrix}$ and $b = \\begin{bmatrix} -1 \\\\ 1 \\\\ 5 \\end{bmatrix}$ is:",
+    "options": [
+      {
+        "id": "a",
+        "text": "11"
+      },
+      {
+        "id": "b",
+        "text": "12"
+      },
+      {
+        "id": "c",
+        "text": "14"
+      },
+      {
+        "id": "d",
+        "text": "16"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "The standard inner product in $\\mathbb{R}^3$ is $\\langle a, b \\rangle = a^T b = \\sum_{i=1}^3 a_i b_i$.",
       "Compute each component product: $(1)(-1) + (2)(1) + (3)(5)$.",
       "Sum them: $-1 + 2 + 15 = 16$."
     ],
-    "explanation": "$$\\langle a, b \\rangle = a^T b = (1)(-1) + (2)(1) + (3)(5) = -1 + 2 + 15 = 16.$$\nTherefore, option **D** is correct."
+    "solution": "$$\\langle a, b \\rangle = a^T b = (1)(-1) + (2)(1) + (3)(5) = -1 + 2 + 15 = 16.$$\nTherefore, option **D** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q03",
-    "week": 3,
+    "version": 1,
     "title": "Rank-Nullity Theorem Application",
-    "type": "conceptual",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q3",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Easy",
-    "question": "If the rank of a $4 \\times 3$ matrix $A$ is $1$, what is the dimension of its null space $\\dim(N(A))$?",
-    "options": [
-      "A. 3",
-      "B. 1",
-      "C. 2",
-      "D. 4"
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
     ],
-    "answer": "C",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q3",
+      "url": null
+    },
+    "statement": "If the rank of a $4 \\times 3$ matrix $A$ is $1$, what is the dimension of its null space $\\dim(N(A))$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "3"
+      },
+      {
+        "id": "b",
+        "text": "1"
+      },
+      {
+        "id": "c",
+        "text": "2"
+      },
+      {
+        "id": "d",
+        "text": "4"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "State the Rank-Nullity Theorem: For an $m \\times n$ matrix $A$, $\\text{rank}(A) + \\dim(N(A)) = n$.",
       "Identify the number of columns $n$: here $A$ is $4 \\times 3$, so $n = 3$.",
       "Substitute $\\text{rank}(A) = 1$: $1 + \\dim(N(A)) = 3 \\implies \\dim(N(A)) = 2$."
     ],
-    "explanation": "By the **Rank-Nullity Theorem**, for an $m \\times n$ matrix:\n$$\\text{rank}(A) + \\text{nullity}(A) = n$$\nHere, $A$ has shape $4 \\times 3$, so the number of columns (variables) is $n = 3$. Given $\\text{rank}(A) = 1$:\n$$1 + \\dim(N(A)) = 3 \\implies \\dim(N(A)) = 3 - 1 = 2.$$\nTherefore, option **C** is correct."
+    "solution": "By the **Rank-Nullity Theorem**, for an $m \\times n$ matrix:\n$$\\text{rank}(A) + \\text{nullity}(A) = n$$\nHere, $A$ has shape $4 \\times 3$, so the number of columns (variables) is $n = 3$. Given $\\text{rank}(A) = 1$:\n$$1 + \\dim(N(A)) = 3 \\implies \\dim(N(A)) = 3 - 1 = 2.$$\nTherefore, option **C** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q04",
-    "week": 3,
+    "version": 1,
     "title": "Orthogonal Vector Selection",
-    "type": "conceptual",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q4",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Easy",
-    "question": "Which of the following vectors is orthogonal to $v = \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix}$?",
-    "options": [
-      "A. [-1, 1, -3]",
-      "B. [1, 2, 1]",
-      "C. [-1, 1, 3]",
-      "D. [-3, 0, 1]"
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
     ],
-    "answer": "D",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q4",
+      "url": null
+    },
+    "statement": "Which of the following vectors is orthogonal to $v = \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix}$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "[-1, 1, -3]"
+      },
+      {
+        "id": "b",
+        "text": "[1, 2, 1]"
+      },
+      {
+        "id": "c",
+        "text": "[-1, 1, 3]"
+      },
+      {
+        "id": "d",
+        "text": "[-3, 0, 1]"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Two vectors $u$ and $v$ are orthogonal if and only if their dot product $u^T v = 0$.",
       "Test each option: for option D, compute $(-3)(1) + (0)(-1) + (1)(3)$.",
       "$-3 + 0 + 3 = 0$."
     ],
-    "explanation": "Two vectors are orthogonal if their inner product is identically zero:\n- For A: $[-1, 1, -3] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = -1 - 1 - 9 = -11 \\neq 0$.\n- For B: $[1, 2, 1] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = 1 - 2 + 3 = 2 \\neq 0$.\n- For D: $[-3, 0, 1] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = -3 + 0 + 3 = 0$.\nTherefore, option **D** is correct."
+    "solution": "Two vectors are orthogonal if their inner product is identically zero:\n- For A: $[-1, 1, -3] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = -1 - 1 - 9 = -11 \\neq 0$.\n- For B: $[1, 2, 1] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = 1 - 2 + 3 = 2 \\neq 0$.\n- For D: $[-3, 0, 1] \\begin{bmatrix} 1 \\\\ -1 \\\\ 3 \\end{bmatrix} = -3 + 0 + 3 = 0$.\nTherefore, option **D** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q05",
-    "week": 3,
+    "version": 1,
     "title": "Matrix Rank via Linearly Dependent Rows",
-    "type": "numerical",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q5",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Easy",
-    "question": "The rank of the matrix $A = \\begin{bmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{bmatrix}$ is:",
-    "options": [
-      "A. 1",
-      "B. 2",
-      "C. 3",
-      "D. 4"
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
     ],
-    "answer": "A",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q5",
+      "url": null
+    },
+    "statement": "The rank of the matrix $A = \\begin{bmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 3 & 6 & 9 \\end{bmatrix}$ is:",
+    "options": [
+      {
+        "id": "a",
+        "text": "1"
+      },
+      {
+        "id": "b",
+        "text": "2"
+      },
+      {
+        "id": "c",
+        "text": "3"
+      },
+      {
+        "id": "d",
+        "text": "4"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Observe the relationships between rows: Row 2 is $2 \\times$ Row 1, and Row 3 is $3 \\times$ Row 1.",
       "Apply row operations: $R_2 \\to R_2 - 2R_1$ and $R_3 \\to R_3 - 3R_1$.",
       "Both row 2 and row 3 become all zeros. Count the non-zero rows."
     ],
-    "explanation": "Row reduction:\n$$R_2 \\to R_2 - 2R_1 \\implies [0, 0, 0]$$\n$$R_3 \\to R_3 - 3R_1 \\implies [0, 0, 0]$$\n$$\\text{RREF}(A) = \\begin{bmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{bmatrix}$$\nThere is exactly 1 non-zero pivot row, so $\\text{rank}(A) = 1$.\nTherefore, option **A** is correct."
+    "solution": "Row reduction:\n$$R_2 \\to R_2 - 2R_1 \\implies [0, 0, 0]$$\n$$R_3 \\to R_3 - 3R_1 \\implies [0, 0, 0]$$\n$$\\text{RREF}(A) = \\begin{bmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{bmatrix}$$\nThere is exactly 1 non-zero pivot row, so $\\text{rank}(A) = 1$.\nTherefore, option **A** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q06",
-    "week": 3,
+    "version": 1,
     "title": "Smallest Subspace Containing the First Quadrant",
-    "type": "conceptual",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q6",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Medium",
-    "question": "Which of the following would be the smallest vector subspace containing the first quadrant of $\\mathbb{R}^2$ ($x \\ge 0, y \\ge 0$)?",
-    "options": [
-      "A. The first quadrant",
-      "B. The first and the third quadrant",
-      "C. The first and second quadrant",
-      "D. The whole space $\\mathbb{R}^2$"
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
     ],
-    "answer": "D",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q6",
+      "url": null
+    },
+    "statement": "Which of the following would be the smallest vector subspace containing the first quadrant of $\\mathbb{R}^2$ ($x \\ge 0, y \\ge 0$)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The first quadrant"
+      },
+      {
+        "id": "b",
+        "text": "The first and the third quadrant"
+      },
+      {
+        "id": "c",
+        "text": "The first and second quadrant"
+      },
+      {
+        "id": "d",
+        "text": "The whole space $\\mathbb{R}^2$"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Recall vector subspace closure properties: if $v \\in S$, then $c v \\in S$ for any scalar $c \\in \\mathbb{R}$.",
       "Vectors $e_1 = [1, 0]^T$ and $e_2 = [0, 1]^T$ lie in the first quadrant.",
       "Subspace closure under negative scalar multiplication requires $-e_1, -e_2 \\in S$, spanning all of $\\mathbb{R}^2$."
     ],
-    "explanation": "A vector subspace must be closed under vector addition and scalar multiplication for **all** scalars $c \\in \\mathbb{R}$.\nThe first quadrant contains $e_1 = [1, 0]^T$ and $e_2 = [0, 1]^T$. By closure under scalar multiplication, $c e_1$ and $d e_2$ must belong to the subspace for all $c, d \\in \\mathbb{R}$, including negative numbers.\nThe linear span of $\\{e_1, e_2\\}$ is the entire space $\\mathbb{R}^2$.\nTherefore, option **D** is correct."
+    "solution": "A vector subspace must be closed under vector addition and scalar multiplication for **all** scalars $c \\in \\mathbb{R}$.\nThe first quadrant contains $e_1 = [1, 0]^T$ and $e_2 = [0, 1]^T$. By closure under scalar multiplication, $c e_1$ and $d e_2$ must belong to the subspace for all $c, d \\in \\mathbb{R}$, including negative numbers.\nThe linear span of $\\{e_1, e_2\\}$ is the entire space $\\mathbb{R}^2$.\nTherefore, option **D** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q07",
-    "week": 3,
+    "version": 1,
     "title": "Formulating Linear Equations & Matrix Rank",
-    "type": "numerical",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q7",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Easy",
-    "question": "5 peaches and 6 oranges cost 150 rupees. 10 peaches and 12 oranges cost 300 rupees. Form the coefficient matrix $A$ out of the given information and find its rank.",
-    "options": [
-      "A. Rank = 2",
-      "B. Rank = 1",
-      "C. Rank = 0",
-      "D. Rank = 4"
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
     ],
-    "answer": "B",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q7",
+      "url": null
+    },
+    "statement": "5 peaches and 6 oranges cost 150 rupees. 10 peaches and 12 oranges cost 300 rupees. Form the coefficient matrix $A$ out of the given information and find its rank.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Rank = 2"
+      },
+      {
+        "id": "b",
+        "text": "Rank = 1"
+      },
+      {
+        "id": "c",
+        "text": "Rank = 0"
+      },
+      {
+        "id": "d",
+        "text": "Rank = 4"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Set up the system: $5x_1 + 6x_2 = 150$ and $10x_1 + 12x_2 = 300$.",
       "Write the coefficient matrix: $A = \\begin{bmatrix} 5 & 6 \\\\ 10 & 12 \\end{bmatrix}$.",
       "Check linear dependence: Row 2 is $2 \\times$ Row 1, so the determinant is 0 and rank is 1."
     ],
-    "explanation": "The linear system is:\n$$\\begin{bmatrix} 5 & 6 \\\\ 10 & 12 \\end{bmatrix} \\begin{bmatrix} x_1 \\\\ x_2 \\end{bmatrix} = \\begin{bmatrix} 150 \\\\ 300 \\end{bmatrix}$$\nThe coefficient matrix $A = \\begin{bmatrix} 5 & 6 \\\\ 10 & 12 \\end{bmatrix}$ has $R_2 = 2 R_1$.\nPerforming $R_2 \\to R_2 - 2R_1$ gives $\\begin{bmatrix} 5 & 6 \\\\ 0 & 0 \\end{bmatrix}$. Thus, $\\text{rank}(A) = 1$.\nTherefore, option **B** is correct."
+    "solution": "The linear system is:\n$$\\begin{bmatrix} 5 & 6 \\\\ 10 & 12 \\end{bmatrix} \\begin{bmatrix} x_1 \\\\ x_2 \\end{bmatrix} = \\begin{bmatrix} 150 \\\\ 300 \\end{bmatrix}$$\nThe coefficient matrix $A = \\begin{bmatrix} 5 & 6 \\\\ 10 & 12 \\end{bmatrix}$ has $R_2 = 2 R_1$.\nPerforming $R_2 \\to R_2 - 2R_1$ gives $\\begin{bmatrix} 5 & 6 \\\\ 0 & 0 \\end{bmatrix}$. Thus, $\\text{rank}(A) = 1$.\nTherefore, option **B** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q08",
-    "week": 3,
+    "version": 1,
     "title": "Least Squares Fit for Line y = theta_1 x + theta_2",
-    "type": "derivation",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q8",
-    "concept_id": "least-squares-normal-eq",
-    "difficulty": "Hard",
-    "question": "Consider 3 paired observations $(x_i, b_i)$: $((1, 6), (-1, 3), (3, 15))$. For the closest line $b = \\theta_1 x + \\theta_2$, which is the least squares solution vector $\\hat{\\theta} = [\\theta_1, \\theta_2]^T$?",
-    "options": [
-      "A. (3, 4)",
-      "B. (4, 3)",
-      "C. (5, 3)",
-      "D. (3, 5)"
+    "week": 3,
+    "conceptIds": [
+      "least-squares-normal-eq"
     ],
-    "answer": "D",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "hard",
+    "estimatedMinutes": 8,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q8",
+      "url": null
+    },
+    "statement": "Consider 3 paired observations $(x_i, b_i)$: $((1, 6), (-1, 3), (3, 15))$. For the closest line $b = \\theta_1 x + \\theta_2$, which is the least squares solution vector $\\hat{\\theta} = [\\theta_1, \\theta_2]^T$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "(3, 4)"
+      },
+      {
+        "id": "b",
+        "text": "(4, 3)"
+      },
+      {
+        "id": "c",
+        "text": "(5, 3)"
+      },
+      {
+        "id": "d",
+        "text": "(3, 5)"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Set up $A \\theta = b$ where $A = \\begin{bmatrix} x_1 & 1 \\\\ x_2 & 1 \\\\ x_3 & 1 \\end{bmatrix} = \\begin{bmatrix} 1 & 1 \\\\ -1 & 1 \\\\ 3 & 1 \\end{bmatrix}$ and $b = \\begin{bmatrix} 6 \\\\ 3 \\\\ 15 \\end{bmatrix}$.",
       "Compute $A^T A$: $\\begin{bmatrix} 1 & -1 & 3 \\\\ 1 & 1 & 1 \\end{bmatrix} \\begin{bmatrix} 1 & 1 \\\\ -1 & 1 \\\\ 3 & 1 \\end{bmatrix} = \\begin{bmatrix} 11 & 3 \\\\ 3 & 3 \\end{bmatrix}$.",
       "Compute $A^T b$: $\\begin{bmatrix} 1 & -1 & 3 \\\\ 1 & 1 & 1 \\end{bmatrix} \\begin{bmatrix} 6 \\\\ 3 \\\\ 15 \\end{bmatrix} = \\begin{bmatrix} 6 - 3 + 45 \\\\ 6 + 3 + 15 \\end{bmatrix} = \\begin{bmatrix} 48 \\\\ 24 \\end{bmatrix}$.",
       "Solve the $2 \\times 2$ normal equations: $11\\theta_1 + 3\\theta_2 = 48$ and $3\\theta_1 + 3\\theta_2 = 24$."
     ],
-    "explanation": "From the normal equations $A^T A \\hat{\\theta} = A^T b$:\n$$A^T A = \\begin{bmatrix} 11 & 3 \\\\ 3 & 3 \\end{bmatrix}, \\quad A^T b = \\begin{bmatrix} 48 \\\\ 24 \\end{bmatrix}$$\nSubtracting equation 2 from equation 1:\n$$(11 - 3)\\theta_1 + (3 - 3)\\theta_2 = 48 - 24 \\implies 8\\theta_1 = 24 \\implies \\theta_1 = 3.$$\nSubstitute into equation 2:\n$$3(3) + 3\\theta_2 = 24 \\implies 9 + 3\\theta_2 = 24 \\implies 3\\theta_2 = 15 \\implies \\theta_2 = 5.$$\nThus $\\hat{\\theta} = (3, 5)$.\nTherefore, option **D** is correct."
+    "solution": "From the normal equations $A^T A \\hat{\\theta} = A^T b$:\n$$A^T A = \\begin{bmatrix} 11 & 3 \\\\ 3 & 3 \\end{bmatrix}, \\quad A^T b = \\begin{bmatrix} 48 \\\\ 24 \\end{bmatrix}$$\nSubtracting equation 2 from equation 1:\n$$(11 - 3)\\theta_1 + (3 - 3)\\theta_2 = 48 - 24 \\implies 8\\theta_1 = 24 \\implies \\theta_1 = 3.$$\nSubstitute into equation 2:\n$$3(3) + 3\\theta_2 = 24 \\implies 9 + 3\\theta_2 = 24 \\implies 3\\theta_2 = 15 \\implies \\theta_2 = 5.$$\nThus $\\hat{\\theta} = (3, 5)$.\nTherefore, option **D** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q09",
-    "week": 3,
+    "version": 1,
     "title": "Null Space Basis via RREF",
-    "type": "derivation",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q9",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Hard",
-    "question": "Which of the following spans the null space $N(A)$ of the matrix $A = \\begin{bmatrix} 2 & 4 & 6 & 8 \\\\ 1 & 3 & 0 & 5 \\\\ 1 & 1 & 6 & 3 \\end{bmatrix}$?",
-    "options": [
-      "A. Span([-9, 3, 1, 0]^T, [-2, -1, 0, 1]^T)",
-      "B. Span([9, 3, 1, 0]^T, [-2, 1, 0, 1]^T)",
-      "C. Span([9, 3, 1, 0]^T, [2, 1, 0, 1]^T)",
-      "D. Span([1, 3, 1, 0]^T, [0, -1, 0, 1]^T)"
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
     ],
-    "answer": "A",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "hard",
+    "estimatedMinutes": 8,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q9",
+      "url": null
+    },
+    "statement": "Which of the following spans the null space $N(A)$ of the matrix $A = \\begin{bmatrix} 2 & 4 & 6 & 8 \\\\ 1 & 3 & 0 & 5 \\\\ 1 & 1 & 6 & 3 \\end{bmatrix}$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Span([-9, 3, 1, 0]^T, [-2, -1, 0, 1]^T)"
+      },
+      {
+        "id": "b",
+        "text": "Span([9, 3, 1, 0]^T, [-2, 1, 0, 1]^T)"
+      },
+      {
+        "id": "c",
+        "text": "Span([9, 3, 1, 0]^T, [2, 1, 0, 1]^T)"
+      },
+      {
+        "id": "d",
+        "text": "Span([1, 3, 1, 0]^T, [0, -1, 0, 1]^T)"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Row reduce $A$ to RREF without changing its null space.",
       "RREF of $A$ is $\\begin{bmatrix} 1 & 0 & 9 & 2 \\\\ 0 & 1 & -3 & 1 \\\\ 0 & 0 & 0 & 0 \\end{bmatrix}$.",
       "Express pivot variables $x_1, x_2$ in terms of free variables $x_3 = s, x_4 = t$:\n$x_1 = -9s - 2t$, $x_2 = 3s - t$."
     ],
-    "explanation": "Row reduction of $A$ leads to:\n$$\\text{RREF}(A) = \\begin{bmatrix} 1 & 0 & 9 & 2 \\\\ 0 & 1 & -3 & 1 \\\\ 0 & 0 & 0 & 0 \\end{bmatrix}$$\nThe system $A x = 0$ corresponds to:\n$$x_1 + 9x_3 + 2x_4 = 0 \\implies x_1 = -9x_3 - 2x_4$$\n$$x_2 - 3x_3 + x_4 = 0 \\implies x_2 = 3x_3 - x_4$$\nSetting free variables $(x_3, x_4) = (1, 0)$ gives $[-9, 3, 1, 0]^T$.\nSetting free variables $(x_3, x_4) = (0, 1)$ gives $[-2, -1, 0, 1]^T$.\nThus, the null space basis is $\\text{Span}\\left( \\begin{bmatrix} -9 \\\\ 3 \\\\ 1 \\\\ 0 \\end{bmatrix}, \\begin{bmatrix} -2 \\\\ -1 \\\\ 0 \\\\ 1 \\end{bmatrix} \\right)$.\nTherefore, option **A** is correct."
+    "solution": "Row reduction of $A$ leads to:\n$$\\text{RREF}(A) = \\begin{bmatrix} 1 & 0 & 9 & 2 \\\\ 0 & 1 & -3 & 1 \\\\ 0 & 0 & 0 & 0 \\end{bmatrix}$$\nThe system $A x = 0$ corresponds to:\n$$x_1 + 9x_3 + 2x_4 = 0 \\implies x_1 = -9x_3 - 2x_4$$\n$$x_2 - 3x_3 + x_4 = 0 \\implies x_2 = 3x_3 - x_4$$\nSetting free variables $(x_3, x_4) = (1, 0)$ gives $[-9, 3, 1, 0]^T$.\nSetting free variables $(x_3, x_4) = (0, 1)$ gives $[-2, -1, 0, 1]^T$.\nThus, the null space basis is $\\text{Span}\\left( \\begin{bmatrix} -9 \\\\ 3 \\\\ 1 \\\\ 0 \\end{bmatrix}, \\begin{bmatrix} -2 \\\\ -1 \\\\ 0 \\\\ 1 \\end{bmatrix} \\right)$.\nTherefore, option **A** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q10",
-    "week": 3,
+    "version": 1,
     "title": "Orthogonal Vector Pair Check",
-    "type": "conceptual",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q10",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Easy",
-    "question": "Which of the following pairs of vectors are orthogonal to each other?",
-    "options": [
-      "A. [1, 2, 3] and [-1, -2, 3]",
-      "B. [1, 2, 1] and [0, -1, 2]",
-      "C. [1, 2, 5] and [1, 2, 3]",
-      "D. [1, 2, 3] and [2, 4, 6]"
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
     ],
-    "answer": "B",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 3,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q10",
+      "url": null
+    },
+    "statement": "Which of the following pairs of vectors are orthogonal to each other?",
+    "options": [
+      {
+        "id": "a",
+        "text": "[1, 2, 3] and [-1, -2, 3]"
+      },
+      {
+        "id": "b",
+        "text": "[1, 2, 1] and [0, -1, 2]"
+      },
+      {
+        "id": "c",
+        "text": "[1, 2, 5] and [1, 2, 3]"
+      },
+      {
+        "id": "d",
+        "text": "[1, 2, 3] and [2, 4, 6]"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Compute the dot product for each candidate pair.",
       "For pair B: $(1)(0) + (2)(-1) + (1)(2) = 0 - 2 + 2 = 0$."
     ],
-    "explanation": "Calculate the inner products:\n- Pair A: $(1)(-1) + (2)(-2) + (3)(3) = -1 - 4 + 9 = 4 \\neq 0$.\n- Pair B: $(1)(0) + (2)(-1) + (1)(2) = 0 - 2 + 2 = 0$.\nTherefore, option **B** is correct."
+    "solution": "Calculate the inner products:\n- Pair A: $(1)(-1) + (2)(-2) + (3)(3) = -1 - 4 + 9 = 4 \\neq 0$.\n- Pair B: $(1)(0) + (2)(-1) + (1)(2) = 0 - 2 + 2 = 0$.\nTherefore, option **B** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q11",
-    "week": 3,
+    "version": 1,
     "title": "Orthogonal Projection of Vector onto Vector",
-    "type": "numerical",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q11",
-    "concept_id": "orthogonal-projection",
-    "difficulty": "Medium",
-    "question": "Find the orthogonal projection of vector $a = \\begin{bmatrix} 5 \\\\ -4 \\\\ 1 \\end{bmatrix}$ along vector $b = \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix}$.",
-    "options": [
-      "A. [27/29, -18/29, 36/29]^T",
-      "B. [27/29, 18/29, 36/29]^T",
-      "C. [81/29, -54/29, 108/29]^T",
-      "D. [81/29, 54/29, 108/29]^T"
+    "week": 3,
+    "conceptIds": [
+      "orthogonal-projection"
     ],
-    "answer": "C",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q11",
+      "url": null
+    },
+    "statement": "Find the orthogonal projection of vector $a = \\begin{bmatrix} 5 \\\\ -4 \\\\ 1 \\end{bmatrix}$ along vector $b = \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix}$.",
+    "options": [
+      {
+        "id": "a",
+        "text": "[27/29, -18/29, 36/29]^T"
+      },
+      {
+        "id": "b",
+        "text": "[27/29, 18/29, 36/29]^T"
+      },
+      {
+        "id": "c",
+        "text": "[81/29, -54/29, 108/29]^T"
+      },
+      {
+        "id": "d",
+        "text": "[81/29, 54/29, 108/29]^T"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Formula for projection of $a$ onto line spanned by $b$: $P_b(a) = \\frac{a^T b}{b^T b} b$.",
       "Compute numerator: $a^T b = (5)(3) + (-4)(-2) + (1)(4) = 15 + 8 + 4 = 27$.",
       "Compute denominator: $b^T b = 3^2 + (-2)^2 + 4^2 = 9 + 4 + 16 = 29$.",
       "Scale $b$ by scalar $\\frac{27}{29}$: $\\frac{27}{29} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix} = \\begin{bmatrix} 81/29 \\\\ -54/29 \\\\ 108/29 \\end{bmatrix}$."
     ],
-    "explanation": "$$P_b(a) = \\frac{a^T b}{b^T b} b = \\frac{(5)(3) + (-4)(-2) + (1)(4)}{3^2 + (-2)^2 + 4^2} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix}$$\n$$= \\frac{15 + 8 + 4}{9 + 4 + 16} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix} = \\frac{27}{29} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix} = \\begin{bmatrix} 81/29 \\\\ -54/29 \\\\ 108/29 \\end{bmatrix}.$$\nTherefore, option **C** is correct."
+    "solution": "$$P_b(a) = \\frac{a^T b}{b^T b} b = \\frac{(5)(3) + (-4)(-2) + (1)(4)}{3^2 + (-2)^2 + 4^2} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix}$$\n$$= \\frac{15 + 8 + 4}{9 + 4 + 16} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix} = \\frac{27}{29} \\begin{bmatrix} 3 \\\\ -2 \\\\ 4 \\end{bmatrix} = \\begin{bmatrix} 81/29 \\\\ -54/29 \\\\ 108/29 \\end{bmatrix}.$$\nTherefore, option **C** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q12",
-    "week": 3,
+    "version": 1,
     "title": "Projection Matrix for a 1D Subspace",
-    "type": "derivation",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q12",
-    "concept_id": "orthogonal-projection",
-    "difficulty": "Medium",
-    "question": "What is the projection matrix $P$ that orthogonally projects any vector in $\\mathbb{R}^3$ onto the 1D subspace spanned by $v = \\begin{bmatrix} 2 \\\\ 1 \\\\ 3 \\end{bmatrix}$?",
-    "options": [
-      "A. 1/14 * [[4, 2, 6], [2, 1, 3], [6, 3, 9]]",
-      "B. 1/14 * [[4, 3, 6], [2, 2, 3], [9, 3, 9]]",
-      "C. 1/14 * [[4, -2, 6], [3, 1, 3], [6, 6, 9]]",
-      "D. 1/14 * [[2, 2, -6], [2, -1, 5], [5, 7, 9]]"
+    "week": 3,
+    "conceptIds": [
+      "orthogonal-projection"
     ],
-    "answer": "A",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q12",
+      "url": null
+    },
+    "statement": "What is the projection matrix $P$ that orthogonally projects any vector in $\\mathbb{R}^3$ onto the 1D subspace spanned by $v = \\begin{bmatrix} 2 \\\\ 1 \\\\ 3 \\end{bmatrix}$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "1/14 * [[4, 2, 6], [2, 1, 3], [6, 3, 9]]"
+      },
+      {
+        "id": "b",
+        "text": "1/14 * [[4, 3, 6], [2, 2, 3], [9, 3, 9]]"
+      },
+      {
+        "id": "c",
+        "text": "1/14 * [[4, -2, 6], [3, 1, 3], [6, 6, 9]]"
+      },
+      {
+        "id": "d",
+        "text": "1/14 * [[2, 2, -6], [2, -1, 5], [5, 7, 9]]"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Recall the rank-1 projection matrix formula: $P = \\frac{v v^T}{v^T v}$.",
       "Compute denominator scalar: $v^T v = 2^2 + 1^2 + 3^2 = 4 + 1 + 9 = 14$.",
       "Compute numerator outer product $v v^T = \\begin{bmatrix} 2 \\\\ 1 \\\\ 3 \\end{bmatrix} \\begin{bmatrix} 2 & 1 & 3 \\end{bmatrix} = \\begin{bmatrix} 4 & 2 & 6 \\\\ 2 & 1 & 3 \\\\ 6 & 3 & 9 \\end{bmatrix}$."
     ],
-    "explanation": "The projection matrix onto the span of $v$ is given by the outer product divided by inner product:\n$$P = \\frac{v v^T}{v^T v}$$\nDenominator:\n$$v^T v = 2^2 + 1^2 + 3^2 = 14$$\nNumerator outer product:\n$$v v^T = \\begin{bmatrix} 2 \\\\ 1 \\\\ 3 \\end{bmatrix} \\begin{bmatrix} 2 & 1 & 3 \\end{bmatrix} = \\begin{bmatrix} 4 & 2 & 6 \\\\ 2 & 1 & 3 \\\\ 6 & 3 & 9 \\end{bmatrix}$$\nThus:\n$$P = \\frac{1}{14} \\begin{bmatrix} 4 & 2 & 6 \\\\ 2 & 1 & 3 \\\\ 6 & 3 & 9 \\end{bmatrix}.$$\nNote that $P^T = P$ (symmetric) and $P^2 = P$ (idempotent), confirming it is an orthogonal projection matrix.\nTherefore, option **A** is correct."
+    "solution": "The projection matrix onto the span of $v$ is given by the outer product divided by inner product:\n$$P = \\frac{v v^T}{v^T v}$$\nDenominator:\n$$v^T v = 2^2 + 1^2 + 3^2 = 14$$\nNumerator outer product:\n$$v v^T = \\begin{bmatrix} 2 \\\\ 1 \\\\ 3 \\end{bmatrix} \\begin{bmatrix} 2 & 1 & 3 \\end{bmatrix} = \\begin{bmatrix} 4 & 2 & 6 \\\\ 2 & 1 & 3 \\\\ 6 & 3 & 9 \\end{bmatrix}$$\nThus:\n$$P = \\frac{1}{14} \\begin{bmatrix} 4 & 2 & 6 \\\\ 2 & 1 & 3 \\\\ 6 & 3 & 9 \\end{bmatrix}.$$\nNote that $P^T = P$ (symmetric) and $P^2 = P$ (idempotent), confirming it is an orthogonal projection matrix.\nTherefore, option **A** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "iitm-w3-q13",
-    "week": 3,
+    "version": 1,
     "title": "Projection of Vector onto Direction Vector",
-    "type": "numerical",
-    "platform": "iitm",
-    "provenance": "verified-pyq",
-    "citation": "IIT Madras BS MLF Graded Assignment 3, Q13",
-    "concept_id": "orthogonal-projection",
-    "difficulty": "Medium",
-    "question": "Find the orthogonal projection of vector $a = \\begin{bmatrix} 2 \\\\ -4 \\\\ 4 \\end{bmatrix}$ along vector $b = \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix}$.",
-    "options": [
-      "A. [-32/9, -32/9, 16/9]^T",
-      "B. [32/9, -32/9, 16/9]^T",
-      "C. [32/9, 16/9, -32/9]^T",
-      "D. [32/9, -16/9, 32/9]^T"
+    "week": 3,
+    "conceptIds": [
+      "orthogonal-projection"
     ],
-    "answer": "B",
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
+    "provenance": "verified-pyq",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "IIT Madras BS MLF Graded Assignment 3, Q13",
+      "url": null
+    },
+    "statement": "Find the orthogonal projection of vector $a = \\begin{bmatrix} 2 \\\\ -4 \\\\ 4 \\end{bmatrix}$ along vector $b = \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix}$.",
+    "options": [
+      {
+        "id": "a",
+        "text": "[-32/9, -32/9, 16/9]^T"
+      },
+      {
+        "id": "b",
+        "text": "[32/9, -32/9, 16/9]^T"
+      },
+      {
+        "id": "c",
+        "text": "[32/9, 16/9, -32/9]^T"
+      },
+      {
+        "id": "d",
+        "text": "[32/9, -16/9, 32/9]^T"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Use the projection formula: $P_b(a) = \\frac{a^T b}{b^T b} b$.",
       "Calculate $a^T b = (2)(2) + (-4)(-2) + (4)(1) = 4 + 8 + 4 = 16$.",
       "Calculate $b^T b = 2^2 + (-2)^2 + 1^2 = 4 + 4 + 1 = 9$.",
       "Multiply: $\\frac{16}{9} \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix} = \\begin{bmatrix} 32/9 \\\\ -32/9 \\\\ 16/9 \\end{bmatrix}$."
     ],
-    "explanation": "$$P_b(a) = \\frac{a^T b}{b^T b} b = \\frac{(2)(2) + (-4)(-2) + (4)(1)}{2^2 + (-2)^2 + 1^2} \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix}$$\n$$= \\frac{16}{9} \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix} = \\begin{bmatrix} 32/9 \\\\ -32/9 \\\\ 16/9 \\end{bmatrix}.$$\nTherefore, option **B** is correct."
+    "solution": "$$P_b(a) = \\frac{a^T b}{b^T b} b = \\frac{(2)(2) + (-4)(-2) + (4)(1)}{2^2 + (-2)^2 + 1^2} \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix}$$\n$$= \\frac{16}{9} \\begin{bmatrix} 2 \\\\ -2 \\\\ 1 \\end{bmatrix} = \\begin{bmatrix} 32/9 \\\\ -32/9 \\\\ 16/9 \\end{bmatrix}.$$\nTherefore, option **B** is correct.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "deepml-14",
-    "week": 3,
+    "version": 1,
     "title": "Linear Regression Using Normal Equation",
+    "week": 3,
+    "conceptIds": [
+      "least-squares-normal-eq"
+    ],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "Deep-ML Problem #14",
-    "concept_id": "least-squares-normal-eq",
-    "difficulty": "Medium",
-    "url": "https://www.deep-ml.com/problems/14",
-    "question": "Implement linear regression using the closed-form normal equation: $\\hat{\\theta} = (X^T X)^{-1} X^T y$. Return the parameter vector $\\hat{\\theta}$ rounded to 4 decimal places.",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Deep-ML Problem #14",
+      "url": "https://www.deep-ml.com/problems/14"
+    },
+    "statement": "Implement linear regression using the closed-form normal equation: $\\hat{\\theta} = (X^T X)^{-1} X^T y$. Return the parameter vector $\\hat{\\theta}$ rounded to 4 decimal places.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null,
+      "solutionCode": "import numpy as np\n\ndef linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> list[float]:\n    X_mat = np.array(X, dtype=float)\n    y_vec = np.array(y, dtype=float)\n    \n    # Closed-form: theta = (X^T X)^(-1) X^T y\n    theta = np.linalg.inv(X_mat.T @ X_mat) @ X_mat.T @ y_vec\n    return np.round(theta, 4).tolist()\n\n# Example Test Case\nX_example = [[1, 1], [1, 2], [1, 3]]\ny_example = [2, 2.5, 3.5]\nprint('Fitted theta:', linear_regression_normal_equation(X_example, y_example))"
+    },
     "hints": [
       "Recall the Normal Equation: $(X^T X) \\theta = X^T y \\implies \\theta = (X^T X)^{-1} X^T y$.",
       "In NumPy, compute matrix products with `X.T @ X` or `np.matmul(X.T, X)`.",
       "Use `np.linalg.inv(X.T @ X)` or preferably `np.linalg.solve(X.T @ X, X.T @ y)` for numerical stability."
     ],
-    "solution_code": "import numpy as np\n\ndef linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> list[float]:\n    X_mat = np.array(X, dtype=float)\n    y_vec = np.array(y, dtype=float)\n    \n    # Closed-form: theta = (X^T X)^(-1) X^T y\n    theta = np.linalg.inv(X_mat.T @ X_mat) @ X_mat.T @ y_vec\n    return np.round(theta, 4).tolist()\n\n# Example Test Case\nX_example = [[1, 1], [1, 2], [1, 3]]\ny_example = [2, 2.5, 3.5]\nprint('Fitted theta:', linear_regression_normal_equation(X_example, y_example))",
-    "explanation": "The closed-form least squares solution minimizes $J(\\theta) = \\|X\\theta - y\\|^2_2$.\nBy setting $\\nabla_\\theta J(\\theta) = 2 X^T (X\\theta - y) = 0$, we arrive directly at the normal equations $X^T X \\theta = X^T y$."
+    "solution": "The closed-form least squares solution minimizes $J(\\theta) = \\|X\\theta - y\\|^2_2$.\nBy setting $\\nabla_\\theta J(\\theta) = 2 X^T (X\\theta - y) = 0$, we arrive directly at the normal equations $X^T X \\theta = X^T y$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "deepml-48",
-    "week": 3,
+    "version": 1,
     "title": "Reduced Row Echelon Form (RREF)",
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
+    ],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "hard",
+    "estimatedMinutes": 8,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "Deep-ML Problem #48",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Hard",
-    "url": "https://www.deep-ml.com/problems/48",
-    "question": "Write a function to compute the Reduced Row Echelon Form (RREF) of any rectangular matrix $A$ using elementary row operations.",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Deep-ML Problem #48",
+      "url": "https://www.deep-ml.com/problems/48"
+    },
+    "statement": "Write a function to compute the Reduced Row Echelon Form (RREF) of any rectangular matrix $A$ using elementary row operations.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null,
+      "solutionCode": "import numpy as np\n\ndef rref(matrix: list[list[float]]) -> list[list[float]]:\n    A = np.array(matrix, dtype=float)\n    rows, cols = A.shape\n    pivot_row = 0\n    \n    for c in range(cols):\n        if pivot_row >= rows:\n            break\n        # Find pivot in column c\n        max_r = pivot_row + np.argmax(np.abs(A[pivot_row:, c]))\n        if np.isclose(A[max_r, c], 0):\n            continue\n            \n        # Swap rows\n        A[[pivot_row, max_r]] = A[[max_r, pivot_row]]\n        \n        # Normalize pivot row\n        A[pivot_row] = A[pivot_row] / A[pivot_row, c]\n        \n        # Eliminate other rows\n        for r in range(rows):\n            if r != pivot_row:\n                A[r] -= A[r, c] * A[pivot_row]\n                \n        pivot_row += 1\n        \n    return np.round(A, 4).tolist()"
+    },
     "hints": [
       "Iterate through columns looking for the first non-zero pivot element in or below the current row.",
       "Normalize the pivot row so that the pivot element equals 1.",
       "Eliminate all other entries in the pivot column (both above and below) to zero."
     ],
-    "solution_code": "import numpy as np\n\ndef rref(matrix: list[list[float]]) -> list[list[float]]:\n    A = np.array(matrix, dtype=float)\n    rows, cols = A.shape\n    pivot_row = 0\n    \n    for c in range(cols):\n        if pivot_row >= rows:\n            break\n        # Find pivot in column c\n        max_r = pivot_row + np.argmax(np.abs(A[pivot_row:, c]))\n        if np.isclose(A[max_r, c], 0):\n            continue\n            \n        # Swap rows\n        A[[pivot_row, max_r]] = A[[max_r, pivot_row]]\n        \n        # Normalize pivot row\n        A[pivot_row] = A[pivot_row] / A[pivot_row, c]\n        \n        # Eliminate other rows\n        for r in range(rows):\n            if r != pivot_row:\n                A[r] -= A[r, c] * A[pivot_row]\n                \n        pivot_row += 1\n        \n    return np.round(A, 4).tolist()",
-    "explanation": "RREF provides a standard canonical form to read off matrix rank, basis for the column space (pivot columns in original matrix), and basis for the null space (free variables)."
+    "solution": "RREF provides a standard canonical form to read off matrix rank, basis for the column space (pivot columns in original matrix), and basis for the null space (free variables).",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "leetcode-50",
-    "week": 3,
+    "version": 1,
     "title": "Pow(x, n) - Fast Exponentiation",
+    "week": 3,
+    "conceptIds": [
+      "subspaces-orthogonality"
+    ],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "leetcode",
     "provenance": "leetcode",
-    "citation": "LeetCode #50",
-    "concept_id": "subspaces-orthogonality",
-    "difficulty": "Medium",
-    "url": "https://leetcode.com/problems/powx-n/",
-    "question": "Implement `myPow(x, n)`, which calculates $x$ raised to the power $n$ ($x^n$) in $O(\\log n)$ time complexity.",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "LeetCode #50",
+      "url": "https://leetcode.com/problems/powx-n/"
+    },
+    "statement": "Implement `myPow(x, n)`, which calculates $x$ raised to the power $n$ ($x^n$) in $O(\\log n)$ time complexity.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null,
+      "solutionCode": "class Solution:\n    def myPow(self, x: float, n: int) -> float:\n        if n == 0:\n            return 1.0\n        if n < 0:\n            x = 1.0 / x\n            n = -n\n            \n        res = 1.0\n        current_product = x\n        while n > 0:\n            if n % 2 == 1:\n                res *= current_product\n            current_product *= current_product\n            n //= 2\n            \n        return res"
+    },
     "hints": [
       "Use binary exponentiation: if $n$ is even, $x^n = (x^2)^{n/2}$; if $n$ is odd, $x^n = x \\cdot (x^2)^{(n-1)/2}$.",
       "Handle negative exponents by setting $x = 1/x$ and $n = -n$."
     ],
-    "solution_code": "class Solution:\n    def myPow(self, x: float, n: int) -> float:\n        if n == 0:\n            return 1.0\n        if n < 0:\n            x = 1.0 / x\n            n = -n\n            \n        res = 1.0\n        current_product = x\n        while n > 0:\n            if n % 2 == 1:\n                res *= current_product\n            current_product *= current_product\n            n //= 2\n            \n        return res",
-    "explanation": "Fast binary exponentiation runs in $O(\\log n)$ operations rather than naive $O(n)$, and is foundational to matrix power algorithms ($A^k = V \\Lambda^k V^{-1}$)."
+    "solution": "Fast binary exponentiation runs in $O(\\log n)$ operations rather than naive $O(n)$, and is foundational to matrix power algorithms ($A^k = V \\Lambda^k V^{-1}$).",
+    "commonMistakes": [],
+    "relatedLesson": "week-3/week-3.html",
+    "relatedLab": "visual_labs.html#lab-projection"
   },
   {
     "id": "q-w1-iitm-01",
-    "week": 1,
+    "version": 1,
     "title": "Vector Spaces & Dimensionality Representation",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 1,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 1",
-    "difficulty": "Medium",
-    "question": "The observation $[2, 4, -5]$ belongs to which of the following vector spaces?A.$\\mathbb{R}$B.$\\mathbb{R}^+$C.Both $\\mathbb{R}^+$ and $\\mathbb{R}^-$D.$\\mathbb{R}^3$",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 1",
+      "url": ""
+    },
+    "statement": "The observation $[2, 4, -5]$ belongs to which of the following vector spaces?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$\\mathbb{R}$"
+      },
+      {
+        "id": "b",
+        "text": "$\\mathbb{R}^+$"
+      },
+      {
+        "id": "c",
+        "text": "Both $\\mathbb{R}^+$ and $\\mathbb{R}^-$"
+      },
+      {
+        "id": "d",
+        "text": "$\\mathbb{R}^3$"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 1.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Correct Option: DExplanation:The vector $[2, 4, -5]^T$ contains 3 components, and every component is a real scalar. Therefore, $[2, 4, -5]^T \\in \\mathbb{R}^3$."
+    "solution": "The vector $[2, 4, -5]^T$ contains 3 components, and every component is a real scalar. Therefore, $[2, 4, -5]^T \\in \\mathbb{R}^3$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-1/week-1.html",
+    "relatedLab": null
   },
   {
     "id": "q-w1-iitm-02",
-    "week": 1,
+    "version": 1,
     "title": "Appropriate Loss Functions for Regression vs Classification",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 1,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 1",
-    "difficulty": "Medium",
-    "question": "Which of the following isNOTan appropriate choice of loss function for a regression problem?A.Mean Squared Error $L(y, \\hat{y}) = (y - \\hat{y})^2$B.Mean Absolute Error $L(y, \\hat{y}) = |y - \\hat{y}|$C.0-1 Misclassification Loss $L(y, \\hat{y}) = \\mathbf{1}(y \\neq \\hat{y})$D.Huber Loss",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 1",
+      "url": ""
+    },
+    "statement": "Which of the following isNOTan appropriate choice of loss function for a regression problem?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mean Squared Error $L(y, \\hat{y}) = (y - \\hat{y})^2$"
+      },
+      {
+        "id": "b",
+        "text": "Mean Absolute Error $L(y, \\hat{y}) = |y - \\hat{y}|$"
+      },
+      {
+        "id": "c",
+        "text": "0-1 Misclassification Loss $L(y, \\hat{y}) = \\mathbf{1}(y \\neq \\hat{y})$"
+      },
+      {
+        "id": "d",
+        "text": "Huber Loss"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "c"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 1.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Correct Option: CExplanation:In regression, outputs are continuous real values ($y \\in \\mathbb{R}$). The 0-1 loss $\\mathbf{1}(y \\neq \\hat{y})$ is designed for discrete categorical classification. Continuous targets almost never match predictions with infinite precision ($P(y = \\hat{y}) = 0$), making 0-1 loss non-differentiable and non-informative for continuous regression."
+    "solution": "In regression, outputs are continuous real values ($y \\in \\mathbb{R}$). The 0-1 loss $\\mathbf{1}(y \\neq \\hat{y})$ is designed for discrete categorical classification. Continuous targets almost never match predictions with infinite precision ($P(y = \\hat{y}) = 0$), making 0-1 loss non-differentiable and non-informative for continuous regression.",
+    "commonMistakes": [],
+    "relatedLesson": "week-1/week-1.html",
+    "relatedLab": null
   },
   {
     "id": "q-w1-deepml-03",
-    "week": 1,
+    "version": 1,
     "title": "Deep-ML #14: Linear Regression Using Normal Equation",
+    "week": 1,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Implement linear regression using the closed-form normal equation: $\\theta = (X^T X)^{-1} X^T y$. Handle the intercept bias term by augmenting $X$ with a column of ones.",
-    "url": "https://www.deep-ml.com/problems/14",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/14"
+    },
+    "statement": "Implement linear regression using the closed-form normal equation: $\\theta = (X^T X)^{-1} X^T y$. Handle the intercept bias term by augmenting $X$ with a column of ones.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 1.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:import numpy as np\n\ndef linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> list[float]:\n    X_arr = np.array(X)\n    y_arr = np.array(y)\n    # Augment with column of ones for intercept\n    X_b = np.c_[np.ones((len(X_arr), 1)), X_arr]\n    # Normal Equation: theta = (X^T @ X)^-1 @ X^T @ y\n    theta = np.linalg.inv(X_b.T @ X_b) @ X_b.T @ y_arr\n    return np.round(theta, 4).tolist()"
+    "solution": "Python Solution:import numpy as np\n\ndef linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> list[float]:\n    X_arr = np.array(X)\n    y_arr = np.array(y)\n    # Augment with column of ones for intercept\n    X_b = np.c_[np.ones((len(X_arr), 1)), X_arr]\n    # Normal Equation: theta = (X^T @ X)^-1 @ X^T @ y\n    theta = np.linalg.inv(X_b.T @ X_b) @ X_b.T @ y_arr\n    return np.round(theta, 4).tolist()",
+    "commonMistakes": [],
+    "relatedLesson": "week-1/week-1.html",
+    "relatedLab": null
   },
   {
     "id": "q-w2-iitm-04",
-    "week": 2,
+    "version": 1,
     "title": "Continuity & Removable Singularities",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 2,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 2",
-    "difficulty": "Medium",
-    "question": "Which of the following functions is continuous at all points in $\\mathbb{R}$?A.$f(x) = \\frac{1}{x-1}$B.$f(x) = \\frac{x^2 - 1}{x - 1}$C.$f(x) = \\text{sign}(x - 2)$D.$f(x) = \\sin(x)$",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 2",
+      "url": ""
+    },
+    "statement": "Which of the following functions is continuous at all points in $\\mathbb{R}$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$f(x) = \\frac{1}{x-1}$"
+      },
+      {
+        "id": "b",
+        "text": "$f(x) = \\frac{x^2 - 1}{x - 1}$"
+      },
+      {
+        "id": "c",
+        "text": "$f(x) = \\text{sign}(x - 2)$"
+      },
+      {
+        "id": "d",
+        "text": "$f(x) = \\sin(x)$"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 2.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Correct Option: DExplanation:\u2022 Option A is undefined at $x = 1$ (vertical asymptote).\u2022 Option B has a removable discontinuity at $x = 1$ because the domain excludes $x = 1$. Even though $\\lim_{x \\to 1} \\frac{x^2-1}{x-1} = 2$, $f(1)$ does not exist.\u2022 Option C has a jump discontinuity at $x = 2$.\u2022 $\\sin(x)$ is continuous everywhere on $\\mathbb{R}$."
+    "solution": "\u2022 Option A is undefined at $x = 1$ (vertical asymptote).\u2022 Option B has a removable discontinuity at $x = 1$ because the domain excludes $x = 1$. Even though $\\lim_{x \\to 1} \\frac{x^2-1}{x-1} = 2$, $f(1)$ does not exist.\u2022 Option C has a jump discontinuity at $x = 2$.\u2022 $\\sin(x)$ is continuous everywhere on $\\mathbb{R}$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-2/week-2.html",
+    "relatedLab": null
   },
   {
     "id": "q-w2-iitm-05",
-    "week": 2,
+    "version": 1,
     "title": "Multivariate Gradient & Tangent Hyperplane",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 2,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 2",
-    "difficulty": "Medium",
-    "question": "Find the equation of the tangent hyperplane to the surface $f(x_1, x_2) = x_1^2 + 3 x_1 x_2 - x_2^2$ at the point $x_0 = (1, 2)$.",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 2",
+      "url": ""
+    },
+    "statement": "Find the equation of the tangent hyperplane to the surface $f(x_1, x_2) = x_1^2 + 3 x_1 x_2 - x_2^2$ at the point $x_0 = (1, 2)$.",
+    "options": [
+      {
+        "id": "a",
+        "text": "8x_1 - x_2 - z = 3"
+      },
+      {
+        "id": "b",
+        "text": "2x_1 + 3x_2 - z = 5"
+      },
+      {
+        "id": "c",
+        "text": "7x_1 - 4x_2 - z = 1"
+      },
+      {
+        "id": "d",
+        "text": "8x_1 + x_2 + z = 11"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 2.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Solution:1. Value at point: $f(1, 2) = 1^2 + 3(1)(2) - 2^2 = 1 + 6 - 4 = 3$.2. Partial derivatives:$$\\frac{\\partial f}{\\partial x_1} = 2 x_1 + 3 x_2 \\implies \\left.\\frac{\\partial f}{\\partial x_1}\\right|_{(1, 2)} = 2(1) + 3(2) = 8$$$$\\frac{\\partial f}{\\partial x_2} = 3 x_1 - 2 x_2 \\implies \\left.\\frac{\\partial f}{\\partial x_2}\\right|_{(1, 2)} = 3(1) - 2(2) = -1$$3. Tangent Hyperplane equation: $z = f(x_0) + \\nabla f(x_0)^T (x - x_0)$$$z = 3 + 8(x_1 - 1) - 1(x_2 - 2) = 8 x_1 - x_2 - 3$$"
+    "solution": "Solution:1. Value at point: $f(1, 2) = 1^2 + 3(1)(2) - 2^2 = 1 + 6 - 4 = 3$.2. Partial derivatives:$$\\frac{\\partial f}{\\partial x_1} = 2 x_1 + 3 x_2 \\implies \\left.\\frac{\\partial f}{\\partial x_1}\\right|_{(1, 2)} = 2(1) + 3(2) = 8$$$$\\frac{\\partial f}{\\partial x_2} = 3 x_1 - 2 x_2 \\implies \\left.\\frac{\\partial f}{\\partial x_2}\\right|_{(1, 2)} = 3(1) - 2(2) = -1$$3. Tangent Hyperplane equation: $z = f(x_0) + \\nabla f(x_0)^T (x - x_0)$$$z = 3 + 8(x_1 - 1) - 1(x_2 - 2) = 8 x_1 - x_2 - 3$$",
+    "commonMistakes": [],
+    "relatedLesson": "week-2/week-2.html",
+    "relatedLab": null
   },
   {
     "id": "q-w2-leetcode-06",
-    "week": 2,
+    "version": 1,
     "title": "LeetCode 69: Sqrt(x) (Newton-Raphson Optimization)",
+    "week": 2,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "leetcode",
     "provenance": "leetcode",
-    "citation": "LEETCODE Challenge",
-    "difficulty": "Medium",
-    "question": "Given a non-negative integer $x$, compute and return the integer square root $\\lfloor \\sqrt{x} \\rfloor$. Use Newton-Raphson gradient optimization root-finding: $x_{k+1} = \\frac{1}{2}(x_k + \\frac{x}{x_k})$.",
-    "url": "https://leetcode.com/problems/sqrtx/",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "LEETCODE Challenge",
+      "url": "https://leetcode.com/problems/sqrtx/"
+    },
+    "statement": "Given a non-negative integer $x$, compute and return the integer square root $\\lfloor \\sqrt{x} \\rfloor$. Use Newton-Raphson gradient optimization root-finding: $x_{k+1} = \\frac{1}{2}(x_k + \\frac{x}{x_k})$.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 2.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:class Solution:\n    def mySqrt(self, x: int) -> int:\n        if x < 2:\n            return x\n        r = x\n        while r * r > x:\n            r = (r + x // r) // 2\n        return r"
+    "solution": "Python Solution:class Solution:\n    def mySqrt(self, x: int) -> int:\n        if x < 2:\n            return x\n        r = x\n        while r * r > x:\n            r = (r + x // r) // 2\n        return r",
+    "commonMistakes": [],
+    "relatedLesson": "week-2/week-2.html",
+    "relatedLab": null
   },
   {
     "id": "q-w4-iitm-12",
-    "week": 4,
+    "version": 1,
     "title": "Eigenvalues of Projection Matrices",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 4,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 4",
-    "difficulty": "Medium",
-    "question": "If $P$ is an orthogonal projection matrix, what is the eigenvalue corresponding to any non-zero vector $v$ orthogonal to the column space $\\text{Col}(P)$?A.0B.1C.-1D.Undefined",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 4",
+      "url": ""
+    },
+    "statement": "If $P$ is an orthogonal projection matrix, what is the eigenvalue corresponding to any non-zero vector $v$ orthogonal to the column space $\\text{Col}(P)$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "0"
+      },
+      {
+        "id": "b",
+        "text": "1"
+      },
+      {
+        "id": "c",
+        "text": "-1"
+      },
+      {
+        "id": "d",
+        "text": "Undefined"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 4.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Correct Option: AExplanation:Any vector $v$ orthogonal to $\\text{Col}(P)$ lies in the left null space $\\text{Null}(P)$. Therefore, $P v = 0 = 0 \\cdot v$. Thus, the eigenvalue is strictly $\\lambda = 0$. (Recall that all projection matrices satisfy $P^2 = P$, so their eigenvalues can only be $0$ or $1$)."
+    "solution": "Any vector $v$ orthogonal to $\\text{Col}(P)$ lies in the left null space $\\text{Null}(P)$. Therefore, $P v = 0 = 0 \\cdot v$. Thus, the eigenvalue is strictly $\\lambda = 0$. (Recall that all projection matrices satisfy $P^2 = P$, so their eigenvalues can only be $0$ or $1$).",
+    "commonMistakes": [],
+    "relatedLesson": "week-4/week-4.html",
+    "relatedLab": null
   },
   {
     "id": "q-w4-iitm-13",
-    "week": 4,
+    "version": 1,
     "title": "Characteristic Polynomial & Invariant Properties",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 4,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 4",
-    "difficulty": "Medium",
-    "question": "Which of the following operations changes the eigenvalues of a matrix?A.Multiplying the determinant by a constantB.Subtracting a multiple of one row from another (elementary row operations)C.Transposing the matrix ($A^T$)D.Similarity transformation ($P A P^{-1}$)",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 4",
+      "url": ""
+    },
+    "statement": "Which of the following operations changes the eigenvalues of a matrix?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Multiplying the determinant by a constant"
+      },
+      {
+        "id": "b",
+        "text": "Subtracting a multiple of one row from another (elementary row operations)"
+      },
+      {
+        "id": "c",
+        "text": "Transposing the matrix ($A^T$)"
+      },
+      {
+        "id": "d",
+        "text": "Similarity transformation ($P A P^{-1}$)"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 4.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Correct Option: BExplanation:Elementary row operations preserve the row space and determinant (for row additions), but they change the eigenvalues! Conversely, $A$ and $A^T$ have identical eigenvalues ($\\det(A - \\lambda I) = \\det((A - \\lambda I)^T)$), and similarity transformations $P A P^{-1}$ preserve eigenvalues."
+    "solution": "Elementary row operations preserve the row space and determinant (for row additions), but they change the eigenvalues! Conversely, $A$ and $A^T$ have identical eigenvalues ($\\det(A - \\lambda I) = \\det((A - \\lambda I)^T)$), and similarity transformations $P A P^{-1}$ preserve eigenvalues.",
+    "commonMistakes": [],
+    "relatedLesson": "week-4/week-4.html",
+    "relatedLab": null
   },
   {
     "id": "q-w4-deepml-14",
-    "week": 4,
+    "version": 1,
     "title": "Deep-ML #6: Calculate Eigenvalues of a 2x2 Matrix",
+    "week": 4,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Given a $2 \\times 2$ matrix, return its eigenvalues sorted in descending order by solving the characteristic equation: $\\lambda^2 - \\text{Tr}(A)\\lambda + \\det(A) = 0$.",
-    "url": "https://www.deep-ml.com/problems/6",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/6"
+    },
+    "statement": "Given a $2 \\times 2$ matrix, return its eigenvalues sorted in descending order by solving the characteristic equation: $\\lambda^2 - \\text{Tr}(A)\\lambda + \\det(A) = 0$.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 4.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:def calculate_eigenvalues(matrix: list[list[float]]) -> list[float]:\n    a, b = matrix[0][0], matrix[0][1]\n    c, d = matrix[1][0], matrix[1][1]\n    trace = a + d\n    det = a * d - b * c\n    discriminant = (trace**2 - 4 * det)**0.5\n    lambda1 = (trace + discriminant) / 2\n    lambda2 = (trace - discriminant) / 2\n    return sorted([round(float(lambda1), 4), round(float(lambda2), 4)], reverse=True)"
+    "solution": "Python Solution:def calculate_eigenvalues(matrix: list[list[float]]) -> list[float]:\n    a, b = matrix[0][0], matrix[0][1]\n    c, d = matrix[1][0], matrix[1][1]\n    trace = a + d\n    det = a * d - b * c\n    discriminant = (trace**2 - 4 * det)**0.5\n    lambda1 = (trace + discriminant) / 2\n    lambda2 = (trace - discriminant) / 2\n    return sorted([round(float(lambda1), 4), round(float(lambda2), 4)], reverse=True)",
+    "commonMistakes": [],
+    "relatedLesson": "week-4/week-4.html",
+    "relatedLab": null
   },
   {
     "id": "q-w4-deepml-15",
-    "week": 4,
+    "version": 1,
     "title": "Deep-ML #32: Generate Sorted Polynomial Features",
+    "week": 4,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Generate non-linear polynomial features $\\phi(x) = [1, x, x^2, \\dots, x^d]$ for polynomial curve fitting.",
-    "url": "https://www.deep-ml.com/problems/32",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/32"
+    },
+    "statement": "Generate non-linear polynomial features $\\phi(x) = [1, x, x^2, \\dots, x^d]$ for polynomial curve fitting.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 4.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:def polynomial_features(x: list[float], degree: int) -> list[list[float]]:\n    return [[val**d for d in range(degree + 1)] for val in x]"
+    "solution": "Python Solution:def polynomial_features(x: list[float], degree: int) -> list[list[float]]:\n    return [[val**d for d in range(degree + 1)] for val in x]",
+    "commonMistakes": [],
+    "relatedLesson": "week-4/week-4.html",
+    "relatedLab": null
   },
   {
     "id": "q-w4-leetcode-16",
-    "week": 4,
+    "version": 1,
     "title": "LeetCode 50: Pow(x, n) (Matrix Exponentiation Core)",
+    "week": 4,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "leetcode",
     "provenance": "leetcode",
-    "citation": "LEETCODE Challenge",
-    "difficulty": "Medium",
-    "question": "Implement binary exponentiation to compute $x^n$ in $O(\\log n)$ time. This is identical to the method used to compute high matrix powers $A^k = P \\Lambda^k P^{-1}$.",
-    "url": "https://leetcode.com/problems/powx-n/",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "LEETCODE Challenge",
+      "url": "https://leetcode.com/problems/powx-n/"
+    },
+    "statement": "Implement binary exponentiation to compute $x^n$ in $O(\\log n)$ time. This is identical to the method used to compute high matrix powers $A^k = P \\Lambda^k P^{-1}$.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 4.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:class Solution:\n    def myPow(self, x: float, n: int) -> float:\n        if n < 0:\n            x = 1 / x\n            n = -n\n        res = 1.0\n        curr = x\n        while n > 0:\n            if n % 2 == 1:\n                res *= curr\n            curr *= curr\n            n //= 2\n        return res"
+    "solution": "Python Solution:class Solution:\n    def myPow(self, x: float, n: int) -> float:\n        if n < 0:\n            x = 1 / x\n            n = -n\n        res = 1.0\n        curr = x\n        while n > 0:\n            if n % 2 == 1:\n                res *= curr\n            curr *= curr\n            n //= 2\n        return res",
+    "commonMistakes": [],
+    "relatedLesson": "week-4/week-4.html",
+    "relatedLab": null
   },
   {
     "id": "q-w5-iitm-17",
-    "week": 5,
+    "version": 1,
     "title": "Inner Product Symmetry in Complex Spaces",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 5,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 5",
-    "difficulty": "Medium",
-    "question": "Consider non-zero vectors $x, y \\in \\mathbb{C}^n$. When does the inner product obey commutative symmetry (i.e. $\\langle x, y \\rangle = \\langle y, x \\rangle$)?A.Only when $y = x^*$B.When $y = x$C.When $x$ and $y$ are orthogonal ($\\langle x, y \\rangle = 0$)D.Both B and C",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 5",
+      "url": ""
+    },
+    "statement": "Consider non-zero vectors $x, y \\in \\mathbb{C}^n$. When does the inner product obey commutative symmetry (i.e. $\\langle x, y \\rangle = \\langle y, x \\rangle$)?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only when $y = x^*$"
+      },
+      {
+        "id": "b",
+        "text": "When $y = x$"
+      },
+      {
+        "id": "c",
+        "text": "When $x$ and $y$ are orthogonal ($\\langle x, y \\rangle = 0$)"
+      },
+      {
+        "id": "d",
+        "text": "Both B and C"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "d"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 5.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Correct Option: DExplanation:In $\\mathbb{C}^n$, $\\langle x, y \\rangle = \\overline{\\langle y, x \\rangle}$. The relation $\\langle x, y \\rangle = \\langle y, x \\rangle$ holds if and only if the inner product is strictly real. When $x = y$, $\\langle x, x \\rangle = \\|x\\|^2 \\in \\mathbb{R}$. When $x \\perp y$, $\\langle x, y \\rangle = 0 = \\langle y, x \\rangle$."
+    "solution": "In $\\mathbb{C}^n$, $\\langle x, y \\rangle = \\overline{\\langle y, x \\rangle}$. The relation $\\langle x, y \\rangle = \\langle y, x \\rangle$ holds if and only if the inner product is strictly real. When $x = y$, $\\langle x, x \\rangle = \\|x\\|^2 \\in \\mathbb{R}$. When $x \\perp y$, $\\langle x, y \\rangle = 0 = \\langle y, x \\rangle$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-5/week-5.html",
+    "relatedLab": null
   },
   {
     "id": "q-w5-iitm-18",
-    "week": 5,
+    "version": 1,
     "title": "Spectral Theorem for 3x3 Symmetric Matrices",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 5,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 5",
-    "difficulty": "Medium",
-    "question": "Find the eigenvalues of the symmetric matrix $A = \\begin{bmatrix} 2 & -1 & 1 \\\\ -1 & 2 & -1 \\\\ 1 & -1 & 2 \\end{bmatrix}$ using its trace, principal minors, and determinant.",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 5",
+      "url": ""
+    },
+    "statement": "Find the eigenvalues of the symmetric matrix $A = \\begin{bmatrix} 2 & -1 & 1 \\\\ -1 & 2 & -1 \\\\ 1 & -1 & 2 \\end{bmatrix}$ using its trace, principal minors, and determinant.",
+    "options": [
+      {
+        "id": "a",
+        "text": "\\lambda \\in \\{1, 1, 4\\}"
+      },
+      {
+        "id": "b",
+        "text": "\\lambda \\in \\{2, 2, 2\\}"
+      },
+      {
+        "id": "c",
+        "text": "\\lambda \\in \\{0, 3, 3\\}"
+      },
+      {
+        "id": "d",
+        "text": "\\lambda \\in \\{-1, 2, 5\\}"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 5.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Solution:1. Trace: $\\text{Tr}(A) = 2 + 2 + 2 = 6$.2. Sum of leading principal minors:$$M_{11} = \\det\\begin{bmatrix}2 & -1 \\\\ -1 & 2\\end{bmatrix} = 3, \\quad M_{22} = \\det\\begin{bmatrix}2 & 1 \\\\ 1 & 2\\end{bmatrix} = 3, \\quad M_{33} = \\det\\begin{bmatrix}2 & -1 \\\\ -1 & 2\\end{bmatrix} = 3$$Sum $= 3 + 3 + 3 = 9$.3. Determinant: $\\det(A) = 2(3) - (-1)(-1) + 1(-1) = 6 - 1 - 1 = 4$.4. Characteristic equation: $\\lambda^3 - 6\\lambda^2 + 9\\lambda - 4 = 0$.Factoring: $(\\lambda - 1)^2(\\lambda - 4) = 0 \\implies \\lambda = 4, 1, 1$."
+    "solution": "Solution:1. Trace: $\\text{Tr}(A) = 2 + 2 + 2 = 6$.2. Sum of leading principal minors:$$M_{11} = \\det\\begin{bmatrix}2 & -1 \\\\ -1 & 2\\end{bmatrix} = 3, \\quad M_{22} = \\det\\begin{bmatrix}2 & 1 \\\\ 1 & 2\\end{bmatrix} = 3, \\quad M_{33} = \\det\\begin{bmatrix}2 & -1 \\\\ -1 & 2\\end{bmatrix} = 3$$Sum $= 3 + 3 + 3 = 9$.3. Determinant: $\\det(A) = 2(3) - (-1)(-1) + 1(-1) = 6 - 1 - 1 = 4$.4. Characteristic equation: $\\lambda^3 - 6\\lambda^2 + 9\\lambda - 4 = 0$.Factoring: $(\\lambda - 1)^2(\\lambda - 4) = 0 \\implies \\lambda = 4, 1, 1$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-5/week-5.html",
+    "relatedLab": null
   },
   {
     "id": "q-w5-deepml-19",
-    "week": 5,
+    "version": 1,
     "title": "Deep-ML #35: Convert Vector to Diagonal Matrix",
+    "week": 5,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Given a vector of eigenvalues, convert it into a square diagonal matrix $\\Lambda = \\text{diag}(\\lambda_1, \\dots, \\lambda_n)$ for spectral decomposition.",
-    "url": "https://www.deep-ml.com/problems/35",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/35"
+    },
+    "statement": "Given a vector of eigenvalues, convert it into a square diagonal matrix $\\Lambda = \\text{diag}(\\lambda_1, \\dots, \\lambda_n)$ for spectral decomposition.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 5.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:def make_diagonal(x: list[float]) -> list[list[float]]:\n    n = len(x)\n    diag = [[0.0] * n for _ in range(n)]\n    for i in range(n):\n        diag[i][i] = float(x[i])\n    return diag"
+    "solution": "Python Solution:def make_diagonal(x: list[float]) -> list[list[float]]:\n    n = len(x)\n    diag = [[0.0] * n for _ in range(n)]\n    for i in range(n):\n        diag[i][i] = float(x[i])\n    return diag",
+    "commonMistakes": [],
+    "relatedLesson": "week-5/week-5.html",
+    "relatedLab": null
   },
   {
     "id": "q-w6-iitm-20",
-    "week": 6,
+    "version": 1,
     "title": "Positive Definiteness via Sylvester's Criterion",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 6,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 6",
-    "difficulty": "Medium",
-    "question": "Let $A = \\begin{bmatrix} 4 & 2 \\\\ 2 & 2 \\end{bmatrix}$ and $B = \\begin{bmatrix} 1 & 1 \\\\ 1 & 2 \\end{bmatrix}$. Prove whether $A + B$ is positive definite.",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 6",
+      "url": ""
+    },
+    "statement": "Let $A = \\begin{bmatrix} 4 & 2 \\\\ 2 & 2 \\end{bmatrix}$ and $B = \\begin{bmatrix} 1 & 1 \\\\ 1 & 2 \\end{bmatrix}$. Prove whether $A + B$ is positive definite.",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, A + B is positive definite because all leading principal minors are strictly positive (5 > 0 and 7 > 0)"
+      },
+      {
+        "id": "b",
+        "text": "No, because det(A + B) < 0"
+      },
+      {
+        "id": "c",
+        "text": "No, because the trace of A + B is negative"
+      },
+      {
+        "id": "d",
+        "text": "Cannot be determined without knowing the eigenvectors"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 6.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Solution:1. Check $A$: $a = 4 > 0$, $\\det(A) = 4(2) - 2^2 = 4 > 0$. Thus $A \\succ 0$.2. Check $B$: $a = 1 > 0$, $\\det(B) = 1(2) - 1^2 = 1 > 0$. Thus $B \\succ 0$.3. Matrix sum: $A + B = \\begin{bmatrix} 5 & 3 \\\\ 3 & 4 \\end{bmatrix}$.Leading minor $a = 5 > 0$, determinant $\\det(A+B) = 5(4) - 3^2 = 11 > 0$.Since all leading principal minors are strictly positive, $A + B$ isstrictly positive definite."
+    "solution": "Solution:1. Check $A$: $a = 4 > 0$, $\\det(A) = 4(2) - 2^2 = 4 > 0$. Thus $A \\succ 0$.2. Check $B$: $a = 1 > 0$, $\\det(B) = 1(2) - 1^2 = 1 > 0$. Thus $B \\succ 0$.3. Matrix sum: $A + B = \\begin{bmatrix} 5 & 3 \\\\ 3 & 4 \\end{bmatrix}$.Leading minor $a = 5 > 0$, determinant $\\det(A+B) = 5(4) - 3^2 = 11 > 0$.Since all leading principal minors are strictly positive, $A + B$ isstrictly positive definite.",
+    "commonMistakes": [],
+    "relatedLesson": "week-6/week-6.html",
+    "relatedLab": null
   },
   {
     "id": "q-w6-deepml-21",
-    "week": 6,
+    "version": 1,
     "title": "Deep-ML #12: Singular Value Decomposition (SVD) of 2x2 Matrix",
+    "week": 6,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Write a function that calculates the Singular Value Decomposition (SVD) of a $2 \\times 2$ matrix $A = U \\Sigma V^T$ without high-level SVD libraries.",
-    "url": "https://www.deep-ml.com/problems/12",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/12"
+    },
+    "statement": "Write a function that calculates the Singular Value Decomposition (SVD) of a $2 \\times 2$ matrix $A = U \\Sigma V^T$ without high-level SVD libraries.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 6.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:import numpy as np\n\ndef svd_2x2(A: list[list[float]]):\n    A_mat = np.array(A, dtype=float)\n    ATA = A_mat.T @ A_mat\n    eigvals, V = np.linalg.eigh(ATA)\n    idx = np.argsort(eigvals)[::-1]\n    eigvals = np.maximum(eigvals[idx], 0.0)\n    V = V[:, idx]\n    sigma = np.sqrt(eigvals)\n    U = np.zeros_like(A_mat)\n    for i in range(len(sigma)):\n        if sigma[i] > 1e-12:\n            U[:, i] = (A_mat @ V[:, i]) / sigma[i]\n    return U.tolist(), sigma.tolist(), V.T.tolist()"
+    "solution": "Python Solution:import numpy as np\n\ndef svd_2x2(A: list[list[float]]):\n    A_mat = np.array(A, dtype=float)\n    ATA = A_mat.T @ A_mat\n    eigvals, V = np.linalg.eigh(ATA)\n    idx = np.argsort(eigvals)[::-1]\n    eigvals = np.maximum(eigvals[idx], 0.0)\n    V = V[:, idx]\n    sigma = np.sqrt(eigvals)\n    U = np.zeros_like(A_mat)\n    for i in range(len(sigma)):\n        if sigma[i] > 1e-12:\n            U[:, i] = (A_mat @ V[:, i]) / sigma[i]\n    return U.tolist(), sigma.tolist(), V.T.tolist()",
+    "commonMistakes": [],
+    "relatedLesson": "week-6/week-6.html",
+    "relatedLab": null
   },
   {
     "id": "q-w7-iitm-22",
-    "week": 7,
+    "version": 1,
     "title": "Covariance Matrix & Principal Components (Complete IITM Graded Data Set)",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 7,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 7",
-    "difficulty": "Medium",
-    "question": "Consider 3 observational vectors: $x_1 = [0, 1, 2]^T$, $x_2 = [1, 1, 1]^T$, $x_3 = [2, 1, 0]^T$.1. Compute the mean vector $\\bar{x}$.2. Compute the sample covariance matrix $\\Sigma = \\frac{1}{3} \\sum_{i=1}^3 (x_i - \\bar{x})(x_i - \\bar{x})^T$.3. Find the first principal component and the percentage of total variance it explains.",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 7",
+      "url": ""
+    },
+    "statement": "Consider 3 observational vectors: $x_1 = [0, 1, 2]^T$, $x_2 = [1, 1, 1]^T$, $x_3 = [2, 1, 0]^T$.1. Compute the mean vector $\\bar{x}$.2. Compute the sample covariance matrix $\\Sigma = \\frac{1}{3} \\sum_{i=1}^3 (x_i - \\bar{x})(x_i - \\bar{x})^T$.3. Find the first principal component and the percentage of total variance it explains.",
+    "options": [
+      {
+        "id": "a",
+        "text": "\\bar{x} = [1, 1, 1]^T \\text{ and } \\Sigma = \\begin{bmatrix} 2/3 & 0 & -2/3 \\\\ 0 & 0 & 0 \\\\ -2/3 & 0 & 2/3 \\end{bmatrix}"
+      },
+      {
+        "id": "b",
+        "text": "\\bar{x} = [1, 0, 1]^T \\text{ and } \\Sigma = I_3"
+      },
+      {
+        "id": "c",
+        "text": "\\bar{x} = [0, 1, 2]^T \\text{ and } \\Sigma = \\text{diag}(1, 0, 1)"
+      },
+      {
+        "id": "d",
+        "text": "\\bar{x} = [1, 1, 1]^T \\text{ and } \\Sigma = \\begin{bmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{bmatrix}"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 7.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Solution:1. Mean: $\\bar{x} = \\frac{1}{3}([0, 1, 2]^T + [1, 1, 1]^T + [2, 1, 0]^T) = [1, 1, 1]^T$.2. Centered vectors: $x_1 - \\bar{x} = [-1, 0, 1]^T$, $x_2 - \\bar{x} = [0, 0, 0]^T$, $x_3 - \\bar{x} = [1, 0, -1]^T$.Outer products: $\\begin{bmatrix}1 & 0 & -1 \\\\ 0 & 0 & 0 \\\\ -1 & 0 & 1\\end{bmatrix} + \\mathbf{0} + \\begin{bmatrix}1 & 0 & -1 \\\\ 0 & 0 & 0 \\\\ -1 & 0 & 1\\end{bmatrix} = \\begin{bmatrix}2 & 0 & -2 \\\\ 0 & 0 & 0 \\\\ -2 & 0 & 2\\end{bmatrix}$.$$\\Sigma = \\frac{1}{3} \\begin{bmatrix}2 & 0 & -2 \\\\ 0 & 0 & 0 \\\\ -2 & 0 & 2\\end{bmatrix} = \\begin{bmatrix}0.67 & 0 & -0.67 \\\\ 0 & 0 & 0 \\\\ -0.67 & 0 & 0.67\\end{bmatrix}$$3. Eigenvalues: $\\lambda_1 = 4/3 \\approx 1.33$, $\\lambda_2 = 0, \\lambda_3 = 0$.Unit Eigenvector: $u_1 = \\frac{1}{\\sqrt{2}} [1, 0, -1]^T$.Explained Variance:$\\frac{1.33}{1.33 + 0 + 0} = \\mathbf{100\\%}$!"
+    "solution": "Solution:1. Mean: $\\bar{x} = \\frac{1}{3}([0, 1, 2]^T + [1, 1, 1]^T + [2, 1, 0]^T) = [1, 1, 1]^T$.2. Centered vectors: $x_1 - \\bar{x} = [-1, 0, 1]^T$, $x_2 - \\bar{x} = [0, 0, 0]^T$, $x_3 - \\bar{x} = [1, 0, -1]^T$.Outer products: $\\begin{bmatrix}1 & 0 & -1 \\\\ 0 & 0 & 0 \\\\ -1 & 0 & 1\\end{bmatrix} + \\mathbf{0} + \\begin{bmatrix}1 & 0 & -1 \\\\ 0 & 0 & 0 \\\\ -1 & 0 & 1\\end{bmatrix} = \\begin{bmatrix}2 & 0 & -2 \\\\ 0 & 0 & 0 \\\\ -2 & 0 & 2\\end{bmatrix}$.$$\\Sigma = \\frac{1}{3} \\begin{bmatrix}2 & 0 & -2 \\\\ 0 & 0 & 0 \\\\ -2 & 0 & 2\\end{bmatrix} = \\begin{bmatrix}0.67 & 0 & -0.67 \\\\ 0 & 0 & 0 \\\\ -0.67 & 0 & 0.67\\end{bmatrix}$$3. Eigenvalues: $\\lambda_1 = 4/3 \\approx 1.33$, $\\lambda_2 = 0, \\lambda_3 = 0$.Unit Eigenvector: $u_1 = \\frac{1}{\\sqrt{2}} [1, 0, -1]^T$.Explained Variance:$\\frac{1.33}{1.33 + 0 + 0} = \\mathbf{100\\%}$!",
+    "commonMistakes": [],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": null
   },
   {
     "id": "q-w7-deepml-23",
-    "week": 7,
+    "version": 1,
     "title": "Deep-ML #19: Principal Component Analysis (PCA) Implementation",
+    "week": 7,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Implement PCA dimensionality reduction from scratch in Python: center data, compute covariance matrix, compute eigenvectors, and project data to $k$ dimensions.",
-    "url": "https://www.deep-ml.com/problems/19",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/19"
+    },
+    "statement": "Implement PCA dimensionality reduction from scratch in Python: center data, compute covariance matrix, compute eigenvectors, and project data to $k$ dimensions.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 7.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:import numpy as np\n\ndef pca(data: list[list[float]], k: int) -> list[list[float]]:\n    X = np.array(data)\n    X_centered = X - np.mean(X, axis=0)\n    cov = np.cov(X_centered, rowvar=False)\n    eigvals, eigvecs = np.linalg.eigh(cov)\n    # Sort descending\n    top_indices = np.argsort(eigvals)[::-1][:k]\n    components = eigvecs[:, top_indices]\n    projected = X_centered @ components\n    return np.round(projected, 4).tolist()"
+    "solution": "Python Solution:import numpy as np\n\ndef pca(data: list[list[float]], k: int) -> list[list[float]]:\n    X = np.array(data)\n    X_centered = X - np.mean(X, axis=0)\n    cov = np.cov(X_centered, rowvar=False)\n    eigvals, eigvecs = np.linalg.eigh(cov)\n    # Sort descending\n    top_indices = np.argsort(eigvals)[::-1][:k]\n    components = eigvecs[:, top_indices]\n    projected = X_centered @ components\n    return np.round(projected, 4).tolist()",
+    "commonMistakes": [],
+    "relatedLesson": "week-7/week-7.html",
+    "relatedLab": null
   },
   {
     "id": "q-w8-iitm-24",
-    "week": 8,
+    "version": 1,
     "title": "Distance Minimization to a Parabola",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 8,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 8",
-    "difficulty": "Medium",
-    "question": "Find the point(s) on the parabola $y = x^2 + 1$ closest to the point $(0, 2)$.",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 8",
+      "url": ""
+    },
+    "statement": "Find the point(s) on the parabola $y = x^2 + 1$ closest to the point $(0, 2)$.",
+    "options": [
+      {
+        "id": "a",
+        "text": "(\\pm 1/\\sqrt{2}, 3/2)"
+      },
+      {
+        "id": "b",
+        "text": "(0, 1)"
+      },
+      {
+        "id": "c",
+        "text": "(\\pm 1, 2)"
+      },
+      {
+        "id": "d",
+        "text": "(0, 2)"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 8.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Solution:Objective: minimize squared Euclidean distance:$$f(x) = (x - 0)^2 + (x^2 + 1 - 2)^2 = x^2 + (x^2 - 1)^2 = x^4 - x^2 + 1$$Derivative: $f'(x) = 4x^3 - 2x = 2x(2x^2 - 1) = 0$.Critical points: $x = 0$, and $x = \\pm \\frac{1}{\\sqrt{2}} \\approx \\pm 0.707$.Second derivative $f''(x) = 12x^2 - 2$:\u2022 At $x = 0$: $f''(0) = -2 < 0$ (local maximum).\u2022 At $x = \\pm 0.707$: $f'' = 12(0.5) - 2 = 4 > 0$ (local minima).Corresponding $y = (\\pm 1/\\sqrt{2})^2 + 1 = 1.5$.The closest points are $\\mathbf{(0.707, 1.5)}$ and $\\mathbf{(-0.707, 1.5)}$."
+    "solution": "Solution:Objective: minimize squared Euclidean distance:$$f(x) = (x - 0)^2 + (x^2 + 1 - 2)^2 = x^2 + (x^2 - 1)^2 = x^4 - x^2 + 1$$Derivative: $f'(x) = 4x^3 - 2x = 2x(2x^2 - 1) = 0$.Critical points: $x = 0$, and $x = \\pm \\frac{1}{\\sqrt{2}} \\approx \\pm 0.707$.Second derivative $f''(x) = 12x^2 - 2$:\u2022 At $x = 0$: $f''(0) = -2 < 0$ (local maximum).\u2022 At $x = \\pm 0.707$: $f'' = 12(0.5) - 2 = 4 > 0$ (local minima).Corresponding $y = (\\pm 1/\\sqrt{2})^2 + 1 = 1.5$.The closest points are $\\mathbf{(0.707, 1.5)}$ and $\\mathbf{(-0.707, 1.5)}$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-8/week-8.html",
+    "relatedLab": "visual_labs.html#lab-gd"
   },
   {
     "id": "q-w8-deepml-25",
-    "week": 8,
+    "version": 1,
     "title": "Deep-ML #15: Linear Regression Using Gradient Descent",
+    "week": 8,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Implement batch gradient descent for linear regression to iteratively minimize MSE loss over $E$ epochs.",
-    "url": "https://www.deep-ml.com/problems/15",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/15"
+    },
+    "statement": "Implement batch gradient descent for linear regression to iteratively minimize MSE loss over $E$ epochs.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 8.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:import numpy as np\n\ndef linear_regression_gradient_descent(X: list[list[float]], y: list[float], lr: float, epochs: int):\n    X_mat = np.array(X)\n    y_vec = np.array(y)\n    m, n = X_mat.shape\n    w = np.zeros(n)\n    for _ in range(epochs):\n        preds = X_mat @ w\n        grad = (2 / m) * X_mat.T @ (preds - y_vec)\n        w -= lr * grad\n    return np.round(w, 4).tolist()"
+    "solution": "Python Solution:import numpy as np\n\ndef linear_regression_gradient_descent(X: list[list[float]], y: list[float], lr: float, epochs: int):\n    X_mat = np.array(X)\n    y_vec = np.array(y)\n    m, n = X_mat.shape\n    w = np.zeros(n)\n    for _ in range(epochs):\n        preds = X_mat @ w\n        grad = (2 / m) * X_mat.T @ (preds - y_vec)\n        w -= lr * grad\n    return np.round(w, 4).tolist()",
+    "commonMistakes": [],
+    "relatedLesson": "week-8/week-8.html",
+    "relatedLab": "visual_labs.html#lab-gd"
   },
   {
     "id": "q-w9-iitm-26",
-    "week": 9,
+    "version": 1,
     "title": "Convex Hull Membership Verification",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 9,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 9",
-    "difficulty": "Medium",
-    "question": "Points $(0, 0), (5, 0), (5, 5), (0, 5)$ form a convex hull. Which of the following points is inside this convex hull?A.$(1, 1)$B.$(1, -1)$C.$(-1, 1)$D.$(-1, -1)$",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 9",
+      "url": ""
+    },
+    "statement": "Points $(0, 0), (5, 0), (5, 5), (0, 5)$ form a convex hull. Which of the following points is inside this convex hull?",
+    "options": [
+      {
+        "id": "a",
+        "text": "$(1, 1)$"
+      },
+      {
+        "id": "b",
+        "text": "$(1, -1)$"
+      },
+      {
+        "id": "c",
+        "text": "$(-1, 1)$"
+      },
+      {
+        "id": "d",
+        "text": "$(-1, -1)$"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 9.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Correct Option: AExplanation:The convex hull of the four points forms the closed square $[0, 5] \\times [0, 5]$. A point $(x, y)$ belongs to the convex hull if and only if $0 \\le x \\le 5$ and $0 \\le y \\le 5$. Point $(1, 1)$ satisfies both conditions, whereas all other options have negative coordinates."
+    "solution": "The convex hull of the four points forms the closed square $[0, 5] \\times [0, 5]$. A point $(x, y)$ belongs to the convex hull if and only if $0 \\le x \\le 5$ and $0 \\le y \\le 5$. Point $(1, 1)$ satisfies both conditions, whereas all other options have negative coordinates.",
+    "commonMistakes": [],
+    "relatedLesson": "week-9/week-9.html",
+    "relatedLab": null
   },
   {
     "id": "q-w9-leetcode-27",
-    "week": 9,
+    "version": 1,
     "title": "LeetCode 852: Peak Index in a Mountain Array",
+    "week": 9,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "leetcode",
     "provenance": "leetcode",
-    "citation": "LEETCODE Challenge",
-    "difficulty": "Medium",
-    "question": "A mountain array increases strictly to a peak and then decreases strictly (strictly concave profile). Find the index of the peak element in $O(\\log n)$ using binary/ternary search.",
-    "url": "https://leetcode.com/problems/peak-index-in-a-mountain-array/",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "LEETCODE Challenge",
+      "url": "https://leetcode.com/problems/peak-index-in-a-mountain-array/"
+    },
+    "statement": "A mountain array increases strictly to a peak and then decreases strictly (strictly concave profile). Find the index of the peak element in $O(\\log n)$ using binary/ternary search.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 9.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:class Solution:\n    def peakIndexInMountainArray(self, arr: list[int]) -> int:\n        low, high = 0, len(arr) - 1\n        while low < high:\n            mid = (low + high) // 2\n            if arr[mid] < arr[mid + 1]:\n                low = mid + 1\n            else:\n                high = mid\n        return low"
+    "solution": "Python Solution:class Solution:\n    def peakIndexInMountainArray(self, arr: list[int]) -> int:\n        low, high = 0, len(arr) - 1\n        while low < high:\n            mid = (low + high) // 2\n            if arr[mid] < arr[mid + 1]:\n                low = mid + 1\n            else:\n                high = mid\n        return low",
+    "commonMistakes": [],
+    "relatedLesson": "week-9/week-9.html",
+    "relatedLab": null
   },
   {
     "id": "q-w10-iitm-28",
-    "week": 10,
+    "version": 1,
     "title": "Monotonicity & First Derivative Test",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 10,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "derivation",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 10",
-    "difficulty": "Medium",
-    "question": "At point $x = 2$, is the function $f(x) = x e^{-3x}$ increasing or decreasing?A.IncreasingB.Decreasing",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 10",
+      "url": ""
+    },
+    "statement": "At point $x = 2$, is the function $f(x) = x e^{-3x}$ increasing or decreasing?A.IncreasingB.Decreasing",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 10.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Correct Option: BExplanation:Product rule derivative: $f'(x) = 1 \\cdot e^{-3x} + x(-3 e^{-3x}) = e^{-3x}(1 - 3x)$.Evaluate at $x = 2$: $f'(2) = e^{-6}(1 - 6) = -5 e^{-6} \\approx -0.0124 < 0$.Since the first derivative is strictly negative, $f(x)$ is strictlydecreasingat $x = 2$."
+    "solution": "Correct Option: BExplanation:Product rule derivative: $f'(x) = 1 \\cdot e^{-3x} + x(-3 e^{-3x}) = e^{-3x}(1 - 3x)$.Evaluate at $x = 2$: $f'(2) = e^{-6}(1 - 6) = -5 e^{-6} \\approx -0.0124 < 0$.Since the first derivative is strictly negative, $f(x)$ is strictlydecreasingat $x = 2$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-10/week-10.html",
+    "relatedLab": null
   },
   {
     "id": "q-w10-deepml-29",
-    "week": 10,
+    "version": 1,
     "title": "Deep-ML #17: K-Means Clustering",
+    "week": 10,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Implement the k-Means clustering algorithm using alternating optimization: assign points to nearest centroid, then recompute cluster centroids as means.",
-    "url": "https://www.deep-ml.com/problems/17",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/17"
+    },
+    "statement": "Implement the k-Means clustering algorithm using alternating optimization: assign points to nearest centroid, then recompute cluster centroids as means.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 10.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:import numpy as np\n\ndef k_means_clustering(points: list[list[float]], k: int, initial_centroids: list[list[float]], max_iterations: int):\n    X = np.array(points)\n    centroids = np.array(initial_centroids)\n    for _ in range(max_iterations):\n        dists = np.linalg.norm(X[:, None] - centroids[None, :], axis=2)\n        labels = np.argmin(dists, axis=1)\n        new_centroids = np.array([X[labels == j].mean(axis=0) if np.any(labels == j) else centroids[j] for j in range(k)])\n        if np.allclose(centroids, new_centroids):\n            break\n        centroids = new_centroids\n    return np.round(centroids, 4).tolist()"
+    "solution": "Python Solution:import numpy as np\n\ndef k_means_clustering(points: list[list[float]], k: int, initial_centroids: list[list[float]], max_iterations: int):\n    X = np.array(points)\n    centroids = np.array(initial_centroids)\n    for _ in range(max_iterations):\n        dists = np.linalg.norm(X[:, None] - centroids[None, :], axis=2)\n        labels = np.argmin(dists, axis=1)\n        new_centroids = np.array([X[labels == j].mean(axis=0) if np.any(labels == j) else centroids[j] for j in range(k)])\n        if np.allclose(centroids, new_centroids):\n            break\n        centroids = new_centroids\n    return np.round(centroids, 4).tolist()",
+    "commonMistakes": [],
+    "relatedLesson": "week-10/week-10.html",
+    "relatedLab": null
   },
   {
     "id": "q-w10-deepml-30",
-    "week": 10,
+    "version": 1,
     "title": "Deep-ML #21: Pegasos Kernel SVM Implementation",
+    "week": 10,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Implement the Pegasos algorithm for primal Support Vector Machines with mini-batch stochastic subgradient descent.",
-    "url": "https://www.deep-ml.com/problems/21",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/21"
+    },
+    "statement": "Implement the Pegasos algorithm for primal Support Vector Machines with mini-batch stochastic subgradient descent.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 10.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:import numpy as np\n\ndef pegasos_svm(X, y, C=1.0, max_iter=100):\n    w = np.zeros(X.shape[1])\n    for t in range(1, max_iter + 1):\n        eta = 1.0 / (C * t)\n        for i in range(len(X)):\n            if y[i] * np.dot(w, X[i]) < 1:\n                w = (1 - eta * C) * w + eta * y[i] * X[i]\n            else:\n                w = (1 - eta * C) * w\n    return w"
+    "solution": "Python Solution:import numpy as np\n\ndef pegasos_svm(X, y, C=1.0, max_iter=100):\n    w = np.zeros(X.shape[1])\n    for t in range(1, max_iter + 1):\n        eta = 1.0 / (C * t)\n        for i in range(len(X)):\n            if y[i] * np.dot(w, X[i]) < 1:\n                w = (1 - eta * C) * w + eta * y[i] * X[i]\n            else:\n                w = (1 - eta * C) * w\n    return w",
+    "commonMistakes": [],
+    "relatedLesson": "week-10/week-10.html",
+    "relatedLab": null
   },
   {
     "id": "q-w11-iitm-31",
-    "week": 11,
+    "version": 1,
     "title": "Continuous PDF Normalization & Interval Probability (Messi Problem)",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 11,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 11",
-    "difficulty": "Medium",
-    "question": "The number of hours Messi spends practicing in ground is modeled by continuous RV $X$ with PDF $f_X(x) = a(x - 1)(6 - x)$ for $1 < x < 6$, and $0$ otherwise.1. Determine the normalization constant $a$.2. Find the probability $P(2 \\le X \\le 5)$.",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 11",
+      "url": ""
+    },
+    "statement": "The number of hours Messi spends practicing in ground is modeled by continuous RV $X$ with PDF $f_X(x) = a(x - 1)(6 - x)$ for $1 < x < 6$, and $0$ otherwise.1. Determine the normalization constant $a$.2. Find the probability $P(2 \\le X \\le 5)$.",
+    "options": [
+      {
+        "id": "a",
+        "text": "a = 6 / 125"
+      },
+      {
+        "id": "b",
+        "text": "a = 1 / 25"
+      },
+      {
+        "id": "c",
+        "text": "a = 125 / 6"
+      },
+      {
+        "id": "d",
+        "text": "a = 1 / 5"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 11.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Solution:1. Normalization $\\int_1^6 f(x)dx = 1$:$$\\int_1^6 a(-x^2 + 7x - 6) dx = a \\left[ -\\frac{x^3}{3} + \\frac{7x^2}{2} - 6x \\right]_1^6 = a \\left( 18 - \\left(-\\frac{17}{6}\\right) \\right) = a \\left( \\frac{125}{6} \\right) = 1 \\implies a = \\frac{6}{125} = 0.048$$2. Interval probability $P(2 \\le X \\le 5)$:$$P(2 \\le X \\le 5) = \\frac{6}{125} \\int_2^5 (-x^2 + 7x - 6) dx = \\frac{6}{125} \\left[ -\\frac{x^3}{3} + \\frac{7x^2}{2} - 6x \\right]_2^5 = \\frac{6}{125} \\left( \\frac{50}{3} \\right) = \\mathbf{0.80}$$"
+    "solution": "Solution:1. Normalization $\\int_1^6 f(x)dx = 1$:$$\\int_1^6 a(-x^2 + 7x - 6) dx = a \\left[ -\\frac{x^3}{3} + \\frac{7x^2}{2} - 6x \\right]_1^6 = a \\left( 18 - \\left(-\\frac{17}{6}\\right) \\right) = a \\left( \\frac{125}{6} \\right) = 1 \\implies a = \\frac{6}{125} = 0.048$$2. Interval probability $P(2 \\le X \\le 5)$:$$P(2 \\le X \\le 5) = \\frac{6}{125} \\int_2^5 (-x^2 + 7x - 6) dx = \\frac{6}{125} \\left[ -\\frac{x^3}{3} + \\frac{7x^2}{2} - 6x \\right]_2^5 = \\frac{6}{125} \\left( \\frac{50}{3} \\right) = \\mathbf{0.80}$$",
+    "commonMistakes": [],
+    "relatedLesson": "week-11/week-11.html",
+    "relatedLab": null
   },
   {
     "id": "q-w11-leetcode-32",
-    "week": 11,
+    "version": 1,
     "title": "LeetCode 528: Random Pick with Weight",
+    "week": 11,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "leetcode",
     "provenance": "leetcode",
-    "citation": "LEETCODE Challenge",
-    "difficulty": "Medium",
-    "question": "Given an array of positive integers `w` representing probabilities, pick an index randomly proportional to its weight using cumulative distribution function (CDF) sampling.",
-    "url": "https://leetcode.com/problems/random-pick-with-weight/",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "LEETCODE Challenge",
+      "url": "https://leetcode.com/problems/random-pick-with-weight/"
+    },
+    "statement": "Given an array of positive integers `w` representing probabilities, pick an index randomly proportional to its weight using cumulative distribution function (CDF) sampling.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 11.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:import random\nimport bisect\n\nclass Solution:\n    def __init__(self, w: list[int]):\n        self.prefix_sums = []\n        curr = 0\n        for weight in w:\n            curr += weight\n            self.prefix_sums.append(curr)\n        self.total = curr\n\n    def pickIndex(self) -> int:\n        target = random.randint(1, self.total)\n        return bisect.bisect_left(self.prefix_sums, target)"
+    "solution": "Python Solution:import random\nimport bisect\n\nclass Solution:\n    def __init__(self, w: list[int]):\n        self.prefix_sums = []\n        curr = 0\n        for weight in w:\n            curr += weight\n            self.prefix_sums.append(curr)\n        self.total = curr\n\n    def pickIndex(self) -> int:\n        target = random.randint(1, self.total)\n        return bisect.bisect_left(self.prefix_sums, target)",
+    "commonMistakes": [],
+    "relatedLesson": "week-11/week-11.html",
+    "relatedLab": null
   },
   {
     "id": "q-w12-iitm-33",
-    "week": 12,
+    "version": 1,
     "title": "Maximum Likelihood for Gaussian Parameters",
-    "type": "conceptual",
-    "platform": "iitm",
+    "week": 12,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
+    "platform": "local",
     "provenance": "adapted",
-    "citation": "Adapted MLF Exam Practice - Week 12",
-    "difficulty": "Medium",
-    "question": "Given independent 1D observations $\\{x_1, x_2, \\dots, x_N\\} \\sim \\mathcal{N}(\\mu, \\sigma^2)$, derive the Maximum Likelihood Estimator (MLE) for mean $\\mu$ and variance $\\sigma^2$ and state whether the variance estimator is biased.",
-    "url": "",
+    "verificationStatus": "pending",
+    "source": {
+      "citation": "Adapted MLF Exam Practice - Week 12",
+      "url": ""
+    },
+    "statement": "Given independent 1D observations $\\{x_1, x_2, \\dots, x_N\\} \\sim \\mathcal{N}(\\mu, \\sigma^2)$, derive the Maximum Likelihood Estimator (MLE) for mean $\\mu$ and variance $\\sigma^2$ and state whether the variance estimator is biased.",
+    "options": [
+      {
+        "id": "a",
+        "text": "\\hat{\\mu}_{\\text{MLE}} = \\frac{1}{N}\\sum x_i, \\quad \\hat{\\sigma}^2_{\\text{MLE}} = \\frac{1}{N}\\sum (x_i - \\bar{x})^2"
+      },
+      {
+        "id": "b",
+        "text": "\\hat{\\mu}_{\\text{MLE}} = \\frac{1}{N-1}\\sum x_i, \\quad \\hat{\\sigma}^2_{\\text{MLE}} = \\frac{1}{N-1}\\sum (x_i - \\bar{x})^2"
+      },
+      {
+        "id": "c",
+        "text": "\\hat{\\mu}_{\\text{MLE}} = \\text{median}(x_i), \\quad \\hat{\\sigma}^2_{\\text{MLE}} = \\text{var}(x_i)"
+      },
+      {
+        "id": "d",
+        "text": "\\hat{\\mu}_{\\text{MLE}} = \\max(x_i), \\quad \\hat{\\sigma}^2_{\\text{MLE}} = \\sigma^2"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 12.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Solution:Log-likelihood:$$\\ln L(\\mu, \\sigma^2) = -\\frac{N}{2}\\ln(2\\pi) - \\frac{N}{2}\\ln(\\sigma^2) - \\frac{1}{2\\sigma^2}\\sum_{i=1}^N (x_i - \\mu)^2$$1. $\\frac{\\partial \\ln L}{\\partial \\mu} = \\frac{1}{\\sigma^2}\\sum_{i=1}^N (x_i - \\mu) = 0 \\implies \\hat{\\mu}_{MLE} = \\frac{1}{N}\\sum_{i=1}^N x_i$. (Unbiased)2. $\\frac{\\partial \\ln L}{\\partial (\\sigma^2)} = -\\frac{N}{2\\sigma^2} + \\frac{1}{2(\\sigma^2)^2}\\sum_{i=1}^N (x_i - \\mu)^2 = 0 \\implies \\hat{\\sigma}^2_{MLE} = \\frac{1}{N}\\sum_{i=1}^N (x_i - \\hat{\\mu})^2$.Bias:$\\mathbb{E}[\\hat{\\sigma}^2_{MLE}] = \\frac{N-1}{N} \\sigma^2 \\neq \\sigma^2$, so the MLE variance isbiasedby factor $\\frac{N-1}{N}$."
+    "solution": "Solution:Log-likelihood:$$\\ln L(\\mu, \\sigma^2) = -\\frac{N}{2}\\ln(2\\pi) - \\frac{N}{2}\\ln(\\sigma^2) - \\frac{1}{2\\sigma^2}\\sum_{i=1}^N (x_i - \\mu)^2$$1. $\\frac{\\partial \\ln L}{\\partial \\mu} = \\frac{1}{\\sigma^2}\\sum_{i=1}^N (x_i - \\mu) = 0 \\implies \\hat{\\mu}_{MLE} = \\frac{1}{N}\\sum_{i=1}^N x_i$. (Unbiased)2. $\\frac{\\partial \\ln L}{\\partial (\\sigma^2)} = -\\frac{N}{2\\sigma^2} + \\frac{1}{2(\\sigma^2)^2}\\sum_{i=1}^N (x_i - \\mu)^2 = 0 \\implies \\hat{\\sigma}^2_{MLE} = \\frac{1}{N}\\sum_{i=1}^N (x_i - \\hat{\\mu})^2$.Bias:$\\mathbb{E}[\\hat{\\sigma}^2_{MLE}] = \\frac{N-1}{N} \\sigma^2 \\neq \\sigma^2$, so the MLE variance isbiasedby factor $\\frac{N-1}{N}$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-12/week-12.html",
+    "relatedLab": null
   },
   {
     "id": "q-w12-deepml-34",
-    "week": 12,
+    "version": 1,
     "title": "Deep-ML #23: Softmax Activation Function Implementation",
+    "week": 12,
+    "conceptIds": [],
+    "prerequisiteConceptIds": [],
     "type": "coding",
+    "difficulty": "medium",
+    "estimatedMinutes": 5,
     "platform": "deepml",
     "provenance": "deepml",
-    "citation": "DEEPML Challenge",
-    "difficulty": "Medium",
-    "question": "Implement the numerically stable Softmax activation function: $\\text{Softmax}(z)_i = \\frac{e^{z_i - \\max(z)}}{\\sum_j e^{z_j - \\max(z)}}$.",
-    "url": "https://www.deep-ml.com/problems/23",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "DEEPML Challenge",
+      "url": "https://www.deep-ml.com/problems/23"
+    },
+    "statement": "Implement the numerically stable Softmax activation function: $\\text{Softmax}(z)_i = \\frac{e^{z_i - \\max(z)}}{\\sum_j e^{z_j - \\max(z)}}$.",
+    "options": [],
+    "answerSpec": {
+      "correctOptionIds": [],
+      "numericValue": null,
+      "tolerance": null
+    },
     "hints": [
       "Review the core theoretical equations introduced in Week 12.",
       "Identify the inputs and match them to the relevant vector/matrix operations."
     ],
-    "explanation": "Python Solution:import numpy as np\n\ndef softmax(scores: list[float]) -> list[float]:\n    z = np.array(scores)\n    exp_z = np.exp(z - np.max(z))\n    probs = exp_z / np.sum(exp_z)\n    return np.round(probs, 4).tolist()"
+    "solution": "Python Solution:import numpy as np\n\ndef softmax(scores: list[float]) -> list[float]:\n    z = np.array(scores)\n    exp_z = np.exp(z - np.max(z))\n    probs = exp_z / np.sum(exp_z)\n    return np.round(probs, 4).tolist()",
+    "commonMistakes": [],
+    "relatedLesson": "week-12/week-12.html",
+    "relatedLab": null
+  },
+  {
+    "id": "diag-q1",
+    "version": 1,
+    "title": "Euclidean Vector Norm",
+    "week": 1,
+    "conceptIds": [
+      "inner-product"
+    ],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Prerequisite Bridge Diagnostic",
+      "url": null
+    },
+    "statement": "What is the Euclidean length $\\|v\\|$ of vector $v = [1, 2, -2]^T$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "2.5"
+      },
+      {
+        "id": "b",
+        "text": "3.0"
+      },
+      {
+        "id": "c",
+        "text": "4.0"
+      },
+      {
+        "id": "d",
+        "text": "9.0"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ]
+    },
+    "hints": [
+      "Compute $\\sqrt{1^2 + 2^2 + (-2)^2}$."
+    ],
+    "solution": "$\\|v\\| = \\sqrt{1 + 4 + 4} = \\sqrt{9} = 3.0$.",
+    "commonMistakes": [
+      "Forgetting to take the square root of the sum of squares."
+    ],
+    "relatedLesson": "week-1/week-1.html",
+    "relatedLab": "visual_labs.html"
+  },
+  {
+    "id": "diag-q2",
+    "version": 1,
+    "title": "Matrix Multiplication Shape Compatibility",
+    "week": 1,
+    "conceptIds": [
+      "inner-product"
+    ],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Prerequisite Bridge Diagnostic",
+      "url": null
+    },
+    "statement": "If matrix $A$ has shape $3 \\times 4$ and matrix $B$ has shape $4 \\times 2$, what is the shape of $A B$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "4 x 4"
+      },
+      {
+        "id": "b",
+        "text": "3 x 2"
+      },
+      {
+        "id": "c",
+        "text": "4 x 3"
+      },
+      {
+        "id": "d",
+        "text": "Multiplication is undefined"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ]
+    },
+    "hints": [
+      "Inner dimensions must match: $(m \\times k) \\times (k \\times n) = (m \\times n)$."
+    ],
+    "solution": "Inner dimensions match (4 = 4). The resulting shape is $3 \\times 2$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-1/week-1.html",
+    "relatedLab": null
+  },
+  {
+    "id": "diag-q3",
+    "version": 1,
+    "title": "Partial Differentiation",
+    "week": 2,
+    "conceptIds": [
+      "gradient-vector"
+    ],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Prerequisite Bridge Diagnostic",
+      "url": null
+    },
+    "statement": "For $f(x, y) = x^2 y + 3y^2$, what is the partial derivative $\\frac{\\partial f}{\\partial x}$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "2xy"
+      },
+      {
+        "id": "b",
+        "text": "2xy + 6y"
+      },
+      {
+        "id": "c",
+        "text": "x^2 + 6y"
+      },
+      {
+        "id": "d",
+        "text": "2x"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "a"
+      ]
+    },
+    "hints": [
+      "Treat $y$ as a constant scalar."
+    ],
+    "solution": "$\\frac{\\partial}{\\partial x}(x^2 y + 3y^2) = 2xy + 0 = 2xy$.",
+    "commonMistakes": [
+      "Differentiating $3y^2$ with respect to $x$ instead of treating it as constant."
+    ],
+    "relatedLesson": "week-2/week-2.html",
+    "relatedLab": null
+  },
+  {
+    "id": "diag-q4",
+    "version": 1,
+    "title": "Orthogonal Vector Definition",
+    "week": 1,
+    "conceptIds": [
+      "inner-product"
+    ],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Prerequisite Bridge Diagnostic",
+      "url": null
+    },
+    "statement": "Two non-zero vectors $u$ and $v$ are orthogonal if and only if:",
+    "options": [
+      {
+        "id": "a",
+        "text": "u + v = 0"
+      },
+      {
+        "id": "b",
+        "text": "u^T v = 0"
+      },
+      {
+        "id": "c",
+        "text": "u^T v = 1"
+      },
+      {
+        "id": "d",
+        "text": "||u|| = ||v||"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ]
+    },
+    "hints": [
+      "Orthogonality is defined by the zero inner product."
+    ],
+    "solution": "Two vectors are perpendicular/orthogonal if their dot product vanishes: $u^T v = 0$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-1/week-1.html",
+    "relatedLab": "visual_labs.html#lab-projection"
+  },
+  {
+    "id": "diag-q5",
+    "version": 1,
+    "title": "NumPy 2D Array Shape",
+    "week": 1,
+    "conceptIds": [
+      "inner-product"
+    ],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Prerequisite Bridge Diagnostic",
+      "url": null
+    },
+    "statement": "In NumPy, what is the shape of `np.array([[1, 2, 3], [4, 5, 6]])`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "(3, 2)"
+      },
+      {
+        "id": "b",
+        "text": "(6,)"
+      },
+      {
+        "id": "c",
+        "text": "(2, 3)"
+      },
+      {
+        "id": "d",
+        "text": "(2, 2)"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "c"
+      ]
+    },
+    "hints": [
+      "Count rows (outer list items) then columns (inner list items)."
+    ],
+    "solution": "2 rows and 3 columns results in tuple `(2, 3)`.",
+    "commonMistakes": [
+      "Confusing (rows, cols) with (x, y) coordinates."
+    ],
+    "relatedLesson": "week-1/week-1.html",
+    "relatedLab": null
+  },
+  {
+    "id": "diag-q6",
+    "version": 1,
+    "title": "Independent Events Definition",
+    "week": 11,
+    "conceptIds": [
+      "bayes-rule"
+    ],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Prerequisite Bridge Diagnostic",
+      "url": null
+    },
+    "statement": "If events $A$ and $B$ are statistically independent, $P(A \\cap B)$ equals:",
+    "options": [
+      {
+        "id": "a",
+        "text": "P(A) + P(B)"
+      },
+      {
+        "id": "b",
+        "text": "P(A) P(B)"
+      },
+      {
+        "id": "c",
+        "text": "P(A | B)"
+      },
+      {
+        "id": "d",
+        "text": "0"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ]
+    },
+    "hints": [
+      "Multiplication rule for independent probabilities."
+    ],
+    "solution": "Statistical independence is defined as $P(A \\cap B) = P(A) P(B)$.",
+    "commonMistakes": [
+      "Confusing independence with mutually exclusive events (where $P(A \\cap B) = 0$)."
+    ],
+    "relatedLesson": "week-11/week-11.html",
+    "relatedLab": null
+  },
+  {
+    "id": "diag-q7",
+    "version": 1,
+    "title": "Quadratic Minimizer",
+    "week": 8,
+    "conceptIds": [
+      "gradient-descent"
+    ],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Prerequisite Bridge Diagnostic",
+      "url": null
+    },
+    "statement": "What is the critical point $x^*$ that minimizes $f(x) = (x - 4)^2 + 10$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "x = 0"
+      },
+      {
+        "id": "b",
+        "text": "x = 4"
+      },
+      {
+        "id": "c",
+        "text": "x = 10"
+      },
+      {
+        "id": "d",
+        "text": "x = -4"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ]
+    },
+    "hints": [
+      "Differentiate with respect to $x$ and set to zero."
+    ],
+    "solution": "$f'(x) = 2(x - 4) = 0 \\implies x = 4$.",
+    "commonMistakes": [],
+    "relatedLesson": "week-8/week-8.html",
+    "relatedLab": "visual_labs.html#lab-gd"
+  },
+  {
+    "id": "diag-q8",
+    "version": 1,
+    "title": "Identity Matrix Rank",
+    "week": 1,
+    "conceptIds": [
+      "inner-product"
+    ],
+    "prerequisiteConceptIds": [],
+    "type": "mcq",
+    "difficulty": "easy",
+    "estimatedMinutes": 2,
+    "platform": "local",
+    "provenance": "original",
+    "verificationStatus": "reviewed",
+    "source": {
+      "citation": "Prerequisite Bridge Diagnostic",
+      "url": null
+    },
+    "statement": "What is the rank of the $2 \\times 2$ identity matrix $I_2$?",
+    "options": [
+      {
+        "id": "a",
+        "text": "1"
+      },
+      {
+        "id": "b",
+        "text": "2"
+      },
+      {
+        "id": "c",
+        "text": "0"
+      },
+      {
+        "id": "d",
+        "text": "4"
+      }
+    ],
+    "answerSpec": {
+      "correctOptionIds": [
+        "b"
+      ]
+    },
+    "hints": [
+      "Count the number of linearly independent pivot columns."
+    ],
+    "solution": "Both columns $[1, 0]^T$ and $[0, 1]^T$ are linearly independent; rank is 2.",
+    "commonMistakes": [],
+    "relatedLesson": "week-1/week-1.html",
+    "relatedLab": null
   }
 ]

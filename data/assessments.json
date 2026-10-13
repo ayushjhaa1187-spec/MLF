@@ -1,98 +1,169 @@
 {
   "diagnostic": {
     "id": "mlf-diag-01",
+    "version": 1,
     "title": "Course Prerequisite Diagnostic Assessment",
-    "description": "Evaluate your readiness in linear algebra, multivariable calculus, and basic Python.",
-    "total_questions": 15,
-    "time_limit_minutes": 30,
-    "passing_threshold_percent": 70,
-    "questions": [
-      {
-        "id": "diag-q1",
-        "topic": "Linear Algebra",
-        "question": "What is the Euclidean norm $\\|v\\|$ of the vector $v = [1, 2, -2]^T$?",
-        "options": [
-          "A. 2.5",
-          "B. 3.0",
-          "C. 4.0",
-          "D. 9.0"
-        ],
-        "answer": "B",
-        "explanation": "$\\|v\\| = \\sqrt{1^2 + 2^2 + (-2)^2} = \\sqrt{1 + 4 + 4} = \\sqrt{9} = 3$."
+    "origin": "original",
+    "coverageStatus": "prerequisite-check",
+    "description": "Evaluate readiness in algebra, vector inner products, multivariate calculus, and basic Python array indexing.",
+    "durationSeconds": 1800,
+    "instructions": [
+      "This diagnostic evaluates mathematical prerequisites prior to starting Week 1.",
+      "Complete all questions without external calculation tools.",
+      "Answers are stored locally in your browser to personalize recommended bridges."
+    ],
+    "questionIds": [
+      "diag-q1",
+      "diag-q2",
+      "diag-q3",
+      "diag-q4",
+      "diag-q5",
+      "diag-q6",
+      "diag-q7",
+      "diag-q8"
+    ],
+    "scoring": {
+      "mcq": {
+        "correct": 1,
+        "incorrect": 0
       },
-      {
-        "id": "diag-q2",
-        "topic": "Linear Algebra",
-        "question": "If matrix $A$ is of shape $3 \\times 4$ and matrix $B$ is of shape $4 \\times 2$, what is the shape of $A B$?",
-        "options": [
-          "A. $4 \\times 4$",
-          "B. $3 \\times 2$",
-          "C. $4 \\times 3$",
-          "D. Undefined"
-        ],
-        "answer": "B",
-        "explanation": "Inner dimensions match (4=4). Product shape is $(3 \\times 2)$."
-      },
-      {
-        "id": "diag-q3",
-        "topic": "Calculus",
-        "question": "For $f(x, y) = x^2 y + 3y^2$, what is the partial derivative $\\frac{\\partial f}{\\partial x}$?",
-        "options": [
-          "A. $2xy$",
-          "B. $2xy + 6y$",
-          "C. $x^2 + 6y$",
-          "D. $2x$"
-        ],
-        "answer": "A",
-        "explanation": "Treat $y$ as a constant: $\\frac{\\partial}{\\partial x}(x^2 y + 3y^2) = 2xy + 0 = 2xy$."
-      },
-      {
-        "id": "diag-q4",
-        "topic": "Linear Algebra",
-        "question": "Two non-zero vectors $u$ and $v$ are orthogonal if and only if:",
-        "options": [
-          "A. $u + v = 0$",
-          "B. $u^T v = 0$",
-          "C. $u^T v = 1$",
-          "D. $\\|u\\| = \\|v\\|$"
-        ],
-        "answer": "B",
-        "explanation": "By definition, the dot product of orthogonal vectors is zero: $u^T v = 0$."
-      },
-      {
-        "id": "diag-q5",
-        "topic": "Python / NumPy",
-        "question": "In NumPy, what is the shape of `a = np.array([[1, 2, 3], [4, 5, 6]])`?",
-        "options": [
-          "A. (3, 2)",
-          "B. (6,)",
-          "C. (2, 3)",
-          "D. (2, 2)"
-        ],
-        "answer": "C",
-        "explanation": "There are 2 rows and 3 columns, so `a.shape` is `(2, 3)`."
-      }
-    ]
+      "unanswered": 0
+    }
   },
-  "mock_quiz_1": {
-    "id": "mock-q1",
-    "title": "Mock Quiz 1 (Weeks 1 to 4)",
-    "scope": "Linear Algebra Foundations, Multivariable Calculus, Least Squares, Eigenvalues",
-    "time_limit_minutes": 60,
-    "total_questions": 15
+  "quiz1": {
+    "id": "quiz1",
+    "version": 1,
+    "title": "Quiz 1 Original Practice Test",
+    "origin": "original",
+    "coverageStatus": "practice-only",
+    "description": "Original practice set on Linear Algebra Foundations, Vector Derivatives, Orthogonal Projections, and Least Squares (Weeks 1 to 4).",
+    "durationSeconds": 1200,
+    "instructions": [
+      "This is an original course practice test, NOT an official IIT Madras examination paper.",
+      "Consists of 10 curated questions across Weeks 1 to 4.",
+      "Time limit is 20 minutes with automatic local timer tracking.",
+      "You may review complete solutions and derivations immediately upon submission."
+    ],
+    "questionIds": [
+      "q-w1-iitm-01",
+      "q-w1-iitm-02",
+      "q-w2-iitm-04",
+      "q-w2-iitm-05",
+      "iitm-w3-q01",
+      "iitm-w3-q04",
+      "iitm-w3-q06",
+      "iitm-w3-q10",
+      "q-w4-iitm-12",
+      "q-w4-iitm-13"
+    ],
+    "scoring": {
+      "mcq": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "msq": {
+        "mode": "exact-set",
+        "correct": 1,
+        "incorrect": 0
+      },
+      "numeric": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "unanswered": 0
+    }
   },
-  "mock_quiz_2": {
-    "id": "mock-q2",
-    "title": "Mock Quiz 2 (Weeks 5 to 8)",
-    "scope": "Spectral Decomposition, SVD, PCA, Gradient Descent",
-    "time_limit_minutes": 60,
-    "total_questions": 15
+  "quiz2": {
+    "id": "quiz2",
+    "version": 1,
+    "title": "Quiz 2 Original Practice Test",
+    "origin": "original",
+    "coverageStatus": "practice-only",
+    "description": "Original practice set on Spectral Decomposition, SVD, PCA, and Gradient Descent (Weeks 5 to 8).",
+    "durationSeconds": 1200,
+    "instructions": [
+      "Original practice test covering Weeks 5 to 8 core theorems and algorithms.",
+      "Time limit is 20 minutes.",
+      "All question records are loaded dynamically from the canonical question bank."
+    ],
+    "questionIds": [
+      "q-w5-iitm-17",
+      "q-w5-iitm-18",
+      "q-w5-deepml-19",
+      "q-w6-iitm-20",
+      "q-w6-deepml-21",
+      "q-w7-iitm-22",
+      "q-w7-deepml-23",
+      "q-w8-iitm-24",
+      "q-w8-deepml-25",
+      "diag-q7"
+    ],
+    "scoring": {
+      "mcq": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "msq": {
+        "mode": "exact-set",
+        "correct": 1,
+        "incorrect": 0
+      },
+      "coding": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "unanswered": 0
+    }
   },
-  "mock_end_term": {
-    "id": "mock-et",
-    "title": "Mock End-Term Comprehensive Exam (Weeks 1 to 12)",
-    "scope": "Full Course Syllabus",
-    "time_limit_minutes": 90,
-    "total_questions": 30
+  "endterm": {
+    "id": "endterm",
+    "version": 1,
+    "title": "Comprehensive End-Term Practice Test",
+    "origin": "original",
+    "coverageStatus": "practice-only",
+    "description": "Full-syllabus 15-question practice test synthesizing Linear Algebra, Optimization, and Probability (Weeks 1 to 12).",
+    "durationSeconds": 2100,
+    "instructions": [
+      "Comprehensive 15-question original practice test across the entire 12-week curriculum.",
+      "Time limit is 35 minutes.",
+      "Submission generates an instant diagnostic report linking missed concepts to specific weekly chapters."
+    ],
+    "questionIds": [
+      "q-w1-iitm-01",
+      "q-w2-iitm-05",
+      "iitm-w3-q01",
+      "iitm-w3-q04",
+      "q-w4-iitm-12",
+      "q-w5-iitm-18",
+      "q-w6-iitm-20",
+      "q-w7-iitm-22",
+      "q-w8-iitm-24",
+      "diag-q7",
+      "q-w9-iitm-26",
+      "q-w10-iitm-28",
+      "q-w11-iitm-31",
+      "q-w12-iitm-33",
+      "q-w12-deepml-34"
+    ],
+    "scoring": {
+      "mcq": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "msq": {
+        "mode": "exact-set",
+        "correct": 1,
+        "incorrect": 0
+      },
+      "numeric": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "coding": {
+        "correct": 1,
+        "incorrect": 0
+      },
+      "unanswered": 0
+    }
   }
 }

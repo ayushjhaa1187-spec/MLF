@@ -33,7 +33,15 @@
             <a class="navbar-brand" href="home.html">
                 <i class="fas fa-home me-2"></i> Course Dashboard
             </a>
-            <span class="badge bg-light text-dark px-3 py-2 fw-bold">Student Dashboard</span>
+            <div class="d-flex gap-2">
+                <a href="practice/solved_problems.html" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-dumbbell me-1"></i> Problem Bank
+                </a>
+                <a href="revision.html" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-bookmark me-1"></i> Revision Vault
+                </a>
+                <span class="badge bg-light text-dark px-3 py-2 fw-bold">Student Dashboard</span>
+            </div>
         </div>
     </nav>
 
@@ -55,30 +63,39 @@
 
         <!-- METRIC CARDS -->
         <div class="row g-4 mb-4">
-            <div class="col-md-4">
+            <div class="col-md-3 col-6">
                 <div class="stat-card-lg">
                     <div class="text-primary fs-1 mb-2"><i class="fas fa-book-reader"></i></div>
-                    <h2 class="display-5 fw-bold mb-0 text-primary" id="lessonsReadCount">0 / 12</h2>
-                    <div class="text-muted small fw-semibold text-uppercase mb-3">Chapters Completed</div>
+                    <h2 class="display-6 fw-bold mb-0 text-primary" id="lessonsReadCount">0 / 12</h2>
+                    <div class="text-muted small fw-semibold text-uppercase mb-3">Chapters Read</div>
                     <div class="progress" style="height: 8px;">
                         <div class="progress-bar bg-primary" id="lessonsProgressBar" role="progressbar" style="width: 0%"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3 col-6">
                 <div class="stat-card-lg">
                     <div class="text-success fs-1 mb-2"><i class="fas fa-check-circle"></i></div>
-                    <h2 class="display-5 fw-bold mb-0 text-success" id="problemsSolvedCount">0</h2>
-                    <div class="text-muted small fw-semibold text-uppercase mb-3">Practice Problems Solved</div>
-                    <div class="small text-muted" id="problemsPercentage">0% of total catalog</div>
+                    <h2 class="display-6 fw-bold mb-0 text-success" id="problemsSolvedCount">0</h2>
+                    <div class="text-muted small fw-semibold text-uppercase mb-3">Problems Solved</div>
+                    <div class="small text-muted" id="problemsPercentage">0% of catalog</div>
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3 col-6">
+                <div class="stat-card-lg">
+                    <div class="text-danger fs-1 mb-2"><i class="fas fa-bookmark"></i></div>
+                    <h2 class="display-6 fw-bold mb-0 text-danger" id="needsRevisionCount">0</h2>
+                    <div class="text-muted small fw-semibold text-uppercase mb-3">Needs Revision</div>
+                    <div class="small text-muted"><a href="revision.html" class="text-decoration-none">Open Vault</a></div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6">
                 <div class="stat-card-lg">
                     <div class="text-warning fs-1 mb-2"><i class="fas fa-stethoscope"></i></div>
-                    <h2 class="display-5 fw-bold mb-0 text-warning" id="diagScoreDisplay">--</h2>
+                    <h2 class="display-6 fw-bold mb-0 text-warning" id="diagScoreDisplay">--</h2>
                     <div class="text-muted small fw-semibold text-uppercase mb-3">Diagnostic Score</div>
                     <div class="small text-muted" id="diagStatusText">Not yet taken</div>
                 </div>
@@ -95,22 +112,68 @@
 
         <!-- MOCK QUIZ ATTEMPTS HISTORY -->
         <div class="card p-4 border-0 shadow-sm bg-white mb-4">
-            <h4 class="fw-bold mb-3"><i class="fas fa-history text-danger me-2"></i>Mock Exam Score History</h4>
+            <h4 class="fw-bold mb-3"><i class="fas fa-history text-danger me-2"></i>Assessment Score History</h4>
             <div id="quizHistoryContainer">
-                <p class="text-muted mb-0">No mock exam attempts recorded yet. Head over to the <a href="exam_centre.html">Exam Centre</a> to attempt Quiz 1, Quiz 2, or the End-Term Exam.</p>
+                <p class="text-muted mb-0">No exam attempts recorded yet. Head over to the <a href="exam_centre.html">Exam Centre</a> to attempt Quiz 1, Quiz 2, or the End-Term Exam.</p>
             </div>
         </div>
 
         <!-- DATA MANAGEMENT -->
         <div class="card p-4 border-0 shadow-sm bg-light">
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div>
                     <h5 class="fw-bold mb-1">Local Data Management</h5>
-                    <small class="text-muted">Reset all saved progress or export progress data.</small>
+                    <small class="text-muted">Export your progress as JSON, import on another browser, or reset.</small>
                 </div>
-                <button class="btn btn-outline-danger btn-sm" id="resetProgressBtn">
-                    <i class="fas fa-trash-alt me-1"></i> Reset All Progress
-                </button>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-primary btn-sm" id="exportProgressBtn">
+                        <i class="fas fa-download me-1"></i> Export Progress JSON
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#importModal">
+                        <i class="fas fa-upload me-1"></i> Import Progress JSON
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm" id="resetProgressBtn">
+                        <i class="fas fa-trash-alt me-1"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMPORT MODAL -->
+    <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="importModalLabel"><i class="fas fa-file-import me-2"></i>Import Progress JSON</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="importTextarea" class="form-label small fw-semibold">Paste Progress JSON Content:</label>
+                        <textarea class="form-control font-monospace small" id="importTextarea" rows="6" placeholder="Paste exported JSON here..."></textarea>
+                    </div>
+                    <div id="importPreview" class="alert alert-info small d-none mb-3"></div>
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Import Mode:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="importMode" id="modeMerge" value="merge" checked>
+                            <label class="form-check-label small" for="modeMerge">
+                                <strong>Merge:</strong> Combine imported progress with existing data.
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="importMode" id="modeOverwrite" value="overwrite">
+                            <label class="form-check-label small" for="modeOverwrite">
+                                <strong>Overwrite:</strong> Completely replace current state with imported data.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary btn-sm" id="confirmImportBtn">Confirm Import</button>
+                </div>
             </div>
         </div>
     </div>
@@ -146,9 +209,12 @@
 
             // 2. Solved Problems Metric
             document.getElementById('problemsSolvedCount').innerText = stats.problemsSolvedCount;
-            document.getElementById('problemsPercentage').innerText = `${Math.round((stats.problemsSolvedCount / 45) * 100)}% of curated questions`;
+            document.getElementById('problemsPercentage').innerText = `${Math.round((stats.problemsSolvedCount / 53) * 100)}% of 53 questions`;
 
-            // 3. Diagnostic Score
+            // 3. Needs Revision Metric
+            document.getElementById('needsRevisionCount').innerText = stats.needsRevisionCount || 0;
+
+            // 4. Diagnostic Score
             if (stats.diagnosticCompleted && stats.diagnosticScore) {
                 document.getElementById('diagScoreDisplay').innerText = `${stats.diagnosticScore.score} / ${stats.diagnosticScore.total}`;
                 document.getElementById('diagStatusText').innerText = `Completed (${stats.diagnosticScore.percentage}%)`;
@@ -157,7 +223,7 @@
                 document.getElementById('diagStatusText').innerHTML = '<a href="start_here.html#diagnosticAssessmentCard">Take diagnostic test</a>';
             }
 
-            // 4. Weekly Read Grid
+            // 5. Weekly Read Grid
             const grid = document.getElementById('weeklyReadGrid');
             grid.innerHTML = weekTitles.map((title, idx) => {
                 const weekNum = idx + 1;
@@ -185,9 +251,9 @@
                 });
             });
 
-            // 5. Quiz History
+            // 6. Quiz History
             const histContainer = document.getElementById('quizHistoryContainer');
-            const attempts = state.quizAttempts;
+            const attempts = state.quizAttempts || {};
             const quizKeys = Object.keys(attempts);
             if (quizKeys.length > 0) {
                 let html = '<div class="table-responsive"><table class="table table-hover"><thead><tr><th>Assessment</th><th>Score</th><th>Percentage</th><th>Date</th></tr></thead><tbody>';
@@ -205,8 +271,60 @@
                 });
                 html += '</tbody></table></div>';
                 histContainer.innerHTML = html;
+            } else {
+                histContainer.innerHTML = '<p class="text-muted mb-0">No exam attempts recorded yet. Head over to the <a href="exam_centre.html">Exam Centre</a> to attempt Quiz 1, Quiz 2, or the End-Term Exam.</p>';
             }
         }
+
+        // Export Progress
+        document.getElementById('exportProgressBtn').addEventListener('click', () => {
+            if (!window.MLFProgress) return;
+            const jsonStr = window.MLFProgress.exportStateJSON();
+            const blob = new Blob([jsonStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `mlf-progress-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Import Preview & Confirm
+        const importTextarea = document.getElementById('importTextarea');
+        const importPreview = document.getElementById('importPreview');
+        importTextarea.addEventListener('input', () => {
+            const val = importTextarea.value.trim();
+            if (!val) {
+                importPreview.classList.add('d-none');
+                return;
+            }
+            const preview = window.MLFProgress.previewImportJSON(val);
+            if (preview.valid) {
+                importPreview.className = 'alert alert-success small mb-3';
+                importPreview.innerHTML = `<strong>Valid Backup:</strong> ${preview.lessonsReadCount} lessons read, ${preview.problemsSolvedCount} solved problems, ${preview.quizAttemptsCount} exam attempts, ${preview.needsRevisionCount} items in revision.`;
+            } else {
+                importPreview.className = 'alert alert-danger small mb-3';
+                importPreview.innerHTML = `<strong>Invalid JSON:</strong> ${preview.error}`;
+            }
+            importPreview.classList.remove('d-none');
+        });
+
+        document.getElementById('confirmImportBtn').addEventListener('click', () => {
+            const val = importTextarea.value.trim();
+            if (!val) return;
+            const mode = document.querySelector('input[name="importMode"]:checked').value;
+            try {
+                window.MLFProgress.importStateJSON(val, mode);
+                alert('Progress imported successfully!');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('importModal'));
+                if (modal) modal.hide();
+                renderDashboard();
+            } catch (err) {
+                alert('Import failed: ' + err.message);
+            }
+        });
 
         document.getElementById('resetProgressBtn').addEventListener('click', () => {
             if (confirm('Are you sure you want to reset all course progress? This cannot be undone.')) {

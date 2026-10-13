@@ -38,10 +38,21 @@
         }
         .canvas-interactive {
             width: 100%;
-            height: 360px;
+            height: 380px;
             background: #090d16;
             border-radius: 8px;
             display: block;
+        }
+        .sparkline-canvas {
+            width: 100%;
+            height: 70px;
+            background: #0f172a;
+            border-radius: 6px;
+            display: block;
+        }
+        .preset-btn {
+            font-size: 0.8rem;
+            padding: 3px 8px;
         }
     </style>
 </head>
@@ -52,7 +63,15 @@
             <a class="navbar-brand" href="home.html">
                 <i class="fas fa-home me-2"></i> Course Dashboard
             </a>
-            <span class="badge bg-success px-3 py-2 fw-bold">Interactive Visual Labs</span>
+            <div class="d-flex align-items-center gap-2">
+                <a href="practice/solved_problems.html" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-dumbbell me-1"></i> Practice Bank
+                </a>
+                <a href="exam_centre.html" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-stopwatch me-1"></i> Exam Centre
+                </a>
+                <span class="badge bg-success px-3 py-2 fw-bold">Interactive Visual Labs</span>
+            </div>
         </div>
     </nav>
 
@@ -61,36 +80,57 @@
             <span class="badge bg-primary mb-2 px-3 py-2">Geometric Intuition Engine</span>
             <h1 class="display-6 fw-bold mb-3">Interactive Visual Mathematics Labs</h1>
             <p class="lead text-light opacity-75 mb-0" style="max-width: 780px; margin: 0 auto;">
-                Machine learning algorithms are fundamentally geometric operations in high-dimensional vector spaces. Explore rotations, projections, decompositions, and optimization paths interactively.
+                Machine learning algorithms are fundamentally geometric operations in vector spaces. Explore subspace projections, orthogonality, quadratic landscapes, and optimization trajectories interactively.
             </p>
         </div>
 
         <!-- LAB 1: FEATURED ORTHOGONAL PROJECTION LAB (WEEK 3) -->
         <div class="card mb-5 border-0 shadow-sm p-4 bg-white" id="lab-projection">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                 <div>
                     <span class="badge bg-primary lab-badge">Featured Lab &bull; Week 3</span>
                     <h3 class="fw-bold mt-1 mb-0">Orthogonal Subspace Projection & The Error Vector</h3>
                 </div>
-                <a href="week-3/week-3.html#section-5" class="btn btn-sm btn-outline-primary">
-                    <i class="fas fa-book-open me-1"></i> Week 3 Textbook
-                </a>
+                <div class="d-flex gap-2">
+                    <a href="practice/solved_problems.html?week=3" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-dumbbell me-1"></i> Practice Week 3
+                    </a>
+                    <a href="week-3/week-3.html#section-5" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-book-open me-1"></i> Week 3 Textbook
+                    </a>
+                </div>
             </div>
+            
             <p class="text-muted">
-                Drag the coordinate sliders to reposition observation vector $b = [b_x, b_y, b_z]^T$. Notice how projection $p$ remains constrained to the 2D column space plane $C(A)$, while residual error vector $e = b - p$ maintains strict perpendicularity to $C(A)$ ($a_1^T e = 0, a_2^T e = 0$).
+                Consider the subspace $S = C(A) \subset \mathbb{R}^3$ spanned by the standard canonical basis vectors of the $xy$-plane:
+                $A = \begin{bmatrix} a_1 & a_2 \end{bmatrix} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 0 & 0 \end{bmatrix}$. 
+                The orthogonal projection matrix is $P = A(A^T A)^{-1}A^T = \text{diag}(1, 1, 0)$. 
+                Adjust observation vector $b = [b_x, b_y, b_z]^T$ below. Notice that the projection $p = Pb$ remains confined to the plane, while the residual error $e = b - p$ is strictly perpendicular to every column of $A$ ($a_1^T e = 0$ and $a_2^T e = 0$).
             </p>
 
             <div class="interactive-lab-container my-2">
                 <div class="row g-3">
                     <div class="col-lg-8">
-                        <canvas id="mainProjCanvas" class="canvas-interactive" width="650" height="360"></canvas>
-                        <div class="text-center mt-2 small text-muted">
-                            <i class="fas fa-mouse-pointer me-1"></i> Click and drag on the 3D canvas to rotate viewing perspective
+                        <canvas id="mainProjCanvas" class="canvas-interactive" width="650" height="380"></canvas>
+                        <div class="d-flex justify-content-between align-items-center mt-2 px-1">
+                            <span class="small text-muted">
+                                <i class="fas fa-mouse-pointer me-1"></i> Drag canvas to rotate 3D view
+                            </span>
+                            <button class="btn btn-sm btn-outline-secondary" id="resetProjCameraBtn">
+                                <i class="fas fa-video me-1"></i> Reset Camera View
+                            </button>
                         </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="lab-controls-panel">
-                            <h6 class="fw-bold text-light mb-3"><i class="fas fa-sliders-h me-1"></i> Vector $b$ Controls</h6>
+                        <div class="lab-controls-panel p-3 bg-dark rounded text-light">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="fw-bold mb-0 text-info"><i class="fas fa-sliders-h me-1"></i> Vector $b$ Coordinates</h6>
+                                <div class="d-flex gap-1">
+                                    <button class="btn btn-sm btn-outline-info preset-btn" id="presetInPlane">In-Plane</button>
+                                    <button class="btn btn-sm btn-outline-warning preset-btn" id="presetOrthogonal">Orthogonal</button>
+                                    <button class="btn btn-sm btn-outline-light preset-btn" id="presetGeneral">General</button>
+                                </div>
+                            </div>
                             
                             <div class="mb-2">
                                 <div class="d-flex justify-content-between small text-muted">
@@ -108,7 +148,7 @@
                                 <input type="range" class="form-range" id="by" min="-4" max="4" step="0.2" value="2.5">
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mb-3">
                                 <div class="d-flex justify-content-between small text-muted">
                                     <span>$b_z$</span>
                                     <span id="bzRead" class="text-info fw-bold">3.5</span>
@@ -116,54 +156,116 @@
                                 <input type="range" class="form-range" id="bz" min="-4" max="4" step="0.2" value="3.5">
                             </div>
 
-                            <div class="p-2 bg-dark rounded border border-secondary font-monospace small text-light mt-3">
-                                <div>$p = Pb$: <span class="text-success" id="pRead">[2.00, 2.50, 0.00]</span></div>
-                                <div>$e = b - p$: <span class="text-danger" id="eRead">[0.00, 0.00, 3.50]</span></div>
-                                <div class="text-warning">Orthogonality: $A^T e = 0$</div>
+                            <!-- Live Mathematical Verification -->
+                            <div class="p-2 bg-black rounded border border-secondary font-monospace small">
+                                <div>$b = [b_x, b_y, b_z]^T$: <span class="text-info" id="bRead">[2.00, 2.50, 3.50]</span></div>
+                                <div>$p = Pb \in C(A)$: <span class="text-success" id="pRead">[2.00, 2.50, 0.00]</span></div>
+                                <div>$e = b - p \in C(A)^\perp$: <span class="text-danger" id="eRead">[0.00, 0.00, 3.50]</span></div>
+                                <hr class="my-1 border-secondary">
+                                <div class="text-warning">Orthogonality Check:</div>
+                                <div>$a_1^T e = <span id="dotA1">0.00</span>$ | $a_2^T e = <span id="dotA2">0.00</span>$</div>
+                                <div>$p^T e = <span id="dotPE">0.00</span>$</div>
+                                <div class="text-muted mt-1">Pythagoras: $\|b\|^2 = \|p\|^2 + \|e\|^2$</div>
+                                <div>$\|b\|^2 = <span id="normBSq">22.50</span>$, $\|p\|^2 + \|e\|^2 = <span id="normSumSq">22.50</span>$</div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Conceptual Quiz Card linked to Lab -->
+            <div class="alert alert-light border mt-3 mb-0 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                <div>
+                    <i class="fas fa-question-circle text-primary me-2"></i>
+                    <strong>Quick Check:</strong> If observation vector $b$ already lies entirely in subspace $C(A)$, what is the length of the residual error $\|e\|$?
+                </div>
+                <div>
+                    <span class="badge bg-success-subtle text-success border border-success-subtle fs-6">$\|e\| = 0$ ($p = b$)</span>
                 </div>
             </div>
         </div>
 
         <!-- LAB 2: GRADIENT DESCENT OPTIMIZATION LANDSCAPE (WEEK 8) -->
         <div class="card mb-5 border-0 shadow-sm p-4 bg-white" id="lab-gd">
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                 <div>
                     <span class="badge bg-warning text-dark lab-badge">Optimization Lab &bull; Week 8</span>
                     <h3 class="fw-bold mt-1 mb-0">Gradient Descent & Learning Rate Dynamics</h3>
                 </div>
-                <a href="week-8/week-8.html" class="btn btn-sm btn-outline-warning text-dark">
-                    <i class="fas fa-book-open me-1"></i> Week 8 Textbook
-                </a>
+                <div class="d-flex gap-2">
+                    <a href="practice/solved_problems.html?week=8" class="btn btn-sm btn-outline-warning text-dark">
+                        <i class="fas fa-dumbbell me-1"></i> Practice Week 8
+                    </a>
+                    <a href="week-8/week-8.html" class="btn btn-sm btn-outline-secondary">
+                        <i class="fas fa-book-open me-1"></i> Week 8 Textbook
+                    </a>
+                </div>
             </div>
+            
             <p class="text-muted">
-                Simulate gradient descent on quadratic bowl $f(x, y) = x^2 + 3y^2$. Adjust learning rate $\eta$ to observe stable monotonic convergence, oscillations, or divergent explosion.
+                Simulate gradient descent minimization on the anisotropic quadratic bowl $f(x, y) = x^2 + 3y^2$ with gradient $\nabla f(x, y) = [2x, 6y]^T$. 
+                The maximum eigenvalue of the Hessian is $L = \lambda_{\max}(H) = 6$. Theoretical convergence requires $\eta < \frac{2}{L} = \frac{1}{3} \approx 0.333$. 
+                Experiment with values of $\eta$ to observe smooth convergence, zigzag oscillations, and divergence.
             </p>
 
             <div class="interactive-lab-container my-2">
                 <div class="row g-3">
                     <div class="col-lg-8">
-                        <canvas id="gdCanvas" class="canvas-interactive" width="650" height="360"></canvas>
+                        <canvas id="gdCanvas" class="canvas-interactive" width="650" height="380"></canvas>
+                        
+                        <div class="mt-2 p-2 bg-dark rounded">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <small class="text-muted fw-bold text-uppercase">Loss Convergence Curve: $f(x_k, y_k)$ vs Iteration $k$</small>
+                                <small class="text-info font-monospace" id="lossCurveVal">Loss: 0.000</small>
+                            </div>
+                            <canvas id="sparklineCanvas" class="sparkline-canvas" width="630" height="70"></canvas>
+                        </div>
                     </div>
                     <div class="col-lg-4">
-                        <div class="lab-controls-panel">
-                            <h6 class="fw-bold text-light mb-3"><i class="fas fa-cog me-1"></i> Hyperparameters</h6>
+                        <div class="lab-controls-panel p-3 bg-dark rounded text-light">
+                            <h6 class="fw-bold text-warning mb-3"><i class="fas fa-sliders-h me-1"></i> Hyperparameters</h6>
+                            
                             <div class="mb-3">
                                 <div class="d-flex justify-content-between small text-muted">
                                     <span>Learning Rate $\eta$</span>
                                     <span id="lrVal" class="text-warning fw-bold">0.15</span>
                                 </div>
-                                <input type="range" class="form-range" id="lrSlider" min="0.01" max="0.45" step="0.01" value="0.15">
+                                <input type="range" class="form-range" id="lrSlider" min="0.02" max="0.40" step="0.01" value="0.15">
+                                <div class="small text-muted mt-1">
+                                    <span class="badge bg-secondary">Limit: $\eta < 0.333$</span>
+                                </div>
                             </div>
-                            <button class="btn btn-sm btn-primary w-100 mb-2" id="resetGdBtn">
-                                <i class="fas fa-redo me-1"></i> Re-run Optimization Path
-                            </button>
-                            <div class="p-2 bg-dark rounded border border-secondary font-monospace small text-light">
-                                <div>Iter: <span id="gdIter">0</span></div>
-                                <div>Loss $f(x, y)$: <span id="gdLoss">0.000</span></div>
-                                <div id="gdStatus" class="text-success">Converged</div>
+
+                            <div class="mb-3">
+                                <div class="d-flex justify-content-between small text-muted">
+                                    <span>Starting Point $(x_0, y_0)$</span>
+                                </div>
+                                <div class="d-flex gap-1 mt-1">
+                                    <button class="btn btn-sm btn-outline-secondary preset-btn" id="startP1">(3.5, 2.5)</button>
+                                    <button class="btn btn-sm btn-outline-secondary preset-btn" id="startP2">(-3.0, 2.0)</button>
+                                    <button class="btn btn-sm btn-outline-secondary preset-btn" id="startP3">(0.5, 3.5)</button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex gap-2 mb-3">
+                                <button class="btn btn-sm btn-primary flex-grow-1" id="playGdBtn">
+                                    <i class="fas fa-play me-1"></i> Play
+                                </button>
+                                <button class="btn btn-sm btn-outline-light" id="stepGdBtn">
+                                    <i class="fas fa-step-forward me-1"></i> Step
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger" id="resetGdBtn">
+                                    <i class="fas fa-undo me-1"></i> Reset
+                                </button>
+                            </div>
+
+                            <div class="p-2 bg-black rounded border border-secondary font-monospace small">
+                                <div>Iteration: <span id="gdIter" class="text-info">0</span> / 40</div>
+                                <div>Position: <span id="gdPos" class="text-light">(3.50, 2.50)</span></div>
+                                <div>Gradient $\|\nabla f\|$: <span id="gdGrad" class="text-light">16.55</span></div>
+                                <div>Loss $f(x, y)$: <span id="gdLoss" class="text-warning">31.000</span></div>
+                                <hr class="my-1 border-secondary">
+                                <div>Status: <span id="gdStatus" class="fw-bold text-info">Ready</span></div>
                             </div>
                         </div>
                     </div>
@@ -172,65 +274,65 @@
         </div>
 
         <!-- LAB DIRECTORY GRID -->
-        <h4 class="fw-bold mb-3"><i class="fas fa-th-large me-2"></i>Full Suite of Planned & Integrated Visual Labs</h4>
+        <h4 class="fw-bold mb-3"><i class="fas fa-th-large me-2"></i>Curriculum Integrated Visual Labs</h4>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="lab-card p-3 h-100">
-                    <span class="badge bg-secondary lab-badge mb-2">Week 1 &bull; Verified</span>
+                <div class="lab-card p-3 h-100 d-flex flex-column">
+                    <span class="badge bg-secondary lab-badge mb-2 align-self-start">Week 1 &bull; Integrated</span>
                     <h6 class="fw-bold mb-1">Vector Dot Products & Projection</h6>
-                    <p class="small text-muted mb-2">Interactive 2D vector angles and cosine similarities.</p>
-                    <a href="week-1/lec-1-walkthrough.html" class="btn btn-sm btn-outline-primary mt-auto">
-                        <i class="fas fa-play me-1"></i> Open Lab
+                    <p class="small text-muted mb-3 flex-grow-1">Interactive 2D vector angles, cosine similarities, and projections.</p>
+                    <a href="week-1/week-1.html" class="btn btn-sm btn-outline-primary mt-auto">
+                        <i class="fas fa-book-open me-1"></i> Open Week 1
                     </a>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="lab-card p-3 h-100">
-                    <span class="badge bg-primary lab-badge mb-2">Week 3 &bull; Live</span>
+                <div class="lab-card p-3 h-100 d-flex flex-column">
+                    <span class="badge bg-primary lab-badge mb-2 align-self-start">Week 3 &bull; Live Interactive</span>
                     <h6 class="fw-bold mb-1">Subspace Projection ($e \perp C(A)$)</h6>
-                    <p class="small text-muted mb-2">3D interactive projection with live residual orthogonality metrics.</p>
+                    <p class="small text-muted mb-3 flex-grow-1">3D interactive projection with live residual orthogonality metrics.</p>
                     <a href="#lab-projection" class="btn btn-sm btn-primary mt-auto">
-                        <i class="fas fa-play me-1"></i> Open Lab
+                        <i class="fas fa-cube me-1"></i> Open Lab
                     </a>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="lab-card p-3 h-100">
-                    <span class="badge bg-success lab-badge mb-2">Week 6 &bull; Integrated</span>
+                <div class="lab-card p-3 h-100 d-flex flex-column">
+                    <span class="badge bg-success lab-badge mb-2 align-self-start">Week 6 &bull; Integrated</span>
                     <h6 class="fw-bold mb-1">SVD Unit Sphere Transformation</h6>
-                    <p class="small text-muted mb-2">Visualizing $A = U \Sigma V^T$ mapping unit circle to ellipse.</p>
+                    <p class="small text-muted mb-3 flex-grow-1">Visualizing $A = U \Sigma V^T$ mapping unit circle to ellipse.</p>
                     <a href="week-6/week-6.html" class="btn btn-sm btn-outline-success mt-auto">
-                        <i class="fas fa-play me-1"></i> Open Lab
+                        <i class="fas fa-book-open me-1"></i> Open Week 6
                     </a>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="lab-card p-3 h-100">
-                    <span class="badge bg-info text-dark lab-badge mb-2">Week 7 &bull; Integrated</span>
+                <div class="lab-card p-3 h-100 d-flex flex-column">
+                    <span class="badge bg-info text-dark lab-badge mb-2 align-self-start">Week 7 &bull; Integrated</span>
                     <h6 class="fw-bold mb-1">PCA Variance Maximizer</h6>
-                    <p class="small text-muted mb-2">Rotating projection line to maximize data spread and eigenvalue ratio.</p>
+                    <p class="small text-muted mb-3 flex-grow-1">Rotating projection line to maximize data spread and eigenvalue ratio.</p>
                     <a href="week-7/week-7.html" class="btn btn-sm btn-outline-info text-dark mt-auto">
-                        <i class="fas fa-play me-1"></i> Open Lab
+                        <i class="fas fa-book-open me-1"></i> Open Week 7
                     </a>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="lab-card p-3 h-100">
-                    <span class="badge bg-warning text-dark lab-badge mb-2">Week 8 &bull; Live</span>
+                <div class="lab-card p-3 h-100 d-flex flex-column">
+                    <span class="badge bg-warning text-dark lab-badge mb-2 align-self-start">Week 8 &bull; Live Interactive</span>
                     <h6 class="fw-bold mb-1">Gradient Descent Trajectories</h6>
-                    <p class="small text-muted mb-2">Contour trajectory simulator with learning rate tuning.</p>
+                    <p class="small text-muted mb-3 flex-grow-1">Contour trajectory simulator with learning rate tuning and step-by-step playback.</p>
                     <a href="#lab-gd" class="btn btn-sm btn-warning text-dark mt-auto">
-                        <i class="fas fa-play me-1"></i> Open Lab
+                        <i class="fas fa-cube me-1"></i> Open Lab
                     </a>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="lab-card p-3 h-100">
-                    <span class="badge bg-danger lab-badge mb-2">Week 12 &bull; Integrated</span>
+                <div class="lab-card p-3 h-100 d-flex flex-column">
+                    <span class="badge bg-danger lab-badge mb-2 align-self-start">Week 12 &bull; Integrated</span>
                     <h6 class="fw-bold mb-1">2D Gaussian & EM Clustering</h6>
-                    <p class="small text-muted mb-2">Gaussian covariance ellipses and Expectation-Maximization steps.</p>
+                    <p class="small text-muted mb-3 flex-grow-1">Gaussian covariance ellipses and Expectation-Maximization steps.</p>
                     <a href="week-12/week-12.html" class="btn btn-sm btn-outline-danger mt-auto">
-                        <i class="fas fa-play me-1"></i> Open Lab
+                        <i class="fas fa-book-open me-1"></i> Open Week 12
                     </a>
                 </div>
             </div>
@@ -245,10 +347,14 @@
     <script src="assets/js/math-rendering.js"></script>
 
     <script>
-        // 1. Orthogonal Projection Visual Lab Engine
-        const projCanvas = document.getElementById('mainProjCanvas');
-        if (projCanvas) {
+        // =========================================================================
+        // 1. Orthogonal Projection Visual Lab Engine (Week 3)
+        // =========================================================================
+        (function() {
+            const projCanvas = document.getElementById('mainProjCanvas');
+            if (!projCanvas) return;
             const ctx = projCanvas.getContext('2d');
+
             let rotX = -0.4, rotY = 0.5;
             let isDragging = false, lastX = 0, lastY = 0;
 
@@ -256,17 +362,47 @@
             const byInput = document.getElementById('by');
             const bzInput = document.getElementById('bz');
 
+            const bxRead = document.getElementById('bxRead');
+            const byRead = document.getElementById('byRead');
+            const bzRead = document.getElementById('bzRead');
+            const bRead = document.getElementById('bRead');
+            const pRead = document.getElementById('pRead');
+            const eRead = document.getElementById('eRead');
+            const dotA1 = document.getElementById('dotA1');
+            const dotA2 = document.getElementById('dotA2');
+            const dotPE = document.getElementById('dotPE');
+            const normBSq = document.getElementById('normBSq');
+            const normSumSq = document.getElementById('normSumSq');
+
             function renderProj() {
                 const bx = parseFloat(bxInput.value);
                 const by = parseFloat(byInput.value);
                 const bz = parseFloat(bzInput.value);
 
-                document.getElementById('bxRead').innerText = bx.toFixed(1);
-                document.getElementById('byRead').innerText = by.toFixed(1);
-                document.getElementById('bzRead').innerText = bz.toFixed(1);
-                document.getElementById('pRead').innerText = `[${bx.toFixed(2)}, ${by.toFixed(2)}, 0.00]`;
-                document.getElementById('eRead').innerText = `[0.00, 0.00, ${bz.toFixed(2)}]`;
+                // Math updates
+                const px = bx, py = by, pz = 0;
+                const ex = 0, ey = 0, ez = bz;
 
+                const normB2 = bx*bx + by*by + bz*bz;
+                const normP2 = px*px + py*py;
+                const normE2 = ez*ez;
+
+                bxRead.innerText = bx.toFixed(1);
+                byRead.innerText = by.toFixed(1);
+                bzRead.innerText = bz.toFixed(1);
+
+                bRead.innerText = `[${bx.toFixed(2)}, ${by.toFixed(2)}, ${bz.toFixed(2)}]`;
+                pRead.innerText = `[${px.toFixed(2)}, ${py.toFixed(2)}, 0.00]`;
+                eRead.innerText = `[0.00, 0.00, ${ez.toFixed(2)}]`;
+
+                dotA1.innerText = (1 * ex + 0 * ey + 0 * ez).toFixed(2);
+                dotA2.innerText = (0 * ex + 1 * ey + 0 * ez).toFixed(2);
+                dotPE.innerText = (px * ex + py * ey + pz * ez).toFixed(2);
+
+                normBSq.innerText = normB2.toFixed(2);
+                normSumSq.innerText = (normP2 + normE2).toFixed(2);
+
+                // Drawing
                 ctx.clearRect(0, 0, projCanvas.width, projCanvas.height);
                 const cx = projCanvas.width / 2;
                 const cy = projCanvas.height / 2 + 25;
@@ -282,7 +418,7 @@
                     return { x: cx + x1 * scale * p, y: cy - y2 * scale * p };
                 }
 
-                // Grid for Subspace Plane
+                // Grid for Subspace Plane (C(A), z = 0)
                 ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
                 ctx.lineWidth = 1;
                 for (let i = -5; i <= 5; i += 2) {
@@ -291,6 +427,12 @@
                     const s2 = project(-5, i, 0), e2 = project(5, i, 0);
                     ctx.beginPath(); ctx.moveTo(s2.x, s2.y); ctx.lineTo(e2.x, e2.y); ctx.stroke();
                 }
+
+                // Plane label
+                const planeCorner = project(4.5, 4.5, 0);
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.6)';
+                ctx.font = '11px monospace';
+                ctx.fillText('Subspace C(A) [xy-plane]', planeCorner.x - 120, planeCorner.y);
 
                 const o = project(0, 0, 0);
                 const pPt = project(bx, by, 0);
@@ -309,12 +451,21 @@
                 ctx.setLineDash([5, 4]); ctx.moveTo(pPt.x, pPt.y); ctx.lineTo(bPt.x, bPt.y); ctx.stroke();
                 ctx.setLineDash([]);
 
-                // Labels
-                ctx.fillStyle = '#10b981'; ctx.font = 'bold 12px Inter'; ctx.fillText('p = Pb', pPt.x + 8, pPt.y - 4);
-                ctx.fillStyle = '#38bdf8'; ctx.fillText('b', bPt.x + 8, bPt.y - 4);
-                ctx.fillStyle = '#f43f5e'; ctx.fillText('e = b - p', (pPt.x + bPt.x) / 2 + 8, (pPt.y + bPt.y) / 2);
+                // Points & Labels
+                ctx.fillStyle = '#10b981';
+                ctx.beginPath(); ctx.arc(pPt.x, pPt.y, 4, 0, Math.PI * 2); ctx.fill();
+                ctx.font = 'bold 12px Inter, sans-serif';
+                ctx.fillText('p = Pb', pPt.x + 8, pPt.y - 4);
+
+                ctx.fillStyle = '#38bdf8';
+                ctx.beginPath(); ctx.arc(bPt.x, bPt.y, 4, 0, Math.PI * 2); ctx.fill();
+                ctx.fillText('b', bPt.x + 8, bPt.y - 4);
+
+                ctx.fillStyle = '#f43f5e';
+                ctx.fillText('e = b - p', (pPt.x + bPt.x) / 2 + 8, (pPt.y + bPt.y) / 2);
             }
 
+            // Mouse Rotate
             projCanvas.addEventListener('mousedown', (e) => { isDragging = true; lastX = e.clientX; lastY = e.clientY; });
             window.addEventListener('mouseup', () => { isDragging = false; });
             window.addEventListener('mousemove', (e) => {
@@ -325,55 +476,167 @@
                 renderProj();
             });
 
+            // Sliders
             [bxInput, byInput, bzInput].forEach(s => s.addEventListener('input', renderProj));
-            renderProj();
-        }
 
-        // 2. Gradient Descent Simulation Lab
-        const gdCanvas = document.getElementById('gdCanvas');
-        if (gdCanvas) {
+            // Presets
+            document.getElementById('presetInPlane').addEventListener('click', () => {
+                bxInput.value = '3.0'; byInput.value = '2.0'; bzInput.value = '0.0';
+                renderProj();
+            });
+            document.getElementById('presetOrthogonal').addEventListener('click', () => {
+                bxInput.value = '0.0'; byInput.value = '0.0'; bzInput.value = '3.5';
+                renderProj();
+            });
+            document.getElementById('presetGeneral').addEventListener('click', () => {
+                bxInput.value = '2.0'; byInput.value = '2.5'; bzInput.value = '3.5';
+                renderProj();
+            });
+            document.getElementById('resetProjCameraBtn').addEventListener('click', () => {
+                rotX = -0.4; rotY = 0.5;
+                renderProj();
+            });
+
+            renderProj();
+        })();
+
+        // =========================================================================
+        // 2. Gradient Descent Simulation Lab (Week 8)
+        // =========================================================================
+        (function() {
+            const gdCanvas = document.getElementById('gdCanvas');
+            const sparklineCanvas = document.getElementById('sparklineCanvas');
+            if (!gdCanvas || !sparklineCanvas) return;
+
             const ctx = gdCanvas.getContext('2d');
+            const sCtx = sparklineCanvas.getContext('2d');
+
             const lrSlider = document.getElementById('lrSlider');
             const lrVal = document.getElementById('lrVal');
             const iterEl = document.getElementById('gdIter');
+            const posEl = document.getElementById('gdPos');
+            const gradEl = document.getElementById('gdGrad');
             const lossEl = document.getElementById('gdLoss');
             const statusEl = document.getElementById('gdStatus');
+            const lossCurveVal = document.getElementById('lossCurveVal');
 
-            let path = [];
-            let currentX = 3.5, currentY = 2.5;
+            const playBtn = document.getElementById('playGdBtn');
+            const stepBtn = document.getElementById('stepGdBtn');
+            const resetBtn = document.getElementById('resetGdBtn');
 
-            function runGD() {
-                const lr = parseFloat(lrSlider.value);
-                lrVal.innerText = lr.toFixed(2);
-                path = [{ x: 3.5, y: 2.5 }];
-                let x = 3.5, y = 2.5;
+            let startX = 3.5, startY = 2.5;
+            let currentX = startX, currentY = startY;
+            let trajectory = [{ x: startX, y: startY }];
+            let lossHistory = [startX * startX + 3 * startY * startY];
+            let isPlaying = false;
+            let animInterval = null;
+            let status = 'Ready';
 
-                for (let i = 0; i < 40; i++) {
-                    const gx = 2 * x;
-                    const gy = 6 * y;
-                    x = x - lr * gx;
-                    y = y - lr * gy;
-                    path.push({ x, y });
-                    if (Math.abs(x) > 10 || Math.abs(y) > 10) break;
-                }
-
-                drawGDScene(path);
-                const finalLoss = x * x + 3 * y * y;
-                iterEl.innerText = path.length - 1;
-                lossEl.innerText = finalLoss.toFixed(4);
-                if (finalLoss < 0.01) {
-                    statusEl.innerText = 'Converged';
-                    statusEl.className = 'text-success';
-                } else if (finalLoss > 50) {
-                    statusEl.innerText = 'Diverged (Learning rate too high!)';
-                    statusEl.className = 'text-danger';
-                } else {
-                    statusEl.innerText = 'Running...';
-                    statusEl.className = 'text-warning';
-                }
+            function getLoss(x, y) {
+                return x * x + 3 * y * y;
             }
 
-            function drawGDScene(points) {
+            function getGrad(x, y) {
+                return { gx: 2 * x, gy: 6 * y, norm: Math.sqrt((2*x)**2 + (6*y)**2) };
+            }
+
+            function updateUI() {
+                const loss = getLoss(currentX, currentY);
+                const grad = getGrad(currentX, currentY);
+                const k = trajectory.length - 1;
+
+                iterEl.innerText = k;
+                posEl.innerText = `(${currentX.toFixed(2)}, ${currentY.toFixed(2)})`;
+                gradEl.innerText = grad.norm.toFixed(2);
+                lossEl.innerText = loss.toFixed(3);
+                lossCurveVal.innerText = `Loss: ${loss.toFixed(3)}`;
+
+                statusEl.innerText = status;
+                if (status === 'Converged') {
+                    statusEl.className = 'fw-bold text-success';
+                } else if (status.startsWith('Diverged')) {
+                    statusEl.className = 'fw-bold text-danger';
+                } else if (status === 'Running') {
+                    statusEl.className = 'fw-bold text-warning';
+                } else {
+                    statusEl.className = 'fw-bold text-info';
+                }
+
+                drawGDScene();
+                drawSparkline();
+            }
+
+            function stepGD() {
+                if (trajectory.length >= 41 || status === 'Converged' || status.startsWith('Diverged')) {
+                    pauseGD();
+                    return false;
+                }
+
+                const lr = parseFloat(lrSlider.value);
+                const grad = getGrad(currentX, currentY);
+
+                currentX = currentX - lr * grad.gx;
+                currentY = currentY - lr * grad.gy;
+
+                const loss = getLoss(currentX, currentY);
+                trajectory.push({ x: currentX, y: currentY });
+                lossHistory.push(loss);
+
+                if (loss < 0.01 || grad.norm < 0.05) {
+                    status = 'Converged';
+                    pauseGD();
+                } else if (loss > 120 || Math.abs(currentX) > 15 || Math.abs(currentY) > 15) {
+                    status = 'Diverged (lr > 0.333)';
+                    pauseGD();
+                } else if (trajectory.length >= 41) {
+                    status = 'Max Iterations (40)';
+                    pauseGD();
+                } else {
+                    status = isPlaying ? 'Running' : 'Paused';
+                }
+
+                updateUI();
+                return true;
+            }
+
+            function playGD() {
+                if (status === 'Converged' || status.startsWith('Diverged') || trajectory.length >= 41) {
+                    resetGD();
+                }
+                isPlaying = true;
+                status = 'Running';
+                playBtn.innerHTML = '<i class="fas fa-pause me-1"></i> Pause';
+                playBtn.classList.replace('btn-primary', 'btn-warning');
+
+                if (animInterval) clearInterval(animInterval);
+                animInterval = setInterval(() => {
+                    const cont = stepGD();
+                    if (!cont) pauseGD();
+                }, 120);
+                updateUI();
+            }
+
+            function pauseGD() {
+                isPlaying = false;
+                if (status === 'Running') status = 'Paused';
+                playBtn.innerHTML = '<i class="fas fa-play me-1"></i> Play';
+                playBtn.classList.replace('btn-warning', 'btn-primary');
+                if (animInterval) clearInterval(animInterval);
+                animInterval = null;
+                updateUI();
+            }
+
+            function resetGD() {
+                pauseGD();
+                currentX = startX;
+                currentY = startY;
+                trajectory = [{ x: startX, y: startY }];
+                lossHistory = [getLoss(startX, startY)];
+                status = 'Ready';
+                updateUI();
+            }
+
+            function drawGDScene() {
                 ctx.clearRect(0, 0, gdCanvas.width, gdCanvas.height);
                 const cx = gdCanvas.width / 2;
                 const cy = gdCanvas.height / 2;
@@ -388,15 +651,18 @@
                     ctx.stroke();
                 }
 
-                // Minimum star at origin
+                // Global Minimum target at origin
                 ctx.fillStyle = '#10b981';
-                ctx.beginPath(); ctx.arc(cx, cy, 5, 0, Math.PI * 2); ctx.fill();
+                ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = '#10b981';
+                ctx.font = '10px monospace';
+                ctx.fillText('Min (0, 0)', cx + 8, cy + 4);
 
-                // Path lines
+                // Trajectory Path
                 ctx.strokeStyle = '#f59e0b';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                points.forEach((pt, idx) => {
+                trajectory.forEach((pt, idx) => {
                     const px = cx + pt.x * scale;
                     const py = cy - pt.y * scale;
                     if (idx === 0) ctx.moveTo(px, py);
@@ -404,21 +670,69 @@
                 });
                 ctx.stroke();
 
-                // Points
-                points.forEach((pt, idx) => {
+                // Trajectory Points
+                trajectory.forEach((pt, idx) => {
                     const px = cx + pt.x * scale;
                     const py = cy - pt.y * scale;
-                    ctx.fillStyle = idx === 0 ? '#38bdf8' : (idx === points.length - 1 ? '#f43f5e' : '#f59e0b');
+                    ctx.fillStyle = idx === 0 ? '#38bdf8' : (idx === trajectory.length - 1 ? '#f43f5e' : '#f59e0b');
                     ctx.beginPath();
-                    ctx.arc(px, py, idx === 0 ? 5 : 3.5, 0, Math.PI * 2);
+                    ctx.arc(px, py, idx === 0 || idx === trajectory.length - 1 ? 5 : 3.5, 0, Math.PI * 2);
                     ctx.fill();
                 });
             }
 
-            lrSlider.addEventListener('input', runGD);
-            document.getElementById('resetGdBtn').addEventListener('click', runGD);
-            runGD();
-        }
+            function drawSparkline() {
+                sCtx.clearRect(0, 0, sparklineCanvas.width, sparklineCanvas.height);
+                if (lossHistory.length < 2) return;
+
+                const w = sparklineCanvas.width;
+                const h = sparklineCanvas.height;
+                const maxLoss = Math.max(...lossHistory, 1);
+
+                sCtx.strokeStyle = status.startsWith('Diverged') ? '#ef4444' : '#10b981';
+                sCtx.lineWidth = 2;
+                sCtx.beginPath();
+
+                lossHistory.forEach((val, idx) => {
+                    const x = (idx / 40) * (w - 20) + 10;
+                    const normH = Math.min(val / maxLoss, 1);
+                    const y = h - 10 - (normH * (h - 20));
+                    if (idx === 0) sCtx.moveTo(x, y);
+                    else sCtx.lineTo(x, y);
+                });
+                sCtx.stroke();
+            }
+
+            // Controls listeners
+            lrSlider.addEventListener('input', () => {
+                lrVal.innerText = parseFloat(lrSlider.value).toFixed(2);
+                resetGD();
+            });
+
+            playBtn.addEventListener('click', () => {
+                if (isPlaying) pauseGD();
+                else playGD();
+            });
+
+            stepBtn.addEventListener('click', () => {
+                pauseGD();
+                stepGD();
+            });
+
+            resetBtn.addEventListener('click', resetGD);
+
+            document.getElementById('startP1').addEventListener('click', () => {
+                startX = 3.5; startY = 2.5; resetGD();
+            });
+            document.getElementById('startP2').addEventListener('click', () => {
+                startX = -3.0; startY = 2.0; resetGD();
+            });
+            document.getElementById('startP3').addEventListener('click', () => {
+                startX = 0.5; startY = 3.5; resetGD();
+            });
+
+            resetGD();
+        })();
     </script>
 </body>
 </html>

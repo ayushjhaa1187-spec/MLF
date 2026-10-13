@@ -30,6 +30,14 @@
             margin-bottom: 8px;
             border-left: 3px solid #0284c7;
         }
+        .revision-item-card {
+            border: 1px solid #fed7aa;
+            background: #fffaf0;
+            border-left: 4px solid #f97316;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
     </style>
 </head>
 <body>
@@ -39,20 +47,53 @@
             <a class="navbar-brand" href="home.html">
                 <i class="fas fa-home me-2"></i> Course Dashboard
             </a>
-            <span class="badge bg-warning text-dark px-3 py-2 fw-bold">Formula Vault & Revision</span>
+            <div class="d-flex gap-2">
+                <a href="practice/solved_problems.html" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-dumbbell me-1"></i> Problem Bank
+                </a>
+                <a href="exam_centre.html" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-stopwatch me-1"></i> Exam Centre
+                </a>
+                <span class="badge bg-warning text-dark px-3 py-2 fw-bold">Formula Vault & Revision</span>
+            </div>
         </div>
     </nav>
 
     <div class="container my-5" style="max-width: 1100px;">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <div>
                 <span class="badge bg-primary mb-2">High-Yield Synthesis</span>
-                <h1 class="display-6 fw-bold mb-1">Master Formula Vault & Misconceptions Matrix</h1>
-                <p class="text-muted">Consolidated mathematical cheat sheet, core derivations, and common conceptual failure modes.</p>
+                <h1 class="display-6 fw-bold mb-1">Master Formula Vault & Targeted Revision</h1>
+                <p class="text-muted">Consolidated mathematical cheat sheets, active revision queues, and core conceptual failure modes.</p>
             </div>
             <button class="btn btn-outline-secondary" onclick="window.print()">
                 <i class="fas fa-print me-1"></i> Print / Save PDF
             </button>
+        </div>
+
+        <!-- 0. TARGETED REVISION QUEUE (Personalized & Dynamically Rendered) -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white" id="revisionQueueSection">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div>
+                    <span class="badge bg-danger mb-1">Personalized Focus Queue</span>
+                    <h4 class="fw-bold mb-0 text-dark"><i class="fas fa-bookmark text-danger me-2"></i>My Flagged Concepts for Targeted Revision</h4>
+                </div>
+                <div class="small text-muted" id="revCountText">0 items requiring review</div>
+            </div>
+            
+            <p class="text-muted small">
+                Concepts flagged during your mock assessments and problem bank practice automatically accumulate here so you can review weak topics before your exam.
+            </p>
+
+            <div id="revisionItemsContainer">
+                <!-- Dynamically populated from MLFProgress.getRevisionList() -->
+                <div class="alert alert-light border text-center py-4 mb-0" id="emptyRevisionAlert">
+                    <i class="fas fa-check-circle text-success fs-3 mb-2 d-block"></i>
+                    <h6 class="fw-bold mb-1">Your Revision Queue is Clear!</h6>
+                    <p class="text-muted small mb-3">No weak concepts flagged yet. Test yourself in the <a href="exam_centre.html">Exam Centre</a> to identify areas for improvement.</p>
+                    <a href="exam_centre.html" class="btn btn-sm btn-outline-primary">Take a Mock Assessment</a>
+                </div>
+            </div>
         </div>
 
         <!-- 1. LINEAR ALGEBRA FORMULA VAULT -->
@@ -207,5 +248,67 @@
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
     <script src="assets/js/progress-store.js"></script>
     <script src="assets/js/math-rendering.js"></script>
+
+    <script>
+        function renderRevisionQueue() {
+            if (!window.MLFProgress) return;
+            const revList = window.MLFProgress.getRevisionList();
+            const container = document.getElementById('revisionItemsContainer');
+            const countText = document.getElementById('revCountText');
+
+            countText.innerText = `${revList.length} item(s) in queue`;
+
+            if (revList.length === 0) {
+                container.innerHTML = `
+                    <div class="alert alert-light border text-center py-4 mb-0">
+                        <i class="fas fa-check-circle text-success fs-3 mb-2 d-block"></i>
+                        <h6 class="fw-bold mb-1">Your Revision Queue is Clear!</h6>
+                        <p class="text-muted small mb-3">No weak concepts flagged yet. Test yourself in the <a href="exam_centre.html">Exam Centre</a> to identify areas for improvement.</p>
+                        <a href="exam_centre.html" class="btn btn-sm btn-outline-primary">Take a Mock Assessment</a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = revList.map(item => {
+                const lessonUrl = item.relatedLesson || `week-${item.week}/week-${item.week}.html`;
+                const labUrl = item.relatedLab || (item.week === 3 ? 'visual_labs.html#lab-projection' : (item.week === 8 ? 'visual_labs.html#lab-gd' : null));
+
+                return `
+                    <div class="revision-item-card d-flex justify-content-between align-items-center flex-wrap gap-2" id="rev-card-${item.conceptId}">
+                        <div>
+                            <span class="badge bg-warning text-dark me-2">Week ${item.week}</span>
+                            <strong class="text-dark">${item.title}</strong>
+                            <div class="small text-muted mt-1">
+                                Flagged for review &bull; Missed count: <span class="badge bg-secondary">${item.missedCount || 1}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <a href="${lessonUrl}" class="btn btn-sm btn-primary">
+                                <i class="fas fa-book me-1"></i> Review Chapter
+                            </a>
+                            ${labUrl ? `<a href="${labUrl}" class="btn btn-sm btn-outline-info text-dark"><i class="fas fa-cube me-1"></i> Lab</a>` : ''}
+                            <button class="btn btn-sm btn-outline-success resolve-btn" data-cid="${item.conceptId}">
+                                <i class="fas fa-check me-1"></i> Resolved
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            container.querySelectorAll('.resolve-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const cid = btn.getAttribute('data-cid');
+                    window.MLFProgress.clearNeedsRevision(cid);
+                    renderRevisionQueue();
+                });
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderRevisionQueue();
+            window.addEventListener('mlf-progress-updated', renderRevisionQueue);
+        });
+    </script>
 </body>
 </html>

@@ -60,7 +60,7 @@
         <div class="row g-3 mb-4">
             <div class="col-md-3 col-6">
                 <div class="stat-badge-mini">
-                    <h3 class="fw-bold mb-0 text-primary" id="totalQuestionsCount">45</h3>
+                    <h3 class="fw-bold mb-0 text-primary" id="totalQuestionsCount">53</h3>
                     <small class="text-muted text-uppercase fw-semibold">Curated Questions</small>
                 </div>
             </div>
@@ -98,9 +98,21 @@
                     <label class="form-label fw-bold small text-muted text-uppercase">Filter by Platform</label>
                     <div class="d-flex gap-2 flex-wrap" id="platformFilter">
                         <button class="btn btn-outline-secondary btn-sm filter-pill active" data-filter="platform" data-val="all">All</button>
-                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="platform" data-val="iitm">🎓 IITM BS Exam</button>
+                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="platform" data-val="local">🎓 Course Practice</button>
                         <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="platform" data-val="deepml">🤖 Deep-ML</button>
                         <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="platform" data-val="leetcode">💻 LeetCode</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold small text-muted text-uppercase">Filter by Difficulty</label>
+                    <div class="d-flex gap-2 flex-wrap" id="difficultyFilter">
+                        <button class="btn btn-outline-secondary btn-sm filter-pill active" data-filter="difficulty" data-val="all">All Difficulties</button>
+                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="difficulty" data-val="easy">Easy</button>
+                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="difficulty" data-val="medium">Medium</button>
+                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="difficulty" data-val="hard">Hard</button>
                     </div>
                 </div>
             </div>

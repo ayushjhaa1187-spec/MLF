@@ -22,20 +22,28 @@
         .timer-badge {
             background: #ef4444;
             color: #fff;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+        }
+        .timer-badge.warning {
+            background: #f59e0b;
         }
         .exam-q-card {
             border: 1px solid #e2e8f0;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 24px;
             background: #fff;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .exam-q-card.flagged {
+            border-left: 5px solid #f59e0b;
         }
         .exam-opt-btn {
             display: block;
@@ -48,9 +56,11 @@
             background: #fff;
             transition: all 0.2s;
             font-weight: 500;
+            cursor: pointer;
         }
-        .exam-opt-btn:hover {
+        .exam-opt-btn:hover:not(:disabled) {
             background: #f1f5f9;
+            border-color: #94a3b8;
         }
         .exam-opt-btn.active {
             border-color: #0284c7;
@@ -62,11 +72,61 @@
             background: #dcfce7 !important;
             border-color: #22c55e !important;
             color: #15803d !important;
+            font-weight: 600;
         }
         .exam-opt-btn.incorrect {
             background: #fee2e2 !important;
             border-color: #ef4444 !important;
             color: #b91c1c !important;
+            font-weight: 600;
+        }
+        .q-nav-pill {
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .q-nav-pill:hover {
+            border-color: #0284c7;
+        }
+        .q-nav-pill.answered {
+            background: #0284c7;
+            color: #fff;
+            border-color: #0284c7;
+        }
+        .q-nav-pill.flagged {
+            border-color: #f59e0b;
+            background: #fef3c7;
+            color: #b45309;
+        }
+        .q-nav-pill.flagged.answered {
+            background: #f59e0b;
+            color: #fff;
+            border-color: #d97706;
+        }
+        .review-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            background: #fff;
+            margin-bottom: 20px;
+        }
+        .review-card.correct-card {
+            border-left: 5px solid #22c55e;
+        }
+        .review-card.incorrect-card {
+            border-left: 5px solid #ef4444;
+        }
+        .review-card.unanswered-card {
+            border-left: 5px solid #94a3b8;
         }
     </style>
 </head>
@@ -77,7 +137,15 @@
             <a class="navbar-brand" href="home.html">
                 <i class="fas fa-home me-2"></i> Course Dashboard
             </a>
-            <span class="badge bg-danger px-3 py-2 fw-bold">Exam Centre</span>
+            <div class="d-flex align-items-center gap-2">
+                <a href="practice/solved_problems.html" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-dumbbell me-1"></i> Practice Bank
+                </a>
+                <a href="revision.html" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-bookmark me-1"></i> Revision Vault
+                </a>
+                <span class="badge bg-danger px-3 py-2 fw-bold">Exam Centre</span>
+            </div>
         </div>
     </nav>
 
@@ -85,10 +153,10 @@
         <div class="exam-hero">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <span class="badge bg-danger mb-2 px-3 py-2">Official Exam Preparation</span>
+                    <span class="badge bg-danger mb-2 px-3 py-2">Timed Examination Simulator</span>
                     <h1 class="display-6 fw-bold mb-2">IIT Madras BS Exam Centre</h1>
                     <p class="lead opacity-75 mb-0">
-                        Simulate the authentic examination conditions of BSCS2004. Test your mastery across Quiz 1, Quiz 2, and the End-Term comprehensive syllabus under timed pressure.
+                        Practice under authentic timed conditions for BSCS2004. Take curated diagnostic tests, Quiz 1, Quiz 2, and the comprehensive End-Term exam with instant diagnostic scoring, full question review, and targeted revision links.
                     </p>
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
@@ -97,86 +165,72 @@
             </div>
         </div>
 
+        <!-- RESUME BANNER (Appears if active unfinished attempt exists) -->
+        <div id="resumeAttemptBanner" class="alert alert-warning border-0 shadow-sm d-none mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Unfinished Exam Found:</strong> You have an active attempt for <span id="resumeQuizTitle" class="fw-bold">Assessment</span> with <span id="resumeTimeLeft" class="fw-bold">--:--</span> remaining.
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-primary fw-bold" id="resumeExamBtn">
+                    <i class="fas fa-play me-1"></i> Resume Attempt
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" id="discardAttemptBtn">
+                    <i class="fas fa-trash me-1"></i> Discard
+                </button>
+            </div>
+        </div>
+
         <!-- MOCK EXAM SELECTOR -->
         <div id="examSelectView">
             <h4 class="fw-bold mb-3"><i class="fas fa-clipboard-list me-2"></i>Select an Assessment</h4>
-            <div class="row g-4 mb-5">
-                <div class="col-md-4">
-                    <div class="card h-100 p-4 border-0 shadow-sm bg-white">
-                        <span class="badge bg-primary w-fit mb-2">Weeks 1 to 4</span>
-                        <h5 class="fw-bold">Mock Quiz 1</h5>
-                        <p class="small text-muted mb-3">
-                            Linear algebra setup, multivariable calculus, directional derivatives, orthogonal projections, least squares, and eigenvalues.
-                        </p>
-                        <ul class="small text-muted mb-4 ps-3">
-                            <li>10 High-yield questions</li>
-                            <li>20 Minute timer</li>
-                            <li>Immediate diagnostic feedback</li>
-                        </ul>
-                        <button class="btn btn-primary w-100 mt-auto start-quiz-btn" data-quiz="quiz1">
-                            <i class="fas fa-play me-1"></i> Launch Mock Quiz 1
-                        </button>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 p-4 border-0 shadow-sm bg-white">
-                        <span class="badge bg-warning text-dark w-fit mb-2">Weeks 5 to 8</span>
-                        <h5 class="fw-bold">Mock Quiz 2</h5>
-                        <p class="small text-muted mb-3">
-                            Hermitian matrices, spectral theorem, SVD decomposition, low-rank approximations, PCA, and gradient descent optimization.
-                        </p>
-                        <ul class="small text-muted mb-4 ps-3">
-                            <li>10 High-yield questions</li>
-                            <li>20 Minute timer</li>
-                            <li>Immediate diagnostic feedback</li>
-                        </ul>
-                        <button class="btn btn-warning text-dark w-100 mt-auto start-quiz-btn" data-quiz="quiz2">
-                            <i class="fas fa-play me-1"></i> Launch Mock Quiz 2
-                        </button>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 p-4 border-0 shadow-sm bg-white">
-                        <span class="badge bg-danger w-fit mb-2">Comprehensive (1 to 12)</span>
-                        <h5 class="fw-bold">Mock End-Term Exam</h5>
-                        <p class="small text-muted mb-3">
-                            Full syllabus simulator: linear algebra, calculus, optimization duality, KKT conditions, probability, Bayes, and GMM/EM.
-                        </p>
-                        <ul class="small text-muted mb-4 ps-3">
-                            <li>15 Comprehensive questions</li>
-                            <li>35 Minute timer</li>
-                            <li>Weak-concept analysis report</li>
-                        </ul>
-                        <button class="btn btn-danger w-100 mt-auto start-quiz-btn" data-quiz="endterm">
-                            <i class="fas fa-play me-1"></i> Launch End-Term Exam
-                        </button>
-                    </div>
+            <div class="row g-4 mb-5" id="assessmentsGrid">
+                <!-- Dynamically populated from data/assessments.json -->
+                <div class="col-12 text-center py-4">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <p class="text-muted mt-2">Loading assessments...</p>
                 </div>
             </div>
         </div>
 
         <!-- ACTIVE EXAM VIEW (Initially Hidden) -->
         <div id="activeExamView" class="d-none">
-            <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm border">
+            <!-- Exam Status Bar -->
+            <div class="d-flex justify-content-between align-items-center mb-4 p-3 bg-white rounded shadow-sm border sticky-top" style="top: 70px; z-index: 99;">
                 <div>
-                    <h5 class="fw-bold mb-0" id="currentQuizTitle">Mock Quiz 1</h5>
-                    <small class="text-muted" id="quizQuestionCount">10 Questions</small>
+                    <h5 class="fw-bold mb-0" id="currentQuizTitle">Assessment Title</h5>
+                    <small class="text-muted" id="quizQuestionCount">0 Questions</small>
                 </div>
-                <div class="timer-badge" id="examTimer">
-                    <i class="fas fa-stopwatch"></i> <span id="timerText">20:00</span>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="timer-badge" id="examTimer">
+                        <i class="fas fa-stopwatch"></i> <span id="timerText">20:00</span>
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger" id="exitExamBtn">
+                        <i class="fas fa-times me-1"></i> Exit
+                    </button>
                 </div>
-                <button class="btn btn-sm btn-outline-danger" id="exitExamBtn">
-                    <i class="fas fa-times me-1"></i> Exit Exam
-                </button>
+            </div>
+
+            <!-- Question Quick Navigator -->
+            <div class="card p-3 border-0 shadow-sm bg-white mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <small class="fw-bold text-muted text-uppercase">Question Navigation</small>
+                    <div class="d-flex gap-3 small text-muted">
+                        <span><span class="badge bg-primary me-1">&bull;</span> Answered</span>
+                        <span><span class="badge bg-warning text-dark me-1"><i class="fas fa-bookmark"></i></span> Flagged</span>
+                        <span><span class="badge bg-light text-dark border me-1">&bull;</span> Unanswered</span>
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2" id="questionNavContainer"></div>
             </div>
 
             <div id="examQuestionsContainer">
                 <!-- Rendered dynamically -->
             </div>
 
-            <div class="text-center my-4">
+            <div class="text-center my-4 p-4 bg-white rounded shadow-sm border">
+                <h5 class="fw-bold mb-2">Ready to finish?</h5>
+                <p class="text-muted small mb-3">Ensure you have reviewed all flagged questions before final submission.</p>
                 <button class="btn btn-lg btn-success px-5 fw-bold" id="submitExamBtn">
                     <i class="fas fa-check-double me-2"></i> Submit Exam & Calculate Score
                 </button>
@@ -187,17 +241,56 @@
         <div id="examReportView" class="d-none">
             <div class="card p-4 border-0 shadow-sm bg-white mb-4">
                 <div class="text-center mb-4">
-                    <div class="display-3 fw-bold text-primary mb-2" id="scoreDisplay">8 / 10</div>
-                    <h4 class="fw-bold" id="reportHeadline">Great Performance!</h4>
-                    <p class="text-muted" id="reportSubline">You demonstrated solid mastery of Linear Algebra and Projections.</p>
+                    <div class="display-3 fw-bold text-primary mb-2" id="scoreDisplay">0 / 0</div>
+                    <h4 class="fw-bold" id="reportHeadline">Exam Completed</h4>
+                    <p class="text-muted" id="reportSubline">Review your results and breakdown below.</p>
                 </div>
-                <div class="alert alert-info border-0 mb-4" id="weakConceptsAlert">
-                    <h6 class="fw-bold mb-1"><i class="fas fa-lightbulb me-1"></i> Recommended Revision Focus:</h6>
+
+                <div class="row g-3 mb-4 text-center">
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded">
+                            <span class="text-success fw-bold fs-4" id="statCorrect">0</span>
+                            <div class="small text-muted">Correct</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded">
+                            <span class="text-danger fw-bold fs-4" id="statIncorrect">0</span>
+                            <div class="small text-muted">Incorrect</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 bg-light rounded">
+                            <span class="text-secondary fw-bold fs-4" id="statUnanswered">0</span>
+                            <div class="small text-muted">Unanswered</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-info border-0 mb-4 d-none" id="weakConceptsAlert">
+                    <h6 class="fw-bold mb-2"><i class="fas fa-lightbulb me-1"></i> Targeted Revision Recommendations:</h6>
                     <ul class="mb-0 small" id="weakConceptsList"></ul>
                 </div>
-                <div class="text-center">
-                    <button class="btn btn-primary me-2" id="retakeQuizBtn">Retake Exam</button>
-                    <a href="revision.html" class="btn btn-outline-secondary">Go to Revision Vault</a>
+
+                <div class="text-center d-flex justify-content-center gap-2 flex-wrap">
+                    <button class="btn btn-primary" id="retakeQuizBtn">
+                        <i class="fas fa-redo me-1"></i> Retake This Exam
+                    </button>
+                    <button class="btn btn-outline-primary" id="chooseAnotherExamBtn">
+                        <i class="fas fa-list me-1"></i> Choose Another Assessment
+                    </button>
+                    <a href="revision.html" class="btn btn-outline-secondary">
+                        <i class="fas fa-bookmark me-1"></i> Revision Vault
+                    </a>
+                </div>
+            </div>
+
+            <!-- DETAILED QUESTION-BY-QUESTION REVIEW -->
+            <div class="card p-4 border-0 shadow-sm bg-white mb-4">
+                <h4 class="fw-bold mb-3"><i class="fas fa-clipboard-check text-primary me-2"></i>Detailed Question Review</h4>
+                <p class="text-muted small mb-4">Compare your submitted answers against correct derivations and identify conceptual gaps.</p>
+                <div id="detailedReviewContainer">
+                    <!-- Rendered dynamically -->
                 </div>
             </div>
         </div>
@@ -211,257 +304,593 @@
     <script src="assets/js/math-rendering.js"></script>
 
     <script>
-        const examSelectView = document.getElementById('examSelectView');
-        const activeExamView = document.getElementById('activeExamView');
-        const examReportView = document.getElementById('examReportView');
-        const qContainer = document.getElementById('examQuestionsContainer');
-        const timerText = document.getElementById('timerText');
-        const submitBtn = document.getElementById('submitExamBtn');
-        const exitBtn = document.getElementById('exitExamBtn');
-        const retakeBtn = document.getElementById('retakeQuizBtn');
+        (function() {
+            'use strict';
 
-        let timerInterval = null;
-        let timeLeftSeconds = 1200;
-        let activeQuizKey = 'quiz1';
-        let currentQuestions = [];
-        let answersGiven = {};
+            let assessmentsData = {};
+            let questionsMap = {};
+            let currentAssessment = null;
+            let currentQuestions = [];
+            let activeAttempt = null;
+            let timerInterval = null;
 
-        // Question Banks for Mocks
-        const quizBanks = {
-            quiz1: [
-                {
-                    id: 'q1-1', week: 1, topic: 'Vectors & Inner Products',
-                    q: 'What is the length of vector $v = [1, 2, -1]^T$ in $\\mathbb{R}^3$?',
-                    options: ['A. 2.308', 'B. 2.449', 'C. 2.500', 'D. 3.000'],
-                    correct: 'B', expl: '$\\|v\\| = \\sqrt{1^2 + 2^2 + (-1)^2} = \\sqrt{6} \\approx 2.449$.'
-                },
-                {
-                    id: 'q1-2', week: 2, topic: 'Multivariable Calculus',
-                    q: 'For $f(x, y) = x^2 y + 3y^2$, what is the gradient vector $\\nabla f(1, 2)$?',
-                    options: ['A. [4, 13]^T', 'B. [2, 12]^T', 'C. [4, 12]^T', 'D. [2, 13]^T'],
-                    correct: 'A', expl: '$\\nabla f = [2xy, x^2 + 6y]^T$. At $(1, 2)$: $[2(1)(2), 1^2 + 6(2)]^T = [4, 13]^T$.'
-                },
-                {
-                    id: 'q1-3', week: 3, topic: 'Orthogonal Projections',
-                    q: 'What is the projection of $a = [5, -4, 1]^T$ along $b = [3, -2, 4]^T$?',
-                    options: ['A. 27/29 [3, -2, 4]^T', 'B. 18/29 [3, -2, 4]^T', 'C. 14/29 [3, -2, 4]^T', 'D. [0, 0, 0]^T'],
-                    correct: 'A', expl: '$a^T b / b^T b = (15 + 8 + 4) / (9 + 4 + 16) = 27 / 29$.'
-                },
-                {
-                    id: 'q1-4', week: 3, topic: 'Rank-Nullity Theorem',
-                    q: 'A matrix $A$ has shape $4 \\times 3$ with rank 1. What is the dimension of its null space $N(A)$?',
-                    options: ['A. 1', 'B. 2', 'C. 3', 'D. 0'],
-                    correct: 'B', expl: '$\\text{rank}(A) + \\text{nullity}(A) = n = 3 \\implies 1 + \\text{nullity} = 3 \\implies 2$.'
-                },
-                {
-                    id: 'q1-5', week: 3, topic: 'Projection Matrix',
-                    q: 'If $P$ is an orthogonal projection matrix, which property is always true?',
-                    options: ['A. $P^2 = P$ and $P^T = P$', 'B. $P^{-1} = P$', 'C. $\\det(P) = 1$', 'D. $P = -P$'],
-                    correct: 'A', expl: 'Projection matrices are idempotent ($P^2 = P$) and symmetric ($P^T = P$).'
-                },
-                {
-                    id: 'q1-6', week: 4, topic: 'Eigenvalues',
-                    q: 'What are the eigenvalues of matrix $A = \\begin{bmatrix} 2 & 1 \\\\ 0 & 3 \\end{bmatrix}$?',
-                    options: ['A. 2 and 3', 'B. 1 and 5', 'C. -2 and -3', 'D. 0 and 6'],
-                    correct: 'A', expl: 'For an upper triangular matrix, eigenvalues are the diagonal entries: $\\lambda_1 = 2, \\lambda_2 = 3$.'
+            // DOM Elements
+            const resumeBanner = document.getElementById('resumeAttemptBanner');
+            const resumeQuizTitle = document.getElementById('resumeQuizTitle');
+            const resumeTimeLeft = document.getElementById('resumeTimeLeft');
+            const resumeExamBtn = document.getElementById('resumeExamBtn');
+            const discardAttemptBtn = document.getElementById('discardAttemptBtn');
+
+            const examSelectView = document.getElementById('examSelectView');
+            const assessmentsGrid = document.getElementById('assessmentsGrid');
+            const activeExamView = document.getElementById('activeExamView');
+            const examReportView = document.getElementById('examReportView');
+
+            const currentQuizTitle = document.getElementById('currentQuizTitle');
+            const quizQuestionCount = document.getElementById('quizQuestionCount');
+            const timerBadge = document.getElementById('examTimer');
+            const timerText = document.getElementById('timerText');
+            const questionNavContainer = document.getElementById('questionNavContainer');
+            const qContainer = document.getElementById('examQuestionsContainer');
+
+            const submitBtn = document.getElementById('submitExamBtn');
+            const exitBtn = document.getElementById('exitExamBtn');
+            const retakeBtn = document.getElementById('retakeQuizBtn');
+            const chooseAnotherBtn = document.getElementById('chooseAnotherExamBtn');
+            const detailedReviewContainer = document.getElementById('detailedReviewContainer');
+
+            // Initialize: load data files
+            async function init() {
+                try {
+                    const [assessmentsRes, questionsRes] = await Promise.all([
+                        fetch('data/assessments.json'),
+                        fetch('data/questions/all_questions.json')
+                    ]);
+
+                    if (!assessmentsRes.ok || !questionsRes.ok) {
+                        throw new Error('Failed to load assessment data files');
+                    }
+
+                    assessmentsData = await assessmentsRes.json();
+                    const qArray = await questionsRes.json();
+                    questionsMap = {};
+                    qArray.forEach(q => { questionsMap[q.id] = q; });
+
+                    renderAssessmentCards();
+                    checkExistingAttempt();
+                } catch (err) {
+                    console.error('Initialization error:', err);
+                    assessmentsGrid.innerHTML = `
+                        <div class="col-12 alert alert-danger">
+                            <i class="fas fa-exclamation-circle me-2"></i> Failed to load assessments: ${err.message}. Please refresh the page.
+                        </div>
+                    `;
                 }
-            ],
-            quiz2: [
-                {
-                    id: 'q2-1', week: 5, topic: 'Spectral Theorem',
-                    q: 'Every real symmetric matrix $A = A^T$ can be factored into:',
-                    options: ['A. $Q \\Lambda Q^T$ with orthogonal $Q$', 'B. $L U$', 'C. $Q R$', 'D. Diagonal elements only'],
-                    correct: 'A', expl: 'By the Spectral Theorem, real symmetric matrices have real eigenvalues and orthogonal eigenvectors.'
-                },
-                {
-                    id: 'q2-2', week: 6, topic: 'SVD',
-                    q: 'The non-zero singular values of $A$ are the square roots of the eigenvalues of:',
-                    options: ['A. $A^T A$', 'B. $A + A^T$', 'C. $A^{-1}$', 'D. $A^2$'],
-                    correct: 'A', expl: '$\\sigma_i = \\sqrt{\\lambda_i(A^T A)}$.'
-                },
-                {
-                    id: 'q2-3', week: 7, topic: 'PCA',
-                    q: 'The first principal component direction $u_1$ in PCA corresponds to the eigenvector of the sample covariance matrix with:',
-                    options: ['A. Smallest eigenvalue', 'B. Largest eigenvalue', 'C. Zero eigenvalue', 'D. Negative eigenvalue'],
-                    correct: 'B', expl: 'The direction of maximum projected variance is the eigenvector corresponding to the maximum eigenvalue $\\lambda_{\\max}$.'
-                },
-                {
-                    id: 'q2-4', week: 8, topic: 'Gradient Descent',
-                    q: 'If $f(x)$ is convex and $L$-Lipschitz smooth, gradient descent converges when step size $\\eta$ satisfies:',
-                    options: ['A. $0 < \\eta < 2/L$', 'B. $\\eta > L$', 'C. $\\eta = 0$', 'D. $\\eta = L^2$'],
-                    correct: 'A', expl: 'Standard convergence condition is $0 < \\eta < 2/L$.'
-                }
-            ],
-            endterm: [
-                {
-                    id: 'qet-1', week: 3, topic: 'Normal Equations',
-                    q: 'In ordinary least squares, why is the solution $(X^T X)^{-1} X^T y$ unique?',
-                    options: ['A. If and only if $X$ has full column rank', 'B. Always unique for any $X$', 'C. Only if $X$ is square', 'D. Never unique'],
-                    correct: 'A', expl: '$X^T X$ is invertible if and only if $X$ has linearly independent columns (full column rank).'
-                },
-                {
-                    id: 'qet-2', week: 10, topic: 'KKT Conditions',
-                    q: 'The complementary slackness condition in KKT for constraint $g_i(x) \\le 0$ states:',
-                    options: ['A. $\\lambda_i g_i(x) = 0$', 'B. $\\lambda_i + g_i(x) = 0$', 'C. $\\lambda_i = g_i(x)$', 'D. $\\lambda_i > 0$'],
-                    correct: 'A', expl: 'Complementary slackness enforces that either the constraint is active ($g_i(x) = 0$) or the multiplier is zero ($\\lambda_i = 0$).'
-                },
-                {
-                    id: 'qet-3', week: 11, topic: 'Bayes Theorem',
-                    q: 'Bayes theorem calculates posterior $P(\\theta \\mid D)$ using:',
-                    options: ['A. $\\frac{P(D \\mid \\theta) P(\\theta)}{P(D)}$', 'B. $P(D \\mid \\theta) P(\\theta)$', 'C. $P(D) / P(\\theta)$', 'D. $P(D) - P(\\theta)$'],
-                    correct: 'A', expl: '$P(\\theta \\mid D) = P(D \\mid \\theta) P(\\theta) / P(D)$.'
-                }
-            ]
-        };
+            }
 
-        // Start button listeners
-        document.querySelectorAll('.start-quiz-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                activeQuizKey = btn.getAttribute('data-quiz');
-                startQuiz(activeQuizKey);
-            });
-        });
+            function renderAssessmentCards() {
+                const keys = Object.keys(assessmentsData);
+                assessmentsGrid.innerHTML = keys.map(key => {
+                    const a = assessmentsData[key];
+                    const count = a.questionIds ? a.questionIds.length : 0;
+                    const mins = Math.round((a.durationSeconds || 1200) / 60);
+                    let badgeClass = 'bg-primary';
+                    let badgeLabel = 'Module Test';
 
-        function startQuiz(quizKey) {
-            currentQuestions = quizBanks[quizKey] || quizBanks.quiz1;
-            answersGiven = {};
-            timeLeftSeconds = quizKey === 'endterm' ? 2100 : 1200;
+                    if (key === 'diagnostic') {
+                        badgeClass = 'bg-info text-dark';
+                        badgeLabel = 'Course Diagnostic';
+                    } else if (key === 'quiz1') {
+                        badgeClass = 'bg-primary';
+                        badgeLabel = 'Weeks 1 to 4';
+                    } else if (key === 'quiz2') {
+                        badgeClass = 'bg-warning text-dark';
+                        badgeLabel = 'Weeks 5 to 8';
+                    } else if (key === 'endterm') {
+                        badgeClass = 'bg-danger';
+                        badgeLabel = 'Comprehensive (Weeks 1 to 12)';
+                    }
 
-            document.getElementById('currentQuizTitle').innerText = 
-                quizKey === 'quiz1' ? 'Mock Quiz 1 (Weeks 1 to 4)' :
-                (quizKey === 'quiz2' ? 'Mock Quiz 2 (Weeks 5 to 8)' : 'Mock End-Term Exam (Comprehensive)');
-            document.getElementById('quizQuestionCount').innerText = `${currentQuestions.length} Questions`;
-
-            examSelectView.classList.add('d-none');
-            examReportView.classList.add('d-none');
-            activeExamView.classList.remove('d-none');
-
-            renderExamQuestions();
-            startTimer();
-        }
-
-        function renderExamQuestions() {
-            qContainer.innerHTML = currentQuestions.map((q, idx) => `
-                <div class="exam-q-card" id="qcard-${q.id}">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="badge bg-secondary">Week ${q.week} &bull; ${q.topic}</span>
-                        <span class="small text-muted">Question ${idx + 1} of ${currentQuestions.length}</span>
-                    </div>
-                    <h5 class="fw-bold mb-3">${q.q}</h5>
-                    <div class="opt-group" data-qid="${q.id}">
-                        ${q.options.map(opt => {
-                            const key = opt.trim().charAt(0);
-                            return `
-                                <button class="exam-opt-btn" data-key="${key}">
-                                    ${opt}
+                    return `
+                        <div class="col-md-6 col-lg-3">
+                            <div class="card h-100 p-4 border-0 shadow-sm bg-white d-flex flex-column">
+                                <span class="badge ${badgeClass} w-fit mb-2 align-self-start">${badgeLabel}</span>
+                                <h5 class="fw-bold">${a.title}</h5>
+                                <p class="small text-muted mb-3 flex-grow-1">${a.description}</p>
+                                <ul class="small text-muted mb-4 ps-3">
+                                    <li><strong>${count} Questions</strong></li>
+                                    <li><strong>${mins} Minute</strong> timer</li>
+                                    <li>Question-by-question review</li>
+                                </ul>
+                                <button class="btn btn-outline-primary w-100 mt-auto start-quiz-btn" data-assessment="${key}">
+                                    <i class="fas fa-play me-1"></i> Start Assessment
                                 </button>
-                            `;
-                        }).join('')}
-                    </div>
-                    <div class="expl-panel alert alert-light border mt-3 d-none small"></div>
-                </div>
-            `).join('');
+                            </div>
+                        </div>
+                    `;
+                }).join('');
 
-            // Bind option clicks
-            qContainer.querySelectorAll('.exam-opt-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const group = btn.closest('.opt-group');
-                    const qid = group.getAttribute('data-qid');
-                    const key = btn.getAttribute('data-key');
-                    group.querySelectorAll('.exam-opt-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    answersGiven[qid] = key;
+                assessmentsGrid.querySelectorAll('.start-quiz-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const key = btn.getAttribute('data-assessment');
+                        launchAssessment(key);
+                    });
                 });
+            }
+
+            function checkExistingAttempt() {
+                if (!window.MLFProgress) return;
+                const saved = window.MLFProgress.getActiveAttempt();
+                if (saved && saved.assessmentId && assessmentsData[saved.assessmentId]) {
+                    const now = Date.now();
+                    if (saved.deadlineAt > now) {
+                        const secLeft = Math.floor((saved.deadlineAt - now) / 1000);
+                        const m = Math.floor(secLeft / 60);
+                        const s = secLeft % 60;
+                        resumeQuizTitle.innerText = assessmentsData[saved.assessmentId].title;
+                        resumeTimeLeft.innerText = `${m}:${s.toString().padStart(2, '0')}`;
+                        resumeBanner.classList.remove('d-none');
+                        activeAttempt = saved;
+                    } else {
+                        // Expired while away
+                        window.MLFProgress.clearActiveAttempt();
+                    }
+                }
+            }
+
+            resumeExamBtn.addEventListener('click', () => {
+                if (activeAttempt && assessmentsData[activeAttempt.assessmentId]) {
+                    resumeBanner.classList.add('d-none');
+                    loadAssessmentView(activeAttempt.assessmentId, true);
+                }
             });
 
-            if (window.renderMLFMath) window.renderMLFMath(qContainer);
-        }
-
-        function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            updateTimerDisplay();
-            timerInterval = setInterval(() => {
-                timeLeftSeconds--;
-                updateTimerDisplay();
-                if (timeLeftSeconds <= 0) {
-                    clearInterval(timerInterval);
-                    submitExam();
+            discardAttemptBtn.addEventListener('click', () => {
+                if (confirm('Discard your previous exam attempt?')) {
+                    if (window.MLFProgress) window.MLFProgress.clearActiveAttempt();
+                    activeAttempt = null;
+                    resumeBanner.classList.add('d-none');
                 }
-            }, 1000);
-        }
+            });
 
-        function updateTimerDisplay() {
-            const m = Math.floor(timeLeftSeconds / 60);
-            const s = timeLeftSeconds % 60;
-            timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }
+            function launchAssessment(key) {
+                if (activeAttempt && activeAttempt.assessmentId !== key) {
+                    if (!confirm(`You have an active attempt for ${assessmentsData[activeAttempt.assessmentId]?.title || 'another assessment'}. Starting this will replace it. Proceed?`)) {
+                        return;
+                    }
+                }
+                loadAssessmentView(key, false);
+            }
 
-        submitBtn.addEventListener('click', submitExam);
+            function loadAssessmentView(assessmentKey, isResume) {
+                currentAssessment = assessmentsData[assessmentKey];
+                if (!currentAssessment) return;
 
-        function submitExam() {
-            if (timerInterval) clearInterval(timerInterval);
-            let score = 0;
-            const weakConcepts = new Set();
+                currentQuestions = (currentAssessment.questionIds || [])
+                    .map(qid => questionsMap[qid])
+                    .filter(Boolean);
 
-            currentQuestions.forEach(q => {
-                const card = document.getElementById('qcard-' + q.id);
-                const expl = card.querySelector('.expl-panel');
-                const group = card.querySelector('.opt-group');
-                const userChoice = answersGiven[q.id];
+                if (currentQuestions.length === 0) {
+                    alert('No questions found for this assessment.');
+                    return;
+                }
 
-                group.querySelectorAll('.exam-opt-btn').forEach(btn => {
-                    const key = btn.getAttribute('data-key');
-                    if (key === q.correct) {
-                        btn.classList.add('correct');
-                    } else if (key === userChoice) {
-                        btn.classList.add('incorrect');
+                if (!isResume) {
+                    const now = Date.now();
+                    const durationSec = currentAssessment.durationSeconds || 1200;
+                    activeAttempt = {
+                        attemptId: 'att-' + assessmentKey + '-' + now,
+                        assessmentId: assessmentKey,
+                        startedAt: now,
+                        deadlineAt: now + (durationSec * 1000),
+                        questionIds: currentQuestions.map(q => q.id),
+                        answers: {},
+                        flags: [],
+                        status: 'in-progress'
+                    };
+                    if (window.MLFProgress) {
+                        window.MLFProgress.saveActiveAttempt(activeAttempt);
+                    }
+                }
+
+                currentQuizTitle.innerText = currentAssessment.title;
+                quizQuestionCount.innerText = `${currentQuestions.length} Questions`;
+
+                examSelectView.classList.add('d-none');
+                examReportView.classList.add('d-none');
+                resumeBanner.classList.add('d-none');
+                activeExamView.classList.remove('d-none');
+
+                renderQuestionNav();
+                renderExamQuestions();
+                startTimer();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function renderQuestionNav() {
+                questionNavContainer.innerHTML = currentQuestions.map((q, idx) => {
+                    const isAnswered = activeAttempt.answers && activeAttempt.answers[q.id];
+                    const isFlagged = activeAttempt.flags && activeAttempt.flags.includes(q.id);
+                    let cls = 'q-nav-pill';
+                    if (isAnswered) cls += ' answered';
+                    if (isFlagged) cls += ' flagged';
+                    return `
+                        <button class="${cls}" data-nav-idx="${idx}" title="Go to Question ${idx + 1}">
+                            ${idx + 1}
+                        </button>
+                    `;
+                }).join('');
+
+                questionNavContainer.querySelectorAll('.q-nav-pill').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const idx = parseInt(btn.getAttribute('data-nav-idx'), 10);
+                        const card = document.getElementById('qcard-' + currentQuestions[idx].id);
+                        if (card) {
+                            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    });
+                });
+            }
+
+            function renderExamQuestions() {
+                qContainer.innerHTML = currentQuestions.map((q, idx) => {
+                    const userSelected = activeAttempt.answers ? activeAttempt.answers[q.id] : null;
+                    const isFlagged = activeAttempt.flags && activeAttempt.flags.includes(q.id);
+
+                    const optionsHtml = (q.options || []).map(opt => {
+                        const isSel = userSelected === opt.id;
+                        return `
+                            <button class="exam-opt-btn ${isSel ? 'active' : ''}" data-qid="${q.id}" data-optid="${opt.id}">
+                                <strong class="me-2">${opt.id.toUpperCase()}.</strong> ${opt.text}
+                            </button>
+                        `;
+                    }).join('');
+
+                    return `
+                        <div class="exam-q-card ${isFlagged ? 'flagged' : ''}" id="qcard-${q.id}">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-secondary">Week ${q.week} &bull; ${q.title}</span>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-sm btn-outline-warning flag-q-btn ${isFlagged ? 'active' : ''}" data-qid="${q.id}">
+                                        <i class="fas fa-bookmark me-1"></i> ${isFlagged ? 'Flagged' : 'Flag'}
+                                    </button>
+                                    <span class="small text-muted">Q${idx + 1} of ${currentQuestions.length}</span>
+                                </div>
+                            </div>
+                            <h5 class="fw-bold mb-3 mt-2">${q.statement}</h5>
+                            <div class="opt-group" data-qid="${q.id}">
+                                ${optionsHtml}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Option click handler
+                qContainer.querySelectorAll('.exam-opt-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const qid = btn.getAttribute('data-qid');
+                        const optid = btn.getAttribute('data-optid');
+                        const group = btn.closest('.opt-group');
+
+                        group.querySelectorAll('.exam-opt-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+
+                        if (!activeAttempt.answers) activeAttempt.answers = {};
+                        activeAttempt.answers[qid] = optid;
+
+                        if (window.MLFProgress) {
+                            window.MLFProgress.saveActiveAttempt(activeAttempt);
+                        }
+                        renderQuestionNav();
+                    });
+                });
+
+                // Flag click handler
+                qContainer.querySelectorAll('.flag-q-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const qid = btn.getAttribute('data-qid');
+                        if (!activeAttempt.flags) activeAttempt.flags = [];
+                        const card = document.getElementById('qcard-' + qid);
+
+                        const idx = activeAttempt.flags.indexOf(qid);
+                        if (idx > -1) {
+                            activeAttempt.flags.splice(idx, 1);
+                            btn.classList.remove('active');
+                            btn.innerHTML = '<i class="fas fa-bookmark me-1"></i> Flag';
+                            if (card) card.classList.remove('flagged');
+                        } else {
+                            activeAttempt.flags.push(qid);
+                            btn.classList.add('active');
+                            btn.innerHTML = '<i class="fas fa-bookmark me-1"></i> Flagged';
+                            if (card) card.classList.add('flagged');
+                        }
+
+                        if (window.MLFProgress) {
+                            window.MLFProgress.saveActiveAttempt(activeAttempt);
+                        }
+                        renderQuestionNav();
+                    });
+                });
+
+                if (window.renderMLFMath) window.renderMLFMath(qContainer);
+            }
+
+            function startTimer() {
+                if (timerInterval) clearInterval(timerInterval);
+                updateTimerDisplay();
+
+                timerInterval = setInterval(() => {
+                    const now = Date.now();
+                    const secLeft = Math.max(0, Math.floor((activeAttempt.deadlineAt - now) / 1000));
+                    updateTimerDisplay(secLeft);
+
+                    if (secLeft <= 0) {
+                        clearInterval(timerInterval);
+                        alert('Time is up! Your exam is being submitted.');
+                        submitExam(true);
+                    }
+                }, 1000);
+            }
+
+            function updateTimerDisplay(seconds) {
+                if (seconds === undefined) {
+                    seconds = Math.max(0, Math.floor((activeAttempt.deadlineAt - Date.now()) / 1000));
+                }
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                timerText.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                if (seconds < 300) {
+                    timerBadge.classList.add('warning');
+                } else {
+                    timerBadge.classList.remove('warning');
+                }
+            }
+
+            submitBtn.addEventListener('click', () => {
+                const totalQ = currentQuestions.length;
+                const answeredQ = Object.keys(activeAttempt.answers || {}).length;
+                const unansweredQ = totalQ - answeredQ;
+
+                if (unansweredQ > 0) {
+                    if (!confirm(`You have ${unansweredQ} unanswered question(s). Are you sure you want to submit?`)) {
+                        return;
+                    }
+                }
+                submitExam(false);
+            });
+
+            function submitExam(isAutoSubmit) {
+                if (timerInterval) clearInterval(timerInterval);
+
+                let correctCount = 0;
+                let incorrectCount = 0;
+                let unansweredCount = 0;
+                const weakConcepts = new Map(); // conceptId -> meta
+                const itemScores = {};
+
+                currentQuestions.forEach(q => {
+                    const userOpt = activeAttempt.answers ? activeAttempt.answers[q.id] : null;
+                    const correctOpts = (q.answerSpec && q.answerSpec.correctOptionIds) || [];
+                    const isCorrect = userOpt && correctOpts.includes(userOpt);
+
+                    if (!userOpt) {
+                        unansweredCount++;
+                        itemScores[q.id] = { status: 'unanswered', score: 0 };
+                        recordWeakConcept(q, 'Unanswered in exam');
+                    } else if (isCorrect) {
+                        correctCount++;
+                        itemScores[q.id] = { status: 'correct', score: 1 };
+                    } else {
+                        incorrectCount++;
+                        itemScores[q.id] = { status: 'incorrect', score: 0 };
+                        recordWeakConcept(q, 'Incorrect choice in exam');
                     }
                 });
 
-                if (userChoice === q.correct) {
-                    score++;
-                } else {
-                    weakConcepts.add(`Week ${q.week}: ${q.topic}`);
+                function recordWeakConcept(q, reason) {
+                    const cids = q.conceptIds || [`week-${q.week}`];
+                    cids.forEach(cid => {
+                        if (!weakConcepts.has(cid)) {
+                            weakConcepts.set(cid, {
+                                conceptId: cid,
+                                title: q.title,
+                                week: q.week,
+                                relatedLesson: q.relatedLesson,
+                                relatedLab: q.relatedLab,
+                                reason: reason
+                            });
+                        }
+                    });
+                    // Also mark in progress store
+                    if (window.MLFProgress) {
+                        cids.forEach(cid => {
+                            window.MLFProgress.markNeedsRevision(cid, {
+                                title: q.title,
+                                week: q.week,
+                                relatedLesson: q.relatedLesson,
+                                relatedLab: q.relatedLab
+                            });
+                        });
+                    }
                 }
 
-                expl.innerHTML = `<strong>Solution:</strong> ${q.expl}`;
-                expl.classList.remove('d-none');
+                const total = currentQuestions.length;
+                const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+
+                const submission = {
+                    attemptId: activeAttempt.attemptId,
+                    assessmentId: currentAssessment.id || activeAttempt.assessmentId,
+                    score: correctCount,
+                    maxScore: total,
+                    percentage: percentage,
+                    timestamp: new Date().toISOString(),
+                    answers: activeAttempt.answers || {},
+                    itemScores: itemScores
+                };
+
+                if (window.MLFProgress) {
+                    window.MLFProgress.recordAssessmentSubmission(submission);
+                }
+
+                // Render Summary Report
+                document.getElementById('scoreDisplay').innerText = `${correctCount} / ${total}`;
+                document.getElementById('statCorrect').innerText = correctCount;
+                document.getElementById('statIncorrect').innerText = incorrectCount;
+                document.getElementById('statUnanswered').innerText = unansweredCount;
+
+                const headline = document.getElementById('reportHeadline');
+                const subline = document.getElementById('reportSubline');
+                if (percentage >= 80) {
+                    headline.innerText = '🎉 Outstanding Performance!';
+                    subline.innerText = 'High conceptual retention across tested curriculum components.';
+                } else if (percentage >= 50) {
+                    headline.innerText = '👍 Passing Grade — Targeted Practice Recommended';
+                    subline.innerText = 'Review the missed concepts below before proceeding to subsequent modules.';
+                } else {
+                    headline.innerText = '⚠️ Core Concepts Require Revision';
+                    subline.innerText = 'We recommend working through the linked lessons and interactive labs.';
+                }
+
+                // Weak Concepts List
+                const weakListEl = document.getElementById('weakConceptsList');
+                const weakAlertEl = document.getElementById('weakConceptsAlert');
+                if (weakConcepts.size > 0) {
+                    weakListEl.innerHTML = Array.from(weakConcepts.values()).map(c => `
+                        <li class="mb-1">
+                            <strong>Week ${c.week}:</strong> ${c.title}
+                            ${c.relatedLesson ? `<a href="${c.relatedLesson}" class="ms-2 badge bg-primary text-decoration-none">Study Lesson</a>` : ''}
+                            ${c.relatedLab ? `<a href="${c.relatedLab}" class="ms-1 badge bg-info text-dark text-decoration-none">Interactive Lab</a>` : ''}
+                        </li>
+                    `).join('');
+                    weakAlertEl.classList.remove('d-none');
+                } else {
+                    weakAlertEl.classList.add('d-none');
+                }
+
+                // Render Detailed Review
+                renderDetailedReview(submission);
+
+                activeExamView.classList.add('d-none');
+                examReportView.classList.remove('d-none');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            function renderDetailedReview(submission) {
+                detailedReviewContainer.innerHTML = currentQuestions.map((q, idx) => {
+                    const userOpt = submission.answers[q.id] || null;
+                    const correctOpts = (q.answerSpec && q.answerSpec.correctOptionIds) || [];
+                    const isCorrect = userOpt && correctOpts.includes(userOpt);
+                    const isUnanswered = !userOpt;
+
+                    let cardClass = isCorrect ? 'correct-card' : (isUnanswered ? 'unanswered-card' : 'incorrect-card');
+                    let statusBadge = isCorrect 
+                        ? '<span class="badge bg-success"><i class="fas fa-check me-1"></i> Correct (+1 pt)</span>'
+                        : (isUnanswered 
+                            ? '<span class="badge bg-secondary"><i class="fas fa-minus-circle me-1"></i> Unanswered (0 pts)</span>'
+                            : '<span class="badge bg-danger"><i class="fas fa-times me-1"></i> Incorrect (0 pts)</span>');
+
+                    const optionsReview = (q.options || []).map(opt => {
+                        const isThisCorrect = correctOpts.includes(opt.id);
+                        const isThisUser = userOpt === opt.id;
+                        let optClass = 'exam-opt-btn';
+
+                        if (isThisCorrect) {
+                            optClass += ' correct';
+                        } else if (isThisUser) {
+                            optClass += ' incorrect';
+                        }
+
+                        return `
+                            <div class="${optClass}" style="cursor: default;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>
+                                        <strong class="me-2">${opt.id.toUpperCase()}.</strong> ${opt.text}
+                                    </span>
+                                    <span>
+                                        ${isThisCorrect ? '<span class="badge bg-success ms-2">Correct Answer</span>' : ''}
+                                        ${isThisUser && !isThisCorrect ? '<span class="badge bg-danger ms-2">Your Answer</span>' : ''}
+                                        ${isThisUser && isThisCorrect ? '<span class="badge bg-success ms-2">Your Answer</span>' : ''}
+                                    </span>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                    return `
+                        <div class="review-card ${cardClass}" id="rev-${q.id}">
+                            <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                                <span class="badge bg-secondary">Week ${q.week} &bull; ${q.title}</span>
+                                <div class="d-flex align-items-center gap-2">
+                                    ${statusBadge}
+                                    <span class="small text-muted">Q${idx + 1} of ${currentQuestions.length}</span>
+                                </div>
+                            </div>
+                            <h5 class="fw-bold mb-3 mt-2">${q.statement}</h5>
+                            <div class="mb-3">
+                                ${optionsReview}
+                            </div>
+                            <div class="alert alert-light border small mb-3">
+                                <h6 class="fw-bold mb-1 text-primary"><i class="fas fa-check-circle me-1"></i> Mathematical Derivation & Solution:</h6>
+                                <div>${q.solution || 'No detailed solution provided.'}</div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 pt-2 border-top">
+                                <div class="d-flex gap-2">
+                                    ${q.relatedLesson ? `<a href="${q.relatedLesson}" class="btn btn-sm btn-outline-primary"><i class="fas fa-book-open me-1"></i> Study Week ${q.week} Chapter</a>` : ''}
+                                    ${q.relatedLab ? `<a href="${q.relatedLab}" class="btn btn-sm btn-outline-info text-dark"><i class="fas fa-cube me-1"></i> Interactive Lab</a>` : ''}
+                                </div>
+                                <button class="btn btn-sm btn-outline-warning mark-rev-btn" data-qid="${q.id}" data-week="${q.week}" data-title="${q.title}">
+                                    <i class="fas fa-bookmark me-1"></i> Save to Revision Vault
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                detailedReviewContainer.querySelectorAll('.mark-rev-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const qid = btn.getAttribute('data-qid');
+                        const week = btn.getAttribute('data-week');
+                        const title = btn.getAttribute('data-title');
+                        if (window.MLFProgress) {
+                            window.MLFProgress.markNeedsRevision(qid, {
+                                title: title,
+                                week: parseInt(week, 10),
+                                relatedLesson: `week-${week}/week-${week}.html`
+                            });
+                        }
+                        btn.classList.remove('btn-outline-warning');
+                        btn.classList.add('btn-warning', 'text-dark');
+                        btn.innerHTML = '<i class="fas fa-check me-1"></i> Saved to Vault';
+                    });
+                });
+
+                if (window.renderMLFMath) window.renderMLFMath(detailedReviewContainer);
+            }
+
+            exitBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to pause/exit? Your responses are saved and can be resumed while the timer remains.')) {
+                    if (timerInterval) clearInterval(timerInterval);
+                    activeExamView.classList.add('d-none');
+                    examSelectView.classList.remove('d-none');
+                    checkExistingAttempt();
+                }
             });
 
-            // Save score to progress store
-            if (window.MLFProgress) {
-                window.MLFProgress.recordQuizAttempt(activeQuizKey, score, currentQuestions.length);
-            }
+            retakeBtn.addEventListener('click', () => {
+                if (currentAssessment) {
+                    if (window.MLFProgress) window.MLFProgress.clearActiveAttempt();
+                    loadAssessmentView(activeAttempt.assessmentId, false);
+                }
+            });
 
-            // Display Report
-            document.getElementById('scoreDisplay').innerText = `${score} / ${currentQuestions.length}`;
-            const pct = Math.round((score / currentQuestions.length) * 100);
-            document.getElementById('reportHeadline').innerText = pct >= 80 ? '🎉 Excellent Performance!' : (pct >= 50 ? '👍 Solid Pass — Targeted Review' : '⚠️ Intensive Review Required');
-
-            const weakListEl = document.getElementById('weakConceptsList');
-            if (weakConcepts.size > 0) {
-                weakListEl.innerHTML = Array.from(weakConcepts).map(item => `<li><a href="week-${item.split(':')[0].replace('Week ', '')}/week-${item.split(':')[0].replace('Week ', '')}.html">${item}</a></li>`).join('');
-                document.getElementById('weakConceptsAlert').classList.remove('d-none');
-            } else {
-                document.getElementById('weakConceptsAlert').classList.add('d-none');
-            }
-
-            activeExamView.classList.add('d-none');
-            examReportView.classList.remove('d-none');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        exitBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to exit? Your exam progress will not be saved.')) {
-                if (timerInterval) clearInterval(timerInterval);
-                activeExamView.classList.add('d-none');
+            chooseAnotherBtn.addEventListener('click', () => {
+                examReportView.classList.add('d-none');
                 examSelectView.classList.remove('d-none');
-            }
-        });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
 
-        retakeBtn.addEventListener('click', () => {
-            startQuiz(activeQuizKey);
-        });
+            init();
+        })();
     </script>
 </body>
 </html>
