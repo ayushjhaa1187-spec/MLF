@@ -3,13 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practice Problems & Solved Assignments - ML Foundations</title>
+    <title>Problem Bank & Practice Portal - ML Foundations</title>
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- KaTeX CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/style.css">
+    <style>
+        .filter-pill {
+            cursor: pointer;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .filter-pill.active {
+            background-color: #0284c7 !important;
+            color: #fff !important;
+            border-color: #0284c7 !important;
+        }
+        .stat-badge-mini {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
@@ -18,105 +44,1194 @@
             <a class="navbar-brand" href="../home.html">
                 <i class="fas fa-arrow-left me-2"></i> Course Dashboard
             </a>
-            <span class="badge bg-warning text-dark px-3 py-2 fw-bold">Exam & Assignment Practice Bank</span>
+            <span class="badge bg-warning text-dark px-3 py-2 fw-bold">IITM BS &bull; Deep-ML &bull; LeetCode</span>
         </div>
     </nav>
 
-    <div class="container my-5" style="max-width: 1050px;">
-        <h1 class="display-6 fw-bold mb-2">Practice Problems & Step-by-Step Solutions</h1>
-        <p class="text-muted mb-4">
-            Rigorous mathematical problems covering Linear Algebra, Calculus, Optimization, and Probability for Machine Learning with verified Python solutions.
-        </p>
+    <div class="container my-5" style="max-width: 1100px;">
+        <div class="mb-4">
+            <h1 class="display-6 fw-bold mb-2">Practice Portal & Exam Question Bank</h1>
+            <p class="lead text-muted">
+                Curated collection of <strong>IIT Madras BS Graded Assignments & Quizzes</strong>, hands-on coding challenges from <strong>Deep-ML</strong>, and algorithmic math problems from <strong>LeetCode</strong>.
+            </p>
+        </div>
 
-        <!-- Problem 1 -->
-        <div class="card mb-4 border-0 shadow-sm">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3">
-                <h5 class="mb-0 fw-bold"><i class="fas fa-pen-fancy me-2 text-info"></i> Problem 1: Least Squares Orthogonal Projection</h5>
-                <span class="badge bg-primary">Linear Algebra (Week 3)</span>
+        <!-- Metric Counter Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="stat-badge-mini">
+                    <h3 class="fw-bold mb-0 text-primary" id="totalQuestionsCount">30</h3>
+                    <small class="text-muted text-uppercase fw-semibold">Curated Questions</small>
+                </div>
             </div>
-            <div class="card-body p-4">
-                <p class="fw-semibold">
-                    Given the matrix $A = \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix}$ and target vector $b = \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix}$, find:
-                </p>
-                <ol>
-                    <li>The least squares solution $\hat{x}$ minimizing $\|Ax - b\|_2^2$.</li>
-                    <li>The projection vector $p$ of $b$ onto the column space $\text{Col}(A)$.</li>
-                    <li>Verify that the error vector $e = b - p$ is orthogonal to $\text{Col}(A)$.</li>
-                </ol>
-
-                <div class="alert alert-light border mt-3">
-                    <h6 class="fw-bold text-success"><i class="fas fa-check-circle me-1"></i> Complete Solution:</h6>
-                    <p><strong>Step 1: Compute $A^T A$ and $A^T b$:</strong></p>
-                    $$A^T A = \begin{bmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & 1 \\ 1 & 1 \end{bmatrix} = \begin{bmatrix} 2 & 1 \\ 1 & 2 \end{bmatrix}$$
-                    $$A^T b = \begin{bmatrix} 1 & 0 & 1 \\ 0 & 1 & 1 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \\ 0 \end{bmatrix} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
-                    <p><strong>Step 2: Solve Normal Equations $(A^T A)\hat{x} = A^T b$:</strong></p>
-                    $$\hat{x} = (A^T A)^{-1} A^T b = \frac{1}{3} \begin{bmatrix} 2 & -1 \\ -1 & 2 \end{bmatrix} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \begin{bmatrix} 1/3 \\ 1/3 \end{bmatrix}$$
-                    <p><strong>Step 3: Projection $p$ and Error $e$:</strong></p>
-                    $$p = A\hat{x} = \begin{bmatrix} 1/3 \\ 1/3 \\ 2/3 \end{bmatrix}, \quad e = b - p = \begin{bmatrix} 1 - 1/3 \\ 1 - 1/3 \\ 0 - 2/3 \end{bmatrix} = \begin{bmatrix} 2/3 \\ 2/3 \\ -2/3 \end{bmatrix}$$
-                    <p class="mb-0"><strong>Orthogonality Verification:</strong> $A^T e = \begin{bmatrix} 2/3 - 2/3 \\ 2/3 - 2/3 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix}$. Thus $e \perp \text{Col}(A)$.</p>
+            <div class="col-md-3 col-6">
+                <div class="stat-badge-mini">
+                    <h3 class="fw-bold mb-0 text-primary">12</h3>
+                    <small class="text-muted text-uppercase fw-semibold">Weekly Modules</small>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-badge-mini">
+                    <h3 class="fw-bold mb-0 text-success">Deep-ML</h3>
+                    <small class="text-muted text-uppercase fw-semibold">Hands-on ML Code</small>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-badge-mini">
+                    <h3 class="fw-bold mb-0 text-warning">LeetCode</h3>
+                    <small class="text-muted text-uppercase fw-semibold">Algorithmic Math</small>
                 </div>
             </div>
         </div>
 
-        <!-- Problem 2 -->
-        <div class="card mb-4 border-0 shadow-sm">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3">
-                <h5 class="mb-0 fw-bold"><i class="fas fa-pen-fancy me-2 text-info"></i> Problem 2: PCA Variance Maximization via Rayleigh Quotient</h5>
-                <span class="badge bg-primary">Dimensionality Reduction (Week 7)</span>
+        <!-- Filter Controls Card -->
+        <div class="card mb-5 border-0 shadow-sm p-4 bg-white">
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold small text-muted text-uppercase">Search by Keyword</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light"><i class="fas fa-search text-muted"></i></span>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search (e.g., SVD, PCA, Normal Equation, Bayes, Convexity)...">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold small text-muted text-uppercase">Filter by Platform</label>
+                    <div class="d-flex gap-2 flex-wrap" id="platformFilter">
+                        <button class="btn btn-outline-secondary btn-sm filter-pill active" data-filter="platform" data-val="all">All</button>
+                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="platform" data-val="iitm">🎓 IITM BS Exam</button>
+                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="platform" data-val="deepml">🤖 Deep-ML</button>
+                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="platform" data-val="leetcode">💻 LeetCode</button>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-4">
-                <p class="fw-semibold">
-                    Let sample covariance matrix be $\Sigma = \begin{bmatrix} 5 & 2 \\ 2 & 2 \end{bmatrix}$. Find the first principal component direction $u_1$ and the percentage of total variance it explains.
-                </p>
 
-                <div class="alert alert-light border mt-3">
-                    <h6 class="fw-bold text-success"><i class="fas fa-check-circle me-1"></i> Complete Solution:</h6>
-                    <p><strong>Step 1: Characteristic equation $\det(\Sigma - \lambda I) = 0$:</strong></p>
-                    $$(5 - \lambda)(2 - \lambda) - 4 = \lambda^2 - 7\lambda + 6 = (\lambda - 6)(\lambda - 1) = 0 \implies \lambda_1 = 6, \; \lambda_2 = 1$$
-                    <p><strong>Step 2: Eigenvector for $\lambda_1 = 6$:</strong></p>
-                    $$(\Sigma - 6I)v = \begin{bmatrix} -1 & 2 \\ 2 & -4 \end{bmatrix} \begin{bmatrix} v_1 \\ v_2 \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \implies -v_1 + 2v_2 = 0 \implies v = \begin{bmatrix} 2 \\ 1 \end{bmatrix}$$
-                    <p>Normalized unit vector: $u_1 = \frac{1}{\sqrt{5}} \begin{bmatrix} 2 \\ 1 \end{bmatrix}$.</p>
-                    <p class="mb-0"><strong>Explained Variance:</strong> $\frac{\lambda_1}{\lambda_1 + \lambda_2} = \frac{6}{6 + 1} = \frac{6}{7} \approx 85.71\%$.</p>
+            <div class="row g-3">
+                <div class="col-md-12">
+                    <label class="form-label fw-bold small text-muted text-uppercase">Filter by Week</label>
+                    <div class="d-flex gap-2 flex-wrap" id="weekFilter">
+                        <button class="btn btn-outline-secondary btn-sm filter-pill active" data-filter="week" data-val="all">All Weeks</button>
+                        <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="1">Week 1</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="2">Week 2</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="3">Week 3</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="4">Week 4</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="5">Week 5</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="6">Week 6</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="7">Week 7</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="8">Week 8</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="9">Week 9</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="10">Week 10</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="11">Week 11</button> <button class="btn btn-outline-secondary btn-sm filter-pill" data-filter="week" data-val="12">Week 12</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Problem 3 -->
-        <div class="card mb-4 border-0 shadow-sm">
-            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-3">
-                <h5 class="mb-0 fw-bold"><i class="fas fa-pen-fancy me-2 text-info"></i> Problem 3: Karush-Kuhn-Tucker (KKT) Optimality</h5>
-                <span class="badge bg-primary">Optimization & Duality (Week 10)</span>
+        <!-- Problem Cards Container -->
+        <div id="problemsContainer">
+            
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="1" data-platform="iitm" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 1</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Vector Spaces & Dimensionality Representation</h5>
             </div>
-            <div class="card-body p-4">
-                <p class="fw-semibold">
-                    Solve the constrained optimization problem:
-                    $$\min_{x_1, x_2} (x_1 - 1)^2 + (x_2 - 2)^2 \quad \text{subject to} \quad x_1 + x_2 \le 1, \; x_1 \ge 0, \; x_2 \ge 0$$
-                </p>
-
-                <div class="alert alert-light border mt-3">
-                    <h6 class="fw-bold text-success"><i class="fas fa-check-circle me-1"></i> Complete Solution:</h6>
-                    <p>Unconstrained minimum is at $(1, 2)$, which violates $x_1 + x_2 \le 1$ ($1+2 = 3 > 1$). Thus the constraint $x_1 + x_2 = 1$ is active at optimum.</p>
-                    <p>Lagrangian: $\mathcal{L}(x_1, x_2, \lambda) = (x_1 - 1)^2 + (x_2 - 2)^2 + \lambda (x_1 + x_2 - 1)$.</p>
-                    $$\frac{\partial \mathcal{L}}{\partial x_1} = 2(x_1 - 1) + \lambda = 0 \implies x_1 = 1 - \frac{\lambda}{2}$$
-                    $$\frac{\partial \mathcal{L}}{\partial x_2} = 2(x_2 - 2) + \lambda = 0 \implies x_2 = 2 - \frac{\lambda}{2}$$
-                    <p>Substitute into active constraint $x_1 + x_2 = 1$:</p>
-                    $$(1 - \lambda/2) + (2 - \lambda/2) = 1 \implies 3 - \lambda = 1 \implies \lambda = 2 > 0$$
-                    <p class="mb-0">Therefore: $x_1^* = 1 - 1 = 0$, and $x_2^* = 2 - 1 = 1$. The optimal point is $(0, 1)$ with minimum objective value $(0-1)^2 + (1-2)^2 = 2$.</p>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                The observation $[2, 4, -5]$ belongs to which of the following vector spaces?<br><strong>A.</strong> $\mathbb{R}$<br><strong>B.</strong> $\mathbb{R}^+$<br><strong>C.</strong> Both $\mathbb{R}^+$ and $\mathbb{R}^-$<br><strong>D.</strong> $\mathbb{R}^3$
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w1-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w1-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: D</strong><br><br><strong>Explanation:</strong> The vector $[2, 4, -5]^T$ contains 3 components, and every component is a real scalar. Therefore, $[2, 4, -5]^T \in \mathbb{R}^3$.
                 </div>
             </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="1" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 1</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Appropriate Loss Functions for Regression vs Classification</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Which of the following is <strong>NOT</strong> an appropriate choice of loss function for a regression problem?<br><strong>A.</strong> Mean Squared Error $L(y, \hat{y}) = (y - \hat{y})^2$<br><strong>B.</strong> Mean Absolute Error $L(y, \hat{y}) = |y - \hat{y}|$<br><strong>C.</strong> 0-1 Misclassification Loss $L(y, \hat{y}) = \mathbf{1}(y \neq \hat{y})$<br><strong>D.</strong> Huber Loss
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w1-iitm-2">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w1-iitm-2">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: C</strong><br><br><strong>Explanation:</strong> In regression, outputs are continuous real values ($y \in \mathbb{R}$). The 0-1 loss $\mathbf{1}(y \neq \hat{y})$ is designed for discrete categorical classification. Continuous targets almost never match predictions with infinite precision ($P(y = \hat{y}) = 0$), making 0-1 loss non-differentiable and non-informative for continuous regression.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="1" data-platform="deepml" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 1</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Linear Regression Using Normal Equation</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problem/linear-regression-using-normal-equation" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Implement linear regression using the closed-form normal equation: $\theta = (X^T X)^{-1} X^T y$. Handle the intercept bias term by augmenting $X$ with a column of ones.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w1-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w1-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import numpy as np
+
+def linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> list[float]:
+    X_arr = np.array(X)
+    y_arr = np.array(y)
+    # Augment with column of ones for intercept
+    X_b = np.c_[np.ones((len(X_arr), 1)), X_arr]
+    # Normal Equation: theta = (X^T @ X)^-1 @ X^T @ y
+    theta = np.linalg.inv(X_b.T @ X_b) @ X_b.T @ y_arr
+    return np.round(theta, 4).tolist()
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="2" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 2</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Continuity & Removable Singularities</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Which of the following functions is continuous at all points in $\mathbb{R}$?<br><strong>A.</strong> $f(x) = \frac{1}{x-1}$<br><strong>B.</strong> $f(x) = \frac{x^2 - 1}{x - 1}$<br><strong>C.</strong> $f(x) = \text{sign}(x - 2)$<br><strong>D.</strong> $f(x) = \sin(x)$
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w2-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w2-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: D</strong><br><br><strong>Explanation:</strong><br>&bull; Option A is undefined at $x = 1$ (vertical asymptote).<br>&bull; Option B has a removable discontinuity at $x = 1$ because the domain excludes $x = 1$. Even though $\lim_{x \to 1} \frac{x^2-1}{x-1} = 2$, $f(1)$ does not exist.<br>&bull; Option C has a jump discontinuity at $x = 2$.<br>&bull; $\sin(x)$ is continuous everywhere on $\mathbb{R}$.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="2" data-platform="iitm" data-difficulty="Hard">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 2</span>
+                <span class="badge bg-danger">Hard</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Multivariate Gradient & Tangent Hyperplane</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Find the equation of the tangent hyperplane to the surface $f(x_1, x_2) = x_1^2 + 3 x_1 x_2 - x_2^2$ at the point $x_0 = (1, 2)$.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w2-iitm-2">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w2-iitm-2">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Solution:</strong><br>1. Value at point: $f(1, 2) = 1^2 + 3(1)(2) - 2^2 = 1 + 6 - 4 = 3$.<br>2. Partial derivatives:<br>$$\frac{\partial f}{\partial x_1} = 2 x_1 + 3 x_2 \implies \left.\frac{\partial f}{\partial x_1}\right|_{(1, 2)} = 2(1) + 3(2) = 8$$<br>$$\frac{\partial f}{\partial x_2} = 3 x_1 - 2 x_2 \implies \left.\frac{\partial f}{\partial x_2}\right|_{(1, 2)} = 3(1) - 2(2) = -1$$<br>3. Tangent Hyperplane equation: $z = f(x_0) + \nabla f(x_0)^T (x - x_0)$<br>$$z = 3 + 8(x_1 - 1) - 1(x_2 - 2) = 8 x_1 - x_2 - 3$$
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="2" data-platform="leetcode" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-warning text-dark"><i class="fas fa-tag me-1"></i> LeetCode</span>
+                <span class="badge bg-secondary">Week 2</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">LeetCode 69: Sqrt(x) (Newton-Raphson Optimization)</h5>
+            </div>
+            <div>
+                <a href="https://leetcode.com/problems/sqrtx/" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on LeetCode</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Given a non-negative integer $x$, compute and return the integer square root $\lfloor \sqrt{x} \rfloor$. Use Newton-Raphson gradient optimization root-finding: $x_{k+1} = \frac{1}{2}(x_k + \frac{x}{x_k})$.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w2-lc-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w2-lc-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">class Solution:
+    def mySqrt(self, x: int) -> int:
+        if x < 2:
+            return x
+        r = x
+        # Newton-Raphson iteration
+        while r * r > x:
+            r = (r + x // r) // 2
+        return r
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="3" data-platform="iitm" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 3</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Euclidean Vector Length & Inner Product</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                1. What is the length of vector $v = [1, 2, -1]^T$?<br>2. Calculate the inner product $\langle a, b \rangle$ between $a = [1, 2, 3]^T$ and $b = [-1, 1, 5]^T$.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w3-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w3-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Solution:</strong><br>1. $\|v\| = \sqrt{1^2 + 2^2 + (-1)^2} = \sqrt{1 + 4 + 1} = \sqrt{6} \approx 2.449$.<br>2. $\langle a, b \rangle = (1)(-1) + (2)(1) + (3)(5) = -1 + 2 + 15 = 16$.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="3" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 3</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Rank-Nullity Theorem for Rectangular Matrices</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                If the rank of a $4 \times 3$ matrix $A$ is 1, what is the dimension of its null space $\text{Null}(A)$?<br><strong>A.</strong> 3<br><strong>B.</strong> 1<br><strong>C.</strong> 2<br><strong>D.</strong> 4
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w3-iitm-2">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w3-iitm-2">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: C</strong><br><br><strong>Explanation:</strong> By the Rank-Nullity Theorem: $\text{rank}(A) + \text{dim}(\text{Null}(A)) = n$, where $n$ is the number of columns. Here $A \in \mathbb{R}^{4 \times 3} \implies n = 3$.<br>Given $\text{rank}(A) = 1$, we have: $1 + \text{dim}(\text{Null}(A)) = 3 \implies \text{dim}(\text{Null}(A)) = 2$.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="3" data-platform="deepml" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 3</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Matrix-Vector Dot Product</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problem/matrix-vector-dot-product" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Write a Python function that computes the dot product of a matrix and a vector without external libraries.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w3-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w3-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">def matrix_dot_vector(a: list[list[int|float]], b: list[int|float]) -> list[int|float]:
+    if len(a[0]) != len(b):
+        return -1
+    result = []
+    for row in a:
+        dot = sum(row[i] * b[i] for i in range(len(b)))
+        result.append(dot)
+    return result
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="3" data-platform="leetcode" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-warning text-dark"><i class="fas fa-tag me-1"></i> LeetCode</span>
+                <span class="badge bg-secondary">Week 3</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">LeetCode 867: Transpose Matrix</h5>
+            </div>
+            <div>
+                <a href="https://leetcode.com/problems/transpose-matrix/" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on LeetCode</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Given a 2D integer array `matrix`, return the transpose of `matrix` where the rows become columns.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w3-lc-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w3-lc-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">class Solution:
+    def transpose(self, matrix: list[list[int]]) -> list[list[int]]:
+        R, C = len(matrix), len(matrix[0])
+        return [[matrix[r][c] for r in range(R)] for c in range(C)]
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="4" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 4</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Eigenvalues of Projection Matrices</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                If $P$ is an orthogonal projection matrix, what is the eigenvalue corresponding to any non-zero vector $v$ orthogonal to the column space $\text{Col}(P)$?<br><strong>A.</strong> 0<br><strong>B.</strong> 1<br><strong>C.</strong> -1<br><strong>D.</strong> Undefined
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w4-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w4-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: A</strong><br><br><strong>Explanation:</strong> Any vector $v$ orthogonal to $\text{Col}(P)$ lies in the left null space $\text{Null}(P)$. Therefore, $P v = 0 = 0 \cdot v$. Thus, the eigenvalue is strictly $\lambda = 0$. (Recall that all projection matrices satisfy $P^2 = P$, so their eigenvalues can only be $0$ or $1$).
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="4" data-platform="iitm" data-difficulty="Hard">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 4</span>
+                <span class="badge bg-danger">Hard</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Characteristic Polynomial & Invariant Properties</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Which of the following operations changes the eigenvalues of a matrix?<br><strong>A.</strong> Multiplying the determinant by a constant<br><strong>B.</strong> Subtracting a multiple of one row from another (elementary row operations)<br><strong>C.</strong> Transposing the matrix ($A^T$)<br><strong>D.</strong> Similarity transformation ($P A P^{-1}$)
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w4-iitm-2">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w4-iitm-2">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: B</strong><br><br><strong>Explanation:</strong> Elementary row operations preserve the row space and determinant (for row additions), but they change the eigenvalues! Conversely, $A$ and $A^T$ have identical eigenvalues ($\det(A - \lambda I) = \det((A - \lambda I)^T)$), and similarity transformations $P A P^{-1}$ preserve eigenvalues.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="4" data-platform="deepml" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 4</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Calculate Eigenvalues of a 2x2 Matrix</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problem/calculate-eigenvalues-of-a-matrix" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Given a $2 \times 2$ matrix, return its eigenvalues by solving the characteristic equation: $\lambda^2 - \text{Tr}(A)\lambda + \det(A) = 0$.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w4-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w4-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">def calculate_eigenvalues(matrix: list[list[float]]) -> list[float]:
+    a, b = matrix[0][0], matrix[0][1]
+    c, d = matrix[1][0], matrix[1][1]
+    trace = a + d
+    det = a * d - b * c
+    discriminant = (trace**2 - 4 * det)**0.5
+    lambda1 = (trace + discriminant) / 2
+    lambda2 = (trace - discriminant) / 2
+    return [round(lambda1, 4), round(lambda2, 4)]
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="4" data-platform="leetcode" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-warning text-dark"><i class="fas fa-tag me-1"></i> LeetCode</span>
+                <span class="badge bg-secondary">Week 4</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">LeetCode 50: Pow(x, n) (Matrix Exponentiation Core)</h5>
+            </div>
+            <div>
+                <a href="https://leetcode.com/problems/powx-n/" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on LeetCode</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Implement binary exponentiation to compute $x^n$ in $O(\log n)$ time. This is identical to the method used to compute high matrix powers $A^k = P \Lambda^k P^{-1}$.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w4-lc-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w4-lc-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">class Solution:
+    def myPow(self, x: float, n: int) -> float:
+        if n < 0:
+            x = 1 / x
+            n = -n
+        res = 1.0
+        curr = x
+        while n > 0:
+            if n % 2 == 1:
+                res *= curr
+            curr *= curr
+            n //= 2
+        return res
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="5" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 5</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Inner Product Symmetry in Complex Spaces</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Consider non-zero vectors $x, y \in \mathbb{C}^n$. When does the inner product obey commutative symmetry (i.e. $\langle x, y \rangle = \langle y, x \rangle$)?<br><strong>A.</strong> Only when $y = x^*$<br><strong>B.</strong> When $y = x$<br><strong>C.</strong> When $x$ and $y$ are orthogonal ($\langle x, y \rangle = 0$)<br><strong>D.</strong> Both B and C
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w5-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w5-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: D</strong><br><br><strong>Explanation:</strong> In $\mathbb{C}^n$, $\langle x, y \rangle = \overline{\langle y, x \rangle}$. The relation $\langle x, y \rangle = \langle y, x \rangle$ holds if and only if the inner product is strictly real. When $x = y$, $\langle x, x \rangle = \|x\|^2 \in \mathbb{R}$. When $x \perp y$, $\langle x, y \rangle = 0 = \langle y, x \rangle$.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="5" data-platform="iitm" data-difficulty="Hard">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 5</span>
+                <span class="badge bg-danger">Hard</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Spectral Theorem for 3x3 Symmetric Matrices</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Find the eigenvalues of the symmetric matrix $A = \begin{bmatrix} 2 & -1 & 1 \\ -1 & 2 & -1 \\ 1 & -1 & 2 \end{bmatrix}$ using its trace, principal minors, and determinant.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w5-iitm-2">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w5-iitm-2">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Solution:</strong><br>1. Trace: $\text{Tr}(A) = 2 + 2 + 2 = 6$.<br>2. Sum of leading principal minors:<br>$$M_{11} = \det\begin{bmatrix}2 & -1 \\ -1 & 2\end{bmatrix} = 3, \quad M_{22} = \det\begin{bmatrix}2 & 1 \\ 1 & 2\end{bmatrix} = 3, \quad M_{33} = \det\begin{bmatrix}2 & -1 \\ -1 & 2\end{bmatrix} = 3$$<br>Sum $= 3 + 3 + 3 = 9$.<br>3. Determinant: $\det(A) = 2(3) - (-1)(-1) + 1(-1) = 6 - 1 - 1 = 4$.<br>4. Characteristic equation: $\lambda^3 - 6\lambda^2 + 9\lambda - 4 = 0$.<br>Factoring: $(\lambda - 1)^2(\lambda - 4) = 0 \implies \lambda = 4, 1, 1$.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="6" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 6</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Positive Definiteness via Sylvester's Criterion</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Let $A = \begin{bmatrix} 4 & 2 \\ 2 & 2 \end{bmatrix}$ and $B = \begin{bmatrix} 1 & 1 \\ 1 & 2 \end{bmatrix}$. Prove whether $A + B$ is positive definite.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w6-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w6-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Solution:</strong><br>1. Check $A$: $a = 4 > 0$, $\det(A) = 4(2) - 2^2 = 4 > 0$. Thus $A \succ 0$.<br>2. Check $B$: $a = 1 > 0$, $\det(B) = 1(2) - 1^2 = 1 > 0$. Thus $B \succ 0$.<br>3. Matrix sum: $A + B = \begin{bmatrix} 5 & 3 \\ 3 & 4 \end{bmatrix}$.<br>Leading minor $a = 5 > 0$, determinant $\det(A+B) = 5(4) - 3^2 = 11 > 0$.<br>Since all leading principal minors are strictly positive, $A + B$ is <strong>strictly positive definite</strong>.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="6" data-platform="deepml" data-difficulty="Hard">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 6</span>
+                <span class="badge bg-danger">Hard</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Singular Value Decomposition (SVD) of 2x2 Matrix</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problem/singular-value-decomposition-svd-of-2x2-matrix" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Write a function that calculates the Singular Value Decomposition (SVD) of a $2 \times 2$ matrix $A = U \Sigma V^T$ without high-level SVD libraries.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w6-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w6-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import numpy as np
+
+def svd_2x2(A: list[list[float]]):
+    A_mat = np.array(A, dtype=float)
+    ATA = A_mat.T @ A_mat
+    eigvals, V = np.linalg.eigh(ATA)
+    idx = np.argsort(eigvals)[::-1]
+    eigvals = np.maximum(eigvals[idx], 0.0)
+    V = V[:, idx]
+    sigma = np.sqrt(eigvals)
+    U = np.zeros_like(A_mat)
+    for i in range(len(sigma)):
+        if sigma[i] > 1e-12:
+            U[:, i] = (A_mat @ V[:, i]) / sigma[i]
+    return U.tolist(), sigma.tolist(), V.T.tolist()
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="7" data-platform="iitm" data-difficulty="Hard">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 7</span>
+                <span class="badge bg-danger">Hard</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Covariance Matrix & Principal Components (Complete IITM Graded Data Set)</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Consider 3 observational vectors: $x_1 = [0, 1, 2]^T$, $x_2 = [1, 1, 1]^T$, $x_3 = [2, 1, 0]^T$.<br>1. Compute the mean vector $\bar{x}$.<br>2. Compute the sample covariance matrix $\Sigma = \frac{1}{3} \sum_{i=1}^3 (x_i - \bar{x})(x_i - \bar{x})^T$.<br>3. Find the first principal component and the percentage of total variance it explains.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w7-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w7-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Solution:</strong><br>1. Mean: $\bar{x} = \frac{1}{3}([0, 1, 2]^T + [1, 1, 1]^T + [2, 1, 0]^T) = [1, 1, 1]^T$.<br>2. Centered vectors: $x_1 - \bar{x} = [-1, 0, 1]^T$, $x_2 - \bar{x} = [0, 0, 0]^T$, $x_3 - \bar{x} = [1, 0, -1]^T$.<br>Outer products: $\begin{bmatrix}1 & 0 & -1 \\ 0 & 0 & 0 \\ -1 & 0 & 1\end{bmatrix} + \mathbf{0} + \begin{bmatrix}1 & 0 & -1 \\ 0 & 0 & 0 \\ -1 & 0 & 1\end{bmatrix} = \begin{bmatrix}2 & 0 & -2 \\ 0 & 0 & 0 \\ -2 & 0 & 2\end{bmatrix}$.<br>$$\Sigma = \frac{1}{3} \begin{bmatrix}2 & 0 & -2 \\ 0 & 0 & 0 \\ -2 & 0 & 2\end{bmatrix} = \begin{bmatrix}0.67 & 0 & -0.67 \\ 0 & 0 & 0 \\ -0.67 & 0 & 0.67\end{bmatrix}$$<br>3. Eigenvalues: $\lambda_1 = 4/3 \approx 1.33$, $\lambda_2 = 0, \lambda_3 = 0$.<br>Unit Eigenvector: $u_1 = \frac{1}{\sqrt{2}} [1, 0, -1]^T$.<br><strong>Explained Variance:</strong> $\frac{1.33}{1.33 + 0 + 0} = \mathbf{100\%}$!
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="7" data-platform="deepml" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 7</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Calculate Covariance Matrix</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problem/covariance-matrix" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Write a Python function to calculate the covariance matrix of a dataset $X \in \mathbb{R}^{N \times D}$ using vectorization.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w7-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w7-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import numpy as np
+
+def calculate_covariance_matrix(vectors: list[list[float]]) -> list[list[float]]:
+    X = np.array(vectors)
+    mean = np.mean(X, axis=0)
+    X_centered = X - mean
+    N = len(X)
+    cov = (X_centered.T @ X_centered) / (N - 1)
+    return cov.tolist()
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="8" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 8</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Distance Minimization to a Parabola</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Find the point(s) on the parabola $y = x^2 + 1$ closest to the point $(0, 2)$.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w8-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w8-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Solution:</strong><br>Objective: minimize squared Euclidean distance:<br>$$f(x) = (x - 0)^2 + (x^2 + 1 - 2)^2 = x^2 + (x^2 - 1)^2 = x^4 - x^2 + 1$$<br>Derivative: $f'(x) = 4x^3 - 2x = 2x(2x^2 - 1) = 0$.<br>Critical points: $x = 0$, and $x = \pm \frac{1}{\sqrt{2}} \approx \pm 0.707$.<br>Second derivative $f''(x) = 12x^2 - 2$:<br>&bull; At $x = 0$: $f''(0) = -2 < 0$ (local maximum).<br>&bull; At $x = \pm 0.707$: $f'' = 12(0.5) - 2 = 4 > 0$ (local minima).<br>Corresponding $y = (\pm 1/\sqrt{2})^2 + 1 = 1.5$.<br>The closest points are $\mathbf{(0.707, 1.5)}$ and $\mathbf{(-0.707, 1.5)}$.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="8" data-platform="deepml" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 8</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Linear Regression Using Gradient Descent</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problem/linear-regression-using-gradient-descent" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Implement batch gradient descent for simple linear regression to minimize Mean Squared Error over $E$ epochs.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w8-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w8-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import numpy as np
+
+def linear_regression_gradient_descent(X: list[list[float]], y: list[float], lr: float, epochs: int):
+    X_mat = np.array(X)
+    y_vec = np.array(y)
+    m, n = X_mat.shape
+    w = np.zeros(n)
+    for _ in range(epochs):
+        preds = X_mat @ w
+        grad = (2 / m) * X_mat.T @ (preds - y_vec)
+        w -= lr * grad
+    return np.round(w, 4).tolist()
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="9" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 9</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Convex Hull Membership Verification</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Points $(0, 0), (5, 0), (5, 5), (0, 5)$ form a convex hull. Which of the following points is inside this convex hull?<br><strong>A.</strong> $(1, 1)$<br><strong>B.</strong> $(1, -1)$<br><strong>C.</strong> $(-1, 1)$<br><strong>D.</strong> $(-1, -1)$
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w9-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w9-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: A</strong><br><br><strong>Explanation:</strong> The convex hull of the four points forms the closed square $[0, 5] \times [0, 5]$. A point $(x, y)$ belongs to the convex hull if and only if $0 \le x \le 5$ and $0 \le y \le 5$. Point $(1, 1)$ satisfies both conditions, whereas all other options have negative coordinates.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="9" data-platform="leetcode" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-warning text-dark"><i class="fas fa-tag me-1"></i> LeetCode</span>
+                <span class="badge bg-secondary">Week 9</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">LeetCode 852: Peak Index in a Mountain Array</h5>
+            </div>
+            <div>
+                <a href="https://leetcode.com/problems/peak-index-in-a-mountain-array/" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on LeetCode</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                A mountain array increases strictly to a peak and then decreases strictly (strictly concave profile). Find the index of the peak element in $O(\log n)$ using ternary search / binary search.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w9-lc-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w9-lc-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">class Solution:
+    def peakIndexInMountainArray(self, arr: list[int]) -> int:
+        low, high = 0, len(arr) - 1
+        while low < high:
+            mid = (low + high) // 2
+            if arr[mid] < arr[mid + 1]:
+                low = mid + 1
+            else:
+                high = mid
+        return low
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="10" data-platform="iitm" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 10</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Monotonicity & First Derivative Test</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                At point $x = 2$, is the function $f(x) = x e^{-3x}$ increasing or decreasing?<br><strong>A.</strong> Increasing<br><strong>B.</strong> Decreasing
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w10-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w10-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Correct Option: B</strong><br><br><strong>Explanation:</strong> Product rule derivative: $f'(x) = 1 \cdot e^{-3x} + x(-3 e^{-3x}) = e^{-3x}(1 - 3x)$.<br>Evaluate at $x = 2$: $f'(2) = e^{-6}(1 - 6) = -5 e^{-6} \approx -0.0124 < 0$.<br>Since the first derivative is strictly negative, $f(x)$ is strictly <strong>decreasing</strong> at $x = 2$.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="10" data-platform="deepml" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 10</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">K-Means Clustering</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problem/k-means-clustering" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Implement the k-Means clustering algorithm using alternating optimization: assign points to nearest centroid, then recompute cluster centroids as means.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w10-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w10-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import numpy as np
+
+def k_means_clustering(points: list[list[float]], k: int, initial_centroids: list[list[float]], max_iterations: int):
+    X = np.array(points)
+    centroids = np.array(initial_centroids)
+    for _ in range(max_iterations):
+        dists = np.linalg.norm(X[:, None] - centroids[None, :], axis=2)
+        labels = np.argmin(dists, axis=1)
+        new_centroids = np.array([X[labels == j].mean(axis=0) if np.any(labels == j) else centroids[j] for j in range(k)])
+        if np.allclose(centroids, new_centroids):
+            break
+        centroids = new_centroids
+    return np.round(centroids, 4).tolist()
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="11" data-platform="iitm" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 11</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Continuous PDF Normalization & Interval Probability (Messi Problem)</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                The number of hours Messi spends practicing in ground is modeled by continuous RV $X$ with PDF $f_X(x) = a(x - 1)(6 - x)$ for $1 < x < 6$, and $0$ otherwise.<br>1. Determine the normalization constant $a$.<br>2. Find the probability $P(2 \le X \le 5)$.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w11-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w11-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Solution:</strong><br>1. Normalization $\int_1^6 f(x)dx = 1$:<br>$$\int_1^6 a(-x^2 + 7x - 6) dx = a \left[ -\frac{x^3}{3} + \frac{7x^2}{2} - 6x \right]_1^6 = a \left( 18 - \left(-\frac{17}{6}\right) \right) = a \left( \frac{125}{6} \right) = 1 \implies a = \frac{6}{125} = 0.048$$<br>2. Interval probability $P(2 \le X \le 5)$:<br>$$P(2 \le X \le 5) = \frac{6}{125} \int_2^5 (-x^2 + 7x - 6) dx = \frac{6}{125} \left[ -\frac{x^3}{3} + \frac{7x^2}{2} - 6x \right]_2^5 = \frac{6}{125} \left( \frac{50}{3} \right) = \mathbf{0.80}$$
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="11" data-platform="leetcode" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-warning text-dark"><i class="fas fa-tag me-1"></i> LeetCode</span>
+                <span class="badge bg-secondary">Week 11</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">LeetCode 528: Random Pick with Weight</h5>
+            </div>
+            <div>
+                <a href="https://leetcode.com/problems/random-pick-with-weight/" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on LeetCode</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Given an array of positive integers `w` representing probabilities, pick an index randomly proportional to its weight using cumulative distribution function (CDF) sampling.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w11-lc-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w11-lc-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import random
+import bisect
+
+class Solution:
+    def __init__(self, w: list[int]):
+        self.prefix_sums = []
+        curr = 0
+        for weight in w:
+            curr += weight
+            self.prefix_sums.append(curr)
+        self.total = curr
+
+    def pickIndex(self) -> int:
+        target = random.randint(1, self.total)
+        return bisect.bisect_left(self.prefix_sums, target)
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="12" data-platform="iitm" data-difficulty="Hard">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-primary"><i class="fas fa-tag me-1"></i> IITM BS Exam</span>
+                <span class="badge bg-secondary">Week 12</span>
+                <span class="badge bg-danger">Hard</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Maximum Likelihood for Gaussian Parameters</h5>
+            </div>
+            <div>
+                
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Given independent 1D observations $\{x_1, x_2, \dots, x_N\} \sim \mathcal{N}(\mu, \sigma^2)$, derive the Maximum Likelihood Estimator (MLE) for mean $\mu$ and variance $\sigma^2$ and state whether the variance estimator is biased.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w12-iitm-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w12-iitm-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Solution:</strong><br>Log-likelihood:<br>$$\ln L(\mu, \sigma^2) = -\frac{N}{2}\ln(2\pi) - \frac{N}{2}\ln(\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^N (x_i - \mu)^2$$<br>1. $\frac{\partial \ln L}{\partial \mu} = \frac{1}{\sigma^2}\sum_{i=1}^N (x_i - \mu) = 0 \implies \hat{\mu}_{MLE} = \frac{1}{N}\sum_{i=1}^N x_i$. (Unbiased)<br>2. $\frac{\partial \ln L}{\partial (\sigma^2)} = -\frac{N}{2\sigma^2} + \frac{1}{2(\sigma^2)^2}\sum_{i=1}^N (x_i - \mu)^2 = 0 \implies \hat{\sigma}^2_{MLE} = \frac{1}{N}\sum_{i=1}^N (x_i - \hat{\mu})^2$.<br><strong>Bias:</strong> $\mathbb{E}[\hat{\sigma}^2_{MLE}] = \frac{N-1}{N} \sigma^2 \neq \sigma^2$, so the MLE variance is <strong>biased</strong> by factor $\frac{N-1}{N}$.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="12" data-platform="deepml" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 12</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Softmax Activation Function</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problem/softmax-activation" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Implement the numerically stable Softmax activation function: $\text{Softmax}(z)_i = \frac{e^{z_i - \max(z)}}{\sum_j e^{z_j - \max(z)}}$.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w12-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w12-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import numpy as np
+
+def softmax(scores: list[float]) -> list[float]:
+    z = np.array(scores)
+    exp_z = np.exp(z - np.max(z))
+    probs = exp_z / np.sum(exp_z)
+    return np.round(probs, 4).tolist()
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        </div>
+
+        <div id="noResults" class="alert alert-warning text-center py-4 d-none">
+            <i class="fas fa-search me-2"></i> No problems match your selected filters. Try clearing or searching another topic.
         </div>
 
     </div>
 
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- KaTeX JS -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
         onload="renderMathInElement(document.body, {
             delimiters: [
                 {left: '$$', right: '$$', display: true},
-                {left: '\\(', right: '\\)', display: false},
+                {left: '\(', right: '\)', display: false},
                 {left: '$', right: '$', display: false}
             ]
         });"></script>
+    <!-- Prism.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+    <!-- Interactive Filtering Script -->
+    <script>
+        let currentPlatform = 'all';
+        let currentWeek = 'all';
+        let searchKeyword = '';
+
+        const cards = document.querySelectorAll('.problem-card');
+        const noResults = document.getElementById('noResults');
+        const totalCount = document.getElementById('totalQuestionsCount');
+
+        // Check URL parameters for ?week=X
+        const urlParams = new URLSearchParams(window.location.search);
+        const weekParam = urlParams.get('week');
+        if (weekParam) {
+            currentWeek = weekParam;
+            const weekButtons = document.querySelectorAll('#weekFilter button');
+            weekButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('data-val') === weekParam);
+            });
+        }
+
+        function applyFilters() {
+            let visibleCount = 0;
+            cards.forEach(card => {
+                const cardWeek = card.getAttribute('data-week');
+                const cardPlatform = card.getAttribute('data-platform');
+                const cardText = card.innerText.toLowerCase();
+
+                const matchesWeek = (currentWeek === 'all' || cardWeek === currentWeek);
+                const matchesPlatform = (currentPlatform === 'all' || cardPlatform === currentPlatform);
+                const matchesSearch = (searchKeyword === '' || cardText.includes(searchKeyword));
+
+                if (matchesWeek && matchesPlatform && matchesSearch) {
+                    card.classList.remove('d-none');
+                    visibleCount++;
+                } else {
+                    card.classList.add('d-none');
+                }
+            });
+
+            noResults.classList.toggle('d-none', visibleCount > 0);
+            totalCount.innerText = visibleCount;
+        }
+
+        // Platform filter listener
+        document.querySelectorAll('#platformFilter button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('#platformFilter button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentPlatform = btn.getAttribute('data-val');
+                applyFilters();
+            });
+        });
+
+        // Week filter listener
+        document.querySelectorAll('#weekFilter button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('#weekFilter button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentWeek = btn.getAttribute('data-val');
+                applyFilters();
+            });
+        });
+
+        // Search input listener
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            searchKeyword = e.target.value.toLowerCase().trim();
+            applyFilters();
+        });
+
+        // Initial apply
+        applyFilters();
+    </script>
 </body>
 </html>
