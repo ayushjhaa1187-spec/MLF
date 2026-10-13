@@ -60,7 +60,7 @@
         <div class="row g-3 mb-4">
             <div class="col-md-3 col-6">
                 <div class="stat-badge-mini">
-                    <h3 class="fw-bold mb-0 text-primary" id="totalQuestionsCount">30</h3>
+                    <h3 class="fw-bold mb-0 text-primary" id="totalQuestionsCount">34</h3>
                     <small class="text-muted text-uppercase fw-semibold">Curated Questions</small>
                 </div>
             </div>
@@ -183,10 +183,10 @@
                 <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
                 <span class="badge bg-secondary">Week 1</span>
                 <span class="badge bg-info text-dark">Easy</span>
-                <h5 class="mb-0 fw-bold ms-2 text-dark">Linear Regression Using Normal Equation</h5>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #14: Linear Regression Using Normal Equation</h5>
             </div>
             <div>
-                <a href="https://www.deep-ml.com/problem/linear-regression-using-normal-equation" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+                <a href="https://www.deep-ml.com/problems/14" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
             </div>
         </div>
         <div class="card-body p-4">
@@ -304,7 +304,6 @@ def linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> l
         if x < 2:
             return x
         r = x
-        # Newton-Raphson iteration
         while r * r > x:
             r = (r + x // r) // 2
         return r
@@ -378,15 +377,15 @@ def linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> l
                 <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
                 <span class="badge bg-secondary">Week 3</span>
                 <span class="badge bg-info text-dark">Easy</span>
-                <h5 class="mb-0 fw-bold ms-2 text-dark">Matrix-Vector Dot Product</h5>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #1: Matrix-Vector Dot Product</h5>
             </div>
             <div>
-                <a href="https://www.deep-ml.com/problem/matrix-vector-dot-product" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+                <a href="https://www.deep-ml.com/problems/1" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
             </div>
         </div>
         <div class="card-body p-4">
             <div class="problem-statement mb-3 fs-6">
-                Write a Python function that computes the dot product of a matrix and a vector without external libraries.
+                Write a Python function that computes the dot product of a matrix and a vector. Return -1 if the dimensions do not match.
             </div>
             
             <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w3-deepml-1">
@@ -404,6 +403,59 @@ def linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> l
         dot = sum(row[i] * b[i] for i in range(len(b)))
         result.append(dot)
     return result
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="3" data-platform="deepml" data-difficulty="Medium">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 3</span>
+                <span class="badge bg-primary">Medium</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #48: Reduced Row Echelon Form (RREF)</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problems/48" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Implement Gaussian Elimination to compute the Reduced Row Echelon Form (RREF) of a matrix to find basic columns and null space bases.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w3-deepml-2">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w3-deepml-2">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import numpy as np
+
+def rref(matrix: list[list[float]]) -> list[list[float]]:
+    A = np.array(matrix, dtype=float)
+    rows, cols = A.shape
+    r = 0
+    for c in range(cols):
+        if r >= rows:
+            break
+        # Find pivot
+        pivot = np.argmax(np.abs(A[r:, c])) + r
+        if np.isclose(A[pivot, c], 0):
+            continue
+        # Swap
+        A[[r, pivot]] = A[[pivot, r]]
+        # Normalize pivot row
+        A[r] /= A[r, c]
+        # Eliminate column
+        for i in range(rows):
+            if i != r:
+                A[i] -= A[i, c] * A[r]
+        r += 1
+    return np.round(A, 4).tolist()
 </code></pre>
                 </div>
             </div>
@@ -508,15 +560,15 @@ def linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> l
                 <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
                 <span class="badge bg-secondary">Week 4</span>
                 <span class="badge bg-primary">Medium</span>
-                <h5 class="mb-0 fw-bold ms-2 text-dark">Calculate Eigenvalues of a 2x2 Matrix</h5>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #6: Calculate Eigenvalues of a 2x2 Matrix</h5>
             </div>
             <div>
-                <a href="https://www.deep-ml.com/problem/calculate-eigenvalues-of-a-matrix" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+                <a href="https://www.deep-ml.com/problems/6" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
             </div>
         </div>
         <div class="card-body p-4">
             <div class="problem-statement mb-3 fs-6">
-                Given a $2 \times 2$ matrix, return its eigenvalues by solving the characteristic equation: $\lambda^2 - \text{Tr}(A)\lambda + \det(A) = 0$.
+                Given a $2 \times 2$ matrix, return its eigenvalues sorted in descending order by solving the characteristic equation: $\lambda^2 - \text{Tr}(A)\lambda + \det(A) = 0$.
             </div>
             
             <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w4-deepml-1">
@@ -534,7 +586,39 @@ def linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> l
     discriminant = (trace**2 - 4 * det)**0.5
     lambda1 = (trace + discriminant) / 2
     lambda2 = (trace - discriminant) / 2
-    return [round(lambda1, 4), round(lambda2, 4)]
+    return sorted([round(float(lambda1), 4), round(float(lambda2), 4)], reverse=True)
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="4" data-platform="deepml" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 4</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #32: Generate Sorted Polynomial Features</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problems/32" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Generate non-linear polynomial features $\phi(x) = [1, x, x^2, \dots, x^d]$ for polynomial curve fitting.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w4-deepml-2">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w4-deepml-2">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">def polynomial_features(x: list[float], degree: int) -> list[list[float]]:
+    return [[val**d for d in range(degree + 1)] for val in x]
 </code></pre>
                 </div>
             </div>
@@ -642,6 +726,42 @@ def linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> l
         </div>
     </div>
     
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="5" data-platform="deepml" data-difficulty="Easy">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 5</span>
+                <span class="badge bg-info text-dark">Easy</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #35: Convert Vector to Diagonal Matrix</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problems/35" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Given a vector of eigenvalues, convert it into a square diagonal matrix $\Lambda = \text{diag}(\lambda_1, \dots, \lambda_n)$ for spectral decomposition.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w5-deepml-1">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w5-deepml-1">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">def make_diagonal(x: list[float]) -> list[list[float]]:
+    n = len(x)
+    diag = [[0.0] * n for _ in range(n)]
+    for i in range(n):
+        diag[i][i] = float(x[i])
+    return diag
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="problem-card card mb-4 border-0 shadow-sm" data-week="6" data-platform="iitm" data-difficulty="Medium">
         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
             <div class="d-flex align-items-center gap-2 flex-wrap">
@@ -677,10 +797,10 @@ def linear_regression_normal_equation(X: list[list[float]], y: list[float]) -> l
                 <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
                 <span class="badge bg-secondary">Week 6</span>
                 <span class="badge bg-danger">Hard</span>
-                <h5 class="mb-0 fw-bold ms-2 text-dark">Singular Value Decomposition (SVD) of 2x2 Matrix</h5>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #12: Singular Value Decomposition (SVD) of 2x2 Matrix</h5>
             </div>
             <div>
-                <a href="https://www.deep-ml.com/problem/singular-value-decomposition-svd-of-2x2-matrix" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+                <a href="https://www.deep-ml.com/problems/12" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
             </div>
         </div>
         <div class="card-body p-4">
@@ -751,15 +871,15 @@ def svd_2x2(A: list[list[float]]):
                 <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
                 <span class="badge bg-secondary">Week 7</span>
                 <span class="badge bg-primary">Medium</span>
-                <h5 class="mb-0 fw-bold ms-2 text-dark">Calculate Covariance Matrix</h5>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #19: Principal Component Analysis (PCA) Implementation</h5>
             </div>
             <div>
-                <a href="https://www.deep-ml.com/problem/covariance-matrix" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+                <a href="https://www.deep-ml.com/problems/19" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
             </div>
         </div>
         <div class="card-body p-4">
             <div class="problem-statement mb-3 fs-6">
-                Write a Python function to calculate the covariance matrix of a dataset $X \in \mathbb{R}^{N \times D}$ using vectorization.
+                Implement PCA dimensionality reduction from scratch in Python: center data, compute covariance matrix, compute eigenvectors, and project data to $k$ dimensions.
             </div>
             
             <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w7-deepml-1">
@@ -771,13 +891,16 @@ def svd_2x2(A: list[list[float]]):
                     <strong>Python Solution:</strong>
 <pre><code class="language-python">import numpy as np
 
-def calculate_covariance_matrix(vectors: list[list[float]]) -> list[list[float]]:
-    X = np.array(vectors)
-    mean = np.mean(X, axis=0)
-    X_centered = X - mean
-    N = len(X)
-    cov = (X_centered.T @ X_centered) / (N - 1)
-    return cov.tolist()
+def pca(data: list[list[float]], k: int) -> list[list[float]]:
+    X = np.array(data)
+    X_centered = X - np.mean(X, axis=0)
+    cov = np.cov(X_centered, rowvar=False)
+    eigvals, eigvecs = np.linalg.eigh(cov)
+    # Sort descending
+    top_indices = np.argsort(eigvals)[::-1][:k]
+    components = eigvecs[:, top_indices]
+    projected = X_centered @ components
+    return np.round(projected, 4).tolist()
 </code></pre>
                 </div>
             </div>
@@ -819,15 +942,15 @@ def calculate_covariance_matrix(vectors: list[list[float]]) -> list[list[float]]
                 <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
                 <span class="badge bg-secondary">Week 8</span>
                 <span class="badge bg-info text-dark">Easy</span>
-                <h5 class="mb-0 fw-bold ms-2 text-dark">Linear Regression Using Gradient Descent</h5>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #15: Linear Regression Using Gradient Descent</h5>
             </div>
             <div>
-                <a href="https://www.deep-ml.com/problem/linear-regression-using-gradient-descent" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+                <a href="https://www.deep-ml.com/problems/15" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
             </div>
         </div>
         <div class="card-body p-4">
             <div class="problem-statement mb-3 fs-6">
-                Implement batch gradient descent for simple linear regression to minimize Mean Squared Error over $E$ epochs.
+                Implement batch gradient descent for linear regression to iteratively minimize MSE loss over $E$ epochs.
             </div>
             
             <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w8-deepml-1">
@@ -898,7 +1021,7 @@ def linear_regression_gradient_descent(X: list[list[float]], y: list[float], lr:
         </div>
         <div class="card-body p-4">
             <div class="problem-statement mb-3 fs-6">
-                A mountain array increases strictly to a peak and then decreases strictly (strictly concave profile). Find the index of the peak element in $O(\log n)$ using ternary search / binary search.
+                A mountain array increases strictly to a peak and then decreases strictly (strictly concave profile). Find the index of the peak element in $O(\log n)$ using binary/ternary search.
             </div>
             
             <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w9-lc-1">
@@ -959,10 +1082,10 @@ def linear_regression_gradient_descent(X: list[list[float]], y: list[float], lr:
                 <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
                 <span class="badge bg-secondary">Week 10</span>
                 <span class="badge bg-primary">Medium</span>
-                <h5 class="mb-0 fw-bold ms-2 text-dark">K-Means Clustering</h5>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #17: K-Means Clustering</h5>
             </div>
             <div>
-                <a href="https://www.deep-ml.com/problem/k-means-clustering" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+                <a href="https://www.deep-ml.com/problems/17" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
             </div>
         </div>
         <div class="card-body p-4">
@@ -990,6 +1113,48 @@ def k_means_clustering(points: list[list[float]], k: int, initial_centroids: lis
             break
         centroids = new_centroids
     return np.round(centroids, 4).tolist()
+</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="problem-card card mb-4 border-0 shadow-sm" data-week="10" data-platform="deepml" data-difficulty="Hard">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
+                <span class="badge bg-secondary">Week 10</span>
+                <span class="badge bg-danger">Hard</span>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #21: Pegasos Kernel SVM Implementation</h5>
+            </div>
+            <div>
+                <a href="https://www.deep-ml.com/problems/21" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="problem-statement mb-3 fs-6">
+                Implement the Pegasos algorithm for primal Support Vector Machines with mini-batch stochastic subgradient descent.
+            </div>
+            
+            <button class="btn btn-sm btn-outline-primary solution-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#sol_w10-deepml-2">
+                <i class="fas fa-lightbulb me-1"></i> Show Solution & Explanation
+            </button>
+            
+            <div class="collapse mt-3" id="sol_w10-deepml-2">
+                <div class="p-3 bg-light border rounded">
+                    <strong>Python Solution:</strong>
+<pre><code class="language-python">import numpy as np
+
+def pegasos_svm(X, y, C=1.0, max_iter=100):
+    w = np.zeros(X.shape[1])
+    for t in range(1, max_iter + 1):
+        eta = 1.0 / (C * t)
+        for i in range(len(X)):
+            if y[i] * np.dot(w, X[i]) < 1:
+                w = (1 - eta * C) * w + eta * y[i] * X[i]
+            else:
+                w = (1 - eta * C) * w
+    return w
 </code></pre>
                 </div>
             </div>
@@ -1105,10 +1270,10 @@ class Solution:
                 <span class="badge bg-success"><i class="fas fa-tag me-1"></i> Deep-ML</span>
                 <span class="badge bg-secondary">Week 12</span>
                 <span class="badge bg-info text-dark">Easy</span>
-                <h5 class="mb-0 fw-bold ms-2 text-dark">Softmax Activation Function</h5>
+                <h5 class="mb-0 fw-bold ms-2 text-dark">Deep-ML #23: Softmax Activation Function Implementation</h5>
             </div>
             <div>
-                <a href="https://www.deep-ml.com/problem/softmax-activation" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
+                <a href="https://www.deep-ml.com/problems/23" target="_blank" class="btn btn-sm btn-outline-secondary ms-2"><i class="fas fa-external-link-alt me-1"></i> Practice on Deep-ML</a>
             </div>
         </div>
         <div class="card-body p-4">
