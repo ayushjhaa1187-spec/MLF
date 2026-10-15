@@ -1,4 +1,5 @@
 # Machine Learning Foundations (BSCS2004) — Interactive Learning Platform & Textbook
+#DIPLOMA IN PROGRAMMING!
 
 [![IIT Madras BS Degree](https://img.shields.io/badge/IIT%20Madras-BS%20Degree%20%7C%20BSCS2004-blue)](https://study.iitm.ac.in/ds/course_pages/BSCS2004.html)
 [![Playlist Coverage](https://img.shields.io/badge/Lectures-93%20Verified%20Videos-red)](https://youtube.com/playlist?list=PLZ2ps__7DhBammhVmBE9f5eezTj2kDfTN)
